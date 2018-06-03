@@ -6,27 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>jvm的类加载 | Hexo</title>
+  <title>jvm的类加载 | 秋海棠</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="JVM的类加载机制 ​    整体来看，JVM体系分为三个部分：类加载器（Class Loader），运行时数据区（Runtime Data Area），和执行引擎（Execution Engine）,这里主要探讨一下 JVM 的类加载器 一 . 类的生命周期​    先通过一个图对类加载流程有个整体认识，如下图  类从被加载到虚拟机内存中开始，直到卸载出内存为止，它的整个生命周期包括了：加载、验">
 <meta name="keywords" content="jvm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jvm的类加载">
 <meta property="og:url" content="http://yoursite.com/2018/06/02/jvm的类加载/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="秋海棠">
 <meta property="og:description" content="JVM的类加载机制 ​    整体来看，JVM体系分为三个部分：类加载器（Class Loader），运行时数据区（Runtime Data Area），和执行引擎（Execution Engine）,这里主要探讨一下 JVM 的类加载器 一 . 类的生命周期​    先通过一个图对类加载流程有个整体认识，如下图  类从被加载到虚拟机内存中开始，直到卸载出内存为止，它的整个生命周期包括了：加载、验">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/06/02/jvm的类加载/calssloaderprocess.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/02/jvm的类加载/pic1.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/02/jvm的类加载/classloader.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/02/jvm的类加载/classLoader_1.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/02/jvm的类加载/classloaderextend.png">
-<meta property="og:updated_time" content="2018-06-02T06:52:48.743Z">
+<meta property="og:updated_time" content="2018-06-03T01:58:31.035Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm的类加载">
 <meta name="twitter:description" content="JVM的类加载机制 ​    整体来看，JVM体系分为三个部分：类加载器（Class Loader），运行时数据区（Runtime Data Area），和执行引擎（Execution Engine）,这里主要探讨一下 JVM 的类加载器 一 . 类的生命周期​    先通过一个图对类加载流程有个整体认识，如下图  类从被加载到虚拟机内存中开始，直到卸载出内存为止，它的整个生命周期包括了：加载、验">
-<meta name="twitter:image" content="http://yoursite.com/2018/06/02/jvm的类加载/calssloaderprocess.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/06/02/jvm的类加载/pic1.png">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="秋海棠" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -35,7 +35,11 @@
   <style type="text/css">
   
     #container.show {
-      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+      background: linear-gradient(180deg,#56bfcfab,#64625d);
+	  background-image: url(/back.jpg);
+	  background-attachment: fixed;
+	  background-repeat: no-repeat;
+	  background-size: cover;
     }
   </style>
   
@@ -56,8 +60,10 @@
 			<img src="/avent.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">秋海棠</a></h1>
 		</hgroup>
+		
+		<p class="header-subtitle">永远年轻，永远热闹盈眶！</p>
 		
 
 		<nav class="header-menu">
@@ -65,7 +71,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔/">随笔</a></li>
+				<li><a href="/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -76,7 +82,7 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
+    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友情链接</a>
     			
             
     			
@@ -114,8 +120,10 @@
 				<img src="/avent.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">秋海棠</h1>
 			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>永远年轻，永远热闹盈眶！<i class="icon icon-quo-right"></i></p>
 			
 			
 			
@@ -145,7 +153,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 50%"><a href="/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -183,14 +191,14 @@
         <p>JVM的类加载机制</p>
 <p>​    整体来看，JVM体系分为三个部分：类加载器（Class Loader），运行时数据区（Runtime Data Area），和执行引擎（Execution Engine）,这里主要探讨一下 JVM 的类加载器</p>
 <h2 id="一-类的生命周期"><a href="#一-类的生命周期" class="headerlink" title="一 . 类的生命周期"></a>一 . 类的生命周期</h2><p>​    先通过一个图对类加载流程有个整体认识，如下图</p>
-<p><img src="/2018/06/02/jvm的类加载/calssloaderprocess.png" alt=""></p>
+<p><img src="/2018/06/02/jvm的类加载/pic1.png" alt=""></p>
 <p>类从被加载到虚拟机内存中开始，直到卸载出内存为止，它的整个生命周期包括了：<strong>加载、验证、准备、解析、初始化、使用和卸载</strong>这7个阶段。其中，<strong>验证、准备和解析这三个部分统称为连接（linking）</strong>。</p>
 <p>其中，加载、验证、准备、初始化和卸载这五个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班的“开始”（仅仅指的是开始，而非执行或者结束，因为这些阶段通常都是互相交叉的混合进行，通常会在一个阶段执行的过程中调用或者激活另一个阶段），而解析阶段则不一定（它在某些情况下可以在初始化阶段之后再开始，这是为了支持Java语言的运行时绑定。</p>
 <a id="more"></a> 
 <h3 id="1-加载"><a href="#1-加载" class="headerlink" title="1. 加载"></a>1. 加载</h3><p>​    加载是类加载的第一阶段，在加载阶段虚拟机需完成以下三件事</p>
 <p>​             1、 通过一个类的全限定名来获取定义此类的二进制字节流。</p>
-<pre><code>2、 将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。
-</code></pre><p>​             3、 在Java堆中生成一个代表这个类的java.lang.Class对象，作为方法区这些数据的访问入口。</p>
+<p>​         2、将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</p>
+<p>​             3、 在Java堆中生成一个代表这个类的java.lang.Class对象，作为方法区这些数据的访问入口。</p>
 <p>​    加载阶段既可以使用系统提供的类加载器在完成，也可以由用户自定义的类加载器来完成。这一动作是放在Java虚拟机外部去实现的，以便让应用程序自己决定如何获取所需的类。虚拟机规范并没有指明二进制字节流一定要从一个.class文件获取，也就是根本没有指明二进制字节流从哪里获取、怎样获取。这种开放的形式使得Java在很多领域得到充分运用，例如：</p>
 <p>​          1、从ZIP包中读取，成为JAR，WAR格式的基础</p>
 <p>​          2、从网络中获取，典型的应用就是Applet</p>
@@ -211,8 +219,8 @@
 <p>​       3、字节码验证，主要工作是进行数据流和控制流分析，保证被校验类的方法在运行时不会做出危害虚拟机安全的行为。如果一个类方法体的字节码没有通过字节码验证，那肯定是有问题的；但如果一个方法体通过了字节码验证，也不能说明其一定就是安全的。</p>
 <p>​       4、符号引用验证，发生在虚拟机将符号引用转化为直接引用的时候，这个转化动作将在“解析阶段”中发生。验证符号引用中通过字符串描述的权限定名是否能找到对应的类；在指定类中是否存在符合方法字段的描述符及简单名称所描述的方法和字段；符号引用中的类、字段和方法的访问性(private、protected、public、default)是否可被当前类访问</p>
 <h5 id="（2）-准备"><a href="#（2）-准备" class="headerlink" title="（2）. 准备"></a>（2）. 准备</h5><p>​    为类的静态变量分配内存，并将其初始化为默认值。准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些内存都将在方法区中分配。但有几点需要注意：</p>
-<pre><code>1、这时候进行内存分配的仅包括类变量（static），而不包括实例变量，实例变量会在对象实例化时随着对象一块分配在Java堆中。
-</code></pre><p>​        2、这里所设置的初始值通常情况下是数据类型默认的零值（如0、0L、null、false等），而不是被在Java代码中被显式地赋予的值。</p>
+<p>​    1、这时候进行内存分配的仅包括类变量（static），而不包括实例变量，实例变量会在对象实例化时随着对象一块分配在Java堆中</p>
+<p>​        2、这里所设置的初始值通常情况下是数据类型默认的零值（如0、0L、null、false等），而不是被在Java代码中被显式地赋予的值。</p>
 <p>举个例子：public static int value=123; 在准备阶段value初始值为0 。在初始化阶段才会变为123 。但是需要注意的是，public static final int value=123; 在准备阶段value就会直接被赋值为123，当使用类名点final修饰的静态变量时，不会执行类的初始化。下面用代码来说明一下。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//静态变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String str= <span class="string">"666"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//静态常量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String str1= <span class="string">"666"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"类初始化"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当引用类的静态变量时</p>
@@ -443,7 +451,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 John Doe
+    		&copy; 2018 秋海棠
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -501,7 +509,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友情链接</a></li>
       
         
       
@@ -578,27 +586,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="http://www.apachecn.org/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>ApacheCN</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+              <a href="https://springcloud.cc/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Spring Cloud</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+              <a href="https://ifeve.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>并发编程网</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="http://www.tensorfly.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>TensorFlow中文社区</a>
             </li>
           
         </ul>
@@ -609,7 +609,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">爱装逼&lt;br&gt;爱斗图&lt;br&gt;爱吃辣条&lt;br&gt;有梦想的小码农</div>
   	  	
     	</section>
     
