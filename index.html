@@ -10,7 +10,19 @@
   <link rel="shortcut icon" href="img/favicons/favicon.ico">
   <link rel="stylesheet" href="css/main.css">
   <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-
+	<style>
+		.navigation__item {
+    display: inline-block;
+    margin-left: 0px;
+    line-height: 1em;
+	}
+	a{
+		color: white;
+	}
+	li{
+		margin: 0 8px;
+	}
+	</style>
 </head>
 <body>
 <div class="wrapper">
@@ -20,15 +32,18 @@
       <!--头像-->
       <div style="width:100%; height:200px; padding-left:10px; padding-top:10px;margin-top: 14%;">
         <div style="width: 150px; height: 150px;  border-radius: 50%; border: 3px solid #eee; overflow: hidden;margin: 0 auto;">
-          <img src="img/avent.jpg" width="150" height="150" />
+          <a href="/blog">
+          	<img src="img/avent.jpg" width="150" height="150" />
+          </a>
         </div>
       </div>
       <div class="home-title jiji">
         <h1 style="font-size:50px">一叶知秋</h1>
         <div style=" height:1px;width:50%;background:#f1f1f1;overflow:hidden;width: 25%;margin: 0 auto;"></div>
-        <h2 style="margin-top: 5px;">welcome to my blog</h2>
+        <h2 style="margin-top: 10px;margin-bottom: 10px;">welcome to my blog</h2>
+        <div style=" height:1px;width:50%;background:#f1f1f1;overflow:hidden;width: 15%;margin: 0 auto;"></div>
         <!--<a href="#" target="_blank" class="but"> My Blog </a>-->
-        <div class="more">
+       <!-- <div class="more">
           <a href="/blog" class="type-4" style="padding-top: 20px;">
             <span> Blog Home </span>
             <span> Blog Home </span>
@@ -37,7 +52,17 @@
             <span> Blog Home </span>
             <span> Blog Home </span>
           </a>
+        </div>-->
+        <div class="navigation-wrapper" style="margin-top: 10px;">
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                	<li class="navigation__item"><a href="/blog" title="" class="blog-button">主页</a></li>     
+                  <li class="navigation__item"><a href="/poetry" title="archive">随笔</a></li>                
+                  <li class="navigation__item"><a href="tracks.html" title="tags">旅行</a></li>                
+              </ul>
+            </nav>       
         </div>
+        
       </div>
 
     </div>
