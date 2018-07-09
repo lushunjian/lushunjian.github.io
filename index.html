@@ -16,11 +16,31 @@
     margin-left: 0px;
     line-height: 1em;
 	}
-	a{
-		color: white;
-	}
+	
 	li{
 		margin: 0 8px;
+	}
+	
+	#tags a{
+  color:darkgray;
+  font-family:"arial narrow";
+  font-weight: 600;
+	}
+	#tags a:hover{
+	  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+	  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+	  animation: neon1 1.5s ease-in-out infinite alternate; 
+	}
+	
+	#tags a{
+  text-decoration:none; 
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+	}
+	
+	#tags a:hover{
+	color:#ffffff;  
 	}
 	</style>
 </head>
@@ -53,12 +73,12 @@
             <span> Blog Home </span>
           </a>
         </div>-->
-        <div class="navigation-wrapper" style="margin-top: 10px;">
+        <div id="tags" class="navigation-wrapper" style="margin-top: 10px;">
             <nav class="cover-navigation cover-navigation--primary">
               <ul class="navigation">
-                	<li class="navigation__item"><a href="/blog" title="" class="blog-button">主页</a></li>     
+                	<li class="navigation__item"><a href="/blog" title="home" class="blog-button">主页</a></li>     
                   <li class="navigation__item"><a href="/poetry" title="archive">随笔</a></li>                
-                  <li class="navigation__item"><a href="html/tracks.html" title="tags">旅行</a></li>
+                  <li class="navigation__item"><a href="html/tracks.html" title="travel">旅行</a></li>
               </ul>
             </nav>       
         </div>
