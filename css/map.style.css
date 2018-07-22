@@ -1492,7 +1492,7 @@ pre code {
 .index-content h2,
 .index-travel h2 {
 	font-weight: 300;
-	margin: 40px 0 15px;
+/*	margin: 40px 0 15px;*/
 	text-align: center;
 }
 
@@ -1503,9 +1503,9 @@ pre code {
 	text-align: center;
 }
 
-.index-travel-world {
+/*.index-travel-world {
 	margin: 100px 0;
-}
+}*/
 
 
 /*自适应*/
