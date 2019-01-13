@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="no-js">
+
 <head>
-
-  <meta charset="utf-8">
-  <title>: 一叶知秋  ::</title>
-  <link name="author" href="humans.txt" />
-
-  <!-- Favicons -->
-  <link rel="shortcut icon" href="img/favicons/favicon.ico">
-  <link rel="stylesheet" href="css/main.css">
-  <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>一叶知秋</title>
+	<link rel="shortcut icon" href="img/favicons/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<style>
-		.navigation__item {
-    display: inline-block;
-    margin-left: 0px;
-    line-height: 1em;
+	.navigation__item {
+	    display: inline-block;
+	    margin-left: 0px;
+	    line-height: 1em;
 	}
 	
 	li{
@@ -22,9 +22,9 @@
 	}
 	
 	#tags a{
-  color:darkgray;
-  font-family:"arial narrow";
-  font-weight: 600;
+	  color:black;
+	  font-family:"arial narrow";
+	  font-weight: 600;
 	}
 	#tags a:hover{
 	  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
@@ -33,105 +33,92 @@
 	}
 	
 	#tags a{
-  text-decoration:none; 
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  transition: all 0.5s;
+	  text-decoration:none; 
+	  -webkit-transition: all 0.5s;
+	  -moz-transition: all 0.5s;
+	  transition: all 0.5s;
 	}
 	
 	#tags a:hover{
-	color:#ffffff;  
+		color:#ffffff;  
 	}
-	
-	/*图片翻转*/
-/*	.flip-container {
-	perspective:1000px;
-	}
-	.flip-container:hover .flipper {
-		transform:rotateY(180deg);
-	}
-	.flipper {
-		transition:0.6s;
-		transform-style:preserve-3d;
-		position:relative;
-	}
-	.front,.back {
-		position:absolute;
-	}
-	.back {
-		transform:rotateY(180deg);
-	}*/
 	</style>
 </head>
-<body>
-<div class="wrapper">
-  <section id="home" class="row">
-    <div class="overlay" style="background-image:-webkit-linear-gradient(-410deg, rgba(68, 68, 68, 0.6) 20%, rgba(0, 0, 0, 0.8))">
 
-      <!--头像-->
-      <div style="width:100%; height:200px; padding-left:10px; padding-top:10px;margin-top: 14%;">
-        <div style="width: 150px; height: 150px;  border-radius: 50%; border: 3px solid #eee; overflow: hidden;margin: 0 auto;">
-          <a href="/blog">
-          	<img src="img/avent.jpg" width="150" height="150" />
-          </a>
-        </div>
-     </div>
-  <!--   <div style="width:100%; height:200px; padding-left:10px; padding-top:10px;margin-top: 14%;">
-	      <div class="flip-container" style="width: 151px; height: 151px; overflow: hidden;margin: 0 auto;">
-				    <div class="flipper">
-				        <div class="front">
-				            <a href="/blog">
-					          	<img src="img/avent.jpg" width="150" height="150" style="border-radius: 50%; border: 3px solid #eee;"/>
-					          </a>
-				        </div>
-				        <div class="back" >
-				        	<a href="/blog">
-				           		<img src="img/java.png" width="150" height="150" style="border: 3px solid #eee; margin: 0 auto;border-radius: 50%"/>
-				        	</a>
-				        </div>
-				    </div>
+<body class="demo-1">
+	<div class="container">
+		<div class="slideshow">
+			<canvas width="1" height="1" id="container" style="position:absolute"></canvas>
+			<!-- Heavy Rain -->
+			<div>
+				<!-- Fallout (greenish overlay with slightly greenish/yellowish drops) -->
+				<div class="slide" id="slide-4" data-weather="fallout">
+					<div class="slide__element slide__element--date">Tuesday, 27<sup>th</sup> of October 2043</div>
+					<div class="slide__element slide__element--temp">34°<small>C</small></div>
 				</div>
-      </div>-->
-      <div class="home-title jiji">
-        <h1 style="font-size:50px">一叶知秋</h1>
-
-        <!--<img src="img/name6.png"  style="height: 70px;margin-top: -10px"/>-->
-        <div style=" height:1px;width:50%;background:#f1f1f1;overflow:hidden;width: 25%;margin: 0 auto;"></div>
-        <h2 style="margin-top: 10px;margin-bottom: 10px;">welcome to my blog</h2>
-        <div style=" height:1px;width:50%;background:#f1f1f1;overflow:hidden;width: 15%;margin: 0 auto;"></div>
-        <!--<a href="#" target="_blank" class="but"> My Blog </a>-->
-       <!-- <div class="more">
-          <a href="/blog" class="type-4" style="padding-top: 20px;">
-            <span> Blog Home </span>
-            <span> Blog Home </span>
-            <span> Blog Home </span>
-            <span> Blog Home </span>
-            <span> Blog Home </span>
-            <span> Blog Home </span>
-          </a>
-        </div>-->
-        <div id="tags" class="navigation-wrapper" style="margin-top: 10px;">
-            <nav class="cover-navigation cover-navigation--primary">
-              <ul class="navigation">
-                	<li class="navigation__item"><a href="/blog" title="home" class="blog-button">主页</a></li>     
-                  <li class="navigation__item"><a href="/poetry" title="archive">随笔</a></li>                
-                  <li class="navigation__item"><a href="html/tracks.html" title="travel">旅行</a></li>
-              </ul>
-            </nav>       
-        </div>
-        
-      </div>
-
-    </div>
-  </section>
-</div>
-  <!-- JavaScript -->
-  <script src="js/jquery-1.11.0.min.js"></script>
-  <script src="js/main.js"></script>
-	<script>
-		//var num = parseInt(3*Math.random());
-		$("#home").css("background-image","url(img/header-bg2.jpg)");
-	</script>
+				<!-- Heavy rain -->
+				<div class="slide" id="slide-5" data-weather="storm">
+					<div class="slide__element slide__element--date">Wednesday, 28<sup>th</sup> of October 2043</div>
+					<div class="slide__element slide__element--temp">20°<small>C</small></div>
+				</div>
+				
+				<!-- Sunny -->
+				<div class="slide" id="slide-3" data-weather="sunny">
+					<div class="slide__element slide__element--date">Monday, 26<sup>th</sup> of October 2043</div>
+					<div class="slide__element slide__element--temp">25°<small>C</small></div>
+				</div>
+				<!-- Drizzle -->
+				<div class="slide" id="slide-2" data-weather="drizzle">
+					<div class="slide__element slide__element--date">Saturday, 25<sup>th</sup> of October 2043</div>
+					<div class="slide__element slide__element--temp">18°<small>C</small></div>
+				</div>
+				
+				<div class="slide" id="slide-1" data-weather="rain">
+					<div class="slide__element slide__element--date">Sunday, 24<sup>th</sup> of October 2043</div>
+					<div class="slide__element slide__element--temp">12°<small>C</small></div>
+				</div>
+			</div>
+			<nav class="sign">
+				<div style="text-align: right;padding-right: 13vh;width: 100%;">换个天气，换种心情</div>
+			</nav>
+			<nav class="slideshow__nav">
+				<div style="text-align: right;padding-right: 3vh;width: 100%;">
+					<a class="nav-item" href="#slide-1"><i class="icon icon--rainy"></i><span>10/24</span></a>
+					<a class="nav-item" href="#slide-2"><i class="icon icon--drizzle"></i><span>10/25</span></a>
+					<a class="nav-item" href="#slide-3"><i class="icon icon--sun"></i><span>10/26</span></a>
+					<a class="nav-item" href="#slide-5"><i class="icon icon--storm"></i><span>10/28</span></a>
+					<a class="nav-item" href="#slide-4"><i class="icon icon--radioactive"></i><span>10/27</span></a>
+				</div>
+			</nav>
+			<!--头像和名字-->
+			<div>
+			    <div style="width:100%; height:200px; padding-left:10px; padding-top:10px;margin-top: 28vh;position: absolute;">
+			        <div style="width: 150px; height: 150px;  border-radius: 50%; border: 3px solid #eee; overflow: hidden;margin: 0 auto;">
+			          <a href="/blog">
+			          	<img src="img/avent.jpg" width="150" height="150" />
+			          </a>
+			        </div>
+			    </div>
+			    <div class="home-title jiji" style="width:100%; height:200px; padding-left:10px; padding-top:10px;margin-top: 36vh;position: absolute;">
+			        <h1 style="font-size:50px;text-align: center;padding-top: 5vh;margin-top: 3vh;">一叶知秋</h1>
+			        <div style=" height:1px;width:50%;background:#f1f1f1;overflow:hidden;width: 25%;margin: 0 auto;"></div>
+			        <h2 style="margin-top: 10px;margin-bottom: 10px;text-align: center;">welcome to my blog</h2>
+			        <div style=" height:1px;width:50%;background:#f1f1f1;overflow:hidden;width: 15%;margin: 0 auto;"></div>
+			        <div id="tags" class="navigation-wrapper" style="margin-top: 10px;">
+			            <nav class="cover-navigation cover-navigation--primary" style="text-align: center">
+			              <ul class="navigation">
+			                	<li class="navigation__item"><a href="/blog" title="home" class="blog-button">主页</a></li>     
+			                  <li class="navigation__item"><a href="/poetry" title="archive">随笔</a></li>                
+			                  <li class="navigation__item"><a href="html/tracks.html" title="travel">旅行</a></li>
+			              </ul>
+			            </nav>       
+			        </div>
+			    </div>
+		    </div>
+		</div>
+	</div>
+	<!-- /container -->
+	<script src="js/index.min.js"></script>
 </body>
 
 </html>
