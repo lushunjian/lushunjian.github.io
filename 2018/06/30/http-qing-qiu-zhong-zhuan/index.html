@@ -549,7 +549,7 @@
             <div id="articleContent">
                 <p>​    在工作中碰到需要在服务端中转Http请求的需求，一般的请求其实问题不大，用apache的HttpClient 提供的jar包即可解决问题，但是带文件上传的请求中转，遇到了一些小麻烦，在此记录一下。</p>
 <p>业务场景是这样的，由于是做系统升级，升级的同时不影响老版本的使用，同时又不和新版本的代码耦合，所以做了一个适配模块，这个模块是个单独的项目。在前端请求新版本系统时会先进入新版本系统的拦截器中，在拦截器中判断该请求是调用新版本的系统接口还是老版本的系统接口，如果调用老版本系统接口，就会先走适配模块，在适配模块中调用老系统的接口。整个流程大致如下图：</p>
-<p><img src="/2018/06/30/http-qing-qiu-zhong-zhuan/work.png" alt></p>
+<p><img src="/blogs/2018/06/30/http-qing-qiu-zhong-zhuan/work.png" alt></p>
 <p>在适配器中使用了apache的HttpClient包，而在拦截器中使用的是jdk自带的java.net.URL类。因此两种方式我都会提供，此外还可以通过java.net.socket类实现Http请求，这几种种方式大同小异，只是HttpClient做了一下封装。最重要的还是要对Http请求协议有比较全面的认识，然后模拟出一个符合协议标准的请求报文就可以像浏览器那样模拟Http请求了。</p>
 <a id="more"></a> 
 
@@ -889,7 +889,7 @@ Date: Sun, 01 Jul 2018 00:27:47 GMT
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -899,7 +899,7 @@ Date: Sun, 01 Jul 2018 00:27:47 GMT
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2018/06/30/http-qing-qiu-zhong-zhuan/">http://yoursite.com/2018/06/30/http-qing-qiu-zhong-zhuan/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2018/06/30/http-qing-qiu-zhong-zhuan/">https://lushunjian.gitee.io/blogs/2018/06/30/http-qing-qiu-zhong-zhuan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -912,7 +912,7 @@ Date: Sun, 01 Jul 2018 00:27:47 GMT
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1623,7 +1623,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>

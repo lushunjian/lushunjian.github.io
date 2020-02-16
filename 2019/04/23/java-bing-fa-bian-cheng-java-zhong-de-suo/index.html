@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>在并发编程中，经常遇到多个线程访问同一个 共享资源 ，这时候必须考虑如何维护数据一致性。在JVM中所有线程都共享堆内存的，因此Java中的同步都是针对堆中的对象。一般在Java中所说的锁就是指的内置锁，每个Java对象都可以作为一个实现同步的锁。虽说在Java中有句万物皆对象的名言，但Java中的同步锁仅仅是针对引用数据类型而言，基本数据类型不能作为同步的锁。在JDK1.5之前都是使用synchronized关键字保证同步的，Synchronized的作用相信大家都已经非常熟悉了，它是一把重量级锁，但随着人们对性能和体验的要求越来越高，JDK1.6以后对Synchronized做了优化处理。同时根据锁的状态，锁的设计等不同角度又衍生出各种类型的锁，如果不明白它们的关系，会让人云里雾里，摸不着头脑。下面就介绍各种锁的分类以及实现的原理</p>
-<p><img src="/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/AQS.png" alt></p>
+<p><img src="/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/AQS.png" alt></p>
 <a id="more"></a> 
 
 <p>在java中提到锁、安全性、同步，首先想到的则是java提供synchronized。synchronized是这么的神奇而又强大，成为了我们解决多线程情况的百试不爽的良药。但是，随着我们学习的进行我们知道synchronized是一个重量级锁，相对于Lock，它会显得笨重无比，在如今人们对速度和性能极致要求的现在，现在此时并不能满足性能上的要求。诚然SUN公司也认识到了这一点，在Java SE 1.6对synchronized进行了各种优化后，有些情况下它就并不那么笨重了。在Java SE 1.6中为了减少获得锁和释放锁带来的性能开销而引入偏向锁和轻量级锁。synchronized关键字可以用在方法上，也可以用在对象上，但实际上都是锁住了JVM堆中的对象。Java中每一个对象都可以作为锁，这是synchronized实现同步的基础，普1.通同步方法：锁是当前实例对象，2.静态同步方法：锁是当前类的class对象，3.同步方法块：锁是括号里面的对象。当一个线程访问同步代码块时，它首先是需要得到锁才能执行同步代码，当退出或者抛出异常时必须要释放锁，我们先看一段简单的代码：</p>
@@ -597,7 +597,7 @@
 <p>从上面可以看出，同步代码块是使用monitorenter和monitorexit指令实现的，同步方法（在这看不出来需要看JVM底层实现）依靠的是方法修饰符上的ACC_SYNCHRONIZED实现。方法级的同步是隐式的。同步方法的常量池中会有一个<code>ACC_SYNCHRONIZED</code>标志。当某个线程要访问某个方法的时候，会检查是否有<code>ACC_SYNCHRONIZED</code>，如果有设置，则需要先获得监视器锁，然后开始执行方法，方法执行之后再释放监视器锁。这时如果其他线程来请求执行方法，会因为无法获得监视器锁而被阻断住。值得注意的是，如果在方法执行过程中，发生了异常，并且方法内部并没有处理该异常，那么在异常被抛到方法外面之前监视器锁会被自动释放。因此加锁解锁的原理大致如下：同步方法通过<code>ACC_SYNCHRONIZED</code>关键字隐式的对方法进行加锁。当线程要执行的方法被标注上<code>ACC_SYNCHRONIZED</code>时，需要先获得锁才能执行该方法。同步代码块通过<code>monitorenter</code>和<code>monitorexit</code>执行来进行加锁。当线程执行到<code>monitorenter</code>的时候要先获得所锁，才能执行后面的方法。当线程执行到<code>monitorexit</code>的时候则要释放锁。每个对象自身维护这一个被加锁次数的计数器，当计数器数字为0时表示可以被任意线程获得锁。当计数器不为0时，只有获得锁的线程才能再次获得锁。即可重入锁。</p>
 <h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>在jdk1.6后对synchronized做了很多优化，这里就需要深入了解一下synchronized的工作原理了。但是在深入之前我们需要了解两个重要的概念：Java对象头，Monitor。synchronized用的锁是存在Java对象头里的。otspot虚拟机的对象头主要包括两部分数据：Mark Word（标记字段）、Klass Pointer（类型指针）。其中Klass Point是是对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例，Mark Word用于存储对象自身的运行时数据，它是实现轻量级锁和偏向锁的关键，所以下面将重点阐述</p>
 <h3 id="Mark-Word"><a href="#Mark-Word" class="headerlink" title="Mark Word"></a>Mark Word</h3><p>Mark Word用于存储对象自身的运行时数据，如哈希码（HashCode）、GC分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等等。Java对象头一般占有两个机器码（在32位虚拟机中，1个机器码等于4字节，也就是32bit），但是如果对象是数组类型，则需要三个机器码，因为JVM虚拟机可以通过Java对象的元数据信息确定Java对象的大小，但是无法从数组的元数据来确认数组的大小，所以用一块来记录数组长度。对象头信息是与对象自身定义的数据无关的额外存储成本，但是考虑到虚拟机的空间效率，Mark Word被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据，它会根据对象的状态复用自己的存储空间，也就是说，Mark Word会随着程序的运行发生变化，变化状态如下（64位虚拟机）：</p>
-<p><img src="/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/markword2.png" alt></p>
+<p><img src="/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/markword2.png" alt></p>
 <h3 id="乐观锁与悲观锁"><a href="#乐观锁与悲观锁" class="headerlink" title="乐观锁与悲观锁"></a>乐观锁与悲观锁</h3><p>乐观锁对应于生活中乐观的人总是想着事情往好的方向发展，悲观锁对应于生活中悲观的人总是想着事情往坏的方向发展。这两种人各有优缺点，不能不以场景而定说一种人好于另外一种人。</p>
 <h5 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h5><p>总是假设最坏的情况，每次去读数据的时候都认为别人会修改，所以每次在读数据的时候都会上锁，这样别人想读这个数据就会阻塞直到它拿到锁（共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源给其它线程）。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。Java中synchronized和ReentrantLock等独占锁就是悲观锁思想的实现</p>
 <h5 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h5><p>总是假设最好的情况，每次去读数据的时候都认为别人不会修改，所以不会上锁，但是在写数据的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。如果仅仅简单的使用CAS会出现ABA的问题。</p>
@@ -621,7 +621,7 @@
 </ul>
 <p>正如前面所说，自旋锁一般发生在获取轻量级锁的过程中，当获取轻量级锁时会使用自旋锁等待。并升级为重量级锁</p>
 <h5 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h5><p>重量锁在JVM中又叫对象监视器（Monitor），它很像C中的Mutex，除了具备Mutex(0|1)互斥的功能，它还负责实现了Semaphore(信号量)的功能，也就是说它至少包含一个竞争锁的队列，和一个信号阻塞队列（wait队列），前者负责做互斥，后一个用于做线程同步。重量级锁通过对象内部的监视器（monitor）实现，其中monitor的本质是依赖于底层操作系统的Mutex Lock实现，操作系统实现线程之间的切换需要从用户态到内核态的切换，切换成本非常高。在Java中，重量级锁的实现就是Synchronized关键字。它可以把任意一个非null的对象当作锁。Synchronized的实现如下图</p>
-<p><img src="/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/lock.png" alt></p>
+<p><img src="/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/lock.png" alt></p>
 <p>当多个线程一起访问某个对象监视器的时候，对象监视器会将这些线程存储在不同的容器中：</p>
 <ul>
 <li><strong>Contention List：</strong>争队列，所有请求锁的线程首先被放在这个竞争队列中</li>
@@ -648,7 +648,7 @@
 <li>一个FIFO队列，队列中的节点表示因未能获取锁而阻塞的线程。</li>
 </ol>
 <p>在java.util.concurrent.locks包中有很多Lock的实现类，如ReentrantLock、ReadWriteLock（实现类ReentrantReadWriteLock），其实现都依赖java.util.concurrent.AbstractQueuedSynchronizer类，实现思路大同小异，下面主要讲ReentrantLock。ReentrantLock把所有Lock接口的操作都委派到Sync类上，该类继承了AbstractQueuedSynchronizer，多数需要覆盖的方法都是在Sync类实现的，而NonfairSync、FairSync只是在tryAcquire方法和lock方法上有所不同。那么来看看AbstractQueuedSynchronizer（下面简称AQS）到底干了什么吧。类关系图如下：</p>
-<p><img src="/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/locks.png" alt></p>
+<p><img src="/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/locks.png" alt></p>
 <p>其中ReentrantLock中包含FairSync和NonfairSync，FairSync 与 NonfairSync的区别在于，是不是保证获取锁的公平性。在源代码中的体现如下：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReentrantLock</span> <span class="token keyword">implements</span> <span class="token class-name">Lock</span><span class="token punctuation">,</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>Serializable <span class="token punctuation">{</span>
 
@@ -760,7 +760,7 @@
         <span class="token keyword">return</span> Thread<span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span></code></pre>
 <p>其中LockSupport.park(this)就会调用系统级别的函数将当前线程挂起。此时线程状态图如下：</p>
-<p><img src="/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/AQS.png" alt></p>
+<p><img src="/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/AQS.png" alt></p>
 <h5 id="重入锁"><a href="#重入锁" class="headerlink" title="重入锁"></a>重入锁</h5><p>重入锁指的是当前线成功获取锁后，如果再次访问该临界区，则不会对自己产生互斥行为。Java中对ReentrantLock和synchronized都是可重入锁，synchronized由jvm实现可重入，ReentrantLock都可重入性基于AQS实现。同时，<code>ReentrantLock</code>还提供<code>公平锁</code>和<code>非公平锁</code>两种模式。重入锁的基本原理是判断上次获取锁的线程是否为当前线程，如果是则可再次进入临界区，如果不是，则阻塞。由于<code>ReentrantLock</code>是基于<code>AQS</code>实现的，底层通过操作同步状态来获取锁，下面看一下非公平锁的实现逻辑：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">nonfairTryAcquire</span><span class="token punctuation">(</span><span class="token keyword">int</span> acquires<span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token comment" spellcheck="true">//获取当前线程</span>
@@ -803,7 +803,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -813,7 +813,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/">http://yoursite.com/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/">https://lushunjian.gitee.io/blogs/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -826,7 +826,7 @@
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1533,7 +1533,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>

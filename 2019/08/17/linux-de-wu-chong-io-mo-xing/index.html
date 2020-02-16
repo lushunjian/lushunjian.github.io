@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>IO模型相信做开发的都不陌生，我在深入去了解Java NIO的时候就被IO模型的各种概念搞的痛不欲生。阻塞和非阻塞，同步和异步，没有真正理解它们的之前，难以搞清楚它们之间的本质区别。由于工作中常常接触到，最后痛定思痛。花了些时间去研究它。看了很多相关的资料，博客。很多文章都用生活中的例子来类比阻塞非阻塞，同步和异步。其中同步和异步是比较好理解的，生活中的例子也很贴切。但是阻塞和非阻塞在生活中就很难找到这种比较贴切的例子，稍不注意就会和同步异步混为一谈了。本文就谈一谈IO模型，一为记录知识，二为加深理解。</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io.jpg" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io.jpg" alt></p>
 <a id="more"></a> 
 
 <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>在理解IO模型概念之前，首先要明白这几个概念：</p>
@@ -605,13 +605,13 @@
 <li>异步I/O（POSIX的aio_系列函数）：不会阻塞。内核完成后整个操作，通知进程。</li>
 </ol>
 <h4 id="阻塞IO模型"><a href="#阻塞IO模型" class="headerlink" title="阻塞IO模型"></a>阻塞IO模型</h4><p>最传统的一种IO模型，也是实现思路最简单的IO模型，即在读写数据过程中会发生阻塞现象。当用户线程发出IO请求之后，内核会去查看数据是否就绪，如果没有就绪就会等待数据就绪，而用户线程就会处于阻塞状态，用户线程交出CPU。当数据就绪之后，内核会将数据拷贝到用户线程，并返回结果给用户线程，用户线程才解除block状态。它的流程图如下</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io2.png" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io2.png" alt></p>
 <h4 id="非阻塞IO模型"><a href="#非阻塞IO模型" class="headerlink" title="非阻塞IO模型"></a>非阻塞IO模型</h4><p>当用户线程发起一个read操作后，并不需要等待，而是马上就得到了一个结果（ps：是不是和同步异步的概念很像，对于异步而言也是在发起请求后马上返回，通过回调告诉调用者最终结果）。如果结果是一个error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦内核中的数据准备好了，并且又再次收到了用户线程的请求，那么它马上就将数据拷贝到了用户线程，然后返回。因此，在非阻塞IO模型中，用户线程需要不断地询问内核数据是否就绪，非阻塞IO不会交出CPU，而会一直占用CPU的资源，相比阻塞IO模型，因为用户线程不会进入系统调度，所以在轮询期间用户线程还可以干点别的事情，在一定程度上提高了资源的利用率。但这也是会导致一个非常严重的问题，因为需要不断地去询问内核数据是否就绪，这样会导致CPU占用率非常高。它的流程图如下</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io3.png" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io3.png" alt></p>
 <h4 id="多路复用IO模型"><a href="#多路复用IO模型" class="headerlink" title="多路复用IO模型"></a>多路复用IO模型</h4><p>多路复用IO模型是目前使用得比较多的模型。Java NIO实际上就是多路复用IO。从非阻塞IO的实现原理可以看出，由于非阻塞需要一直轮询内核数据是否就绪，轮询占据了很大一部分过程，轮询会消耗大量的CPU时间。结合前面两种模式。如果轮询不是进程的用户态，而是有人帮忙就好了。多路复用正好处理这样的问题。多路复用的特点是通过一种机制一个进程能同时等待IO文件描述符，内核监视这些文件描述符（套接字描述符），这就是select函数，多个进程的IO可以注册到同一个select上，当用户进程调用该select，select会监听所有注册好的IO，如果所有被监听的IO需要的数据都没有准备好时，select调用进程会阻塞。当任意一个IO所需的数据准备好之后，select调用就会返回，然后进程在通过recvfrom来进行数据拷贝。对于监视的方式，可分为 select， poll， epoll三种方式。这几个函数都是内核级别的，select轮询相对非阻塞的轮询的区别在于—前者可以等待多个socket，当其中任何一个socket的数据准好了，就能返回进行可读，然后进程再进行recvform系统调用获取准备好的数据，将数据由内核拷贝到用户进程，当然这个过程是阻塞的。它的流程图如下</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io4.png" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io4.png" alt></p>
 <h4 id="信号驱动IO模型"><a href="#信号驱动IO模型" class="headerlink" title="信号驱动IO模型"></a>信号驱动IO模型</h4><p>当用户线程发起一个IO请求操作，会给对应的socket注册一个信号函数，然后立马返回，用户线程会继续执行，等数据准备好后，内核为该进程产生一个SIGIO信号。就用recvfrom函数来拷贝数据到用户空间（这个过程是阻塞的）。这个一般用于UDP中，对TCP套接口几乎是没用的。原因是在TCPsocket中很多事件均会产生SIGIO信号，因为在同一个时候产生这种信号的原因太多我们不能区分到底是哪一种情况产生的SIGIO信号，所以在TCP中信号驱动是不太适合使用的，相反在UDP中却比较适合使用。信号驱动IO模型如下图</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io5.png" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io5.png" alt></p>
 <h4 id="异步IO模型"><a href="#异步IO模型" class="headerlink" title="异步IO模型"></a>异步IO模型</h4><p>异步操作的原理简单来说，就是我们给内核定下某个操作，让内核在完成整个操作的时候通知我们。前面说的四种IO模型都是同步IO模型，因为当数据准备好了之后，对于IO的第二阶段，都需要用户线程主动去从内核空间把数据拷贝到用户空间，但实际上这个步骤对于所有的IO操作都不可避免，那为什么不能让内核把数据拷贝到用户空间，万事俱备了之后再通知用户线程呢。异步IO就解决了这个问题，因此异步IO模型是最理想的IO模型，在异步IO模型中，当用户线程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从内核的角度，当它受到一个asynchronous read之后，它会立刻返回，说明read请求已经成功发起了，因此不会对用户线程产生任何block。然后，内核会等待数据准备完成，然后将数据拷贝到用户线程，当这一切都完成之后，内核会给用户线程发送一个信号，告诉它read操作完成了。也就说用户线程完全不需要关心实际的整个IO操作是如何进行的，只需要先发起一个请求，当接收内核返回的成功信号时表示IO操作已经完成，可以直接去使用数据了。也就说在异步IO模型中，IO操作的两个阶段都不会阻塞用户线程，这两个阶段都是由内核自动完成。异步IO是需要操作系统的底层支持，在Java 7中，提供了Asynchronous IO，简称AIO。而我们之前一直用的Java NIO是同步非阻塞IO。这里对Java中出现的，BIO，NIO，AIO做个总结</p>
 <table>
 <thead>
@@ -634,7 +634,7 @@
 </tr>
 </tbody></table>
 <p>对于异步IO模型，其原理图如下</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io6.png" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io6.png" alt></p>
 <h2 id="结合生活例子理解IO模型"><a href="#结合生活例子理解IO模型" class="headerlink" title="结合生活例子理解IO模型"></a>结合生活例子理解IO模型</h2><p>通过生活中的例子可以更好的帮助我们理解IO模型。我以去书店买书为例，在买书的例子中有三个必不可少的对象，它们分别是小明，书店以及出版社。小明去书店买书，书店去出版社采购书籍。还有一个限制条件，小明不能直接去出版社买书。这里实际上就是模拟了IO的工作方式，小明代表的是应用程序，书店代表的是操作系统内核，出版社代表的是磁盘。因此买书的过程就大致是一个IO过程（为什么小明不能直接去出版社买书呢，因为应用程序也不能直接读磁盘）。好了下面开始五种IO模型的场景模拟吧。</p>
 <ul>
 <li><strong>阻塞IO：</strong> 小明准备去书店买本小说《三国演义》，于是打电话跟书店说：“服务员，我要买本三国演义”<strong>（发起IO请求）</strong>。可遗憾的是书店并没有存货，于是书店只能先去出版社把书采购回来<strong>（读取磁盘）</strong>。小明在这个过程中呢？小明只能干等着书店把书采购好<strong>（阻塞）</strong>，在书店没有反馈之前他不能做任何事情。然后等待书店的通知，过了一段时间书店总算把三国演义采购回来了，但这时候书还只是在书店，因此小明还需要自己去书店把书拿回家<strong>（同步）</strong>，然后小明就可以开心的看小说了。这里有两个需要注意的地方，1.小明在等书店反馈期间不能做任何事情，只能等；2.小明要买书，书店就会有一个服务员给小明提供服务。小红也要买书，书店就会有新的服务员给小红提供服务，也就是说只要有人请求要买书，书店都会给这个人提供一个单独的服务员，简单来说就是一对一的VIP服务。这样的工作方式在放生活中简直难以理解，可是早期的操作系统就是设计的这么直白。</li>
@@ -644,7 +644,7 @@
 <li><strong>异步IO：</strong> 小明准备去书店买本小说《镜花缘》。于是到书店的官网上提交了镜花缘书籍的请求（ps：书店也升级了），然后小明填写了自己的住址就下单了，然后就做自己的事情去了<strong>（非阻塞）</strong>。书店看了下书单请求，发现没有这本书，没关系先去出版社采购回来吧<strong>（读取磁盘）</strong>，书采购回书店后，书店的老板根据小明留下的住址，将书通过邮寄的方式寄到了小明家里<strong>（把数据从内核态拷贝到用户态）</strong>，小明等到送货上门的书后就可以愉快的看小说啦。这种方式就比较符合我们的生活习惯了，是完完全全的异步非阻塞。因为整个过程中小明从提交买书的请求，到把书拿到手，什么都不用做，只管躺着玩就行了（果然世界还是属于懒人的）。</li>
 </ul>
 <p>本文所讨论的IO模型来自大名鼎鼎的《unix网络编程：卷1套接字联网API》。文中的IO模型的图片也取自该书。对于<strong>阻塞非阻塞，同步异步</strong>的理解这里再总结一下。同步异步好理解，它是针对请求而言的，客户端请求服务端如果立即返回，结果通过回调的方法返回，那么这种方式就是异步的；如果客户端请求服务端，没有立即返回而是等待服务端的结果再返回，那么这种方式就是同步的。阻塞非阻塞是针对客户端和服务端中间多一个第三方而言的，例如应用程序要访问磁盘，应用程序没权限，只能委托给内核（第三方）。在委托之后，客户端要不要等待结果返回，如果要等待就是阻塞的，不等待就是非阻塞的。<strong>（因为阻塞就意味着会有系统调度）</strong>。下图是五种IO模型的比较图。</p>
-<p><img src="/2019/08/17/linux-de-wu-chong-io-mo-xing/io7.jpg" alt></p>
+<p><img src="/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/io7.jpg" alt></p>
 <h2 id="关于epoll，poll，select"><a href="#关于epoll，poll，select" class="headerlink" title="关于epoll，poll，select"></a>关于epoll，poll，select</h2><p>多路复用是一种机制，可以用来监听多种描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O，因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是同步的，而异步I/O则无需自己负责进行读写，异步I/O的实现会负责把数据从内核拷贝到用户空间。这三个方法是内核中的方法，通过C语言实现。下面分别介绍一下这个三个方法的原理</p>
 <h5 id="select"><a href="#select" class="headerlink" title="select"></a>select</h5><pre class=" language-c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">select</span> <span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">,</span> fd_set <span class="token operator">*</span>readfds<span class="token punctuation">,</span> fd_set <span class="token operator">*</span>writefds<span class="token punctuation">,</span> fd_set <span class="token operator">*</span>exceptfds<span class="token punctuation">,</span> <span class="token keyword">struct</span> timeval <span class="token operator">*</span>timeout<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。这3类文件描述符是在用户空间创建然后拷贝到内核中。它们分别监听读、写、异常动作。这里受到单个进程可以打开的fd数量限制，默认是1024。调用后select函数会阻塞，采用轮询方式,遍历所有fd，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），最后返回一个描述符读写操作是否就绪的mask掩码，根据这个掩码给fd_set赋值。 将之前传入的fd_set拷贝传出到用户态并返回就绪的文件描述符总数。用户态并不知道是哪些文件描述符处于就绪态,需要遍历来判断。select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。</p>
@@ -759,7 +759,7 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -769,7 +769,7 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2019/08/17/linux-de-wu-chong-io-mo-xing/">http://yoursite.com/2019/08/17/linux-de-wu-chong-io-mo-xing/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/">https://lushunjian.gitee.io/blogs/2019/08/17/linux-de-wu-chong-io-mo-xing/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -782,7 +782,7 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1489,7 +1489,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>

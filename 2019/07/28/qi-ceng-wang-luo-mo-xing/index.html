@@ -547,13 +547,13 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>对于Java EE开发者来说，网络编程大多只需要使用HTTP通信协议就可以了，不需要关注协议具体的数据交换细节。不过随着时间的推移，我对这个过程越来越好奇，试想一下我在中国上海使用微信给一位身处美国洛杉矶的朋友发一条消息，这条消息是经过了哪些线路最终传输到朋友的手机上的。这条消息是怎么找到朋友的设备IP的。这个世界的计算机又是如何组成一个计算机网络的。我们知道两台计算机直接的联系是依靠网络来完成的，但是网络的信息传递又是依靠七层模型（即 物理层、数据链路层、网络层、传输层、会话层、表示层、应用层），我们称之为—– OSI参考模型。OSI模型是解决一台机器上的一个应用软件与另一个机器上的应用软件所进行的信息交互。因为计算机与计算机进行联系，他们都是硬件设备，所以想要建立联系，就必须有软件的支持。</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/net0.jpg" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/net0.jpg" alt></p>
 <a id="more"></a> 
 
 <h2 id="OSI参考模型"><a href="#OSI参考模型" class="headerlink" title="OSI参考模型"></a>OSI参考模型</h2><p>在上世纪70年代，国外一些主要计算机生产厂家先后推出了各自的网络体系结构，但它们都属于专用的。为使不同计算机厂家的计算机能够互相通信，以便在更大的范围内建立计算机网络，有必要建立一个国际范围的网络体系结构标准。国际标准化组织ISO 于1981年正式推荐了一个网络系统结构—-七层参考模型  ，叫做开放系统互连模型(Open System Interconnection，OSI)。由于这个标准模型的建立,使得各种计算机网络向它靠拢，大大推动了网络通信的发展。OSI定义了网络互连的七层框架（物理层、数据链路层、网络层、传输层、会话层、表示层、应用层），即ISO开放互连系统参考模型。如下图。</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/network.png" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/network.png" alt></p>
 <p>还有一种通信模型是TCP/IP五层协议，它与OSI的七层协议区别如下，实际上就是把OSI的上三层合并为一层了。其中最上层中就有我们熟悉的HTTP，FTP协议。</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/net.png" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/net.png" alt></p>
 <p>OSI的七层协议每层各自的功能</p>
 <ol>
 <li><strong>应用层：</strong>  OSI参考模型中最靠近用户的一层，是为计算机用户提供应用接口，也为用户直接提供各种网络服务。我们常见应用层的网络服务协议有：HTTP，HTTPS，FTP，POP3、SMTP等。</li>
@@ -566,15 +566,15 @@
 </ol>
 <p>基本上Java开发者都是面向应用层的开发，更多的是关心应用程序的逻辑细节，而不是数据在网络中的传输活动。应用层其下三层则处理真正的通信细节。在 Internet 整个发展过程中的所有思想和着重点都以一种称为 RFC（Request For Comments）的文档格式存在。针对每一种特定的 TCP/IP 应用，有相应的 RFC文档。</p>
 <h2 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h2><p>为什么需要通信协议？OSI协议搞了七层协议，比较复杂。如果没有七层协议我们就不能实现计算机的通信了吗？当然可以，只不过张三用张三的协议，李四用李四的协议，久而久之可能张三的协议占据了主流，这时候我们学习的就不是OSI协议了而是张三协议。协议只是一种双方都明白或者必须遵守的事先约定，实际上人类很早就在使用协议了，比如我们说的汉语，汉文字就是一种通信协议。语言统一了对生活中事物的描述和表达，只有大家都把猪称之为猪，把房子称之为房子。我们才能更好的交流发展。又比如说长城上放狼烟，是因为人们已经预先设定好狼烟这个物理信号代表了“敌人入侵”这一抽象信号。这样一个“狼烟=敌人入侵”就是一个简单的协议。而汉语和英语就是两种不同的通信协议，如果一个中国人和美国人交流，就需要一个翻译官，这个翻译扮演的角色就类似OSI七层协议中的表示层。计算机中的通信协议很多也比较复杂，比如摩尔斯码(Morse Code)，使用短信号和长信号的组合，来代表不同的英文字母。同样，计算机之间的通信也要遵循不同层次的协议，来实现计算机的通信。早期的计算机网络，都是由各厂商自己规定一套协议，IBM，Apple，和MicroSoft都有自己的网络协议，比如MicroSoft的两台电脑用网线连起来，互相说话能听懂。但是MicroSoft和Apple的电脑连接起来说话就听不懂了，想想你和我微信聊天，我是MicroSoft电脑，你是Apple电脑，你发送的消息到我这里显示不了或者解析成另一个意思，这样通讯就不能进行了。为了把全世界的所有不同类型的计算机都连接起来，就必须规定一套全球通用的协议，为了实现这个目标，<strong>互联网协议簇</strong>（Internet Protocol Suite）就成为了通用协议标准。互联网协议包含了上百种协议，但是最重要的两个协议是TCP和IP协议，而我们通常把基于TCP和IP协议的所有协议统称为<strong>”TCP/IP协议（蔟）”</strong>。下图是一个完整的OSI七层协议的图，对每一层的协议都标注的比较清楚。</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/nets.gif" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/nets.gif" alt></p>
 <h2 id="光缆分布"><a href="#光缆分布" class="headerlink" title="光缆分布"></a>光缆分布</h2><p>电脑要组网，第一件事要干什么？当然是先把电脑连起来，可以用光缆、电缆、双绞线、无线电波（WiFi）等方式。这是物理层的职责，前面说到在上海发微信消息给洛杉矶，消息是怎么过去的。毫无疑问的是，消息肯定会经过物理层。但是上海和美国相差半个地球会用无线电波的方式吗？显然不太可能，因为无线波传播介质是空气，暴雨雷电等恶劣天气就会影响无线波的传输。因此无线波传输固然方便但存在不稳定和不可控的因素。中美两国之间的网络通信是通过海底光缆。两个不同的局域网（电信的网络和移动的网络）通讯，稍微麻烦点，我的电信手机先连上电信的服务器，你的移动手机连移动服务器，他们两个ISP（Internet Service Provider 互联网服务提供商）之间是通过物理手段链接的，这样我们就能够间接的实现通讯了。下图是2015年全球互联网跨国通信光缆的连接情况：</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/net10.jpg" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/net10.jpg" alt></p>
 <p>下面是2015年中国部分的互联网跨国通信光缆的连接情况图，就是上图中国部分的放大版。</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/net5.jpg" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/net5.jpg" alt></p>
 <p>从图中可以看出中国的跨国海底光缆并不多，主要集中在几个重要的沿海城市，这会不会是互联网公司主要集中在沿海的一个因素，因此在连接国外的网站延迟这么大也就是情理之中的事了。其中可以看到下面光缆节点比较多，主要集中在香港。所以在购买翻墙软件选择VPN节点时，选择靠近香港的会比较好。</p>
 <h2 id="互联网的历史"><a href="#互联网的历史" class="headerlink" title="互联网的历史"></a>互联网的历史</h2><p>Internet的最早起源于美国国防部高级研究计划署DARPA(Defence Advanced Research Projects Agency)的前身ARPAnet，该网于1969年投入使用。没有ARPA，就没有如今的互联网。由此，ARPAnet成为现代计算机网络诞生的标志。作为一家军事研究机构，Arpa 在创造互联网时具有明确的军事动机：它能够提供一种方式，将计算能力带到前线。1969 年，Arpa 建立了一个称为 Arpanet 的计算机网络，将全美各大学院校、政府机关和国防承包商的主机连接在一起。Arpanet 发展迅速，到上世纪 70 年代中期，已经拥有大约 60 个节点。但Arpanet 存在一个问题，它无法移动。按今天的标准，Arpanet 上的计算机堪称庞然大物，它们通过固定链路进行通信。这对于坐在剑桥或门罗帕克市的计算机终端前的研究人员来说，或许行得通，但对于深入敌区的士兵而言，却是远水难救近火。Arpanet 要在战场上派上用场，就必须在世界的任何地方都能够访问。想象一辆在扎伊尔丛林中行驶的吉普车，或者一架在北越上空盘旋的B-52 轰炸机。然后把它们想象成一个无线网络上的节点，而这个无线网络又连接到数千英里之外拥有众多强大计算机的另一个网络。这正是利用计算能力打击苏联及其盟国的网络化军队的梦想。正是这个梦想催生了互联网。要让这个梦想成真，需要做两件事情。首先是建立一个无线网络，通过无线电或卫星在广泛分布的美国军队设施之间中继数据包。其次要将这些无线网络连接到Arpanet 的有线网络，以便那些价值数百万美元的大型主机能够为前线的士兵服务。科学家称之为“网络互联”。发明互联网的初衷就是要解决网络互联的问题。网络互联给人们带来了巨大的挑战。把两台计算机连在一起，只是迈出了建立互联网的一小步。人们很快发现，如果要把更多的不同型号的计算机，通过不同规格的网络连接在一起，还要让它们能共享内容，就非得发明一套更先进的技术不可。假如看到互联网发明之初的那股子混乱劲儿，熟练操作着智能手机、利用无线信号进行视频对话的现代人可能会觉得难以置信。Arpanet问世之后，美国军方很快采纳了这一技术，但是，接入网络的电脑越来越多，造成发送信息的计算机很难在庞杂的网络中定位目标计算机。并且，最初的网络缺少纠错功能，数据在传输过程中一旦出现错误，网络就可能停止运行。出错电脑增多，使得网络运行效率大打折扣。于是便催生了第一份互联网协议</p>
 <h4 id="TCP-IP协议诞生"><a href="#TCP-IP协议诞生" class="headerlink" title="TCP/IP协议诞生"></a>TCP/IP协议诞生</h4><p>  大名鼎鼎的两位科学家、TCP/IP协议的发明者——罗伯特·卡恩和文顿·瑟夫就是在这时开始了他们的重要工作。他们恐怕也是这一群拥有“互联网之父”头衔的科学家中知名度最高的。他们都获得过“计算机科学界的诺贝尔奖”——图灵奖，瑟夫还曾任谷歌公司的全球副总裁和首席互联网专家。两位科学家首先着眼于给每台电脑都分配一个唯一的确定的地址，就像住宅的门牌号一样，有了它快递员才能把包裹准确投递到位——这就是IP。而TCP则负责监督传输过程，一出现问题就发出信号，要求重新传输，直到所有数据安全正确地传输到目的地。这套思想直接导致了一种新设备——路由器的出现。在1973年问世并被持续不断改进的TCP/IP协议至今仍然是全球互联网得以稳定运作的保证。通过这项技术，两位科学家使信息传输的可靠性完全由主机设备保障，而与连接这些主机的网络硬件的材质与形态无关。人们评价说，TCP/IP技术将最终可以运行在“两个罐子和一根弦”上，甚至可以用信鸽来代替网络。<strong>如果将TCP/IP申请专利，世界首富还会是盖茨吗？</strong>全世界已经有几十亿人在使用互联网，三十多年前研究TCP/IP的时候，谁也没有想到这项技术会得到如此广泛的运用。在这个信息社会谁也离不开网络。因此这个问题就好像如果交流电申请专利，尼古拉特斯拉会不会成为首富一样。如今，TCP/IP协议让互联网越来越远，毫不夸张的说，没有这张“网”的世界将不能成为21世纪。“网”一直处于虑拟世界，看不见、摸不着，连接世界的互联网你有没有想过到底是什么样子的？一起来看看下图</p>
-<p><img src="/2019/07/28/qi-ceng-wang-luo-mo-xing/tcpnet.jpg" alt></p>
+<p><img src="/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/tcpnet.jpg" alt></p>
 <p>这个图是基于真实的世界互联网真实路由节点绘制出来的，这个图的右下角放大了网络拓扑中的一个星状亮点，从放大的图片可以看出，每个星状亮点的末枝对应的就是一个局域网的<strong>内网IP地址</strong>；而亮点的中心对应的就是路由器的IP地址，也就是互联网的<strong>外网IP地址</strong>。注意内网IP和外网IP不是一个概念，路由器拥有两组IP地址，分别为<strong>外网IP地址</strong>和<strong>内网IP地址</strong>；其中外网IP地址是网络运营商所分配的IP地址，用于唯一标识此路由器在互联网中的位置。而内网IP地址则用于实现局域网电脑与路由器之间的相互访问，通过路由器内网IP地址，其它处于局域网中的电脑可以通过此IP地址获取网关地址，从而通过路由器实现访问互联网操作。</p>
 
             </div>
@@ -591,7 +591,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -601,7 +601,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2019/07/28/qi-ceng-wang-luo-mo-xing/">http://yoursite.com/2019/07/28/qi-ceng-wang-luo-mo-xing/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/">https://lushunjian.gitee.io/blogs/2019/07/28/qi-ceng-wang-luo-mo-xing/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -614,7 +614,7 @@
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1321,7 +1321,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>

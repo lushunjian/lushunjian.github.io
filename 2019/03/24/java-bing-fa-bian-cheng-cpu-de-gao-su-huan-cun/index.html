@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>CPU缓存是CPU一个重要的组成部分，CPU缓存的出现主要是为了解决CPU运算速度与内存读写速度不匹配的矛盾，这种访问速度的显著差异，导致CPU可能会花费很长时间等待数据到来或把数据写入内存，基于此，现在CPU大多数情况下读写都不会直接访问内存（CPU都没有连接到内存的管脚），取而代之的是CPU缓存，CPU缓存是位于CPU与内存之间的临时存储器，它的容量比内存小得多但是交换速度却比内存快得多。而缓存中的数据是内存中的一小部分数据，但这一小部分是短时间内CPU即将访问的，当CPU调用大量数据时，就可先从缓存中读取，从而加快读取速度，提高CPU的利用率。CPU缓存一般直接跟CPU芯片集成或位于主板总线互连的独立芯片上。（现阶段的CPU缓存一般直接集成在CPU上）CPU往往需要重复处理相同的数据、重复执行相同的指令，如果这部分数据、指令CPU能在CPU缓存中找到，CPU就不需要从内存或硬盘中再读取数据、指令，从而减少了整机的响应时间。</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cpus-cat.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cpus-cat.png" alt></p>
 <a id="more"></a> 
 
 <h2 id="CPU的三级缓存"><a href="#CPU的三级缓存" class="headerlink" title="CPU的三级缓存"></a>CPU的三级缓存</h2><h3 id="一级缓存（L1-Cache）"><a href="#一级缓存（L1-Cache）" class="headerlink" title="一级缓存（L1 Cache）"></a>一级缓存（L1 Cache）</h3><p>一级缓存这个名词出现应该是在Intel公司Pentium处理器时代把缓存开始分类的时候，一级缓存（Level 1 Cache）简称L1 Cache，位于CPU内核的旁边，是与CPU结合最为紧密的CPU缓存，也是历史上最早出现的CPU缓存。由于一级缓存的技术难度和制造成本最高，提高容量所带来的技术难度增加和成本增加非常大。一般来说，一级缓存可以分为一级数据缓存（Data Cache，D-Cache，L1d）和一级指令缓存(Instruction Cache，I-Cache，L1i)，分别用于存放数据和指令。两者可同时被CPU访问，减少了CPU多核心、多线程争用缓存造成的冲突，提高了处理器的效能。</p>
@@ -559,13 +559,13 @@
 <li>空间局部性：如果某个数据被访问，那么与它相邻的数据很快也可能被访问</li>
 </ul>
 <p>为了保证CPU访问时有较高的命中率Cache中的内容应该按一定的算法替换，其计数器清零过程可以把一些频繁调用后再不需要的数据淘汰出Cache，提高Cache的利用率。在存在CPU三级缓存的计算机体系中，CPU与内存，缓存的关系就从单个CPU缓存演变成了三级缓存的架构了。</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cpu1.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cpu1.png" alt></p>
 <p>随着技术的不断更新，目前处理器中包含多个CPU处理器，对于多核CPU，优化操作系统任务调度算法是保证效率的关键。一般任务调度算法有全局队列调度和局部队列调度。前者是指操作系统维护一个全局的任务等待队列，当系统中有一个CPU核心空闲时，操作系统就从全局任务等待队列中选取就绪任务开始在此核心上执行。下面是Intel Core i7处理器的高速缓存的模型</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cpus.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cpus.png" alt></p>
 <h3 id="缓存SRAM与内存DRAM的区别"><a href="#缓存SRAM与内存DRAM的区别" class="headerlink" title="缓存SRAM与内存DRAM的区别"></a>缓存SRAM与内存DRAM的区别</h3><p>内存的DRAM其实是SDRAM（同步动态随机储存器），是DRAM（Dynamic RAM，动态）的一种。DRAM只含一个晶体管和一个电容器，集成度非常高，可以轻松做出大容量（内存），但是因为靠电容器来储存信息，所以需要不断刷新补充电容器的电荷，否则内部的数据即会消失。充电放电之间的时间差导致了DRAM比SRAM的反应要缓慢得多。高速缓存基本上都是采用SRAM存储器，SRAM是英文Static RAM的缩写，它是一种具有静态存取功能的存储器，不需要刷新电路即能保存它内部存储的数据。但SRAM相比DRAM的复杂度就高了不止一点点，所以导致SRAM的集成度很低，也是前期CPU缓存不能集成进CPU内部也有这个原因。因此相同容量的DRAM内存可以设计为较小的体积，但是SRAM却需要很大的体积，这也是不能将缓存容量做得太大的重要原因。它的特点归纳如下：优点是节能、速度快、不需要刷新时间所以凸显其数据传输速度很快，缺点是集成度低、相同的容量体积较大、而且价格较高，只能少量用于关键性系统以提高效率。SRAM和DRAM的电路图大致如下：</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/rams0.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/rams0.png" alt></p>
 <p>在一套完整的计算机体系中，一般会包含如下存储介质，它们分别是寄存器，高速缓存，内存，硬盘。它们的容量由小到大，访问速度由高到底，成本由高到低，体积则是由小到大。因此，寄存器，高速缓存等容易集成在CPU或是主板上，但是由于其成本高，所以不会大规模使用，而内存，硬盘成本较低，但体积大，不方便集成，所以可以作为外设，安装在主板上。这些存储介质的大小和访问速度大致如下图：</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/store.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/store.png" alt></p>
 <h2 id="缓存一致性（MESI）"><a href="#缓存一致性（MESI）" class="headerlink" title="缓存一致性（MESI）"></a>缓存一致性（MESI）</h2><p>缓存一致性：在多核CPU中，内存中的数据会在多个核心中存在数据副本，某一个核心发生修改操作，就产生了数据不一致的问题。而一致性协议正是用于保证多个CPU cache之间缓存共享数据的一致。试想下面一个问题：</p>
 <ol>
 <li>Core 0读取了一个字节，根据局部性原理，它相邻的字节同样被被读入Core 0的缓存</li>
@@ -574,7 +574,7 @@
 <li>Core 1访问该字节，由于Core 0并未将数据写回主存，数据不同步</li>
 </ol>
 <h3 id="缓存行"><a href="#缓存行" class="headerlink" title="缓存行"></a>缓存行</h3><p>在细说缓存一致性之前，先说一下缓存行的概念，高速缓存其实就是一组称之为缓存行(cache line)的固定大小的数据块，其大小是以突发读或者突发写周期的大小为基础的。它是CPU缓存中可分配的最小存储单元，大小32字节、64字节、128字节不等，这与CPU架构有关，通常来说是64字节。当从CPU从内存中取数据到cache中时，会一次取一个cacheline大小的内存大小到cache中，然后存进相应的cacheline中。总结来说就是一句话：CPU不是按字节访问内存，而是以64字节为单位的块(chunk)拿取，称为一个缓存行(cache line)。其结构如下</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cache.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/cache.png" alt></p>
 <p>工作方式：当CPU从cache中读取数据的时候，会比较地址是否相同，如果相同则检查cache line的状态，再决定该数据是否有效，无效则从主存中获取数据，或者根据一致性协议发生一次cache-to–chache的数据推送；<br>工作效率：当CPU能够从cache中拿到有效数据的时候，消耗几个机器周期，如果发生cache miss（缓存未命中），则会消耗几十上百个机器周期；</p>
 <h3 id="MESI"><a href="#MESI" class="headerlink" title="MESI"></a>MESI</h3><p>知道了缓存行的概念后，回到之前的问题，为了解决这个问题，CPU制造商制定了一个规则：当一个CPU修改缓存中的字节时，服务器中其他CPU会被通知，它们的缓存将视为无效。于是，在上面的情况下，Core 1发现自己的缓存中数据已无效，Core 0将立即把自己的数据写回主存，然后Core 1重新读取该数据，这个就是多级缓存-缓存一致性（MESI）。这协议用于保证多个CPU cache之间缓存共享数据的一致性。它定义了CacheLine的四种数据状态，而CPU对cache的四种操作可能会产生不一致的状态。因此缓存控制器监听到本地操作与远程操作的时候需要对地址一致的CacheLine状态做出一定的修改，从而保证数据在多个cache之间流转的一致性。这里肯定有人疑问，既然多个缓存会出现这些问题，那为什么不能让多个CPU共用一个缓存呢？当然是效率问题，如果多个CPU使用共用一个缓存，那么在每一个时钟或者指令周期，都只能有一个cpu通过缓存对内存进行操作，其他的cpu就进入了等待。流水线就产生了冒泡，会极大浪费硬件资源。所以引入多组缓存，并引入MESI协议使他们用起来的效果像只有一组缓存一样。</p>
 <p>缓存一致性协议有多种，但是日常处理的大多数计算机设备都属于嗅探（snooping）协议，它的基本思想是：所有内存的传输都发生在一条共享的总线上，而所有的处理器都能看到这条总线：缓存本身是独立的，但是内存是共享资源，所有的内存访问都要经过仲裁（同一个指令周期中，只有一个CPU缓存可以对内存读写）。CPU缓存控制器不仅仅在内存传输的时候才与总线打交道，而是不停在嗅探总线上发生的数据交换，跟踪其他缓存在做什么。所以当一个缓存代表它所属的处理器去读写内存时，其它处理器都会得到通知，它们以此来使自己的缓存保持同步。只要某个处理器一写内存，其它处理器马上知道这块内存在它们的缓存段中已失效。ESI协议是当前最主流的缓存一致性协议，在MESI协议中，每个缓存行有4个状态，可用2个bit表示，它们分别是：</p>
@@ -633,7 +633,7 @@
 </tr>
 </tbody></table>
 <p>MESI示意图：</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/mesis.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/mesis.png" alt></p>
 <h3 id="状态转换和cache操作"><a href="#状态转换和cache操作" class="headerlink" title="状态转换和cache操作"></a>状态转换和cache操作</h3><p>如上文内容所述，MESI协议中cache line数据状态有4种，引起数据状态转换的CPU cache操作也有4种，因此要理解MESI协议，就要将这16种状态转换的情况讨论清楚。初始场景：在最初的时候，所有CPU中都没有数据，某一个CPU发生读操作，此时必然发生cache miss，数据从主存中读取到当前CPU的cache，状态为E（独占，只有当前CPU有数据，且和主存一致），此时如果有其他CPU也读取数据，则状态修改为S（共享，多个CPU之间拥有相同数据，并且和主存保持一致），如果其中某一个CPU发生数据修改，那么该CPU中数据状态修改为M（拥有最新数据，和主存不一致，但是以当前CPU中的为准），其他拥有该数据的核心通过缓存控制器监听到remote write行文，然后将自己拥有的数据的cache line状态修改为I（失效，和主存中的数据被认为不一致，数据不可用应该重新获取）。</p>
 <h5 id="1-Modify"><a href="#1-Modify" class="headerlink" title="1 . Modify"></a>1 . Modify</h5><p>场景：当前CPU中数据的状态是Modifiy，表示当前CPU中拥有最新数据，虽然主存中的数据和当前CPU中的数据不一致，但是以当前CPU中的数据为准；</p>
 <ul>
@@ -675,14 +675,14 @@
 </ul>
 <h3 id="java内存模型与硬件内存架构的关系"><a href="#java内存模型与硬件内存架构的关系" class="headerlink" title="java内存模型与硬件内存架构的关系"></a>java内存模型与硬件内存架构的关系</h3><p>学习和使用java语言的开发者，都不可避免的要回到JVM这个模型上来。然而JVM只是一个逻辑上的计算机架构模型，运行于它之上的java服务不可避免的要与底层的操作系统交互，那么JVM的内存模型与硬件的内存架构是怎么样的对应关系呢？本人在学习JVM时也常有这样的疑问，掌握了JVM的内存模型确实能帮助我们理解许多java开发方面的问题，但归根结底还是要驱动硬件工作的，下面就来探讨一下JVM与硬件上内存的关系。</p>
 <h5 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h5><p>为了屏蔽各种硬件和操作系统内存的访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果，所以Java虚拟机规范中定义了Java内存模型（Java Memory Model简称JMM）。Java内存模型是一种规范，它定义了Java虚拟机与计算机内存是如何协同工作的。java内存模型的主要目的是定义程序中各个变量的访问规则，以及在必须时如何同步地访问共享变量，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节，JVM内存模型如下图</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/jvm.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/jvm.png" alt></p>
 <ul>
 <li>Head（堆）：java里的堆是一个运行时的数据区，堆是由垃圾回收机制来负责的。堆的优势是可以动态地分配内存大小，生存期也不必事先告诉编译器，因为它是在运行时动态分配内存的，而且Java的垃圾回收机制也会自动的收走那些不再使用的数据。但是它也有缺点，由于是运行时动态分配内存，因此它的存取速度相对要慢一些。</li>
 <li>Stack（栈）：栈的优势是存取速度比堆要快，仅次于计算机里的寄存器，栈的数据是可以共享的。而栈的缺点则是存在栈中的数据的大小以及生存期必须是确定的，缺乏一些灵活性，所以栈中主要用来存储一些基本数据类型和引用数据类型。</li>
 </ul>
 <p>Java内存模型要求调用栈和本地变量存放在线程栈（Thread Stack）上，而对象则存放在堆上。一个本地变量也可能是指向一个对象的引用，这种情况下这个保存对象引用的本地变量是存放在线程栈上的，但是对象本身则是存放在堆上的。一个对象可能包含方法，而这些方法可能包含着本地变量，这些本地变量仍然是存放在线程栈上的。即使这些方法所属的对象是存放在堆上的。一个对象的成员变量，可能会随着所属对象而存放在堆上，不管这个成员变量是原始类型还是引用类型。静态成员变量则是随着类的定义一起存放在堆上。存放在堆上的对象，可以被持有这个对象的引用的线程访问。当一个线程可以访问某个对象时，它也可以访问该对象的成员变量。如果两个线程同时调用同一个对象上的同一个方法，那么它们都将会访问这个方法中的成员变量，但是每一个线程都拥有这个成员变量的私有拷贝。</p>
 <h5 id="java内存模型和硬件内存架构之间的桥接"><a href="#java内存模型和硬件内存架构之间的桥接" class="headerlink" title="java内存模型和硬件内存架构之间的桥接"></a>java内存模型和硬件内存架构之间的桥接</h5><p>上面已经提到，Java内存模型与硬件内存架构之间存在差异。硬件内存架构没有区分线程栈和堆。对于硬件而言，所有的线程栈和堆都分布在主内存中。部分线程栈和堆可能有时候会出现在CPU缓存中和CPU内部的寄存器中。在java动态的内存模型中，分为主内存，和线程工作内存。主内存是所有的线程所共享的，工作内存是每个线程自己有一个，不是共享的。每个线程之间的共享变量存储在主内存里面，每个线程都有一个私有的本地内存，本地内存是Java内存模型的一个抽象的概念，并不是真实存在的。从一个更低的层次来说，主内存就是硬件的内存，而为了获取更好的运行速度，虚拟机及硬件系统可能会让工作内存优先存储于寄存器和高速缓存中。因此Java内存模型中的线程的工作内存（working memory）是cpu的寄存器和高速缓存的抽象描述。主内存则可理解为物理主存的抽象。而JVM的静态内存存储模型（JVM内存模型）只是一种对物理内存的划分而已，它只局限在物理内存，而且只局限在JVM进程中的的物理内存。</p>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/jvmcputer.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/jvmcputer.png" alt></p>
 <p>如果上图中的线程A和线程B要通信，必须经历两个步骤：</p>
 <ol>
 <li>首先线程A要把本地内存A中更新过的共享变量刷新到主内存里</li>
@@ -703,7 +703,7 @@
 <li>store（存储）：作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中，以便随后的write的操作。</li>
 <li>write（写入）：作用于主内存的变量，它把store操作从工作内存中一个变量的值传送到主内存的变量中。</li>
 </ul>
-<p><img src="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/jvmsc.png" alt></p>
+<p><img src="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/jvmsc.png" alt></p>
 <h5 id="java中的volatile关键字"><a href="#java中的volatile关键字" class="headerlink" title="java中的volatile关键字"></a>java中的volatile关键字</h5><p>定义为volatile类型的变量拥有两种语义：</p>
 <ol>
 <li>变量的修改对所有线程可见</li>
@@ -761,7 +761,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -771,7 +771,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">http://yoursite.com/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">https://lushunjian.gitee.io/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -784,7 +784,7 @@
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1491,7 +1491,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>

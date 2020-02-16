@@ -547,11 +547,11 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>Java平台自动集成了线程以及多处理器技术，这种集成程度比Java以前诞生的计算机语言要厉害很多，该语言针对多种异构平台的平台独立性而使用的多线程技术支持也是具有开拓性的一面，有时候在开发Java同步和线程安全要求很严格的程序时，往往容易混淆的一个概念就是内存模型。究竟什么是内存模型？内存模型描述了程序中各个变量（实例域、静态域和数组元素）之间的关系，以及在实际计算机系统中将变量存储到内存和从内存中取出变量这样的底层细节，对象最终是存储在内存里面的，这点没有错，但是编译器、运行库、处理器或者系统缓存可以有特权在变量指定内存位置存储或者取出变量的值。JMM（Java Memory Model的缩写）允许编译器和缓存以数据在处理器特定的缓存（或寄存器）和主存之间移动的次序拥有重要的特权，因此JMM定义了Java 虚拟机(JVM)在计算机内存(RAM)中的工作方式。JVM是整个计算机虚拟模型，所以JMM是隶属于JVM的。从抽象的角度来看，JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存（Main Memory）中，每个线程都有一个私有的本地内存（Local Memory），本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的一个抽象概念，并不真实存在。它涵盖了缓存、写缓冲区、寄存器以及其他的硬件和编译器优化。</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmm.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmm.png" alt></p>
 <a id="more"></a> 
 
 <h2 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h2><p>对于JVM的内存模型，相信学Java的人并不陌生。JVM是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。JVM有自己完善的硬件架构，如处理器、堆栈、寄存器等，还具有相应的指令系统。Java语言最重要的特点就是跨平台运行。使用JVM就是为了支持与操作系统无关，实现跨平台。JVM是Java的核心和基础，在java编译器和os平台之间的虚拟处理器。它是一种基于下层的操作系统和硬件平台并利用软件方法来实现的抽象的计算机，JVM屏蔽了与具体操作系统平台相关的信息，可以在上面执行Java的字节码程序，在执行字节码时，实际上最终还是把字节码解释成具体平台上的机器指令执行。JVM的内存模型如下：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jvm.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jvm.png" alt></p>
 <ul>
 <li>Java栈：Java虚拟机栈是线程私有的，生命周期与线程相同，每个方法执行时都会创建一个栈帧（Stack Frame），描述的是Java方法执行的内存模型，用于存储局部变量，操作数栈，方法出口等。每个方法的调用都对应的出栈和入栈。虚拟机栈中执行每个方法的时候，都会创建一个栈帧用于存储局部变量表，操作数栈，动态链接，方法出口等信息。</li>
 <li>Java堆：堆是Java对象的存储区域，任何用new字段分配的Java对象实例和数组，都被分配在堆上，Java堆可使用-Xms -Xmx进行内存控制，此区域所有Java线程锁共享的，不是线程安全的，在JVM启动时创建，也是GC管理的主要区域。值得一提的是从JDK1.7版本之后，运行时常量池从方法区移到了堆上。</li>
@@ -561,7 +561,7 @@
 </ul>
 <p>Java虚拟机在执行Java程序的过程中，会把它管理的内存划分为以上几个不同的数据区域，每个区域都有各自的分工。这是一种整体上的理解，本人把它理解为一种鸟瞰图。就比如你坐在直升机上鸟瞰整个城市，也会看到城市的各个区域，开发区，商业区，居民区等等。但这仅仅只是一种相对静态的结构图，城市中的开发区，商业区，居民区之间肯定会存在交通，经济，贸易的来往。俗话说无规矩不成方圆，城市中各个区域之间的商品，资金流动必然遵循一定的规律，不然整个城市就乱套了。类比到Java虚拟机，自然而然的就会产生出一个问题，现在Java虚拟机的内存区域都划分好了，但各个区域如果需要发生数据交换，交换的规范怎么定义，怎么保证数据的安全性和一致性。这些问题就需要JMM内存模型来解答了。</p>
 <h2 id="JMM内存模型"><a href="#JMM内存模型" class="headerlink" title="JMM内存模型"></a>JMM内存模型</h2><p>JMM内存模型主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样底层细节。此处的变量与Java编程时所说的变量不一样，指包括了实例字段、静态字段和构成数组对象的元素，但是不包括局部变量与方法参数，后者是线程私有的，不会被共享。内存模型可以理解为在特定的操作协议下，对特定的内存或者高速缓存进行读写访问的过程抽象。在C/C++语言中直接使用物理硬件和操作系统内存模型，导致不同平台下并发访问出错。而JMM的出现，能够屏蔽掉各种硬件和操作系统的内存访问差异，实现平台一致性，是使得Java程序能够一次编写，到处运行的基石。逻辑上大致理解如下图：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmm.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmm.png" alt></p>
 <p>在前面的文章中曾详细讲述了在物理机器中CPU和内存之间为了解决内存与处理器的运算能力之间的几个数量级差距的问题，在CPU和内存之间引入了几级高速缓存，而引入高速缓存又带来了缓存一致性的问题。同时为了尽可能的利益CPU中的逻辑运行单元，又引入了CPU的流水线机制和指令乱序执行机制来优化指令执行顺序。缓存一致性问题的解决方案之前说过MESI协议，但实际上除了MESI协议，还有MSI，MOSI及Dragon Protocol等。而指令乱序执行则通过as-if-serial语义保证。如果不同物理架构都使用相同的内存模型，也就没这么多事了，但不同架构（主流的两种架构有两种：x86架构和arm架构）下的物理机拥有不一样的物理内存模型，因此JMM就是对这些底层协议的操作细节进行封装和抽象，以保证JMM在不同架构下，对上层保持一致的视图模型。这对开发人员来说是一种福音，由于有了JMM的承诺，因此开发人员只需要按照JMM提供的内存模型来并发编程，遵循JMM的规则，JMM就能为我们提供代码顺序性、共享变量可见性的保证，从而得到预期的执行结果，而不需要考虑不同平台的兼容性问题。</p>
 <h2 id="顺序一致性内存模型"><a href="#顺序一致性内存模型" class="headerlink" title="顺序一致性内存模型"></a>顺序一致性内存模型</h2><p>顺序一致性内存模型是一个被计算机科学家理想化了的理论参考模型，它为程序员提供了极强的内存可见性保证。顺序一致性内存模型有两大特性：</p>
 <ul>
@@ -569,15 +569,15 @@
 <li>（不管程序是否同步）所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内存模型中，每个操作都必须原子执行且立刻对所有线程可见。</li>
 </ul>
 <p>顺序一致性内存模型为开发者提供的视图如下：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/sxyzx.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/sxyzx.png" alt></p>
 <p>概念上，顺序一致性模型有一个单一的全局内存，这个内存通过一个左右摆动的开关可以连接到任意一个线程。同时，每一个线程必须按程序的顺序来执行内存读/写操作。从上图我们可以看出，在任意时间点最多只能有一个线程可以连接到内存。当多个线程并发执行时，图中的开关装置能把所有线程的所有内存读/写操作串行化。为了更好的理解，下面我们通过两个示意图来对顺序一致性模型的特性做进一步的说明。假设有两个线程A和B并发执行。其中A线程有三个操作，它们在程序中的顺序是：A1-&gt;A2-&gt;A3。B线程也有三个操作，它们在程序中的顺序是：B1-&gt;B2-&gt;B3。假设这两个线程使用监视器来正确同步：A线程的三个操作执行后释放监视器，随后B线程获取同一个监视器。那么程序在顺序一致性模型中的执行效果将如下图所示：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/sx1.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/sx1.png" alt></p>
 <p>现在我们再假设这两个线程没有做同步，下面是这个未同步程序在顺序一致性模型中的执行示意图：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/sx2.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/sx2.png" alt></p>
 <p>未同步程序在顺序一致性模型中虽然整体执行顺序是无序的，但所有线程都只能看到一个一致的整体执行顺序。以上图为例，线程A和B看到的执行顺序都是：B1-&gt;A1-&gt;A2-&gt;B2-&gt;A3-&gt;B3。之所以能得到这个保证是因为顺序一致性内存模型中的每个操作必须立即对任意线程可见。</p>
 <p>但是，在JMM中就没有这个保证。未同步程序在JMM中不但整体的执行顺序是无序的，而且所有线程看到的操作执行顺序也可能不一致。比如，在当前线程把写过的数据缓存在本地内存中，且还没有刷新到主内存之前，这个写操作仅对当前线程可见；从其他线程的角度来观察，会认为这个写操作根本还没有被当前线程执行。只有当前线程把本地内存中写过的数据刷新到主内存之后，这个写操作才能对其他线程可见。在这种情况下，当前线程和其它线程看到的操作执行顺序将不一致。</p>
 <h2 id="JMM，处理器内存模型与顺序一致性内存模型之间的关系"><a href="#JMM，处理器内存模型与顺序一致性内存模型之间的关系" class="headerlink" title="JMM，处理器内存模型与顺序一致性内存模型之间的关系"></a>JMM，处理器内存模型与顺序一致性内存模型之间的关系</h2><p>JMM 是一个语言级的内存模型，处理器内存模型是硬件级的内存模型，顺序一致性内存模型是一个理论参考模型。下面是语言内存模型，处理器内存模型和顺序一致性内存模型的强弱对比示意图：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmmsj.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmmsj.png" alt></p>
 <p>从上图我们可以看出：常见的 5 种处理器内存模型比常用的 3 中语言内存模型要弱，处理器内存模型和语言内存模型都比顺序一致性内存模型要弱。同处理器内存模型一样，越是追求执行性能的语言，内存模型设计的会越弱。</p>
 <h2 id="JMM的设计"><a href="#JMM的设计" class="headerlink" title="JMM的设计"></a>JMM的设计</h2><p>站在JMM设计者的角度，在设计JMM时需要考虑两个关键因素:</p>
 <p><strong>1.程序员对内存模型的使用：</strong>程序员希望内存模型易于理解、易于编程。程序员希望基于一个强内存模型来编写代码。</p>
@@ -600,7 +600,7 @@
 </tr>
 </tbody></table>
 <p>对于开发人员来说，JMM所处的位置：</p>
-<p><img src="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmm5.png" alt></p>
+<p><img src="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/jmm5.png" alt></p>
 <h2 id="JMM的承诺"><a href="#JMM的承诺" class="headerlink" title="JMM的承诺"></a>JMM的承诺</h2><p>如果程序是正确同步的，程序的执行将具有顺序一致性（sequentially consistent），即程序的执行结果与该程序在顺序一致性内存模型中的执行结果相同，这对于开发者来说是一个极强的保证。这里的同步是指广义上的同步，包括对常用同步原语（lock，volatile和final）的正确使用。既然JMM为开发者们提供了一致的视图，那么JMM是如何保证一致性的呢。这里我们先来了解几个概念，即原子性，可见性，有序性。</p>
 <h3 id="原子性（Atomicity）"><a href="#原子性（Atomicity）" class="headerlink" title="原子性（Atomicity）"></a>原子性（Atomicity）</h3><p>原子操作是指一个操作不会被线程调度机制打断，一旦开始，就一直运行到结束，中间不会有任何线程切换(context switch)。原子性可以保障读取到的某个属性的值是由一个线程写入的。 变量不会在同一时刻受到多个线程同时写入造成干扰。在Java中基本数据类型byte,short,int,float,boolean,char读写是原子操作，而对于32位系统的来说，long类型数据和double类型数据，它们的读写并非原子性的，如果在32位的JVM中对64位long 或double值的写操作是分成两次相邻的32位值写操作，在多线程的环境下，可能会有线程只读到了前32位，这种操作就是非原子性的，非原子性操作会受到多线程的干扰而产生结果混乱。但也不必太担心，因为读取到半个变量的情况比较少见，至少在目前的商用的虚拟机中，几乎都把64位的数据的读写操作作为原子操作来执行，因此对于这个问题不必太在意，知道这么回事即可。JMM保证的原子性变量操作包括read、load、assign、use、store、write。这六个操作针对的是变量的原子操作，如果应用场景需要一个更大范围的原子性保证，Java内存模型还提供了lock和unlock操作来满足这种需求。尽管虚拟机没有把lock和unlock操作直接开放给用户使用，但是却提供了更高层次的字节码指令monitorenter和monitorexit来隐式地使用这两个操作，这两个字节码指令反映到Java代码中就是同步块synchronized关键字，因此synchronized块之间的操作也具备原子性。JMM内存模型对主内存与工作内存之间的具体交互协议定义的八种操作，具体如下：</p>
 <ol>
@@ -683,7 +683,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -693,7 +693,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/">http://yoursite.com/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/">https://lushunjian.gitee.io/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -706,7 +706,7 @@
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1413,7 +1413,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>

@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>自工作起就一直使用Git，但一直没去真正了解Git的工作原理，实在惭愧。任何一个项目，团队协作非常重要，在互联网企业级开发中，没有个人英雄主义，一个人几乎不可能独立完成一个项目。因此当很多人共同协作去完成一个项目时，工作成果的维护是一个老大难的问题。Git就是为解决这个问题而生，Git最初是用于 Linux内核开发的版本控制工具。版本控制系统主要就是控制、协调各个版本的文件内容的一致性，这些文件包括文本、图片等等。早期SVN占据了绝大部分市场，而后来随着Git的出现，越来越多的人选择将它作为版本控制工具，社区也越来越强大。相较于SVN，最核心的区别是Git是分布式的VCS，换而言之，每一个你pull下来的Git仓库都是主仓库的一个分布式版本，仓库的内容完全一样，而SVN则不然，它需要一个中央版本库来进行集中控制。采用分布式模式的好处便是你不再依赖于网络，当有更改需要提交的时候而你又无法连接网络时，只需要把更改提交到本地的Git仓库，最后有网络的时候再把本地仓库和远程的主仓库进行同步即可。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git.jpg" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git.jpg" alt></p>
 <a id="more"></a> 
 
 <h3 id="1-基本原理"><a href="#1-基本原理" class="headerlink" title="1. 基本原理"></a>1. 基本原理</h3><p> Git 究竟是怎样的一个系统呢？ 若你理解了 Git 的思想和基本工作原理，用起来就会知其所以然，游刃有余。本质上，Git是一套内容寻址（content-addressable）文件系统，而和我们直接接触的Git界面，只不过是封装在其之上的一个应用层。这个关系颇有点类似于计算机网络中应用层和底层的关系。在Git中，那些和应用层相关的命令（也就是我们最常用的命令，如git commit、 git push等），我们称之为porcelain命令（瓷器之意，意为成品、高级命令）；而和底层相关的命令（几乎不会在日常中使用，如git hash-object、git update-index等），则称之为plumbing命令（管道之意，是连接git应用界面和git底层实现的一个管道，类似于shell，底层命令）。想要了解Git的底层原理，其实一种高效的学习方式，就是假设自己要设计一套版本管理系统，该怎么设计呢。在思考一定的程度后，再去学习Git的原理，一定会有所收获。在开始学习 Git 之前，我们先来了解一下Git的对象模型</p>
@@ -559,9 +559,9 @@
 <li><strong>Tag标签对象：</strong>Git中的标签与分支类似，都是指向某一个commit提交对象的引用或者说指针。</li>
 </ul>
 <p>说了这么多，那么在使用master分支，把代码提交到本地仓库后，本地仓库中，git对象是怎么样的拓扑结构呢。我们看下图，会发现最终所有的对象都指向了HEAD。分支master指向的是一个最新提交的commit对象的ID，每个commit代表的是一次提交，这样设计就非常巧妙了，既然可以从任意提交开始建立一条历史追踪链，用一个文件指向这个链条的最新提交，那么这个文件就可以用于追踪整个提交历史了。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git1.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git1.png" alt></p>
 <h2 id="3-Git的目录结构"><a href="#3-Git的目录结构" class="headerlink" title="3. Git的目录结构"></a>3. Git的目录结构</h2><p>实际上我们Git的本地仓库就是一个文件夹。但是为什么这些文件夹就是Git仓库呢？这是因为Git在初始化的时候会生成一个.git的文件夹，而Git进行版本控制所需要的文件，则都放在这个文件夹中。git init命令相信大家都比较熟悉，使用这个命令就可以把本地文件夹初始化成为一个Git的本地仓库。然后在文件夹中会多出一个.git的文件，默认情况下.git文件夹是隐藏的。在设置中显示隐藏文件夹，就可以到里面一看究竟了。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git2.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git2.png" alt></p>
 <p>上图就是.git文件夹中的目录结构。下面来看一下每个目录的作用</p>
 <ul>
 <li><strong>config文件</strong>：该文件主要记录针对该项目的一些配置信息，这里将写入远程URL，比如你的邮箱、用户名等，通过git remote add命令增加的远程分支的信息就保存在这里；</li>
@@ -587,12 +587,12 @@
 =&gt; 
 =&gt; add branch paramter for rebase</code></pre><p>从上面的内容，我们知道了分支指向了一次提交。当我们提交新的commit，这个分支的指向只需要跟着更新就可以了，而创建分支仅仅是创建一个指针。</p>
 <h2 id="5-Git常用命令详解"><a href="#5-Git常用命令详解" class="headerlink" title="5. Git常用命令详解"></a>5. Git常用命令详解</h2><p>以下对几个git命令进行介绍，重点在于对这些命令的基本使用的普及，包括：git clone、git commit、git reset、git reverse和git add。大多数情况下，我们在开发中小型项目的时候，如果团队成员不是很多，则只需要开一个分支就够了。在这种情况下，只要你操作规范，在push之前注意pull最新的代码，则基本不会出现比较严重的冲突或者问题，这时候以上命令基本都用不上，但是在多分支的情况下，我们可能会使用以上的命令来进行分支合并或者版本回退等，因此，我们有必要对这些命令做一个简单的了解，知道在什么时候去使用它们。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git3.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git3.png" alt></p>
 <p>在 git 中分为两种类型的命令，一种是完成底层工作的工具集，称为底层命令，另一种是对用户更友好的高层命令。一条高层命令，往往是由多条底层命令组成的。git常用的高层命令如下</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git5.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git5.png" alt></p>
 <p>下面分别对一些常用命令加以说明</p>
 <h3 id="Git-reset"><a href="#Git-reset" class="headerlink" title="Git reset"></a>Git reset</h3><p>在使用Git的过程中。某些时候，当你不小心改错了内容，或者错误地在本地commit了某些本不该提交的修改，我们就需要进行版本的回退。版本回退最常用的命令包括<code>git reset</code>和<code>git revert</code>。这两个命令允许我们在版本的历史之间穿梭。<code>git reset</code> 命令是用来将当前 branch 重置到另外一个 commit 的，这个动作可能同时影响到 index 以及 work directory。先举个例子，来一个感性的认识。现在有一个hotfix分支。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git6.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git6.png" alt></p>
 <p>在执行下面这两条命令让 hotfix分支向后回退两个提交。上图就是命令执行前后，分支状态的对比。</p>
 <pre class=" language-shell"><code class="language-shell">git checkout hotfix
 git reset HEAD~2</code></pre>
@@ -604,10 +604,10 @@ git reset HEAD~2</code></pre>
 </ul>
 <p>使用revert HEAD是撤销最近的一次提交，如果你最近一次提交是用revert命令产生的，那么你再执行一次，就相当于撤销了上次的撤销操作，换句话说，你连续执行两次revert HEAD命令，就跟没执行是一样的。git revert 命令的好处就是不会丢掉别人的提交，即使你撤销后覆盖了别人的提交，他更新代码后，可以在本地用 reset 向前回滚，找到自己的代码，然后拉一下分支，再回来合并上去就可以找回被你覆盖的提交了。</p>
 <h3 id="Git-fork"><a href="#Git-fork" class="headerlink" title="Git fork"></a>Git fork</h3><p>Git fork不是一个Git命令，而是一种工作流。它不是使用单个服务端仓库作为中央代码基线，而让各个开发者都有一个服务端仓库。Fork工作流的主要优点在于贡献可以轻易地整合进项目，而不需要每个人都推送到单一的中央仓库。开发者推送到他们 自己的 服务端仓库，只有项目管理者可以推送到官方仓库。这使得管理者可以接受任何开发者的提交，却不需要给他们中央仓库的权限。结论是，这种分布式的工作流为大型、组织性强的团队（包括不可信的第三方）提供了安全的协作方式。它同时也是开源项目理想的工作流。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git7.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git7.png" alt></p>
 <h3 id="Git-Add-amp-Commit"><a href="#Git-Add-amp-Commit" class="headerlink" title="Git Add &amp; Commit"></a>Git Add &amp; Commit</h3><p>add 和 commit 应该可以说是我们使用频率最高的高层命令了。<code>git add</code>不加参数默认为将修改操作的文件和未跟踪新添加的文件添加到git系统的暂存区，注意不包括删除。每当将修改的文件加入到暂存区，git 都会根据文件的内容计算出 sha-1，并将内容转换成 blob，写入数据库。然后使用 sha-1 值更新该列表中的文件项。在暂存区的文件列表中，每一个文件名，都会对应一个sha-1值，用于指向文件的实际内容。最后提交的那一刻，git会将这个列表信息转换为项目的快照，也就是 tree 对象。写入数据库，并再构建一个commit对象，写入数据库。然后更新分支指向。</p>
 <h3 id="Git-Conflicts"><a href="#Git-Conflicts" class="headerlink" title="Git Conflicts"></a>Git Conflicts</h3><p>在使用Git提交文件时，不可避免的会产生冲突。解决冲突成为我们必须要面对的事情，要解决冲突，首先要明白冲突是怎么产生的。下面就来了解一下Git中文件冲突是怎么来的</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git8.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git8.png" alt></p>
 <p>图上的情况，并不是移动分支指针就能解决问题的，它需要一种合并策略。首先，需要明确的是谁和谁的合并，是 2，3 与 4，5，6的合并吗？说到分支，我们总会联想到线，就会认为是线的合并，这只是一种感性的认知。而事实上并不是这样的，真实合并的版本是 3 和 6。因为每一次提交都包含了项目完整的快照，即合并只是 tree 与 tree 的合并。我们可以先想一个简单的算法。用来比较3和6。但是我们还需要一个比较的标准，如果只是3和6比较，那么3与6相比，添加了一个文件，这无法确切表示当前的冲突状态。因此我们选取他们的两个分支的分歧点（merge base）作为参考点，也就是版本1，进行比较。首先把版本1、版本3、版本6中所有的文件做一个列表，然后依次遍历这个列表中的文件。现在我们拿列表中的一个文件进行举例。当版本3和版本6分别和版本1进行比较时会出现下面三种情况：</p>
 <ul>
 <li>版本1、版本3、版本6的 sha-1 值完全相同，这种情况表明没有冲突，可以正常合并</li>
@@ -615,16 +615,16 @@ git reset HEAD~2</code></pre>
 <li>版本3或版本6都与版本1的状态不同，情况复杂一些，自动合并策略很难生效，需要手动解决冲突了。</li>
 </ul>
 <h3 id="Merge"><a href="#Merge" class="headerlink" title="Merge"></a>Merge</h3><p>在解决完冲突后，我们可以将修改的内容提交为一个新的提交，这就是 merge。<code>git merge</code> 用来做分支合并，将其他分支中的内容合并到当前分支中。运行<code>git-merge</code>时含有大量的未commit文件很容易让你陷入困境，这将使你在冲突中难以回退。因此非常不鼓励在使用<code>git-merge</code>时存在未commit的文件，建议使用<code>git-stash</code>命令将这些未commit文件暂存起来，并在解决冲突以后使用<code>git stash pop</code>把这些未commit文件还原出来。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git9.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git9.png" alt></p>
 <p>可以看到 merge 是一种不修改分支历史提交记录的方式，这也是我们常用的方式。但是这种方式在某些情况下使用 起来不太方便，比如当我们创建了 pr、mr 或者 将修改补丁发送给管理者，管理者在合并操作中产生了冲突，还需要去解决冲突，这无疑增加了他人的负担，使用 rebase 可以解决这种问题。</p>
 <h3 id="Rebase"><a href="#Rebase" class="headerlink" title="Rebase"></a>Rebase</h3><p>rebase在git中是一个非常有魅力的命令，使用得当会极大提高自己的工作效率；相反，如果乱用，会给团队中其他人带来麻烦。它的作用简要概括为：可以对某一段线性提交历史进行编辑、删除、复制、粘贴；因此，合理使用rebase命令可以使我们的提交历史干净、简洁！假设我们的分支结构如下：</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git10.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git10.png" alt></p>
 <p>rebase 会把从 Merge Base 以来的所有提交，以补丁的形式一个一个重新达到目标分支上。这使得目标分支合并该分支的时候会直接 Fast Forward，即不会产生任何冲突。提交历史是一条线，这对强迫症患者可谓是一大福音。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git11.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git11.png" alt></p>
 <h3 id="Checkout"><a href="#Checkout" class="headerlink" title="Checkout"></a>Checkout</h3><p>对于 checkout，我们一般不会陌生。因为使用它的频率非常高，经常用来切换分支、或者切换到某一次提交。这里我们以切换分支为例，从 git 的工作区、暂存区、本地仓库分别来看 checkout 所做的事情。Checkout 前的状态如下：</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git12.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git12.png" alt></p>
 <p>首先 checkout 找到目标提交（commit），目标提交中的快照也就是 tree 对象就是我们要检出的项目版本。<br>checkout 首先根据tree生成暂存区的内容，再根据 tree 与其包含的 blob 转换成我们的项目文件。然后修改 HEAD 的指向，表示切换分支。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git13.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git13.png" alt></p>
 <p>可以看到 checkout 并没有修改提交的历史记录。只是将对应版本的项目内容提取出来。</p>
 <h3 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h3><p>有时，我们在一个分支上做了一些工作，修改了很多代码，而这时需要切换到另一个分支干点别的事。但又不想将只做了一半的工作提交。在曾经这样做过，将当前的修改做一次提交，message 填写 half of work，然后切换另一个分支去做工作，完成工作后，切换回来使用 reset —soft 或者是 commit amend。Git 为了帮我们解决这种需求，提供了 stash 命令。stash 将工作区与暂存区中的内容做一个提交，保存起来，然后使用reset hard选项恢复工作区与暂存区内容。我们可以随时使用 stash apply 将修改应用回来。<code>git stash</code>（git储藏）可用于以下情形：</p>
 <ul>
@@ -633,7 +633,7 @@ git reset HEAD~2</code></pre>
 <li>经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是<code>git stash</code>命令。储藏(stash)可以获取你工作目录的中间状态——也就是你修改过的被追踪的文件和暂存的变更——并将它保存到一个未完结变更的堆栈中，随时可以重新应用。</li>
 </ul>
 <p>stash 实现思路将我们的修改提交到本地仓库，使用特殊的分支指针（.git/refs/stash）引用该提交，然后在恢复的时候，将该提交恢复即可。我们可以更进一步，看看 stash 做的提交是什么样的结构。</p>
-<p><img src="/2019/02/14/git-de-yuan-li/git14.png" alt></p>
+<p><img src="/blogs/2019/02/14/git-de-yuan-li/git14.png" alt></p>
 <p>当你多次使用git stash命令后，你的栈里将充满了未提交的代码，这时候你会对将哪个版本应用回来有些困惑，这时git stash list命令可以将当前的Git栈信息打印出来，你只需要将找到对应的版本号，例如使用 git stash apply stash@{1} 就可以将你指定版本号为stash@{1}的暂存内容取出来，当你将所有的栈都应用回来的时候，可以使用git stash clear来将栈清空。stash是本地的，不会通过<code>git push</code>命令上传到git server上。</p>
 
             </div>
@@ -650,7 +650,7 @@ git reset HEAD~2</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" rel="external nofollow noreferrer">John Doe</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -660,7 +660,7 @@ git reset HEAD~2</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2019/02/14/git-de-yuan-li/">http://yoursite.com/2019/02/14/git-de-yuan-li/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/2019/02/14/git-de-yuan-li/">https://lushunjian.gitee.io/blogs/2019/02/14/git-de-yuan-li/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -673,7 +673,7 @@ git reset HEAD~2</code></pre>
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
                     !
                 </span>
             </div>
@@ -1380,7 +1380,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            <a href="https://lushunjian.gitee.io/blogs" target="_blank">John Doe</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
