@@ -1,0 +1,1652 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="java并发编程-JVM架构与GC, 一寸灰">
+    <meta name="description" content="作为一名Java开发者，掌握JVM的体系结构也是很有必要的，了解底层的东西，有助于更好的理解和掌握程序运行中的原理。JVM是Java Virtual Machine（Java虚拟机）的缩写，JVM是一种用于计算设备的规范，它是一个虚构出来的">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>java并发编程-JVM架构与GC | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">java并发编程-JVM架构与GC</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                <span class="chip bg-color">并发编程</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-04-13
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>作为一名Java开发者，掌握JVM的体系结构也是很有必要的，了解底层的东西，有助于更好的理解和掌握程序运行中的原理。JVM是Java Virtual Machine（Java虚拟机）的缩写，JVM是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。Java虚拟机包括一套字节码指令集、一组寄存器、一个栈、一个垃圾回收堆和一个存储方法域。 JVM屏蔽了与具体操作系统平台相关的信息，使Java程序只需生成在Java虚拟机上运行的目标代码（字节码）,就可以在多种平台上不加修改地运行。JVM在执行字节码时，实际上最终还是把字节码解释成具体平台上的机器指令执行。JVM伴随Java程序的开始而开始，程序的结束而停止。一个Java程序会开启一个JVM进程，一台计算机上可以运行多个程序，也就可以运行多个JVM进程。JVM将线程分为两种：守护线程和普通线程。守护线程是JVM自己使用的线程，比如垃圾回收（GC）就是一个守护线程。普通线程一般是Java程序的线程，只要JVM中有普通线程在执行，那么JVM就不会停止。</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jvm.png" alt></p>
+<a id="more"></a> 
+
+<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><p>JRE由Java API和JVM组成，JVM通过类加载器(Class Loader)加类Java应用，并通过Java API进行执行。</p>
+<p><strong>虚拟机(VM: Virtual Machine)</strong>是通过软件模拟物理机器执行程序的执行器。最初Java语言被设计为基于虚拟机器在而非物理机器，重而实现一次编写，到处运行的目的，尽管这个目标几乎被世人所遗忘。所以，JVM可以在所有的硬件环境上执行Java字节码而无须调整Java的执行模式。</p>
+<p>JVM的基本特性：</p>
+<ul>
+<li><strong>基于栈(Stack-based)的虚拟机</strong>: 不同于Intel x86和ARM等比较流行的计算机处理器都是基于<em>寄存器(register)</em>架构，JVM是<em>基于栈执行的</em>。</li>
+<li><strong>符号引用(Symbolic reference)</strong>: 除基本类型外的所有Java类型(类和接口)都是通过符号引用取得关联的，而非显式的基于内存地址的引用。</li>
+<li><strong>垃圾回收机制</strong>: 类的实例通过用户代码进行显式创建，但却通过垃圾回收机制自动销毁。</li>
+<li><strong>通过明确清晰基本类型确保平台无关性</strong>: 像C/C++等传统编程语言对于int类型数据在同平台上会有不同的字节长度。JVM却通过明确的定义基本类型的字节长度来维持代码的平台兼容性，从而做到平台无关。</li>
+<li><strong>网络字节序(Network byte order)</strong>: Java class文件的二进制表示使用的是基于网络的字节序(network byte order)。为了在使用小端(little endian)的Intel x86平台和在使用了大端(big endian)的RISC系列平台之间保持平台无关，必须要定义一个固定的字节序。JVM选择了网络传输协议中使用的网络字节序，即基于大端(big endian)的字节序。</li>
+</ul>
+<p>Sun 公司开发了Java语言，但任何人都可以在遵循JVM规范的前提下开发和提供JVM实现。所以目前业界有多种不同的JVM实现，包括Oracle Hostpot JVM和IBM JVM。Google公司使用的Dalvik VM也是一种JVM实现，尽管其并未完全遵循JVM规范。与基于栈机制的Java 虚拟机不同的是Dalvik VM是基于寄存器的，Java 字节码也被转换为Dalvik VM使用的寄存器指令集。</p>
+<h2 id="JRE、JDK和JVM的关系"><a href="#JRE、JDK和JVM的关系" class="headerlink" title="JRE、JDK和JVM的关系"></a>JRE、JDK和JVM的关系</h2><ol>
+<li>*<em>JRE（Java Runtime Environment， Java运行环境）: *</em>是Java的运行环境，所有的程序都要在JRE下才能够运行。包括JVM和Java核心类库和支持文件。</li>
+<li>*<em>JDK（Java Development Kit，Java开发工具包）: *</em>用来编译、调试Java程序的开发工具包。包括Java工具（javac/java/jdb等）和Java基础的类库（java API ）。</li>
+<li><strong>JVM（Java Virtual Machine， Java虚拟机）：</strong>是JRE的一部分。JVM主要工作是解释自己的指令集（即字节码）并映射到本地的CPU指令集和OS的系统调用。Java语言是跨平台运行的，不同的操作系统会有不同的JVM映射规则，使之与操作系统无关，完成跨平台性。</li>
+</ol>
+<p>使用JDK（调用JAVA API）开发JAVA程序后，通过JDK中的编译程序（javac）将Java程序编译为Java字节码，在JRE上运行这些字节码，JVM会解析并映射到真实操作系统的CPU指令集和OS的系统调用。下图表示了JDK、JRE和JVM三者间的关系：</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/javas.png" alt></p>
+<h2 id="JVM架构"><a href="#JVM架构" class="headerlink" title="JVM架构"></a>JVM架构</h2><p>JVM被分为三个主要的子系统：（1）类加载器子系统（2）运行时数据区（3）执行引擎</p>
+<h3 id="类装载子系统"><a href="#类装载子系统" class="headerlink" title="类装载子系统"></a>类装载子系统</h3><p>在JAVA虚拟机中，负责查找并装载类型的那部分被称为类装载子系统。JAVA虚拟机有两种类装载器：启动类装载器和用户自定义类装载器。前者是JAVA虚拟机实现的一部分，后者则是Java程序的一部分。由不同的类装载器装载的类将被放在虚拟机内部的不同命名空间中。类装载器子系统涉及Java虚拟机的其他几个组成部分，以及几个来自java.lang库的类。比如，用户自定义的类装载器是普通的Java对象，它的类必须派生自java.lang.ClassLoader类。ClassLoader中定义的方法为程序提供了访问类装载器机制的接口。此外，对于每一个被装载的类型，JAVA虚拟机都会为它创建一个java.lang.Class类的实例来代表该类型。和所有其他对象一样，用户自定义的类装载器以及Class类的实例都放在内存中的堆区，而装载的类型信息则都位于方法区。类装载器子系统除了要定位和导入二进制class文件外，还必须负责验证被导入类的正确性，为类变量分配并初始化内存，以及帮助解析符号引用。类加载系统主要分为三个部分，而且类的加载动作必须严格按以下顺序进行：</p>
+<p><strong>装载：</strong>装载过程负责找到二进制字节码并加载至JVM中，JVM通过类名、类所在的包名通过ClassLoader来完成类的加载，同样，也采用以上三个元素来标识一个被加载了的类：类名+包名+ClassLoader实例ID，因此不同类加载器加载相同的类是不同的。有继承，将先在加载父类。</p>
+<p><strong>连接：</strong>链接过程负责对二进制字节码的格式进行：校验、解析类中调用的接口、类。校验是防止不合法的.class文件，然后 对类中的所有属性、调用方法进行解析，以确保其需要调用的属性、方法存在，以及具备应的权限（例如public、private域权限等），会造成NoSuchMethodError、NoSuchFieldError等错误信息。</p>
+<ul>
+<li><strong>验证：</strong>确保被导入类型的正确性。（java可以自定义安全策略等）</li>
+<li><strong>准备：</strong>为类的静态变量分配内存，并将其初始化为默认值</li>
+<li><strong>解析：</strong>把类中的符号引用转化为直接引用</li>
+</ul>
+<p><strong>初始化：</strong>初始化过程即为执行类中的静态初始化代码、构造器代码以及静态属性的初始化。在四种情况下初始化过程会被触发执行。1.调用了new；2.反射调用了类中的方法；3.子类调用了初始化（先执行父类静态代码和静态成员，再执行子类静态代码和静态变量，然后调用父类构造器，最后调用自身构造器。）；4. JVM启动过程中指定的初始化类。 类加载系统使用双亲委派模型来确保每个类被正确的加载。每个类装载器都有自己的命名空间，其中维护着由它装载的类型。所以一个Java程序可以多次装载具有同一个全限定名的多个类型。这样一个类型的全限定名就不足以确定在一个Java虚拟机中的唯一性。因此，当多个类装载器都装载了同名的类型时，为了惟一地标识该类型，还要在类型名称前加上装载该类型（指出它所位于的命名空间）的类装载器标识。</p>
+<h2 id="运行时数据区"><a href="#运行时数据区" class="headerlink" title="运行时数据区"></a>运行时数据区</h2><p>运行时数据区域被划分为五个主要组件：</p>
+<p><strong>Java堆（Heap）：</strong> 对于大多数应用来说，Java堆（Java Heap）是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。 Java堆是垃圾收集器管理的主要区域，因此很多时候也被称做GC堆。如果从内存回收的角度看，由于现在收集器基本都是采用的分代收集算法。根据Java虚拟机规范的规定，Java堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可，就像我们的磁盘空间一样。在实现时，既可以实现成固定大小的，也可以是可扩展的，不过当前主流的虚拟机都是按照可扩展来实现的（通过-Xmx和-Xms控制）。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出OutOfMemoryError异常。</p>
+<p><strong>Java堆（Heap）：</strong>方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。每个JVM只有一个方法区，它是一个共享的资源。根据Java虚拟机规范的规定，当方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。 </p>
+<p><strong>程序计数器（Program Counter Register）：</strong>程序计数器（Program Counter Register）是一块较小的内存空间，它的作用可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里（仅是概念模型，各种虚拟机可能会通过一些更高效的方式去实现），字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 此内存区域是唯一一个在Java虚拟机规范中没有规定任何OutOfMemoryError情况的区域。</p>
+<p><strong>JVM栈（JVM Stacks）：</strong>与程序计数器一样，Java虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型：每个方法被执行的时候都会同时创建一个栈帧（Stack Frame）用于存储局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程。栈帧被分为三个子实体</p>
+<ul>
+<li><strong>局部变量数组：</strong>  包含多少个与方法相关的局部变量并且相应的值将被存储在这里。</li>
+<li><strong>操作数栈：</strong>  如果需要执行任何中间操作，操作数栈作为运行时工作区去执行指令。</li>
+<li><strong>帧数据：</strong> 方法的所有符号都保存在这里。在任意异常的情况下，catch块的信息将会被保存在帧数据里面。</li>
+</ul>
+<p><strong>本地方法栈（Native Method Stacks）：</strong>本地方法栈（Native Method Stacks）与虚拟机栈所发挥的作用是非常相似的，其区别不过是虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，而本地方法栈则是为虚拟机使用到的Native方法服务。虚拟机规范中对本地方法栈中的方法使用的语言、使用方式与数据结构并没有强制规定，因此具体的虚拟机可以自由实现它。甚至有的虚拟机（譬如Sun HotSpot虚拟机）直接就把本地方法栈和虚拟机栈合二为一。与虚拟机栈一样，本地方法栈区域也会抛出StackOverflowError和OutOfMemoryError异常。</p>
+<h2 id="执行引擎"><a href="#执行引擎" class="headerlink" title="执行引擎"></a>执行引擎</h2><p>执行引擎在执行Java代码时候可能会有解释执行和编译执行两种选择，也可能两者兼备，甚至还可能会包含几个不同级别的编译器执行引擎。</p>
+<ol>
+<li>解释执行：解释器能快速的解释字节码，但执行却很慢。 解释器的缺点就是,当一个方法被调用多次，每次都需要重新解释。</li>
+<li>编译执行：JIT编译器消除了解释器的缺点。执行引擎利用解释器转换字节码，但如果是重复的代码则使用JIT编译器将全部字节码编译成本机代码。本机代码将直接用于重复的方法调用，这提高了系统的性能。</li>
+</ol>
+<p>当主流的虚拟机中都包含了即时编译器后，Class文件中的代码到底会被解释执行还是编译执行，只有虚拟机自己才能准确判断。Javac编译器完成了程序代码经过词法分析、语法分析到抽象语法树，再遍历语法树生成线性的字节码指令流的过程。因为这一动作是在Java虚拟机之外进行的，而解释器在虚拟机的内部，所以Java程序的编译是半独立的实现。Java程序最初是通过解释器进行解释执行的，当虚拟机发现某个方法或代码块的运行特别频繁，就会把这些代码认定为“热点代码”（Hot Spot Code）。为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化，完成这个任务的编译器成为即时编译器（Just In Time Compiler，JIT编译器）当程序需要快速启动和执行时，解释器首先发挥作用，省去编译的时间，立即执行当程序运行后，随着时间的推移，编译器逐渐发挥作用，把越来越多的代码编译成本地代码，可以提高执行效率如果内存资源限制较大（部分嵌入式系统），可以使用解释执行节约内存，反之可以使用编译执行来提升效率。同时编译器的代码还能退回成解释器的代码。编译器主要分为四个部分，分别如下：</p>
+<ul>
+<li><strong>中间代码生成器：</strong> 生成中间代码</li>
+<li><strong>代码优化器：</strong> 负责优化上面生成的中间代码</li>
+<li><strong>目标代码生成器：</strong>负责生成机器代码或本机代码</li>
+<li><strong>探测器(Profiler)：</strong> 一个特殊的组件，负责寻找被多次调用的方法。</li>
+</ul>
+<p>执行引擎中最频繁的就是方法调用，方法调用的主要任务就是确定被调用方法的版本(即调用哪一个方法),该过程不涉及方法具体的运行过程.按照调用方式共分为两类:</p>
+<ol>
+<li>解析调用时是静态的过程,在编译期间就完全确定目标方法。</li>
+<li>分派调用则即可能是静态,也可能是动态的,根据分派标准可以分为单分派和多分派。两两组合有形成了静态单分派、静态多分派、动态单分派、动态多分派</li>
+</ol>
+<p>简单理解来说静态分派的典型应用是方法的重载，动态分派的典型应用是方法的重写。至于单分派和多分派就是方法的接收者与方法的参数统称为方法的宗量。根据分派基于多少种宗量，可以将分派划分为单分派和多分派两种。单分派是根据一个宗量对目标方法进行选择，多分派则是根据多于一个宗量对目标方法进行选择。至此，除了垃圾回收器，JVM的各个部分基本都说到了，下面将着重了解垃圾收集器，它是一个重要的组件，正是由于它的存在才使得Java开发者不用像C++开发者那样去管理令人头皮发麻的运行时内存，同时它也是JVM调优的重要阵地。下图是整个JVM的架构图</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jvmjg.png" alt></p>
+<h2 id="对象的内存分布"><a href="#对象的内存分布" class="headerlink" title="对象的内存分布"></a>对象的内存分布</h2><p>在 HotSpot 虚拟机中，分为 3 块区域：对象头(Header)、实例数据(Instance Data)和对齐填充(Padding)</p>
+<ol>
+<li>对象头(Header)：包含两部分，第一部分用于存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等，32 位虚拟机占 32 bit，64 位虚拟机占 64 bit。官方称为 Mark Word。第二部分是类型指针，即对象指向它的类的元数据指针，虚拟机通过这个指针确定这个对象是哪个类的实例。另外，如果是 Java 数组，对象头中还必须有一块用于记录数组长度的数据，因为普通对象可以通过 Java 对象元数据确定大小，而数组对象不可以。</li>
+<li><code>实例数据(Instance Data)</code>：程序代码中所定义的各种类型的字段内容(包含父类继承下来的和子类中定义的)。</li>
+<li><code>对齐填充(Padding)</code>：不是必然需要，主要是占位，保证对象大小是某个字节的整数倍。</li>
+</ol>
+<p>当对象被创建了后，Java程序需要通过栈上的reference引用来操作堆上的具体对象。由于reference类型在Java虚拟机规范中只规定了一个指向对象的引用，并没有定义这个引用应该通过何种方式去定位、访问堆中的对象的具体位置，所以对象访问方法也是取决于虚拟机的实现而决定的。目前主流的访问方式有 <strong>句柄访问</strong> 和 <strong>指针访问</strong> 两种。</p>
+<p><strong>句柄访问：</strong>Java 堆中会分配一块内存作为句柄池。reference 存储的是句柄地址。详情见图。</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jbfw.png" alt></p>
+<p><strong>指针访问：</strong>reference 中直接存储对象地址</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/zjfw.png" alt></p>
+<p>使用句柄的最大好处是 reference 中存储的是稳定的句柄地址，在对象移动(GC)是只改变实例数据指针地址，reference 自身不需要修改。直接指针访问的最大好处是速度快，节省了一次指针定位的时间开销。如果是对象频繁 GC 那么句柄方法好，如果是对象频繁访问则直接指针访问好。</p>
+<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p>说起垃圾回收（GC），大部分人都把这项技术当做Java语言的伴生产物。事实上，GC的历史比Java久远，早在1960年Lisp这门语言中就使用了内存动态分配和垃圾回收技术。 JAVA GC（Garbage Collection，垃圾回收）机制是区别C++的一个重要特征，C++需要开发者自己实现垃圾回收的逻辑，而JAVA开发者则只需要专注于业务开发，因为垃圾回收这件繁琐的事情JVM已经为我们代劳了，从这一点上来说，JAVA还是要做的比较完善一些。但这并不意味着我们不用去理解GC机制的原理，因为如果不了解其原理，可能会引发内存泄漏、频繁GC导致应用卡顿,甚至出现OOM等问题，因此我们需要深入理解其原理，才能编写出高性能的应用程序，解决性能瓶颈。在Java中垃圾回收主要针对堆区，垃圾收集器在对堆区和方法区进行回收前，首先要确定这些区域的对象哪些可以被回收，哪些暂时还不能回收，这就要用到判断对象是否存活的算法！</p>
+<h4 id="堆区的查找算法"><a href="#堆区的查找算法" class="headerlink" title="堆区的查找算法"></a>堆区的查找算法</h4><p>JVM中判断对象是否存活的算法主要有两种。1. 引用计数法，2. 根搜索算法</p>
+<p><strong>(1) . 引用计数法：</strong>引用计数是垃圾收集器中的早期策略。在这种方法中，堆中每个对象实例都有一个引用计数。当一个对象被创建时，就将该对象实例分配给一个变量，该变量计数设置为1。当任何其它变量被赋值为这个对象的引用时，计数加1（a = b,则b引用的对象实例的计数器+1），但当一个对象实例的某个引用超过了生命周期或者被设置为一个新值时，对象实例的引用计数器减1。任何引用计数器为0的对象实例可以被当作垃圾收集。当一个对象实例被垃圾收集时，它引用的任何对象实例的引用计数器减1。引用计数法的优点是引用计数收集器可以很快的执行，交织在程序运行中。对程序需要不被长时间打断的实时环境比较有利，而缺点也很明显，它不能解决循环引用的问题。</p>
+<p><strong>(2) . 可达性分析</strong>：此算法是从离散数学中的图论引入的，程序把所有的引用关系看作一张图，从一个节点GC ROOT开始，寻找对应的引用节点，找到这个节点以后，继续寻找这个节点的引用节点，当所有的引用节点寻找完毕之后，剩余的节点则被认为是没有被引用到的节点，即无用的节点，无用的节点将会被判定为是可回收的对象。</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/gcroot.png" alt></p>
+<p>根搜索算法的核心在于GC Root，在Java语言中，可作为GC Root的对象包括下面几种：</p>
+<ul>
+<li>虚拟机栈中引用的对象（栈帧中的本地变量表）；</li>
+<li>方法区中类静态属性引用的对象；</li>
+<li>方法区中常量引用的对象；</li>
+<li>本地方法栈中JNI（Native方法）引用的对象。</li>
+</ul>
+<p>无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象的引用链是否可达，判定对象是否存活都与“引用”有关。在Java语言中，将引用又分为强引用、软引用、弱引用、虚引用4种，这四种引用强度依次逐渐减弱。</p>
+<ul>
+<li><strong>强引用：</strong>类似 <code>Object obj = new Object()</code> 这类引用都是强引用，只要强引用还存在，垃圾收集器永远不会回收掉被引用的对象，即使抛出OOM异常。 </li>
+<li><strong>软引用：</strong>用来描述一些还有用但并非必须的对象，只有当JVM内存不足时才会被回收</li>
+<li><strong>弱引用：</strong>也是用来描述非必需对象的，但是它的强度比软引用更弱一些。只要GC,就会立马回收，不管内存是否充足。 </li>
+<li><strong>虚引用：</strong>也叫幽灵引用或幻影引用，是最弱的一种引用关系。可以忽略不计，JVM完全不会在乎虚引用。它唯一的作用就是做一些跟踪记录，辅助finalize函数的使用。</li>
+</ul>
+<h4 id="方法区的查找算法"><a href="#方法区的查找算法" class="headerlink" title="方法区的查找算法"></a>方法区的查找算法</h4><p>方法区存储内容是否需要回收与堆区的判断方法有一些区别。方法区主要回收的内容有：废弃常量和无用的类。对于废弃常量也可通过引用的可达性来判断，但是对于无用的类则需要同时满足下面三个条件：</p>
+<ul>
+<li>该类所有的实例都已经被回收；</li>
+<li>加载该类的<code>ClassLoader</code>已经被回收；</li>
+<li>该类对应的<code>java.lang.Class</code>对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
+</ul>
+<h2 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h2><h5 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h5><p>如它的名字一样，算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，标记完毕后再扫描整个空间中未被标记的对象进行回收。之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其缺点进行改进而得到的。标记-清除算法不需要进行对象的移动，只需对不存活的对象进行处理，在存活对象比较多的情况下极为高效，但由于标记-清除算法直接回收不存活的对象，因此会造成内存碎片。此外空间碎片太多可能会导致，当程序在以后的运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/bj.png" alt></p>
+<h5 id="复制算法（Copying）"><a href="#复制算法（Copying）" class="headerlink" title="复制算法（Copying）"></a>复制算法（Copying）</h5><p>复制算法的提出是为了克服句柄的开销和解决内存碎片的问题。它将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。样使得每次都是对其中的一块进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法的代价是将内存缩小为原来的一半，持续复制长生存期的对象则导致效率降低。</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/fz.png" alt></p>
+<h5 id="标记-整理算法-Mark-compact"><a href="#标记-整理算法-Mark-compact" class="headerlink" title="标记-整理算法(Mark-compact)"></a>标记-整理算法(Mark-compact)</h5><p>复制收集算法在对象存活率较高时就要执行较多的复制操作，效率将会变低。更关键的是，如果不想浪费50%的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中所有对象都100%存活的极端情况，所以在老年代一般不能直接选用这种算法。根据老年代的特点，有人提出了另外一种“标记-整理”（Mark-Compact）算法，标记过程仍然与“标记-清除”算法一样。在清除时不同，在回收不存活的对象占用的空间后，会将所有的存活对象往左端空闲空间移动，并更新对应的指针<strong>。标记-整理算法是在标记-清除算法的基础上，又进行了对象的移动</strong>，因此成本更高，但是却解决了内存碎片的问题</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/bjzl.png" alt></p>
+<h5 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h5><p>GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存活时间短。分代收集（Generational Collection）算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每时每刻都大量的对象创建和死亡，处于新生代的对象可以说是朝生夕死，每次垃圾收集时都有大批对象死去，只有少量存活，适用于复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。堆内存由<strong>年轻代</strong>和<strong>老年代</strong>组成，而年轻代内存又被分成三部分，<strong>Eden空间</strong>、<strong>From Survivor空间</strong>、<strong>To Survivor空间</strong>,默认情况下年轻代按照8:1:1的比例来分配</p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/dui.png" alt></p>
+<h5 id="年轻代（Young-Generation）的回收算法-回收主要以复制算法为主"><a href="#年轻代（Young-Generation）的回收算法-回收主要以复制算法为主" class="headerlink" title="年轻代（Young Generation）的回收算法 (回收主要以复制算法为主)"></a>年轻代（Young Generation）的回收算法 (回收主要以复制算法为主)</h5><ul>
+<li>所有新生成的对象首先都是放在年轻代的。年轻代的目标就是尽可能快速的收集掉那些生命周期短的对象。</li>
+<li>新生代内存按照8:1:1的比例分为一个Eden区和两个Survivor(From，To)区。一个Eden区，两个 Survivor区(一般而言)。大部分对象在Eden区中生成。回收时先将Eden区存活对象复制到From区，然后清空Eden区，当From区也存放满了时，则将Eden区和From区存活对象复制到To区，然后清空Eden和From区，此时From区是空的，然后将From区和To区交换，即保持To区为空， 如此往复。</li>
+<li>当To区不足以存放 Eden和From的存活对象时，就将存活对象直接存放到老年代。若是老年代也满了就会触发一次Full GC(Major GC)，也就是新生代、老年代都进行回收。</li>
+<li>新生代发生的GC也叫做Minor GC，MinorGC发生频率比较高(不一定等Eden区满了才触发)。</li>
+</ul>
+<h5 id="年老代（Old-Generation）的回收算法（回收主要以Mark-Compact为主）"><a href="#年老代（Old-Generation）的回收算法（回收主要以Mark-Compact为主）" class="headerlink" title="年老代（Old Generation）的回收算法（回收主要以Mark-Compact为主）"></a>年老代（Old Generation）的回收算法（回收主要以Mark-Compact为主）</h5><ul>
+<li>在年轻代中经历了N次垃圾回收后仍然存活的对象，就会被放到年老代中。因此，可以认为年老代中存放的都是一些生命周期较长的对象。</li>
+<li>内存比新生代也大很多(大概比例是1:2)，当老年代内存满时触发Major GC即Full GC，Full GC发生频率比较低，老年代对象存活时间比较长，存活率标记高。</li>
+</ul>
+<p>JVM初始分配的堆内存由-Xms指定，默认是物理内存的1/64；JVM最大分配的堆内存由-Xmx指定，默认是物理内存的1/4。默认空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到-Xms的最小限制。因此服务器一般设置-Xms、-Xmx 相等以避免在每次GC 后调整堆的大小。</p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><ul>
+<li><strong>Serial收集器：</strong>串行收集器是最古老，最稳定以及效率高的收集器，可能会产生较长的停顿，只使用<strong>一个线程</strong>去回收。新生代、老年代使用串行回收；<strong>新生代复制算法</strong>、<strong>老年代标记-压缩</strong>；垃圾收集的过程中会Stop The World（服务暂停），可以通过 -XX:+UseSerialGC 来强制指定。</li>
+<li><strong>ParNew收集器：</strong>ParNew收集器其实就是Serial收集器的多线程版本，在多核CPU环境下有着比Serial更好的表现。<strong>新生代并行，老年代串行；</strong>新生代复制算法、老年代标记-压缩，可通过 -XX:+UseParNewGC 来指定使用此收集器，通过 -XX:ParallelGCThreads 来限制线程数量</li>
+<li><strong>Parallel Scavenge收集器：</strong>并行收集器，追求高吞吐量，高效利用CPU。吞吐量一般为99%， 吞吐量= 用户线程时间/(用户线程时间+GC线程时间)。适合后台应用等对交互相应要求不高的场景。是server级别默认采用的GC方式，可用 -XX:+UseParallelGC 来强制指定，用 -XX:ParallelGCThreads=4 来指定线程数。</li>
+<li><strong>Parallel Old收集器：</strong>Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和标记－整理算法。这个收集器是在JDK 1.6中才开始提供。通过 -XX:+UseParallelOldGC 指定。</li>
+<li><strong>CMS收集器：</strong>高并发、低停顿，追求最短GC回收停顿时间，cpu占用比较高，响应时间快，停顿时间短，多核cpu 追求高响应时间的选择。缺点是会产生大量空间碎片、并发阶段会降低吞吐量。通过-XX:+UseConcMarkSweepGC  指定使用CMS收集器；-XX:+CMSFullGCsBeforeCompaction 设置进行几次Full GC后，进行一次碎片整理；-XX:ParallelCMSThreads 设定CMS的线程数量，一般情况约等于可用CPU数量。</li>
+<li><strong>G1收集器：</strong>G1是目前技术发展的最前沿成果之一，HotSpot开发团队赋予它的使命是未来可以替换掉JDK1.5中发布的CMS收集器。与CMS收集器相比G1收集器有以下特点。<strong>空间整合：</strong>G1收集器采用标记整理算法，不会产生内存空间碎片。分配大对象时不会因为无法找到连续空间而提前触发下一次GC。<strong>可预测停顿：</strong>是G1的另一大优势，降低停顿时间是G1和CMS的共同关注点，但G1除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为N毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒，这几乎已经是实时Java（RTSJ）的垃圾收集器的特征了。</li>
+</ul>
+<h2 id="GC触发的条件"><a href="#GC触发的条件" class="headerlink" title="GC触发的条件"></a>GC触发的条件</h2><p>大部分情况下，对象会在新生代的Eden区中分配空间，当Eden区没有足够大小的连续空间来分配给新创建的对象时，JVM将会触发一次Minor GC。在发生Minor GC之前，JVM会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则JVM会查看<code>HandlePromotionFailure</code>设置值是否允许担保失败。若允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者<code>HandlePromotionFailure</code>设置不允许冒险，那这时要改为进行一次Full GC。</p>
+<ul>
+<li><p><strong>Minor GC：</strong>发生在新生代，回收新生代中的垃圾，速度很快但也很频繁</p>
+</li>
+<li><p><strong>Major GC：</strong>发生在老年代，比Minor GC慢10倍以上；通常会伴随一次Minor GC</p>
+</li>
+<li><p><strong>Full GC：</strong>回收所有区域，包括堆内存、方法区（Java 8之前的“永久代”，Java 8开始取代永久代的“元空间”）和直接内存。Full GC因为需要对整个堆进行回收，所以速度慢，工作线程的暂停时间长。而且Full Gc过程会发生stop the world。因此应该尽可能减少Full GC的次数。在对JVM调优的过程中，很大一部分工作就是对于Full GC的调节。有如下原因可能导致Full GC：</p>
+<ol>
+<li><p><strong>老年代空间（Tenured）被写满</strong></p>
+<p>老年代空间只有在新生代对象转入及创建为大对象、大数组时才会出现不足的现象，当执行Full GC后空间仍然不足，则抛出如下错误： java.lang.OutOfMemoryError: Java heap space  为避免以上两种状况引起的FullGC，调优时应尽量做到让对象在Minor GC阶段被回收、让对象在新生代多存活一段时间及不要创建过大的对象及数组。</p>
+</li>
+<li><p><strong>显示的调用System.gc()方法</strong></p>
+<p>此方法的调用是建议JVM进行Full GC,虽然只是建议而非一定,但很多情况下它会触发 Full GC,从而增加Full GC的频率,也即增加了间歇性停顿的次数。强烈影响系建议能不使用此方法就别使用，让虚拟机自己去管理它的内存，可通过通过-XX:+ DisableExplicitGC来禁止RMI（Java远程方法调用）调用System.gc。</p>
+</li>
+<li><p><strong>方法区空间被写满</strong></p>
+<p>JVM规范中运行时数据区域中的方法区，在HotSpot虚拟机中又被习惯称为永久代或者永生区（Java8以后永久代被Metaspace取代，Metaspace使用的是本地内存，而非堆内存），Permanet Generation中存放的为一些class的信息、常量、静态变量等数据，当系统中要加载的类、反射的类和调用的方法较多时，Permanet Generation可能会被占满，在未配置为采用CMS GC的情况下也会执行Full GC。如果经过Full GC仍然回收不了，那么JVM会抛出如下错误信息： java.lang.OutOfMemoryError: PermGen space为避免Perm Gen占满造成Full GC现象，可采用的方法为增大Perm Gen空间或转为使用CMS GC。</p>
+</li>
+<li><p><strong>GC担保失败</strong></p>
+<p>在发生MinorGC前,检查老年代是否有连续空间，如果有连续空间则继续执行，如果没有，则根据设置：XX:-HandlePromotionFailure 指定，如果设置为开启，那么继续检查当前老年代最大可用连续空间大于历次Minor GC的平均晋升大小，如果大于，则进行MinorGC，否则进行FullGC。如果HandlePromotionFailure 不设置直接进行FullGC。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="GC的参数"><a href="#GC的参数" class="headerlink" title="GC的参数"></a>GC的参数</h2><h5 id="堆内存调优"><a href="#堆内存调优" class="headerlink" title="堆内存调优"></a>堆内存调优</h5><p>对于JVM的GC调优有三个重要的核心参数：<strong>-Xms ，–Xmx， –Xss</strong>，其中-Xms –Xmx是堆内存的性能调优参数，一般两个设置是一样的，如果不一样，当Heap不够用，会发生内存抖动。一般都调大这两个参数，程序会启动的快一点，并且两个大小一样。-Xss是对每一个线程栈的性能调优参数,影响堆栈调用的深度。</p>
+<ul>
+<li><strong>-Xms：</strong> 为jvm启动时分配的内存，比如-Xms200m，表示分配200M</li>
+<li><strong>-Xmx：</strong> 为jvm运行过程中分配的最大内存，比如-Xms500m，表示jvm进程最多只能够占用500M内存</li>
+<li><strong>-Xss：</strong> 为jvm启动的每个线程分配的内存大小，默认JDK1.4中是256K，JDK1.5+中是1M</li>
+</ul>
+<p>关于堆内存JVM还提供了更详细的配置参数：</p>
+<ul>
+<li><strong>-XX：NewRatio=4：</strong>设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为4，则年轻代与年老代所占比值为1：4，年轻代占整个堆栈的1/5</li>
+<li><strong>–XX:SurvivorRatio=4：</strong>设置年轻代中Eden区与Survivor区的大小比值。设置为4，则两个Survivor区与一个Eden区的比值为2:4，一个Survivor区占整个年轻代的1/6，也就是From和To各占用了年轻代的1/6。如果分配不合理，Eden太大，这样产生对象很顺利，但是进行GC有一部分对象幸存下来，拷贝到To，空间小，就没有足够的空间，对象会被放在old Generation中。如果Survive空间大，会有足够的空间容纳GC后存活的对象，但是Eden区域小，会被很快消耗完，这就增加了GC的次数。</li>
+<li><strong>–XX:NewSize：</strong>新生代初始化内存的大小(注意：该值需要小于-Xms的值)。</li>
+<li><strong>–XX:MaxNewSize：</strong>新生代可被分配的内存的最大上限(注意：该值需要小于-Xmx的值)。</li>
+<li><strong>-XX:MaxTenuringThreshold=0：</strong>设置垃圾最大年龄。如果设置为0的话，则年轻代对象不经过Survivor区，直接进入年老代。对于年老代比较多的应用，可以提高效率。如果将此值设置为一个较大值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象再年轻代的存活时间，增加在年轻代即被回收的概率。</li>
+</ul>
+<h5 id="永久代调优"><a href="#永久代调优" class="headerlink" title="永久代调优"></a>永久代调优</h5><p>从JDK8开始，永久代(PermGen)的概念被废弃掉了，取而代之的是一个称为Metaspace的存储空间。Metaspace使用的是本地内存，而不是堆内存，也就是说在默认情况下Metaspace的大小只与本地内存大小有关。由于类的元数据可以在本地内存(native memory)之外分配,所以其最大可利用空间是整个系统内存的可用空间。这样，你将不再会遇到OOM错误，溢出的内存会涌入到交换空间。原永久的PermGen空间的状况，这部分内存空间将全部移除。JVM的参数：PermSize 和 MaxPermSize 会被忽略并给出警告（如果在启用时设置了这两个参数）。现在可以通过以下的几个参数对Metaspace进行控制。</p>
+<ul>
+<li><strong>-XX:MetaspaceSize=N：</strong> 这个参数是初始化的Metaspace大小，该值越大触发Metaspace GC的时机就越晚。随着GC的到来，虚拟机会根据实际情况调控Metaspace的大小，可能增加上线也可能降低。在默认情况下，这个值大小根据不同的平台在12M到20M浮动。使用java -XX:+PrintFlagsInitial命令查看本机的初始化参数，-XX:Metaspacesize为21810376B（大约20.8M）。</li>
+<li><strong>-XX:MaxMetaspaceSize=N：</strong>这个参数用于限制Metaspace增长的上限，防止因为某些情况导致Metaspace无限的使用本地内存，影响到其他程序。在本机上该参数的默认值为4294967295B（大约4096MB）。</li>
+<li><strong>-XX:MinMetaspaceFreeRatio=N：</strong>当进行过Metaspace GC之后，会计算当前Metaspace的空闲空间比，如果空闲比小于这个参数，那么虚拟机将增长Metaspace的大小。在本机该参数的默认值为40，也就是40%。设置该参数可以控制Metaspace的增长的速度，太小的值会导致Metaspace增长的缓慢，Metaspace的使用逐渐趋于饱和，可能会影响之后类的加载。而太大的值会导致Metaspace增长的过快，浪费内存。</li>
+<li><strong>-XX:MaxMetasaceFreeRatio=N：</strong>当进行过Metaspace GC之后， 会计算当前Metaspace的空闲空间比，如果空闲比大于这个参数，那么虚拟机会释放Metaspace的部分空间。在本机该参数的默认值为70，也就是70%。</li>
+<li><strong>-XX:MaxMetaspaceExpansion=N：</strong>Metaspace增长时的最大幅度。在本机上该参数的默认值为5452592B（大约为5MB）。</li>
+<li><strong>-XX:MinMetaspaceExpansion=N：</strong>Metaspace增长时的最小幅度。在本机上该参数的默认值为340784B（大约330KB为）。</li>
+</ul>
+<h2 id="回收器选择"><a href="#回收器选择" class="headerlink" title="回收器选择"></a>回收器选择</h2><p>JVM给了三种选择：<strong>串行收集器、并行收集器、并发收集器</strong>，但是串行收集器只适用于小数据量的情况，所以这里的选择主要针对并行收集器和并发收集器。默认情况下，JDK5.0以前都是使用串行收集器，如果想使用其他收集器需要在启动时加入相应参数。JDK5.0以后，JVM会根据当前系统配置进行判断。</p>
+<p>1.吞吐量优先的并行收集器，并行收集器主要以到达一定的吞吐量为目标，适用于科学技术和后台处理等。典型配置：</p>
+<ul>
+<li>java -Xmx3800m -Xms3800m -Xmn2g -Xss128k <strong>-XX:+UseParallelGC -XX:ParallelGCThreads=20</strong><br><strong>-XX:+UseParallelGC</strong>：选择垃圾收集器为并行收集器。此配置仅对年轻代有效。即上述配置下，年轻代使用并发收集，而年老代仍旧使用串行收集。<strong>-XX:ParallelGCThreads=20</strong>：配置并行收集器的线程数，即：同时多少个线程一起进行垃圾回收。此值最好配置与处理器数目相等。</li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseParallelGC -XX:ParallelGCThreads=20 <strong>-XX:+UseParallelOldGC</strong>。<strong>-XX:+UseParallelOldGC</strong>：配置年老代垃圾收集方式为并行收集。JDK6.0支持对年老代并行收集。</li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseParallelGC  <strong>-XX:MaxGCPauseMillis=100</strong>。<strong>-XX:MaxGCPauseMillis=100：</strong>设置每次年轻代垃圾回收的最长时间，如果无法满足此时间，JVM会自动调整年轻代大小，以满足此值。</li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseParallelGC  -XX:MaxGCPauseMillis=100 <strong>-XX:+UseAdaptiveSizePolicy。-XX:+UseAdaptiveSizePolicy：</strong>设置此选项后，并行收集器会自动选择年轻代区大小和相应的Survivor区比例，以达到目标系统规定的最低相应时间或者收集频率等，此值建议使用并行收集器时，一直打开。</li>
+</ul>
+<p>2.响应时间优先的并发收集器，并发收集器主要是保证系统的响应时间，减少垃圾收集时的停顿时间。适用于应用服务器、电信领域等。典型配置：</p>
+<ul>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:ParallelGCThreads=20 <strong>-XX:+UseConcMarkSweepGC  -XX:+UseParNewGC</strong>。<strong>-XX:+UseConcMarkSweepGC</strong>：设置年老代为并发收集。测试中配置这个以后，-XX:NewRatio=4的配置失效了，原因不明。所以，此时年轻代大小最好用-Xmn设置。<br><strong>-XX:+UseParNewGC</strong>:设置年轻代为并行收集。可与CMS收集同时使用。JDK5.0以上，JVM会根据系统配置自行设置，所以无需再设置此值。</li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseConcMarkSweepGC <strong>-XX:CMSFullGCsBeforeCompaction=5 -XX:+UseCMSCompactAtFullCollection</strong>。<br><strong>-XX:CMSFullGCsBeforeCompaction</strong>：由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生“碎片”，使得运行效率降低。此值设置运行多少次GC以后对内存空间进行压缩、整理。<br><strong>-XX:+UseCMSCompactAtFullCollection</strong>：打开对年老代的压缩。可能会影响性能，但是可以消除碎片</li>
+</ul>
+<h2 id="JVM的GC日志解读"><a href="#JVM的GC日志解读" class="headerlink" title="JVM的GC日志解读"></a>JVM的GC日志解读</h2><h5 id="JVM-YoungGeneration下MinorGC日志详解"><a href="#JVM-YoungGeneration下MinorGC日志详解" class="headerlink" title="JVM YoungGeneration下MinorGC日志详解"></a>JVM YoungGeneration下MinorGC日志详解</h5><pre><code>[GC (Allocation Failure) [PSYoungGen:2336K-&gt;288K(2560K)] 8274K-&gt;6418K(9728K), 0.0112926 secs] [Times:user=0.06 sys=0.00, real=0.01 secs]</code></pre><p>PSYoungGen（是新生代类型，新生代日志收集器），2336K表示使用新生代GC前，占用的内存，-&gt;288K表示GC后占用的内存，(2560K)代表整个新生代总共大小。8274K（GC前整个JVM Heap对内存的占用）-&gt;6418K（MinorGC后内存占用总量）(9728K)（整个堆的大小）0.0112926 secs（Minor GC消耗的时间）] [Times: user=0.06 sys=0.00, real=0.01 secs] 用户空间耗时，内核空间耗时，真正的耗时时间。</p>
+<h5 id="JVM的GC日志Full-GC日志每个字段彻底详解"><a href="#JVM的GC日志Full-GC日志每个字段彻底详解" class="headerlink" title="JVM的GC日志Full GC日志每个字段彻底详解"></a>JVM的GC日志Full GC日志每个字段彻底详解</h5><pre><code>[Full GC (Ergonomics) [PSYoungGen: 984K-&gt;425K(2048K)] [ParOldGen:7129K-&gt;7129K(7168K)] 8114K-&gt;7555K(9216K), [Metaspace:2613K-&gt;2613K(1056768K)], 0.1022588 secs] [Times: user=0.56 sys=0.02,real=0.10 secs]
+
+[Full GC (Allocation Failure) [PSYoungGen: 425K-&gt;425K(2048K)][ParOldGen: 7129K-&gt;7129K(7168K)] 7555K-&gt;7555K(9216K), [Metaspace:2613K-&gt;2613K(1056768K)], 0.1003696 secs] [Times: user=0.64 sys=0.03,real=0.10 secs]</code></pre><p>Full GC（表明是Full GC） (Ergonomics) [PSYoungGen:FullGC会导致新生代Minor GC产生]984K-&gt;425K(2048K)[ParOldGen:（老年代GC）7129K（GC前多大）-&gt;7129K（GC后，并没有降低内存占用，因为写的程序不断循环一直有引用）(7168K) （老年代总容量）] 8114K（GC前占用整个Heap空间大小）-&gt;7555K （GC后占用整个Heap空间大小） (9216K) （整个Heap大小，JVM堆的大小）, Metaspace: （java6 7是permanentspace，java8改成Metaspace，类相关的一些信息） 2613K-&gt;2613K(1056768K) （GC前后基本没变，空间很大）], 0.1022588 secs（GC的耗时，秒为单位）[Times: user=0.56 sys=0.02, real=0.10 secs]（用户空间耗时，内核空间耗时，真正的耗时时间）</p>
+<h5 id="Java8中的JVM的MetaSpace"><a href="#Java8中的JVM的MetaSpace" class="headerlink" title="Java8中的JVM的MetaSpace"></a>Java8中的JVM的MetaSpace</h5><p>Metaspace的使用C语言实现的，使用的是OS的空间，Native Memory Space可动态的伸缩，可以根据类加载的信息的情况，在进行GC的时候进行调整自身的大小，来延缓下一次GC的到来。可以设置Metaspace的大小，如果超过最大大小就会OOM，不设置如果把整个操作系统的内存耗尽了出现OOM，一般会设置一个足够大的初始值，安全其间会设置最大值。永久代发生GC有两种情况，类的所有的实例被GC掉，且class load不存。对于元数据空间 简化了GC， class load不存在了就需要进行GC。</p>
+<h2 id="Spring-Boot的JVM参数调优"><a href="#Spring-Boot的JVM参数调优" class="headerlink" title="Spring Boot的JVM参数调优"></a>Spring Boot的JVM参数调优</h2><p>在使用spring boot时涉及到对微服务的JVM参数的调优，在此记录一下。对于spring boot项目调优的方式有两种。由于spring boot可以启动jar包的方式启动服务，因此一种比较通用的配置方式就是在启动服务脚本时配置JVM的参数，脚本如下</p>
+<pre class=" language-shell"><code class="language-shell">java -jar -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC test-0.0.1-SNAPSHOT.jar</code></pre>
+<p>第二种是通过 <code>application.properties</code> 或者 <code>application.yml</code> 文件设置。这里有一篇官方的的关于配置文件的文章，里面有详细的参数配置和注释，<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html#common-application-properties" target="_blank" rel="noopener">SpringBoot项目详细的配置文件修改文档</a>。其中比较重要的有：</p>
+<pre class=" language-properties"><code class="language-properties"><span class="token attr-name">server.tomcat.max-connections</span><span class="token punctuation">=</span><span class="token attr-value">0 # Maximum number of connections that the server accepts and processes at any given time.</span>
+<span class="token attr-name">server.tomcat.max-http-header-size</span><span class="token punctuation">=</span><span class="token attr-value">0 # Maximum size, in bytes, of the HTTP message header.</span>
+<span class="token attr-name">server.tomcat.max-http-post-size</span><span class="token punctuation">=</span><span class="token attr-value">0 # Maximum size, in bytes, of the HTTP post content.</span>
+<span class="token attr-name">server.tomcat.max-threads</span><span class="token punctuation">=</span><span class="token attr-value">0 # Maximum number of worker threads.</span>
+<span class="token attr-name">server.tomcat.min-spare-threads</span><span class="token punctuation">=</span><span class="token attr-value">0 # Minimum number of worker threads.</span></code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/">http://yoursite.com/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                    <span class="chip bg-color">并发编程</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2019-04-13T07-20-00',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/04/23/java-bing-fa-bian-cheng-java-zhong-de-suo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="java并发编程-Java中的锁">
+                        
+                        <span class="card-title">java并发编程-Java中的锁</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在并发编程中，经常遇到多个线程访问同一个 共享资源 ，这时候必须考虑如何维护数据一致性。在JVM中所有线程都共享堆内存的，因此Java中的同步都是针对堆中的对象。一般在Java中所说的锁就是指的内置锁，每个Java对象都可以作为一个实现同步
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-23
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="java并发编程-JMM与JSR133">
+                        
+                        <span class="card-title">java并发编程-JMM与JSR133</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Java平台自动集成了线程以及多处理器技术，这种集成程度比Java以前诞生的计算机语言要厉害很多，该语言针对多种异构平台的平台独立性而使用的多线程技术支持也是具有开拓性的一面，有时候在开发Java同步和线程安全要求很严格的程序时，往往容易混
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-04-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

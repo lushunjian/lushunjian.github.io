@@ -1,0 +1,1701 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="java并发编程-cpu的流水线, 一寸灰">
+    <meta name="description" content="作为程序员，CPU在我们的工作中扮演了核心角色，因此了解处理器内部的工作方式对程序员来说不无裨益。CPU是如何工作的呢？一条指令执行需要多长时间？当我们讨论某个新款处理器拥有12级流水线还是18级流水线，甚至是更深的31级流水线时，这到些都">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>java并发编程-cpu的流水线 | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">java并发编程-cpu的流水线</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                <span class="chip bg-color">并发编程</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-03-30
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>作为程序员，CPU在我们的工作中扮演了核心角色，因此了解处理器内部的工作方式对程序员来说不无裨益。CPU是如何工作的呢？一条指令执行需要多长时间？当我们讨论某个新款处理器拥有12级流水线还是18级流水线，甚至是更深的31级流水线时，这到些都意味着什么呢？应用程序通常会将CPU看作是黑盒子。程序中的指令按照顺序依次进入CPU，执行完之后再按顺序依次从CPU中出来，而内部到底发生了什么，我们通常并不了解。对我们程序员来说，尤其是对做程序性能调优工作的程序员来说，学习CPU内部的细节非常必要。前文讲到过为了尽量利用CPU的资源，使用高速缓存来缓解内存工作速度远小于CPU工作速度的矛盾。那CPU本身对于效率的优化有哪些方式呢？本文仅从软件层面来了解一下CPU的优化手段，至于硬件层面不作阐述。CPU里存在两样优化速度的技术，分别是 ：指令流水线和指令乱序执行。</p>
+<p><img src="/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpus.png" alt></p>
+<a id="more"></a> 
+
+<h2 id="CPU技术发展历史"><a href="#CPU技术发展历史" class="headerlink" title="CPU技术发展历史"></a>CPU技术发展历史</h2><p>从一个非常广的角度来说，X86处理器架构在近35年来并没有变化太多。虽然X86架构被附加了很多新功能，但是最初的设计（包括几乎所有最初的指令集）仍然基本上是完整保留的，即使在最新的处理器上仍然被支持。最初的8086处理器支持14个寄存器，这些寄存器在如今最新的处理器中仍然存在。这14个寄存器中，有4个是通用寄存器：AX，BX，CX和DX；有4个是段寄存器，段寄存器用来辅助指针的实现：代码段(CS)，数据段(DS)，扩展段(ES)和堆栈段(SS)；有4个是索引寄存器，用来指向内存地址：源引用(SI)，目的引用(DI)，基指针(BP)，栈指针(SP)；有1个寄存器包含状态位；最后是最重要的寄存器：指令指针(IP)。指令指针寄存器是一个拥有特殊功能的指针。指令指针的功能是指向将要运行的下一条指令。所有的X86处理器都按照相同的模式运行。首先，根据指令指针指向的地址取得下一条即将运行的指令并解析该指令（译码）。在译码完成后，会有一个指令的执行阶段。有些指令用来从内存读取数据或者向内存写数据，有些指令用来执行计算或者比较等工作。当指令执行完成后，这条指令会通过退出(retire)阶段并将指令指针修改为下一条指令。相较于现今的标准，最初的处理器设计显得太过简单。最初的8086处理器的执行过程可以简述为从当前指令指针取得指令，通过译码，执行最后退出，然后继续从指令指针指向的下一条指令处取得指令。新的处理器增加了新的功能，有些增加了新的指令，有些增加了新的寄存器。我将主要关注和本文主题有关系的改变，这些改变影响了CPU指令执行的流程。其他的一些变化比如虚拟内存或者并行处理虽然都很有意义而且有趣，但是并不在本文主题的范围内。</p>
+<ul>
+<li><p>1971年：世界上第一块微处理器4004在Intel公司诞生了。它出现的意义是划时代的，比起以前的CPU，4004显得很可怜，它是只有2300个晶体管4位CPU，功能相当有限，而且速度还很慢。</p>
+</li>
+<li><p>1978年：Intel公司首次生产出16位的微处理器命名为i8086，同时还生产出与之相配合的数学协处理器i8087，这两种芯片使用相互兼容的指令集。由于这些指令集应用于i8086和i8087，所以人们也把这些指令集统一称之为X86指令集。这就是X86指令集的来历。</p>
+</li>
+<li><p>1982年：指令缓存被加入到处理器中。通过指令缓存，处理器可以一次性从内存读取更多指令并放在指令缓存中，而不用每条指令都从内存中取。指令缓存仅有几个字节大小，只能容纳数条指令，但是因为消除了之后每次取指往返内存和处理器的时间，极大的提高的效率</p>
+</li>
+<li><p>1985年：386处理器引入了数据缓存，而且扩展了指令缓存的设计。数据访存请求通过一次性读取更多的数据放在数据缓存中，从而提升了性能。而且，数据缓存和指令缓存都从几个字节扩大到几千字节。</p>
+</li>
+<li><p>1989年：推出的i486处理器引入了五级流水线。这时，在CPU中不再仅运行一条指令，每一级流水线在同一时刻都运行着不同的指令。这个设计使得i486比同频率的386处理器性能提升了不止一倍。五级流水线中的取指阶段将指令从指令缓存中取出（i486中的指令缓存为8KB）；第二级为译码阶段，将取出的指令翻译为具体的功能操作；第三级为转址阶段，用来将内存地址和偏移进行转换；第四级为执行阶段，指令在该阶段真正执行运算；第五级为退出阶段，运算的结果被写回寄存器或者内存。由于处理器同时运行了多条指令，大大提升了程序运行的性能。</p>
+</li>
+<li><p>1993年：Intel推出了奔腾(Pentium)处理器。由于诉讼问题，Intel无法继续沿用原来的数字编号。因此，用奔腾替代了586作为新款处理器的代号。奔腾处理器相对i486处理器对流水线做出了更多修改。奔腾处理器架构增加了第二条独立的超标量流水线。主流水线工作方式类似于i486，第二条流水线则并行的运行一些较简单的指令，比如说定点算术，而且该流水线能更快的进行该运算。</p>
+</li>
+<li><p>1995年：Intel推出了奔腾Pro(Pentium Pro)处理器。和之前的处理器相比，奔腾Pro采用了完全不同的设计。该处理器采用了诸多新特性以提高性能，包括乱序(Out-of-Order, OOO)执行的部件以及猜测执行。流水线扩展到了12级，而且引入了“超标量流水线”的概念，使得许多指令可以被同时处理。我们稍后将详尽的介绍乱序执行的部件。</p>
+</li>
+<li><p>1995~2002年：乱序执行部件经过了数次重大改进。处理器中加入了更多的寄存器；单指令多数据(Single Instruction Multiple Data, or SIMD)的引入使得一条指令可以进行多组数据运算；现有的缓存变得更大而且引入了新的缓存；有些流水级被拆分成更多流水级，有些流水级被合并，使得更加适合实际的应用。这些改变对整体性能的提升有重要作用，但它们都没有从根本影响数据在处理器中的流动方式。</p>
+</li>
+<li><p>2002年：Intel发布奔腾4处理器引入了超线程技术。乱序执行部件的设计使得指令被执行的速度比处理器能够提供指令的速度更快。因此对于大部分应用，CPU的乱序执行部件在大部分时间处于空闲状态，甚至在高负载的情况下也不能充分利用。为了让指令流能充分的流入乱序执行部件，Intel加入了第二套前端部件（译注：在处理器结构中，前端是指取指，译码，寄存器重命名等模块，经过前端部件的处理后，指令等待发射进入乱序执行部件）。虽然实际上只有一个乱序执行部件，但对于操作系统来说，它能看到两个处理器。前端部件包含两组同样功能的X86寄存器，两个指令译码器根据两个指令指针指向的地址分别处理。所有的指令被一个共享的乱序执行部件执行，但对应用程序来说并不知情。当乱序执行部件执行完成，像之前一样退出流水线后，最终结果返回虚拟的两个处理器。</p>
+</li>
+<li><p>2006年：Intel发布了酷睿(Core)微架构。为了品牌效应，它被称做酷睿2（二总比一好）。令人惊讶的是，处理器频率不升反降，而且超线程也被去掉了。通过降低时钟频率，每一级流水线可以做更多工作。乱序执行部件也被扩展的更宽。各种不同的缓存和队列都相应做的更大。而且处理器被重新设计，以适应双核和四核的共享缓存结构。</p>
+</li>
+<li><p>2008年：Intel开始用酷睿i3, i5, i7的方式来命名新的处理器。新处理器重新引入了超线程。这三个系列的处理器主要区别在于内部缓存大小不同。</p>
+</li>
+</ul>
+<h2 id="CPU指令流水线"><a href="#CPU指令流水线" class="headerlink" title="CPU指令流水线"></a>CPU指令流水线</h2><p>根据之前描述的基础，指令进入流水线，通过流水线处理，从流水线出来的过程，对于我们程序员来说，是比较直观的。对于CPU性能有以下公式：</p>
+<p>处理器性能 = 主频 X IPC</p>
+<p>由上述公式我们可以知道，提高CPU性能要么就提高主频，要么就提高IPC(CPU每一时钟周期内所执行的指令数量)，提升IPC有两种做法，一个是增加单核并行的度，一个是加多几个核。早期一些采用非常简单的指令集的电脑是采用单周期设计的，取指、解码、执行、写回都是放在同一个节拍（周期）内顺序完成此时的 CPI(每条指令执行时所花费的平均时钟周期数）基本上是 1，但是这样设计的效率很低：当取指的时候，其余工位都只能瞎瞪眼等开饭，这样的设计也被称作非流水线化执行。其执行图如下</p>
+<p><img src="/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpu1.png" alt></p>
+<p>因此也可得出一个结论，想要提供CPU的工作效率，就要让CPU在每个时钟周期内尽可能多的执行指令。I486拥有五级流水线。分别是：取指(Fetch)，译码(D1, main decode)，转址(D2, translate)，执行(EX, execute)，写回(WB)。某个指令可以在流水线的任何一级。在理想情况下，流水线级数越多，可同时流水执行的指令数越多，正比增长。这就是推出该问题的理论基础。并行度越大，在宏观上看其实就等效于每一条指令的执行速度都变快了。但现实不是这样理想的。流水的时候，会遇见各种冒险机制（某硬件不支持同时钟周期被多个资源访问，数据依赖或逻辑关系不被满足的情况，跳转指令等），造成流水设计的困难。下面是流水线工作的流程图</p>
+<p><img src="/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpu.png" alt></p>
+<p>流水线是将组合逻辑分割成多个小块，因为每段的关键路径变短了，所以能提高系统主频。同时能让任务以类似并行方式处理，提高硬件模块的利用率，提高系统频率，提高吞吐量。这里可能有些朋友会有疑问，流水线的级数是不是越高，CPU的利用率就越高呢？理想很丰满，现实很骨感。理论上流水线级数越多，每级所花的时间越短，时钟周期就可以设计的越短，指令速度越快，指令平均执行时间也就越短。但实际上，流水线越长，重叠执行的指令就越多，那么发生竞争冲突得可能性就越大，一般来说流水线越长，整体性能越差，而且还有前车之鉴。著名的奔腾四，就是因为流水线过长，而落得个高频低能的名声。而且，拜糟糕的奔腾四所赐， AMD 在那个时代全面超越了 intel，这也是历史上唯一的一小段 AMD 主营 CPU 在性能上完全超越 intel 主营 CPU 的年代。（这个年代持续得不长，就因为酷睿的出世而结束了。）流水线过长对性能没有帮助，只对提升主频有帮助。长流水线能够使你提升主频更容易，所以容易造就高频低能的芯片。另一方面，流水线技术是以空间换时间的技术，如果流水线过长，就需要更多的寄存器来保存流水线中产生的中间结果，对于芯片的制作成本也会有所提升。</p>
+<table>
+<thead>
+<tr>
+<th>主流处理器</th>
+<th>流水线级数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1993年，Pentium</td>
+<td>5级</td>
+</tr>
+<tr>
+<td>1995年，Pentium Pro</td>
+<td>12级</td>
+</tr>
+<tr>
+<td>1999年，ARM9</td>
+<td>5级</td>
+</tr>
+<tr>
+<td>2002年，ARM11</td>
+<td>8级</td>
+</tr>
+<tr>
+<td>2004年，Pentuim4(Prescott)</td>
+<td>31级</td>
+</tr>
+<tr>
+<td>2006年，Core2 Duo(Merom)</td>
+<td>14级</td>
+</tr>
+<tr>
+<td>2008年，Core i7(Nehalem)</td>
+<td>16级</td>
+</tr>
+</tbody></table>
+<h2 id="流水线的冒险思想"><a href="#流水线的冒险思想" class="headerlink" title="流水线的冒险思想"></a>流水线的冒险思想</h2><p>流水线技术之所以能提高性能 究其本质是利用了时间上的并行性，那它让原本应该先后执行的指令在时间上一定程度的并行起来，然而这也会带来一些冲突和矛盾，进而可能引发错误。流水线处理中，由于各个阶段的依赖关系、硬件资源的竞争等原因，会出现操作无法执行的情况。造成流水线故障的原因称为冒险。冒险分为三种：</p>
+<ul>
+<li>结构冒险：如果一条指令需要的硬件部件还在为之前的指令工作，而无法为这条指令提供服务，那就导致了结构冒险。（这里结构是指硬件当中的某个部件）</li>
+<li>数据冒险：由于指令执行所需要的数据还未准备好所引起的冒险情况。当即将执行的指令依赖于还未处理完成的数据时，会导致指令无法立刻开始执行，引发数据冒险。</li>
+<li>控制冒险：如果现在要执行哪条指令，是由之前指令的运行结果决定，而现在那条之前指令的结果还没产生，就导致了控制冒险。</li>
+</ul>
+<h2 id="分支预测"><a href="#分支预测" class="headerlink" title="分支预测"></a>分支预测</h2><p>虽然同一时间，流水线中执行了多条指令，但是分支判断带来的跳转，导致无法正确顺序地载入对应的跳转代码进流水线。如果没有分支预测器，处理器将会等待分支指令通过了指令流水线的执行阶段，才把下一条指令送入流水线的第一个阶段—取指令阶段（fetch stage）或者将后续流水线全部清空。这种技术叫做流水线停顿（pipeline stalled）或者流水线冒泡（pipeline bubbling）或者分支延迟间隙，这个非常影响流水线并行执行的效率。</p>
+<p><img src="/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/branch.png" alt></p>
+<p>为了解决上述问题，流水线中引入了分支预测器来完成分支预测机制。分支预测就是通过预测，把接下来最有可能执行的分支获取进入流水线，就像不存在对比较结果的依赖那样直接执行，这么一来就保持了指令的流畅执行，这也被称为Speculative Execution。不过这种通过预测获取进入流水线的分支终究只是预测分支，实际上不一定是执行这一分支，因此这部分指令的执行结果不应该从流水线中输出。在得到比较结果后，就能知道预测的分支是否为实际应该执行的分支，如果是，流水线中的预测分支指令就能继续执行下去，否则就需要把预测分支的指令排空，重新获取正确分支的指令进入流水线继续执行。 分支预测，可能的方法有很多种。如：分支判断可能的结果是A和B，最差的情况是永远将分支判断的A指令加入流水线，如果真实判断时是A，那就直接执行，如果是B那么再重新加入B也可以，效率能够提高。实际的分支预测中，可能存入很多种方法，也会有固件的模式（Pattern）来适应。如改进上术的分支预判，当有一次实际判断为B时，后面的全部就预判断为B。上面只是简单的介绍一下分支预测的最简单模式，实际现在CPU的分支预测越来越强大，适应的模式越来越多。像AMD的新款Ryzen处理器，已经使用神经网络的机器学习来强化分支预测了。 主流的分支预测器主要有两种：静态预测器（Static Predictor）和动态预测器(Dynamic Predictor)</p>
+<ol>
+<li>静态预测器：预测条件跳转不发生，因此总是顺序取下一条指令推测执行。仅当条件跳转指令被求值确实发生了跳转，则非顺序的代码地址被加载执行。另外一种，则预测条件跳转总会发生，因CPU而异。对于这种静态预测如果产生错误，则惩罚就是清空后续的流水线中的指令。</li>
+<li>动态预测器：基于之前执行的分支信息，处理器对于正在执行的程序所做的决定。比如根据某个分支指令上次是否跳转来预测此次是否跳转。如果上次分支跳转了，则预测此次也会跳转。</li>
+</ol>
+<p>分支预测在很大程度上提高了流水线的运行效率，在明白了CPU的分支预测原理后，对于我们提高代码的运行效率也具有指导意义，通过动态分支预测器我们可以知道本次是否跳转是根据上次的结果来判断的，那么在编写代码时可以通过处理来提高判断的准确率。下面是一个Java例子，通过对一个无序数组和一个有序数组的分支处理，从结果可以看出对有序数组的处理时间明显小于无序数组的处理时间</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">randomTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">SortTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">randomTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> arraySize <span class="token operator">=</span> <span class="token number">32768</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> data<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>arraySize<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        Random rnd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> c <span class="token operator">&lt;</span> arraySize<span class="token punctuation">;</span> <span class="token operator">++</span>c<span class="token punctuation">)</span>
+            data<span class="token punctuation">[</span>c<span class="token punctuation">]</span> <span class="token operator">=</span> rnd<span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">256</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> sum<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">long</span> start <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> arraySize<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">64</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    sum <span class="token operator">+=</span> data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">64</span> <span class="token operator">&amp;&amp;</span> data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">&lt;</span><span class="token number">128</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    sum <span class="token operator">+=</span><span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    sum <span class="token operator">-=</span> data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"random time"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"sum = "</span> <span class="token operator">+</span> sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">SortTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> arraySize <span class="token operator">=</span> <span class="token number">32768</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> data<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>arraySize<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        Random rnd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> c <span class="token operator">&lt;</span> arraySize<span class="token punctuation">;</span> <span class="token operator">++</span>c<span class="token punctuation">)</span>
+            data<span class="token punctuation">[</span>c<span class="token punctuation">]</span> <span class="token operator">=</span> rnd<span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">256</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> sum<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        Arrays<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">long</span> start <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> arraySize<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">64</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    sum <span class="token operator">+=</span> data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">64</span> <span class="token operator">&amp;&amp;</span> data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">&lt;</span><span class="token number">128</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    sum <span class="token operator">+=</span><span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    sum <span class="token operator">-=</span> data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"sort time"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"sum = "</span> <span class="token operator">+</span> sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>执行结果</p>
+<pre><code>random time
+12355
+sum = -460681728
+
+sort time
+2490
+sum = -460681728</code></pre><p>这里把排序时间排除在外了，就算把排序时间算在内，得到的结果仍然是对于排序数组的处理时间仍然小于非排序数组的处理时间，结果如下</p>
+<pre><code>random time
+12355
+sum = -460681728
+
+sort time
+7225
+sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的乱序执行" class="headerlink" title="指令的乱序执行"></a>指令的乱序执行</h2><p>在按序执行中，一旦遇到指令依赖的情况，流水线就会停滞，如果采用乱序执行，就可以跳到下一个非依赖指令并发布它。这样，执行单元就可以总是处于工作状态，把时间浪费减到最少。乱序执行是一种应用在高性能微处理器中来利用指令周期以避免特定类型的延迟消耗的范式。在这种范式中，处理器在一个由输入数据可用性所决定的顺序中执行指令，而不是由程序的原始数据所决定。在这种方式下，可以避免因为获取下一条程序指令所引起的处理器等待，提前处理下一条可以立即执行的指令。其实很多设计思想都来源于生活，只是应用到不同的领域，就有了它的专业术语，让不懂的人觉得很深奥很高大上，在搞明白怎么回事后，会发现其实也没那么难。举个生活中例子，假设晚上下班回家饿了，想煮碗面做宵夜。需要做以下操作：1.洗水锅，2.烧开水，3.煮面条，4.热菜，5，洗碗筷，6.吃面。其中比较耗时的操作就是烧开水了，如果按CPU的流水线顺序处理这些操作，那我们进行到第2步时就只能等水烧好然后才进去后面的步骤，这要做比较符合常规思维，但是太浪费资源了。因为后面的操作不依赖于前面操作的结果，因此我们完全可以在烧水的同时，把菜热好，把碗筷洗干净准备盛面。这就是CPU指令乱序执行</p>
+<p><img src="/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cm.png" alt></p>
+<p>同理类比在CPU的一条流水线中，需要执行多条指令，比如有a,b,c三条指令组成的流水线，执行顺序是a-&gt;b-&gt;c，这三条指令在数据上没有依赖关系，其中b指令需要去主存中读取数据，c指令是为变量分配内存地址，我们知道在CPU在缓存未命中情况下去主存读取数据是比较慢的，因此b指令会占用比较长的时钟周期，而指令c只能干等，这会使程序的执行效率大打折扣。这时指令乱序就会发挥出它的作用了，因为b,c指令没有依赖关系，b,c指令执行顺序调换不会影响最终结果，所以CPU在执行b指令时先会向数据总线发起向主存中读数据的请求，在等待数据加载到CPU的高速缓存期间，会继续执行c指令（注意此时b指令并没有执行完，因为它还没有真正从主存中读到数据），然后再执行继续b指令，这时指令的执行顺序就变成了a-&gt;c-&gt;b。在理解了乱序执行，那么对编码有什么帮助吗？有的，对于开发人员来说，单例模式应该都不陌生，由于频繁创建对象比较浪费资源，就考虑将所有用到某个类的实例时，公用同一个实例，于是就有了单例模式，然而单例模式并不是想象的那么简单。单例模式写法有很多，在保证并发同步的单例模式中，有如下一种写法：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Singleton singleton <span class="token operator">=</span> null<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Singleton <span class="token function">getSingleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>singleton <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 若singleton为空，则加锁，再进一步判空</span>
+            <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>Singleton<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 再判断一次是否为null</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>singleton <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//若为空，则创建一个新的实例</span>
+                    singleton <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> Singleton<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这种写法算是一个考虑比较周全的设计了 为了防止多线程调用产生多个实例，采用了同步锁 ，为了降低多线程竞争锁所带来的性能损耗，使用了两次判断，加锁位置得当，尽可能降低了锁对性能的影响 ，但是这个例子在单线程中没有任何问题，但在多线程中，如果出现指令乱序就会返回错误的结果。上面的单例模式中，出现问题的核心代码只有一行，就是第15行。即  <code>singleton = new Singleton();</code> 因为这行代码不是一个原子操作，他实际上包含三个操作：</p>
+<ol>
+<li>为对象 new Singleton() 分配内存空间</li>
+<li>调用类 Singleton 的构造方法，初始化成员变量</li>
+<li>将变量 singleton 的引用指向Singleton 对象的内存地址</li>
+</ol>
+<p>在这三步中，第2步依赖于第1步，但2和3并没有依赖关系，因此第2步和第3步可能会先指令乱序。即当CPU流水线执行第2步时，由于类的初始化需要的时间比较长，为避免流水线阻塞，CPU会先执行第3步，将singleton 先指向对象的地址，因此线程有可能得到一个不为null，但是构造不完全的对象（对于不完全的对象的理解：即全部变量的初始化没有执行完）。对于这种情况有两种解决方案：</p>
+<p>方案一：使用volatile关键字，在java5以前，volatile原语不怎么强大，只能保证对象的可见性。但在java5之后，volatile语义加强了，被volatile修饰的对象，将禁止该对象上的读写指令重排序这样，就保证了线程B读对象时，已经初始化完全了</p>
+<p>方案二：这也是官方比较推荐的一种方案，利用类加载机制来创建单例模式，不一样的是，它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span><span class="token punctuation">{</span>  
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">SingletonHolder</span><span class="token punctuation">{</span>  
+        <span class="token keyword">public</span> <span class="token keyword">static</span> Singleton instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+
+    <span class="token keyword">private</span> <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>  
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Singleton <span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> SingletonHolder<span class="token punctuation">.</span>instance<span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>  </code></pre>
+<h2 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h2><p>as-if-serial语义的意思指：不管怎么重排序（编译器和处理器为了提高并行度），单线程程序的执行的结果不能被改变。编译器，runtime 和处理器都必须遵守as-if-serial语义。为了遵守as-if-serial语义，编译器和处理器不会对存在数据依赖关系的操作做重排序，因为这种重排序会改变执行结果。但是，如果操作之间不存在数据依赖关系，这些操作可能被编译器和处理器重排序。as-if-serial语义把单线程程序保护了起来，遵守as-if-serial语义的编译器，runtime 和处理器共同为编写单线程程序的程序员创建了一个幻觉：单线程程序是按程序的顺序来执行的（实际上没有依赖的指令会出现重排序，但最终结果与顺序执行的结果一致）。as-if-serial语义使单线程程序员无需担心重排序会 干扰他们，也无需担心内存可见性问题。</p>
+<h2 id="内存屏障（Memory-Barrier-）"><a href="#内存屏障（Memory-Barrier-）" class="headerlink" title="内存屏障（Memory Barrier ）"></a>内存屏障（Memory Barrier ）</h2><p>内存屏障，又称内存栅栏，是一个CPU指令，它有如下特点：1.保证特定操作的执行顺序。2.影响某些数据（或者是某条指令的执行结果）的内存可见性。主要有两个指令：</p>
+<ul>
+<li>Store：将处理器缓存的数据刷新到内存中。</li>
+<li>Load：将内存的数据拷贝到处理器的缓存中。</li>
+</ul>
+<p>编译器和CPU能够重排序指令，保证最终相同的结果，尝试优化性能。插入一条Memory Barrier会告诉编译器和CPU：不管什么指令都不能和这条Memory Barrier指令重排序。Memory Barrier所做的另外一件事是强制刷出各种CPU cache，如一个Write-Barrier（写入屏障）将刷出所有在Barrier之前写入 cache 的数据，因此，任何CPU上的线程都能读取到这些数据的最新版本。java内存模型volatile是基于Memory Barrier实现的。如果一个变量是volatile修饰的，JMM会在写入这个字段之后插进一个Write-Barrier指令，并在读这个字段之前插入一个Read-Barrier指令。这意味着，如果写入一个volatile变量，就可以保证：1.一个线程写入变量a后，任何线程访问该变量都会拿到最新值。2.在写入变量a之前的写入操作，其更新的数据对于其他线程也是可见的。因为Memory Barrier会刷出cache中的所有先前的写入。简单来说内存屏障（Memory Barrier，或内存栅栏，Memory Fence）就是从本地或工作内存到主存之间的拷贝动作。如下图：</p>
+<p><img src="/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/lsx.png" alt></p>
+<p>上面三种颜色的箭头，就是跨越内存栅栏。在多线程并发过程中，仅当写操作线程先跨越内存栅栏而读线程后跨越内存栅栏的情况下，写操作线程所做的变更才对其他线程可见。内存屏障分为以下3类：</p>
+<table>
+<thead>
+<tr>
+<th>屏障名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>写屏障(store barrier)</td>
+<td>所有在写屏障之前的所有执行，都要在该屏障之前执行，并发送缓存失效的信号<br>所有在写屏障之后的store指令，都必须在该屏障之前的指令执行完后再被执行</td>
+</tr>
+<tr>
+<td>读屏障(load barrier)</td>
+<td>所有在读屏障之后的load指令，都在读屏障之后执行</td>
+</tr>
+<tr>
+<td>全屏障(Full Barrier)</td>
+<td>所有在该屏障之前的store/load指令，都在该屏障之前被执行<br>所有在该屏障之后的的store/load指令，都在该屏障之后被执行</td>
+</tr>
+</tbody></table>
+<ol>
+<li>Store barrier，是x86的”<strong>sfence</strong>“指令，强制所有在store屏障指令之前的store指令，都在该store屏障指令执行之前被执行，并把store缓冲区的数据都刷到CPU缓存。这会使得程序状态对其它CPU可见，这样其它CPU可以根据需要介入。</li>
+<li>Load barrier，是x86上的”<strong>ifence</strong>“指令，强制所有在load屏障指令之后的load指令，都在该load屏障指令执行之后被执行，并且一直等到load缓冲区被该CPU读完才能执行之后的load指令。这使得从其它CPU暴露出来的程序状态对该CPU可见，这之后CPU可以进行后续处理。</li>
+<li>Full barrier，是x86上的”<strong>mfence</strong>“指令，复合了load和save屏障的功能。</li>
+</ol>
+<h3 id="原子指令和Software-Locks"><a href="#原子指令和Software-Locks" class="headerlink" title="原子指令和Software Locks"></a>原子指令和Software Locks</h3><p>原子指令，如x86上的”lock …” 指令是一个Full Barrier，执行时会锁住内存子系统来确保执行顺序，甚至跨多个CPU。Software Locks通常使用了内存屏障或原子指令来实现变量可见性和保持程序顺序。对应的在java内存模型的内存屏障分为以下4类：</p>
+<ol>
+<li>StoreStore Barriers：确保Store1数据对其他处理器可见(刷新到内存)，之前于Store2及所有后续存储指令的存储。</li>
+<li>LoadStore Barriers：确保Load1数据装载之前于Store2及所有后续存储指令的存储。</li>
+<li>StoreLoad Barriers：确保Store1数据对其他处理器可见(刷新到内存)之前于Load2及所有后续装载指令的装载。</li>
+<li>LoadLoad Barriers：确保Load1数据的装载，之前于Load2及所有后续装载指令的装载。</li>
+</ol>
+<p>其中比较特殊的是StoreLoad Barriers会使该屏障之前的所有内存访问指令(装载和存储指令)完成之后才执行该屏障之后的内存访问指令，是一个”全能型”的屏障，它同时具有其他三个屏障的效果。内存屏障另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到各个CPU的缓存(lazy型刷新, CPU监听数据总线将缓存数据标记为invalid，用到时再重内存中载入)，这样任何试图读取该数据的线程将得到最新值，而不用考虑到底是被哪个cpu核心或者哪颗CPU执行的。java中的volatile关键字正是使用了内存屏障。如果你的字段是volatile，Java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。内存屏障作为另一个CPU级的指令，没有锁那样大的开销。内核并没有在多个线程间干涉和调度。但凡事都是有代价的。内存屏障的确是有开销的——编译器/cpu不能重排序指令，导致不可以尽可能地高效利用CPU，另外刷新缓存亦会有开销。所以不要以为用volatile代替锁操作就一点事都没有。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/">http://yoursite.com/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                    <span class="chip bg-color">并发编程</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2019-03-30T17-34-59',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="java并发编程-JMM与JSR133">
+                        
+                        <span class="card-title">java并发编程-JMM与JSR133</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Java平台自动集成了线程以及多处理器技术，这种集成程度比Java以前诞生的计算机语言要厉害很多，该语言针对多种异构平台的平台独立性而使用的多线程技术支持也是具有开拓性的一面，有时候在开发Java同步和线程安全要求很严格的程序时，往往容易混
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="java并发编程-cpu的高速缓存">
+                        
+                        <span class="card-title">java并发编程-cpu的高速缓存</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            CPU缓存是CPU一个重要的组成部分，CPU缓存的出现主要是为了解决CPU运算速度与内存读写速度不匹配的矛盾，这种访问速度的显著差异，导致CPU可能会花费很长时间等待数据到来或把数据写入内存，基于此，现在CPU大多数情况下读写都不会直接访问
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-03-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

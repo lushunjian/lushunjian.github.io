@@ -1,0 +1,1664 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="博客个性化配置, 一寸灰">
+    <meta name="description" content="博客搭建好后，总会有一些个性化的想法。比如做网站的访问量统计，文章评论系统，文章分享功能，或是在博客主页放一个音乐播放器，让别人进来浏览博客的同时，还伴随着动听的音乐。大部分博客主题都兼容这些功能，只不过需要自己去配置。下面是我做个性化博客">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>博客个性化配置 | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">博客个性化配置</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/other/">
+                                <span class="chip bg-color">other</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2018-07-08
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>博客搭建好后，总会有一些个性化的想法。比如做网站的访问量统计，文章评论系统，文章分享功能，或是在博客主页放一个音乐播放器，让别人进来浏览博客的同时，还伴随着动听的音乐。大部分博客主题都兼容这些功能，只不过需要自己去配置。下面是我做个性化博客配置时踩的坑，供大家参考参考。</p>
+<h3 id="1-访问量统计"><a href="#1-访问量统计" class="headerlink" title="1 . 访问量统计"></a>1 . 访问量统计</h3><p>访问量统计功能可以用<strong>百度的站长统计</strong>、<strong>leancloud</strong>，还有<strong>不蒜子</strong>，这里我用的不蒜子，主要原因是它很简单易用，不需要注册账号什么的。不蒜子官网：<a href="http://busuanzi.ibruce.info/" target="_blank" rel="noopener">http://busuanzi.ibruce.info/</a></p>
+<h4 id="1-引入不蒜子"><a href="#1-引入不蒜子" class="headerlink" title="(1) . 引入不蒜子"></a>(1) . 引入不蒜子</h4><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">async</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>这段代码可以写在footer.ejs里或者header.ejs里或者layout.ejs里，因为是 js 文件，所有推荐放在 html 文档的末尾处加载。这里我放在/themes/yilia/layout/_partial/footer.ejs中。</p>
+<h4 id="2-添加站点访问量"><a href="#2-添加站点访问量" class="headerlink" title="(2) . 添加站点访问量"></a>(2) . 添加站点访问量</h4><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>busuanzi_container_site_uv<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> 
+  本站访客数<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>busuanzi_value_site_uv<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>人次
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></code></pre>
+<a id="more"></a> 
+
+<p>这段代码是用来显示访客数的，可根据个人喜好放在合适的位置即可。我放在了footer.ejs 中。运行的效果如下图</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/fangke.png" alt></p>
+<p>计算访问量的方法有两种，我用的是uv的方式，大家自行选择即可。</p>
+<p>算法a：pv的方式，单个用户连续点击n篇文章，记录n次访问量。 </p>
+<p>算法b：uv的方式，单个用户连续点击n篇文章，只记录1次访客数。 </p>
+<h4 id="4-添加文章访问量"><a href="#4-添加文章访问量" class="headerlink" title="(4) . 添加文章访问量"></a>(4) . 添加文章访问量</h4><p>文章的访问量显示在文章里面，所以在article.ejs里加上文章访问量的标签： </p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>busuanzi_container_page_pv<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+   阅读量：<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>busuanzi_value_page_pv<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></code></pre>
+<p>这里加个判断，如果是首页不显示该文章的访问量，下面这段代码添加在/themes/yilia/layout/_partial/article.ejs的header的日期后面： </p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token operator">!</span>index <span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token operator">%</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>span <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"archive-article-date"</span><span class="token operator">></span>
+            阅读量 <span class="token operator">&lt;</span>span id<span class="token operator">=</span><span class="token string">"busuanzi_value_page_pv"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token punctuation">}</span> <span class="token operator">%</span><span class="token operator">></span></code></pre>
+<h3 id="2-文章分享功能"><a href="#2-文章分享功能" class="headerlink" title="2 . 文章分享功能"></a>2 . 文章分享功能</h3><p>yilia主题中已经集成了文章的分享插件，直接配置即可。但是在使用微信分享的时候发现那个二维码图片出不来。报参数错误，于是换了一个接口。下面分享四个非常方便的微信分享功能的二维码生成连接</p>
+<pre class=" language-javascript"><code class="language-javascript">说明：把url<span class="token operator">=</span>或data<span class="token operator">=</span>后面的网址改成你的，四种任选一。
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>pan<span class="token punctuation">.</span>baidu<span class="token punctuation">.</span>com<span class="token operator">/</span>share<span class="token operator">/</span>qrcode<span class="token operator">?</span>w<span class="token operator">=</span><span class="token number">150</span><span class="token operator">&amp;</span>h<span class="token operator">=</span><span class="token number">150</span><span class="token operator">&amp;</span>url<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>lanyes<span class="token punctuation">.</span>org
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>b<span class="token punctuation">.</span>bshare<span class="token punctuation">.</span>cn<span class="token operator">/</span>barCode<span class="token operator">?</span>site<span class="token operator">=</span>weixin<span class="token operator">&amp;</span>url<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>lanyes<span class="token punctuation">.</span>org
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>s<span class="token punctuation">.</span>jiathis<span class="token punctuation">.</span>com<span class="token operator">/</span>qrcode<span class="token punctuation">.</span>php<span class="token operator">?</span>url<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>lanyes<span class="token punctuation">.</span>org
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token punctuation">.</span>kuaizhan<span class="token punctuation">.</span>com<span class="token operator">/</span>common<span class="token operator">/</span>encode<span class="token operator">-</span>png<span class="token operator">?</span>large<span class="token operator">=</span><span class="token boolean">true</span><span class="token operator">&amp;</span>data<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>lanyes<span class="token punctuation">.</span>org
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>api<span class="token punctuation">.</span>k780<span class="token punctuation">.</span>com<span class="token punctuation">:</span><span class="token number">88</span><span class="token operator">/</span><span class="token operator">?</span>app<span class="token operator">=</span>qr<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token operator">&amp;</span>data<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token punctuation">.</span>54admin<span class="token punctuation">.</span>net<span class="token operator">&amp;</span>level<span class="token operator">=</span>L<span class="token operator">&amp;</span>size<span class="token operator">=</span><span class="token number">6</span>
+https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>api<span class="token punctuation">.</span>qrserver<span class="token punctuation">.</span>com<span class="token operator">/</span>v1<span class="token operator">/</span>create<span class="token operator">-</span>qr<span class="token operator">-</span>code<span class="token operator">/</span><span class="token operator">?</span>size<span class="token operator">=</span>150x150<span class="token operator">&amp;</span>data<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token punctuation">.</span>54admin<span class="token punctuation">.</span>net </code></pre>
+<p>然后修改 yilia/layout/_partial/post/share.ejs中的代码，将微信分享 img 标签中的连接改成上面中的一个链接即可</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>page-modal wx-share js-wx-box<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>close js-modal-close<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>javascript:;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon icon-close<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>扫一扫，分享到微信<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>wx-qrcode<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>&lt;%- <span class="token punctuation">'</span>qrcode<span class="token punctuation">'</span> in locals ? qrcode(sUrl) : <span class="token punctuation">'</span>http://qr.liantu.com/api.php?text<span class="token punctuation">=</span><span class="token punctuation">'</span> + sUrl  %<span class="token punctuation">></span><span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>微信分享二维码<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+<h3 id="3-在博客中使用数学公式"><a href="#3-在博客中使用数学公式" class="headerlink" title="3 . 在博客中使用数学公式"></a>3 . 在博客中使用数学公式</h3><p>在用markdown写技术文档时，免不了会碰到数学公式。常用的Markdown编辑器都会集成 MathJax插件，用来渲染文档中的类Latex格式书写的数学公式，但有些主题可能使用默认插件，导致公式渲染出现各种问题，其原因是因为Hexo默认使用”hexo-renderer-marked”引擎渲染网页，该引擎会把一些特殊的markdown符号转换为相应的html标签，比如在markdown语法中，下划线’_’代表斜体，有特殊的含义，存在语义冲突。 渲染引擎会处理为<code>&lt;em&gt;</code>标签  。这样一来，我们写的MathJax公式就被错误渲染了，也就没办法正确显示出来。 解决办法也比较简单，更换Hexo的markdown渲染引擎 。</p>
+<pre><code>npm uninstall hexo-renderer-marked --save
+npm install hexo-renderer-kramed --save</code></pre><p>执行上面两个命令即可，先卸载原来的渲染引擎，再安装新的。 这样能解决大部分公式的问题，但但是个别行内公式还会出现渲染出错 因为hexo-renderer-kramed引擎也有语义冲突的问题。接下来到博客根目录下，找到node_modules\kramed\lib\rules\inline.js，把第11行的escape变量的值做相应的修改： </p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//  escape: /^\\([\\`*{}\[\]()#$+\-.!_>])/,</span>
+  escape<span class="token punctuation">:</span> <span class="token regex">/^\\([`*\[\]()#$+\-.!_>])/</span><span class="token punctuation">,</span></code></pre>
+<p>把第20行的em变量也要做相应的修改 </p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span>
+  em<span class="token punctuation">:</span> <span class="token regex">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span><span class="token punctuation">,</span></code></pre>
+<p>这样问题就完美解决了，然后在主题的_config.yml 配置文件中开启mathjax ，把mathjax 设置为true</p>
+<pre><code>mathjax: true</code></pre><p>同时在文章的Front-matter里打开mathjax开关 </p>
+<pre><code>title: 
+date: 2018-07-28 08:11:02
+mathjax: true
+tags:</code></pre><p>这里设置是只有在用到公式的页面才会有，没用到公式就不需要设置。这样不需要渲染数学公式的页面的访问速度就不会受到影响了。 </p>
+<p>更多关于在Markdown中使用数学公式的用法参考链接：<a href="https://www.zybuluo.com/codeep/note/163962" target="_blank" rel="noopener">https://www.zybuluo.com/codeep/note/163962</a></p>
+<h3 id="4-评论系统"><a href="#4-评论系统" class="headerlink" title="4 . 评论系统"></a>4 . 评论系统</h3><p>第三方评论系统很多，例如多说，畅言等。多说，网易云跟贴都已经下线 ，目前可用的评论系统大概有 ：</p>
+<p><a href="https://www.hypercomments.com/" target="_blank" rel="noopener">HyperComments </a>：来自俄罗斯的评论系统，目前只支持谷歌账号登录，国内有万里长城阻隔，翻墙注意安全 ！</p>
+<p><a href="https://livere.com/" target="_blank" rel="noopener">来必力 </a>：来自韩国，使用邮箱注册 。这个还可以，本来打算用这个的</p>
+<p><a href="https://github.com/xCss/Valine" target="_blank" rel="noopener">Valine </a>：基于Leancloud的极简风评论系统 </p>
+<p><a href="http://changyan.kuaizhan.com/" target="_blank" rel="noopener">畅言 </a>：国产，符合大部分国人的风格和需求，但是安装需要备案号 ，比较麻烦</p>
+<p><a href="https://gitalk.github.io/" target="_blank" rel="noopener">gitalk</a>：一个基于 Github Issue 和 Preact 开发的评论插件，博客的评论就是github上对应repository的Issue</p>
+<p>最后经过对比，最终选择了gitalk。样式美观，功能也比较实用，评论支持Markdown 语法。</p>
+<p><strong>引用</strong></p>
+<p>官方提供了两种方式的引用</p>
+<ul>
+<li>links</li>
+</ul>
+<pre class=" language-html"><code class="language-html">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- or --></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://unpkg.com/gitalk/dist/gitalk.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://unpkg.com/gitalk/dist/gitalk.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<ul>
+<li>npm install</li>
+</ul>
+<pre class=" language-python"><code class="language-python">npm i <span class="token operator">-</span><span class="token operator">-</span>save gitalk
+
+<span class="token keyword">import</span> <span class="token string">'gitalk/dist/gitalk.css'</span>
+<span class="token keyword">import</span> Gitalk <span class="token keyword">from</span> <span class="token string">'gitalk'</span></code></pre>
+<p><strong>注册OAuth application</strong></p>
+<p>既然使用github的issue，那么肯定要得到github的授权，这步操作就是做这个事情。如果没有需先去注册，注册地址：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">Register a new OAuth application</a>  。</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk.png" alt></p>
+<p>注册后来到如下界面</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk1.png" alt></p>
+<p>在这里会得到Client ID和Client Secret两个值，这两个值是后面需要用到的。</p>
+<p><strong>配置</strong></p>
+<p>进入yilia主题的文件路径，打开 /yilia/layout_partial/目录下的article.ejs文件。拉至底部，可以发现原作者已经为我们集成了很多评论系统，如下</p>
+<pre class=" language-jsp"><code class="language-jsp"><% if (!index && post.comments){ %>
+
+  <% if (theme.duoshuo){ %>
+  <%- partial('post/duoshuo', {
+      key: post.slug,
+      title: post.title,
+      url: config.url+url_for(post.path)
+    }) %>
+  <% } %>
+
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post/wangyiyun', {
+      key: post.slug,
+      title: post.title,
+      url: config.url+url_for(post.path)
+    }) %>
+  <% } %></code></pre>
+<p>在 &lt;% if (!index &amp;&amp; post.comments){ %&gt; 的下一行加入gitalk的初始化代码，如下所示</p>
+<pre class=" language-jsp"><code class="language-jsp"><% if (!index && post.comments){ %>
+
+  <!--  评论插件 -->
+  <% if (theme.gitalk.enable){ %>
+    <div class="gitalk" style="padding: 0 40px;">
+      <div id="gitalk-container"></div>   
+      <link rel='stylesheet' href="/blog/gitalk/gitalk.css">
+      <script src="/blog/gitalk/gitalk.min.js"></script>
+       <script src="/blog/gitalk/md5.min.js"></script>
+      <script type="text/javascript">
+          var gitalk = new Gitalk({
+            clientID:  '<%=theme.gitalk.clientID%>', 
+            clientSecret: '<%=theme.gitalk.clientSecret%>',
+            repo: '<%=theme.gitalk.repo%>', 
+            id: md5(location.pathname),
+            owner: '<%=theme.gitalk.owner%>', 
+            admin: '<%=theme.gitalk.admin%>', 
+            distractionFreeMode: <%=theme.gitalk.distractionFreeMode%>,
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    </div>
+  <% } %>
+
+
+  <% if (theme.duoshuo){ %>
+  <%- partial('post/duoshuo', {
+      key: post.slug,
+      title: post.title,
+      url: config.url+url_for(post.path)
+    }) %>
+  <% } %>
+
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post/wangyiyun', {
+      key: post.slug,
+      title: post.title,
+      url: config.url+url_for(post.path)
+    }) %>
+  <% } %></code></pre>
+<p>这里我为了简单，直接把代码放这里了。实际可以像作者一样，在post文件夹下新建一个gitalk.ejs文件，把这段代码，然后通过引用的方式引入进来。然后就是最后一步了，还需要在主题的 _config.xml 文件下加入gitalk的配置属性。如下</p>
+<pre class=" language-js"><code class="language-js">#<span class="token number">6</span> Gitalk
+gitalk<span class="token punctuation">:</span> 
+  #用来做启用判断可以不用
+  enable<span class="token punctuation">:</span> <span class="token boolean">true</span>   
+  #your clientID，在github注册得到
+  clientID<span class="token punctuation">:</span> 848f5278f2459aaa9a50  
+  #your clientSecret 在github注册得到
+  clientSecret<span class="token punctuation">:</span> <span class="token string">'db9688596567c9ba2786f5ba635395562e0df353'</span>  
+  #存储你评论 issue 的 Github 仓库名（建议直接用 GitHub Page 的仓库名）
+  repo<span class="token punctuation">:</span> <span class="token string">'blog'</span>
+  #github用户名
+  owner<span class="token punctuation">:</span> <span class="token string">'lushunjian'</span>  
+  #这个仓库的管理员，可以有多个，用数组表示，一般写自己
+  admin<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'lushunjian'</span><span class="token punctuation">]</span>
+  #无干扰模式开启
+  distractionFreeMode<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  #页面的唯一标识，gitalk 会根据这个标识自动创建的issue的标签<span class="token punctuation">,</span>我们使用页面的相对路径作为标识
+  id<span class="token punctuation">:</span> <span class="token string">'window.location.pathname'</span></code></pre>
+<p>更多属性设置，可进入官方查看。至此评论系统配置完毕，启动看一下效果</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk3.png" alt></p>
+<p>这里需要登录一下，对gitalk进行初始化，每篇文章都需如此。初始化完成后，会在github对应的仓库中创建队应的issues</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk2.png" alt></p>
+<p>此时再看博客效果如下图</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk4.png" alt></p>
+<h3 id="5-添加萌宠"><a href="#5-添加萌宠" class="headerlink" title="5. 添加萌宠"></a>5. 添加萌宠</h3><p>这个功能比较适合女生吧，可以在博客页面中添加可爱的妹纸或者是萌宠，作者提供了很多模型，移动鼠标时萌宠也会跟着鼠标转头，没事可以逗一逗。插件使用比较简单，通过以下命令直接获取就行了</p>
+<pre><code>npm install --save hexo-helper-live2d</code></pre><p>然后在主题的配置文件 _config.yml 中添加以下配置属性</p>
+<pre><code>live2d:
+  enable: true
+  scriptFrom: local
+  model:
+      #这里配置你想用的模型
+    use: live2d-widget-model-wanko  
+  display:
+      #居左或是居右显示
+    position: right
+    #模型宽高
+    width: 150
+    height: 300
+  mobile:
+    show: true</code></pre><p>更多模型选择可以作者的github地址：<a href="https://github.com/xiazeyu/live2d-widget-models" target="_blank" rel="noopener">模型</a></p>
+<h3 id="6-使用第三方图床，缩短图片加载时间"><a href="#6-使用第三方图床，缩短图片加载时间" class="headerlink" title="6. 使用第三方图床，缩短图片加载时间"></a>6. 使用第三方图床，缩短图片加载时间</h3><p>在博客中难免会频繁的使用图片，但是如果图片过多的放在github上，由于github服务器在国外，国内访问会导致页面加载异常缓慢，当然解决的办法也是很多的。就是图片放在国内的服务器上，这里选择方式就很多了，可以把图片单独放在专门的云服务上，也可托管在第三方平台上如七牛等。这里介绍我自己使用的一种方式，简单免费。我们知道在国外github比较有名气，但是由于网速和它禁用百度爬虫的问题，许多程序员会选用gitee作为在国内的代码托管平台，gitee可以说就是国内的github。功能也大多相同，gitee也提供了静态文件的访问服务。因此实际上我们直接可以之间把博客搭建在gitee上。这是一种一劳永逸的办法，而且还可以被百度爬虫爬到哦。由于本人比较懒，暂时没有迁移。github除了图片加载较慢外，其他到是还可以接受，所以我们可以只把图片放在gitee上，然后在github的文章中引用gitee上的图片，问题就完美的解决了。</p>
+<h4 id="（1）-在gitee上创建一个项目"><a href="#（1）-在gitee上创建一个项目" class="headerlink" title="（1）. 在gitee上创建一个项目"></a>（1）. 在gitee上创建一个项目</h4><p>点击右上角头像图标右边的加号，选择新建仓库，仓库名字自己定义好</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog20.png" alt></p>
+<h4 id="（2）-开启pages服务"><a href="#（2）-开启pages服务" class="headerlink" title="（2）. 开启pages服务"></a>（2）. 开启pages服务</h4><p>创建完项目后，进入项目点击服务，选择gitee pages</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/bolg1.png" alt></p>
+<p>在开启pages服务时，注意要勾选强制使用HTTPS，因为github在访问HTTP文件时会报错，导致访问出错。开启gitee pages服务后，上面会提示你网站地址。通过这个地址就可以访问到这个项目中的静态文件了。</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/bolg2.png" alt></p>
+<h4 id="（3）-图片的访问"><a href="#（3）-图片的访问" class="headerlink" title="（3）. 图片的访问"></a>（3）. 图片的访问</h4><p>开启好gitee pages服务后，我们可以直接在浏览器中输入网站地址。例如我的是 <a href="https://lsjlsjlsj.gitee.io/photo。通过这个网址访问到的是项目根路径下的文件，假如我要访问文件夹中的图片该怎么写呢？举个例子，我的项目下有个img文件夹，我想访问img中的一张图片怎么做" target="_blank" rel="noopener">https://lsjlsjlsj.gitee.io/photo。通过这个网址访问到的是项目根路径下的文件，假如我要访问文件夹中的图片该怎么写呢？举个例子，我的项目下有个img文件夹，我想访问img中的一张图片怎么做</a></p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog4.png" alt></p>
+<p>进入到img文件夹中，假设我要访问11.jpg</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog5.png" alt></p>
+<p>直接在浏览器中加上图片相对于根路径的相对路径就可以了。<a href="https://lsjlsjlsj.gitee.io/photo/img/11.jpg" target="_blank" rel="noopener">https://lsjlsjlsj.gitee.io/photo/img/11.jpg</a> ，可以在浏览器中打开看看，如果能打开就是能正常访问了。</p>
+<p><img src="/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog6.png" alt></p>
+<p>这样在使用github写博客，或者制作博客相册时，便可引用gitee中的图片作为图床。解决github博客页面因为图片加载过慢的问题</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/">http://yoursite.com/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/other/">
+                                    <span class="chip bg-color">other</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2018-07-08T09-13-52',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2018/07/14/paxos-suan-fa/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="paxos算法">
+                        
+                        <span class="card-title">paxos算法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Paxos算法是莱斯利·兰伯特（Leslie Lamport，就是 LaTeX 中的”La”，此人现在在微软研究院）于1990年提出的一种基于消息传递且具有高度容错特性的一致性算法。 Paxos算法应用非常广泛，目前在Google的Chub
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-07-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">分布式系统</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/07/07/yi-zhi-xing-ha-xi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="一致性哈希">
+                        
+                        <span class="card-title">一致性哈希</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            ​    最近几天研究了下一致性哈希算法，总算是搞明白它是怎么一回事了，这里记录一下自己的理解。一致性哈希算法主要是针对分布式缓存系统的算法。要想搞清楚一致性哈希的的优缺点，那就必须从它的发应用场景说起，也就是为什么分布式缓存中要使用一致性
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-07-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">分布式系统</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

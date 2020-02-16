@@ -1,0 +1,2187 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="聊聊运维监控, 一寸灰">
+    <meta name="description" content="最近在公司参与公司运维监控平台的建设，用到一些关于监控的第三方开源工具包，在此记录一下。说到运维监控，本人在公司就曾经历过一段痛苦的日子，在某个重要的日子，由于公司没有完善运维监控平台，为保障系统稳定。公司大部分的开发人员和售后全都扑在了服">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>聊聊运维监控 | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">聊聊运维监控</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E8%BF%90%E7%BB%B4%E7%9B%91%E6%8E%A7/">
+                                <span class="chip bg-color">运维监控</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-02-17
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>最近在公司参与公司运维监控平台的建设，用到一些关于监控的第三方开源工具包，在此记录一下。说到运维监控，本人在公司就曾经历过一段痛苦的日子，在某个重要的日子，由于公司没有完善运维监控平台，为保障系统稳定。公司大部分的开发人员和售后全都扑在了服务器和服务状态的监测上，每天的工作就是手动检查上千台服务器和几千个服务的内存，磁盘，CPU使用情况，大概持续了一周左右。因为这些都是重复性的工作，我还记得当时有人提出用跑脚本的方式直接看结果。没想到我们的上级负责人竟然说：“不许使用脚本，这种重要时候我只相信人，不相信脚本”。此言一出，我真的是无力吐槽，人是会累的，机器不会累，竟然还只信人，不信机器。后来想想其实可以理解，他大概是太过紧张了，那段重要日子对于公司来说确实非常重要，出不得差错。不过在经历过那段黑暗的时间后，让我觉得，系统的运维监控必须要有，靠人力运维是一件高成本，低回报，费力不讨好的活。在未接触运维之前，我总认为开发就是一个项目的重中之重，一个优秀的开发者，一个精良的架构设计能使项目的工作事半功倍。但现在我觉得运维才是重点，因为任何一个项目的开发周期是远远小于它的维护周期的，如何低成本的保障系统长期稳定的运行才是最重要的，也是保证用户体验的重要手段  。特别是对于庞大复杂的系统，运维监控系统必不可少。一个成熟完善的运维系统能有效的监测公司服务器和业务系统的异常情况，并马上做出告警大大减小了问题排查的成本。后面公司也意识到了这一点，并开展了运维平台的建设工作，下面就是在工作中总结的一些关于监控开源工具包的使用，以及一些开源的运维监控组件的介绍。</p>
+<p><img src="/2019/02/17/liao-liao-yun-wei-jian-kong/yw.png" alt></p>
+<a id="more"></a> 
+
+<h2 id="监控核心"><a href="#监控核心" class="headerlink" title="监控核心"></a>监控核心</h2><p>简单来说，监控系统就是一套解决应用、服务或系统故障发现、故障预警、故障定位，运行状态展示等多种功能融合一体的一个解决文案。也可以称之为一套系统。监控系统是整个运维环节，乃至整个产品生命周期中最重要的一环，事前及时预警发现故障，事后提供翔实的数据用于追查定位问题。监控系统作为一个成熟的运维产品，业界有很多开源的实现可供选择。当公司刚刚起步，业务规模较小，运维团队也刚刚建立的初期，选择一款开源的监控系统，是一个省时省力，效率最高的方案。之后，随着业务规模的持续快速增长，监控的对象也越来越多，越来越复杂。开源监控工具也非常多，主要如下</p>
+<h3 id="老牌监控"><a href="#老牌监控" class="headerlink" title="老牌监控:"></a><strong>老牌监控:</strong></h3><p><strong>MRTG（Multi Route Trffic Grapher）：</strong>是一套可用来绘制网络流量图的软件，由瑞士奥尔滕的Tobias Oetiker与Dave Rand所开发，以GPL授权。<br>MRTG最好的版本是1995年推出的，用perl语言写成，可跨平台使用，数据采集用SNMP协议，MRTG将手机到的数据通过Web页面以GIF或者PNG格式绘制出图像。</p>
+<p><strong>Grnglia：</strong>是一个跨平台的、可扩展的、高性能的分布式监控系统，如集群和网格。它基于分层设计，使用广泛的技术，用RRDtool存储数据。具有可视化界面，适合对集群系统的自动化监控。其精心设计的数据结构和算法使得监控端到被监控端的连接开销非常低。目前已经有成千上万的集群正在使用这个监控系统，可以轻松的处理2000个节点的集群环境。</p>
+<p><strong>Cacti：</strong>（英文含义为仙人掌）是一套基于PHP、MySQL、SNMP和RRDtool开发的网络流量监测图形分析工具，它通过snmpget来获取数据使用RRDtool绘图，但使用者无须了解RRDtool复杂的参数。提供了非常强大的数据和用户管理功能，可以指定每一个用户能查看树状结构、主机设备以及任何一张图，还可以与LDAP结合进行用户认证，同时也能自定义模板。在历史数据展示监控方面，其功能相当不错。<br>Cacti通过添加模板，使不同设备的监控添加具有可复用性，并且具备可自定义绘图的功能，具有强大的运算能力（数据的叠加功能）</p>
+<p><strong>Nagios：</strong>是一个企业级监控系统，可监控服务的运行状态和网络信息等，并能监视所指定的本地或远程主机状态以及服务，同时提供异常告警通知功能等。<br>Nagios可运行在Linux和UNIX平台上。同时提供Web界面，以方便系统管理人员查看网络状态、各种系统问题、以及系统相关日志等<br>Nagios的功能侧重于监控服务的可用性，能根据监控指标状态触发告警。<br>目前Nagios也占领了一定的市场份额，不过Nagios并没有与时俱进，已经不能满足于多变的监控需求，架构的扩展性和使用的便捷性有待增强，其高级功能集成在商业版Nagios XI中。</p>
+<p><strong>Smokeping：</strong>主要用于监视网络性能，包括常规的ping、www服务器性能、DNS查询性能、SSH性能等。底层也是用RRDtool做支持，特点是绘制图非常漂亮，网络丢包和延迟用颜色和阴影来标示，支持将多张图叠放在一起，其作者还开发了MRTG和RRDtll等工具。 </p>
+<p><strong>开源监控系统OpenTSDB：</strong>用Hbase存储所有时序（无须采样）的数据，来构建一个分布式、可伸缩的时间序列数据库。它支持秒级数据采集，支持永久存储，可以做容量规划，并很容易地接入到现有的告警系统里。<br>OpenTSDB可以从大规模的集群（包括集群中的网络设备、操作系统、应用程序）中获取相应的采集指标，并进行存储、索引和服务，从而使这些数据更容易让人理解，如Web化、图形化等。</p>
+<h3 id="王牌监控"><a href="#王牌监控" class="headerlink" title="王牌监控"></a><strong>王牌监控</strong></h3><p><strong>Zabbix</strong>是一个分布式监控系统，支持多种采集方式和采集客户端，有专用的Agent代理，也支持SNMP、IPMI、JMX、Telnet、SSH等多种协议，它将采集到的数据存放到数据库，然后对其进行分析整理，达到条件触发告警。其灵活的扩展性和丰富的功能是其他监控系统所不能比的。相对来说，它的总体功能做的非常优秀。<br>从以上各种监控系统的对比来看，Zabbix都是具有优势的，其丰富的功能、可扩展的能力、二次开发的能力和简单易用的特点，读者只要稍加学习，即可构建自己的监控系统。</p>
+<p><strong>OpenFalcon：</strong>是小米的开源监控系统，OpenFalcon是一款企业级、高可用、可扩展的开源监控解决方案，OpenFalcon的目标是做最开放、最好用的互联网企业级监控产品。</p>
+<p><strong>OWL：</strong>是TalkingData公司推出的一款开源分布式监控系统<a href="https://github.com/TalkingData/owl" target="_blank" rel="noopener">OWL的github地址</a></p>
+<h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p>一般的监控系统的架构是在被监控的节点运行自己的监控Agent，作为嗅探器。按照用户自定义的方式实时采集监控数据，采集到数据后，就需要将数据提交到数据中心了，这里提交的方式有两种，一种是数据中心主动向各个Agent拉取监控数据，这样的好处是编程简单，但数据中心的压力会比较大。第二种是各个Agent主动上报数据，先将数据提交到消息队列，数据中心直接从消息队列拉取数据就行了。</p>
+<p><strong>中心端主动拉取</strong>：就是由一个中心端定时的向采集端<code>按需拉取数据</code>。这种模式的优点在于可以按需拉取，不会有浪费。但是在这个模型中，中心承担了过大的压力。理论上性能会有很大的瓶颈。</p>
+<p><img src="/2019/02/17/liao-liao-yun-wei-jian-kong/jk1.png" alt></p>
+<p><strong>客户端主动上报</strong>：就是所有数据一视同仁，全都上报。一般来讲，会采用一个统一的proxy来收集，后边会考虑做多级的组件，或者加一层MQ等，都是可以考量的设计。整体来讲，如果预估监控数据的量比较大。还是建议采用自采集然后集中上报的模式。</p>
+<p><img src="/2019/02/17/liao-liao-yun-wei-jian-kong/jk.png" alt></p>
+<p>由于公司的运维平台需求不多，只是做一些服务器和服务的简单监控，所以公司建设的运维监控平台没有使用开源的组件，而是通过一些基本的手段来获取监控信息，并将收集到的监控信息存储到数据库，再做统计分析展示。架构方案则使用的是客户端主动上报的方式。我负载的就是基础数据采集部分的开发工作，对期间使用的技术，方案做一些记录。</p>
+<h2 id="1-Linux监控命令"><a href="#1-Linux监控命令" class="headerlink" title="1. Linux监控命令"></a>1. Linux监控命令</h2><h3 id="1-top"><a href="#1-top" class="headerlink" title="(1) . top"></a>(1) . top</h3><p>top命令是最流行Unix/Linux的性能工具之一。它显示所有正在运行而且处于活动状态的实时进程， 而且会定期更新显示结果；它显示了CPU使用率，内存使用率，交换内存使用大小，调整缓存使用大小，缓冲区使用大小，进程PID， 使用的命令等信息。在终端执行top命令后，结果如下：</p>
+<pre class=" language-shell"><code class="language-shell">[root@localhost ~]# top
+top - 19:01:24 up 17 min,  3 users,  load average: 0.00, 0.04, 0.12
+Tasks: 162 total,   1 running, 161 sleeping,   0 stopped,   0 zombie
+Cpu(s):  5.4%us,  3.3%sy,  0.0%ni, 87.8%id,  3.1%wa,  0.0%hi,  0.3%si,  0.0%st
+Mem:   2940796k total,  2857996k used,    82800k free,    13044k buffers
+Swap:  2097144k total,        0k used,  2097144k free,  1041468k cached
+
+   PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+  2236 root      20   0 2326m 955m  11m S  3.6 33.3   1:57.20 java
+   289 root      20   0     0    0    0 S  1.8  0.0   0:00.34 jbd2/sda2-8
+  2050 root      20   0  133m 4068 1564 S  1.8  0.1   0:00.09 nginx
+  2052 root      20   0  134m 6096 2700 S  1.8  0.2   0:01.03 nginx
+  9696 root      20   0 15032 1152  832 R  1.8  0.0   0:00.06 top</code></pre>
+<p>这里信息比较多，各个参数的含义如下：</p>
+<table>
+<thead>
+<tr>
+<th>资源概况：top行</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>19:01:24</td>
+<td>系统当前时间，这里是24小时制</td>
+</tr>
+<tr>
+<td>up 17 min</td>
+<td>系统开机以后的运行时间，17分钟</td>
+</tr>
+<tr>
+<td>3 users</td>
+<td>系统用户登录在线数量，当前为3人</td>
+</tr>
+<tr>
+<td>load average:0.00, 0.04, 0.12</td>
+<td>load   average后面三个数分别是1分钟、5分钟、15分钟的负载情况</td>
+</tr>
+<tr>
+<td><strong>运行任务概况：Tasks行</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>162 total</td>
+<td>系统当前的进程数，总共162个进程</td>
+</tr>
+<tr>
+<td>1 running</td>
+<td>正在运行的进程数，当前为1个</td>
+</tr>
+<tr>
+<td>161 sleeping</td>
+<td>睡眠中的进程数，当前睡眠数为161个</td>
+</tr>
+<tr>
+<td>0 stopped</td>
+<td>停止的进程数，当前为0个</td>
+</tr>
+<tr>
+<td>0 zombie</td>
+<td>僵尸进程，当前为0个</td>
+</tr>
+<tr>
+<td><strong>CPU概况：Cpu(s)行</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>5.4%us</td>
+<td>用户空间占用CPU时间百分比。多核情况，这个数值表示占用的平均百分比</td>
+</tr>
+<tr>
+<td>3.3%sy</td>
+<td>内核空间占用CPU时间百分比，多核情况同上</td>
+</tr>
+<tr>
+<td>0.0%ni</td>
+<td>用户进程空间内改变过优先级的进程占用CPU时间百分比</td>
+</tr>
+<tr>
+<td>87.8%id</td>
+<td>空闲时间占用CPU百分比，当前为87.8%</td>
+</tr>
+<tr>
+<td>3.1%wa</td>
+<td>等待输入输出的CPU时间百分比</td>
+</tr>
+<tr>
+<td>0.0%hi</td>
+<td>CPU服务于硬件中断的CPU时间百分比</td>
+</tr>
+<tr>
+<td>0.3%si</td>
+<td>CPU服务于软件中断的CPU时间百分比</td>
+</tr>
+<tr>
+<td>0.0%st</td>
+<td>虚拟机占用百分比</td>
+</tr>
+<tr>
+<td><strong>内存概况：Mem行</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>2940796k total</td>
+<td>内存总量，单位kb</td>
+</tr>
+<tr>
+<td>2857996k used</td>
+<td>内存使用大小，单位kb</td>
+</tr>
+<tr>
+<td>82800k free</td>
+<td>剩余的内存大小，单位kb</td>
+</tr>
+<tr>
+<td>13044k buffers</td>
+<td>用于缓冲的内存大小</td>
+</tr>
+<tr>
+<td><strong>交换区概览：Swap行</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>2097144k total</td>
+<td>交换区总量</td>
+</tr>
+<tr>
+<td>0k used</td>
+<td>使用的交换区大小</td>
+</tr>
+<tr>
+<td>2097144k free</td>
+<td>空闲的交换区大小</td>
+</tr>
+<tr>
+<td>1041468k cached</td>
+<td>用于缓冲的交换区大小</td>
+</tr>
+<tr>
+<td><strong>进程概况</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>PID</td>
+<td>进程ID，唯一标识</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>进程所属用户</td>
+</tr>
+<tr>
+<td>SWAP</td>
+<td>进程使用的虚拟内存中,被换出的大小,单位kb.</td>
+</tr>
+<tr>
+<td>CODE</td>
+<td>可执行代码占用的物理内存大小,单位kb</td>
+</tr>
+<tr>
+<td>DATA</td>
+<td>可执行代码以外的部分(数据段+栈)占用的物理内存大小,单位kb</td>
+</tr>
+<tr>
+<td>RES</td>
+<td>进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA</td>
+</tr>
+<tr>
+<td>VIRT</td>
+<td>进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES</td>
+</tr>
+<tr>
+<td>SHR</td>
+<td>共享内存大小，意思是这一块内存空间可能也被其他应用程序使用。单位kb</td>
+</tr>
+<tr>
+<td>%CPU</td>
+<td>自上一次top刷新该进程占用CPU的时间百分比</td>
+</tr>
+<tr>
+<td>%MEM</td>
+<td>进程消耗内存百分比</td>
+</tr>
+<tr>
+<td>TIME+</td>
+<td>自进程开始以来，消耗CPU时间，单位1/100秒</td>
+</tr>
+<tr>
+<td>S</td>
+<td>进程状态: <strong>D:</strong>不可中断的睡眠状态;<strong>R:</strong>运行; <strong>S:</strong>睡眠; <strong>T:</strong>跟踪/停止; <strong>Z:</strong>僵尸进程</td>
+</tr>
+<tr>
+<td>### (2) . free</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>free命令可以显示Linux系统中空闲的、已用的物理内存及swap内存,及被内核使用的buffer。在Linux系统监控的工具中，free命令是最经常使用的命令之一。命令执行的结果如下：</p>
+<pre class=" language-shell"><code class="language-shell">[root@localhost ~]# free -m
+             total       used       free     shared    buffers     cached
+Mem:          2871       2797         74          0         13        844
+-/+ buffers/cache:       1939        931
+Swap:         2047          0       2047</code></pre>
+<p>下面是各个参数的含义：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>释义</th>
+<th>数据说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>total</td>
+<td>内存总数，物理内存总数</td>
+<td>总内存大小：2871 kb</td>
+</tr>
+<tr>
+<td>used</td>
+<td>已经使用的内存数</td>
+<td>已使用内存：2797 kb</td>
+</tr>
+<tr>
+<td>free</td>
+<td>空闲的内存数</td>
+<td>空闲内存大小：74 kb</td>
+</tr>
+<tr>
+<td>shared</td>
+<td>共享使用的物理内存大小</td>
+<td>当前已废弃不用内存：0 kb</td>
+</tr>
+<tr>
+<td>buffers Buffer</td>
+<td>缓存内存数</td>
+<td>缓存内存大小：13 kb</td>
+</tr>
+<tr>
+<td>cached Page</td>
+<td>缓存内存数</td>
+<td>缓存内存大小：844 kb</td>
+</tr>
+<tr>
+<td>-buffers/cache</td>
+<td>应用使用内存数</td>
+<td>公式：Mem行的used – buffers – cached</td>
+</tr>
+<tr>
+<td>+buffers/cache</td>
+<td>应用可用内存数</td>
+<td>公式：Mem行的free + buffers + cached</td>
+</tr>
+<tr>
+<td>Swap</td>
+<td>交换分区，虚拟内存</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>对内存来说，buffers/cached 都是属于被使用，所以它认为free只有74kb。我们通过free命令查看机器空闲内存时，会发现free的值很小。这主要是因为，在Linux系统中有这么一种思想，内存不用白不用，因此它尽可能的cache和buffer一些数据，以方便下次使用。但实际上这些内存也是可以立刻拿来给需要的进程使用的。弄清楚参数意义，才能更好的使用这些命令来帮助我们了解服务器状态，开发出更高质量的应用，以为Mem行free内存很少，是不是需要升级服务器内存等等。看内存够不够用重点是要看(-/+ buffers/cache)的free和used为主。可见-buffers/cache反映的是被程序实实在在吃掉的内存，而+buffers/cache反映的是可以挪用的内存总数。对应用程序来讲是(-/+ buffers/cach).buffers/cached 是等同可用的，因为buffer/cached是为了提高程序执行的性能，当程序使用内存时，buffer/cached会很快地被使用。这里还需要理解几个名词的含义</p>
+<h4 id="buff-cache"><a href="#buff-cache" class="headerlink" title="buff/cache"></a><strong>buff/cache</strong></h4><p><strong>buffer</strong> 在操作系统中指 buffer cache， 中文一般翻译为 “缓冲区”。要理解缓冲区，必须明确另外两个概念：”扇区” 和 “块”。扇区是设备的最小寻址单元，也叫 “硬扇区” 或 “设备块”。块是操作系统中文件系统的最小寻址单元，也叫 “文件块” 或 “I/O 块”。每个块包含一个或多个扇区，但大小不能超过一个页面，所以一个页可以容纳一个或多个内存中的块。当一个块被调入内存时，它要存储在一个缓冲区中。buffer cache 只有块的概念而没有文件的概念，它只是把磁盘上的块直接搬到内存中而并不关心文件内容。每个缓冲区与一个块对应，它相当于是磁盘块在内存中的表示：</p>
+<p><img src="/2019/02/17/liao-liao-yun-wei-jian-kong/yunwei1.png" alt></p>
+<p><strong>cache</strong> 在操作系统中指 page cache，中文一般翻译为 “页高速缓存”。页高速缓存是内核实现的磁盘缓存。它主要用来减少对磁盘的 I/O 操作。具体地讲，是通过把磁盘中的数据缓存到物理内存中，把对磁盘的访问变为对物理内存的访问。页高速缓存缓存的是内存页面。<strong>缓存中的页来自对普通文件、块设备文件(这个指的就是 buffer cache 呀)和内存映射文件的读写</strong>。页高速缓存对普通文件的缓存我们可以这样理解：当内核要读一个文件(比如 /etc/hosts)时，会先检查这个文件的数据是不是已经在页高速缓存中了。如果在，就放弃访问磁盘，从内存中读取。这个行为称为缓存命中。如果数据不在缓存中，就是未命中缓存，此时内核就要调度块 I/O 操作从磁盘去读取数据。然后内核将读来的数据放入页高速缓存中。这种缓存的目标是文件系统可以识别的文件(比如 /etc/hosts)。页高速缓存对块设备文件的缓存就是在前面介绍的 buffer cahce。因为独立的磁盘块通过缓冲区也被存入了页高速缓存(缓冲区最终是由页高速缓存来承载的)。到这里我们应该搞清楚了：无论是缓冲区还是页高速缓存，它们的实现方式都是一样的。缓冲区只不过是一种概念上比较特殊的页高速缓存罢了。那么为什么 free 命令不直接称为 cache 而非要写成 buff/cache？ 这是因为缓冲区和页高速缓存的实现并非天生就是统一的。在 linux 内核 2.4 中才将它们统一。更早的内核中有两个独立的磁盘缓存：页高速缓存和缓冲区高速缓存。前者缓存页面，后者缓存缓冲区。当你知道了这些故事之后，输出中列的名称可能已经不再重要了。</p>
+<h4 id="Swap"><a href="#Swap" class="headerlink" title="Swap"></a>Swap</h4><p>交换分区swap space 是磁盘上的一块区域，可以是一个分区，也可以是一个文件。所以具体的实现可以是 swap 分区也可以是 swap 文件。当系统物理内存吃紧时，Linux 会将内存中不常访问的数据保存到 swap 上，这样系统就有更多的物理内存为各个进程服务，而当系统需要访问 swap 上存储的内容时，再将 swap 上的数据加载到内存中，这就是常说的换出和换入。交换空间可以在一定程度上缓解内存不足的情况，但是它需要读写磁盘数据，所以性能不是很高。</p>
+<p>现在的机器一般都不太缺内存，如果系统默认还是使用了 swap 是不是会拖累系统的性能？理论上是的，但实际上可能性并不是很大。并且内核提供了一个叫做 swappiness 的参数，用于配置需要将内存中不常用的数据移到 swap 中去的紧迫程度。这个参数的取值范围是 0～100，0 告诉内核尽可能的不要将内存数据移到 swap 中，也即只有在迫不得已的情况下才这么做，而 100 告诉内核只要有可能，尽量的将内存中不常访问的数据移到 swap 中。在 ubuntu 系统中，swappiness 的默认值是 60。如果我们觉着内存充足，可以在 /etc/sysctl.conf 文件中设置 swappiness的值</p>
+<h3 id="（3）-vmstat"><a href="#（3）-vmstat" class="headerlink" title="（3）. vmstat"></a>（3）. vmstat</h3><pre class=" language-shell"><code class="language-shell">[root@localhost ~]# vmstat 2
+procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  0      0  79492  50680 787836    0    0   248   136  206  268  4  3 91  2  0
+ 0  0      0  79352  50680 787836    0    0     0     2  501  592  6  3 91  0  0</code></pre>
+<p>这表示vmstat每2秒采集数据，一直采集。用来获得有关进程、虚存、页面交换空间及 CPU活动的信息。这些信息反映了系统的负载情况。这里有必要了解一下<strong>虚拟内存的运行原理：</strong>在系统中运行的每个进程都需要使用到内存，但不是每个进程都需要每时每刻使用系统分配的内存空间。当系统运行所需内存超过实际的物理内存，内核会释放某些进程所占用但未使用的部分或所有物理内存，将这部分资料存储在磁盘上直到进程下一次调用，并将释放出的内存提供给有需要的进程使用。在Linux内存管理中，主要是通过“调页Paging”和“交换Swapping”来完成上述的内存调度。调页算法是将内存中最近不常使用的页面换到磁盘上，把活动页面保留在内存中供进程使用。交换技术是将整个进程，而不是部分页面，全部交换到磁盘上。分页(Page)写入磁盘的过程被称作Page-Out，分页(Page)从磁盘重新回到内存的过程被称作Page-In。当内核需要一个分页时，但发现此分页不在物理内存中(因为已经被Page-Out了)，此时就发生了分页错误（Page Fault）。当系统内核发现可运行内存变少时，就会通过Page-Out来释放一部分物理内存。经管Page-Out不是经常发生，但是如果Page-out频繁不断的发生，直到当内核管理分页的时间超过运行程式的时间时，系统效能会急剧下降。这时的系统已经运行非常慢或进入暂停状态，这种状态亦被称作thrashing(颠簸)。下面解释一下各个参数的含义：</p>
+<table>
+<thead>
+<tr>
+<th>procs</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>等待执行的任务数（当这个值超过了cpu个数，就会出现cpu瓶颈）</td>
+</tr>
+<tr>
+<td>b</td>
+<td>等待IO的进程数量</td>
+</tr>
+<tr>
+<td><strong>memory</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>swpd</td>
+<td>虚拟的内存，单位kb</td>
+</tr>
+<tr>
+<td>free</td>
+<td>空闲内存大小</td>
+</tr>
+<tr>
+<td>buff</td>
+<td>已用的buff大小，对块设备的读写进行缓冲</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>已用的cache大小，文件系统的cache</td>
+</tr>
+<tr>
+<td>inact</td>
+<td>非活跃内存大小</td>
+</tr>
+<tr>
+<td>active</td>
+<td>活跃的内存大小</td>
+</tr>
+<tr>
+<td><strong>swap</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>si</td>
+<td>每秒从交换区写入内存的大小（单位：kb/s）</td>
+</tr>
+<tr>
+<td>so</td>
+<td>每秒从内存写到交换区的大小（单位：kb/s）</td>
+</tr>
+<tr>
+<td><strong>io</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>bi</td>
+<td>每秒读取的块数（读磁盘），现在的Linux版本块的大小为1024bytes</td>
+</tr>
+<tr>
+<td>bo</td>
+<td>每秒写入的块数（写磁盘）</td>
+</tr>
+<tr>
+<td><strong>system</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>in</td>
+<td>每秒中断数，包括时钟中断（in和cs值越大，会看到由内核消耗的cpu时间会越多）</td>
+</tr>
+<tr>
+<td>cs</td>
+<td>每秒上下文切换数（in和cs值越大，会看到由内核消耗的cpu时间会越多）</td>
+</tr>
+<tr>
+<td><strong>cpu</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>us</td>
+<td>用户进程执行消耗cpu时间(user time)</td>
+</tr>
+<tr>
+<td>sy</td>
+<td>系统进程消耗cpu时间(system time)</td>
+</tr>
+<tr>
+<td>id</td>
+<td>空闲时间(包括IO等待时间)</td>
+</tr>
+<tr>
+<td>wa</td>
+<td>等待IO时间(Wa过高时，说明io等待比较严重，可能是由于磁盘大量随机访问造成的，也可能是磁盘的带宽出现瓶颈)</td>
+</tr>
+</tbody></table>
+<h3 id="（4）-iostat"><a href="#（4）-iostat" class="headerlink" title="（4）. iostat"></a>（4）. iostat</h3><p><code>iostat</code>是I/O statistics（输入/输出统计）的缩写，iostat命令查看系统的IO请求数量、系统处理IO请求的耗时，进而分析进程与操作系统的交互过程中IO方面是否存在瓶颈。同时也会汇报出CPU使用情况。同<code>vmstat</code>一样，<code>iostat</code>也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。<code>iostat</code>常用命令格式如下：</p>
+<pre class=" language-shell"><code class="language-shell">iostat [参数] [时间] [次数]
+
+命令参数说明如下：
+-c 显示CPU使用情况
+-d 显示磁盘使用情况
+-k 以K为单位显示
+-m 以M为单位显示
+-N 显示磁盘阵列(LVM) 信息
+-n 显示NFS使用情况
+-p 可以报告出每块磁盘的每个分区的使用情况
+-t 显示终端和CPU的信息
+-x 显示详细信息</code></pre>
+<p>执行<code>iostat -x</code>命令，会得到如下结果。如果command not found可通过yum 来安装，安装命令如下<code>yum install sysstat</code></p>
+<pre class=" language-shell"><code class="language-shell">[root@centos1 ~]# iostat -x
+Linux 3.10.0-693.el7.x86_64 (centos1)   2019年02月21日  _x86_64_        (2 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.35    0.00    0.79    0.57    0.00   98.28
+
+Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+sda               0.02     0.44   19.01    4.90   581.91    79.51    55.33     0.08    3.42    2.26    7.95   0.84   2.01</code></pre>
+<p>输出内容详解：</p>
+<table>
+<thead>
+<tr>
+<th>avg-cpu</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%user</td>
+<td>CPU处在用户模式下的时间百分比</td>
+</tr>
+<tr>
+<td>%nice</td>
+<td>CPU处在带NICE值的用户模式下的时间百分比</td>
+</tr>
+<tr>
+<td>%system</td>
+<td>CPU处在系统模式下的时间百分比</td>
+</tr>
+<tr>
+<td>%iowait</td>
+<td>CPU等待输入输出完成时间的百分比</td>
+</tr>
+<tr>
+<td>%steal</td>
+<td>管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比</td>
+</tr>
+<tr>
+<td>%idle</td>
+<td>CPU空闲时间百分比</td>
+</tr>
+<tr>
+<td><strong>Device</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>rrqm/s</td>
+<td>每秒进行 merge 的读操作数目。即 rmerge/s</td>
+</tr>
+<tr>
+<td>wrqm/s</td>
+<td>每秒进行 merge 的写操作数目。即 wmerge/s</td>
+</tr>
+<tr>
+<td>r/s</td>
+<td>每秒完成的读 I/O 设备次数。即 rio/s</td>
+</tr>
+<tr>
+<td>w/s</td>
+<td>每秒完成的写 I/O 设备次数。即 wio/s</td>
+</tr>
+<tr>
+<td>rsec/s</td>
+<td>每秒读扇区数。即 rsect/s</td>
+</tr>
+<tr>
+<td>wsec/s</td>
+<td>每秒写扇区数。即 wsect/s</td>
+</tr>
+<tr>
+<td>rkB/s</td>
+<td>每秒读K字节数。是 rsect/s 的一半，因为每扇区大小为512字节。</td>
+</tr>
+<tr>
+<td>wkB/s</td>
+<td>每秒写K字节数。是 wsect/s 的一半。</td>
+</tr>
+<tr>
+<td>avgrq-sz</td>
+<td>平均每次设备I/O操作的数据大小 (扇区)。</td>
+</tr>
+<tr>
+<td>avgqu-sz</td>
+<td>平均I/O队列长度。</td>
+</tr>
+<tr>
+<td>await</td>
+<td>平均每次设备I/O操作的等待时间 (毫秒)。</td>
+</tr>
+<tr>
+<td>r_await</td>
+<td>每个读操作平均所需时间；不仅包括硬盘设备读操作时间，还包括了在kernel队列中的等待时间</td>
+</tr>
+<tr>
+<td>w_await</td>
+<td>每个写操作平均所需时间；不仅包括硬盘设备写操作时间，还包括了在kernel队列中的等待时间</td>
+</tr>
+<tr>
+<td>svctm</td>
+<td>平均每次设备I/O操作的服务时间 (毫秒)。</td>
+</tr>
+<tr>
+<td>%util</td>
+<td>一秒中有百分之多少的时间用于 I/O 操作，即被io消耗的cpu百分比。如果该参数是100%表示设备已经接近满负荷运行了，该磁盘可能存在瓶颈</td>
+</tr>
+</tbody></table>
+<p>说明：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。如果 svctm 比较接近 await，说明 I/O 几乎没有等待时间；如果 await 远大于 svctm，说明I/O 队列太长，io响应太慢，则需要进行必要优化。如果avgqu-sz比较大，也表示有大量io在等待。网上有个形象的比喻来理解这些属性：</p>
+<ul>
+<li>r/s+w/s 类似于交款人的总数</li>
+<li>平均队列长度(avgqu-sz)类似于单位时间里平均排队人的个数</li>
+<li>平均服务时间(svctm)类似于收银员的收款速度</li>
+<li>平均等待时间(await)类似于平均每人的等待时间</li>
+<li>平均I/O数据(avgrq-sz)类似于平均每人所买的东西多少</li>
+<li>I/O 操作率 (%util)类似于收款台前有人排队的时间比例</li>
+</ul>
+<p>设备IO操作：总IO(io)/s = r/s(读) +w/s(写)</p>
+<p>这些命令可在一定程度上，获取服务器当前的一些信息，可用作于参考。如果上面的命令不能满足业务需求，也可以自定义一些shell命令。但这些命令都是在Linux终端执行时才能看到这些信息，如果想通过java获取，就需要特定的工具包了。在java中jdk自带有工具类执行shell脚本，如下</p>
+<pre class=" language-java"><code class="language-java">Runtime run <span class="token operator">=</span> Runtime<span class="token punctuation">.</span><span class="token function">getRuntime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Process process <span class="token operator">=</span> run<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>cmd<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>这两行代码只能在本地机器上执行shell命令，那如果想要远程连接Linux并执行shell命令，获取一些信息该怎么做呢，这里需要开源jar包的支持了，maven依赖如下</p>
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;ch.ethz.ganymed&lt;/groupId&gt;
+            &lt;artifactId&gt;ganymed-ssh2&lt;/artifactId&gt;
+            &lt;version&gt;262&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><p>在java中就可远程登陆Linux执行shell脚本，登陆代码如下</p>
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">/**
+     * 登录主机
+     * @return
+     *      登录成功返回Connection，否则返回null
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Connection <span class="token function">login</span><span class="token punctuation">(</span>String ip<span class="token punctuation">,</span>
+                                   String userName<span class="token punctuation">,</span>
+                                   String userPwd<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"------linux连接开始--------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> start <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Connection conn <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Connection</span><span class="token punctuation">(</span>ip<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            conn<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//连接</span>
+            <span class="token keyword">boolean</span> flg<span class="token operator">=</span>conn<span class="token punctuation">.</span><span class="token function">authenticateWithPassword</span><span class="token punctuation">(</span>userName<span class="token punctuation">,</span> userPwd<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//认证</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"=========登录是否成功========="</span><span class="token operator">+</span>flg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//如报错Authentication method password not supported by the server at this stage</span>
+            <span class="token comment" spellcheck="true">//需在服务器中 vi /etc/ssh/sshd_config，将PasswordAuthentication配置项改成yes，重启</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> conn<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>执行shell命令的方法如下</p>
+<pre class=" language-java"><code class="language-java">     <span class="token comment" spellcheck="true">/**
+     * 远程执行shll脚本或者命令
+     * @param cmd
+     *      即将执行的命令
+     * @return
+     *      命令执行完后返回的结果值
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> String <span class="token function">execute</span><span class="token punctuation">(</span>Connection conn<span class="token punctuation">,</span>String cmd<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        String result<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>conn <span class="token operator">!=</span>null<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                Session session<span class="token operator">=</span> conn<span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//打开一个会话</span>
+                session<span class="token punctuation">.</span><span class="token function">execCommand</span><span class="token punctuation">(</span>cmd<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//执行命令</span>
+                String DEFAULT_CODE <span class="token operator">=</span> <span class="token string">"UTF-8"</span><span class="token punctuation">;</span>
+                result<span class="token operator">=</span><span class="token function">processStdout</span><span class="token punctuation">(</span>session<span class="token punctuation">.</span><span class="token function">getStdout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> DEFAULT_CODE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                session<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行命令失败,链接conn:"</span><span class="token operator">+</span>conn<span class="token operator">+</span><span class="token string">",执行的命令："</span><span class="token operator">+</span>cmd<span class="token operator">+</span><span class="token string">"  "</span><span class="token operator">+</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment" spellcheck="true">/**
+     * 解析脚本执行返回的结果集
+     * @param in 输入流对象
+     * @param charset 编码
+     * @return
+     *       以纯文本的格式返回
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> String <span class="token function">processStdout</span><span class="token punctuation">(</span>InputStream in<span class="token punctuation">,</span> String charset<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        InputStream stdout <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StreamGobbler</span><span class="token punctuation">(</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        StringBuilder buffer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            BufferedReader br <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>stdout<span class="token punctuation">,</span>charset<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            String line<span class="token punctuation">;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token punctuation">(</span>line<span class="token operator">=</span>br<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                buffer<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>  <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> buffer<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h2 id="2-sigar"><a href="#2-sigar" class="headerlink" title="2 . sigar"></a>2 . sigar</h2><p>通过shell命令获取服务器信息比较直接但不通用，如果服务器既有Linux和Windows服务器，那么通过shell命令获取服务器信息就不好办了，这里介绍一下Sigar。sigar全名是System Information Gatherer And Reporter，Sigar是Hyperic-hq产品的基础包,是Hyperic HQ主要的数据收集组件。它用来从许多平台收集系统和处理信息。这些平台包括：Linux, Windows, Solaris, AIX, HP-UX, FreeBSD and Mac OSX。Sigar可以获得系统的如下介个方面的信息：</p>
+<ol>
+<li>操作系统的信息，包括：dataModel、cpuEndian、name、version、arch、machine、description、patchLevel、vendor、vendorVersion、vendorName、vendorCodeName</li>
+<li>CPU信息，包括：基本信息（vendor、model、mhz、cacheSize）和统计信息（user、sys、idle、nice、wait）</li>
+<li>内存信息，物理内存和交换内存的总数、使用数、剩余数；RAM的大小</li>
+<li>进程信息，包括每个进程的内存、CPU占用数、状态、参数、句柄等。</li>
+<li>文件系统信息，包括名称、容量、剩余数、使用数、分区类型等</li>
+<li>网络接口信息，包括基本信息和统计信息。</li>
+<li>网络路由和链接表信息</li>
+</ol>
+<p>Sigar.jar下载地址：<a href="http://sigar.hyperic.com/" target="_blank" rel="noopener">http://sigar.hyperic.com</a>，解压文件，把文件sigar.jar提取出来，放入到你自己的系统中。注意:Sigar为不同平台提供了不同的库文件.典型的:</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>依赖库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Linux</td>
+<td>libsigar-amd64-linux.so<br>libsigar-x86-linux.so</td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>sigar-amd64-winnt.dll<br>sigar-x86-winnt.dll</td>
+</tr>
+</tbody></table>
+<p>到这里sigar的原理也就知道个大概了，就是通过java调用底层c++的类库来获取服务器信息的，因此需要将类库添加到jdk的环境变量中，以方便能加载到，但是这样程序移植起来就比较麻烦了，每次换台服务器就得重新配置类库的路径。可以自己写一个方法，将类库复制到服务器的临时文件夹中，再把这个路径加到java的path即可。</p>
+<h3 id="3-ohsi"><a href="#3-ohsi" class="headerlink" title="3 . ohsi"></a>3 . ohsi</h3><p>ohsi是github上开源的工具包，其地址：<a href="https://github.com/oshi/oshi。maven依赖如下：" target="_blank" rel="noopener">https://github.com/oshi/oshi。maven依赖如下：</a></p>
+<pre><code>         &lt;dependency&gt;
+            &lt;groupId&gt;com.github.oshi&lt;/groupId&gt;
+            &lt;artifactId&gt;oshi-core&lt;/artifactId&gt;
+            &lt;version&gt;3.13.0&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><p>取得 cpu信息 示例</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// Options: ERROR > WARN > INFO > DEBUG > TRACE</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Initializing System..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        SystemInfo si <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SystemInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        HardwareAbstractionLayer hal <span class="token operator">=</span> si<span class="token punctuation">.</span><span class="token function">getHardware</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        OperatingSystem os <span class="token operator">=</span> si<span class="token punctuation">.</span><span class="token function">getOperatingSystem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"----------CPU信息获取-----------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Oshi<span class="token punctuation">.</span><span class="token function">printCpu</span><span class="token punctuation">(</span>hal<span class="token punctuation">.</span><span class="token function">getProcessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">printCpu</span><span class="token punctuation">(</span>CentralProcessor processor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Uptime: "</span> <span class="token operator">+</span> FormatUtil<span class="token punctuation">.</span><span class="token function">formatElapsedSecs</span><span class="token punctuation">(</span>processor<span class="token punctuation">.</span><span class="token function">getSystemUptime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>
+                <span class="token string">"Context Switches/Interrupts: "</span> <span class="token operator">+</span> processor<span class="token punctuation">.</span><span class="token function">getContextSwitches</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" / "</span> <span class="token operator">+</span> processor<span class="token punctuation">.</span><span class="token function">getInterrupts</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">long</span><span class="token punctuation">[</span><span class="token punctuation">]</span> prevTicks <span class="token operator">=</span> processor<span class="token punctuation">.</span><span class="token function">getSystemCpuLoadTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"CPU, IOWait, and IRQ ticks @ 0 sec:"</span> <span class="token operator">+</span> Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>prevTicks<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// Wait a second...</span>
+        Util<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span><span class="token punctuation">[</span><span class="token punctuation">]</span> ticks <span class="token operator">=</span> processor<span class="token punctuation">.</span><span class="token function">getSystemCpuLoadTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"CPU, IOWait, and IRQ ticks @ 1 sec:"</span> <span class="token operator">+</span> Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>ticks<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> user <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>USER<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>USER<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> nice <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>NICE<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>NICE<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> sys <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>SYSTEM<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>SYSTEM<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> idle <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>IDLE<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>IDLE<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> iowait <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>IOWAIT<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>IOWAIT<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> irq <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>IRQ<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>IRQ<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> softirq <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>SOFTIRQ<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>SOFTIRQ<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> steal <span class="token operator">=</span> ticks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>STEAL<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">-</span> prevTicks<span class="token punctuation">[</span>TickType<span class="token punctuation">.</span>STEAL<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> totalCpu <span class="token operator">=</span> user <span class="token operator">+</span> nice <span class="token operator">+</span> sys <span class="token operator">+</span> idle <span class="token operator">+</span> iowait <span class="token operator">+</span> irq <span class="token operator">+</span> softirq <span class="token operator">+</span> steal<span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span>
+                <span class="token string">"User: %.1f%% Nice: %.1f%% System: %.1f%% Idle: %.1f%% IOwait: %.1f%% IRQ: %.1f%% SoftIRQ: %.1f%% Steal: %.1f%%%n"</span><span class="token punctuation">,</span>
+                <span class="token number">100d</span> <span class="token operator">*</span> user <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span> <span class="token number">100d</span> <span class="token operator">*</span> nice <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span> <span class="token number">100d</span> <span class="token operator">*</span> sys <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span> <span class="token number">100d</span> <span class="token operator">*</span> idle <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span>
+                <span class="token number">100d</span> <span class="token operator">*</span> iowait <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span> <span class="token number">100d</span> <span class="token operator">*</span> irq <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span> <span class="token number">100d</span> <span class="token operator">*</span> softirq <span class="token operator">/</span> totalCpu<span class="token punctuation">,</span> <span class="token number">100d</span> <span class="token operator">*</span> steal <span class="token operator">/</span> totalCpu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"CPU load: %.1f%% (counting ticks)%n"</span><span class="token punctuation">,</span> processor<span class="token punctuation">.</span><span class="token function">getSystemCpuLoadBetweenTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"CPU load: %.1f%% (OS MXBean)%n"</span><span class="token punctuation">,</span> processor<span class="token punctuation">.</span><span class="token function">getSystemCpuLoad</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span><span class="token punctuation">[</span><span class="token punctuation">]</span> loadAverage <span class="token operator">=</span> processor<span class="token punctuation">.</span><span class="token function">getSystemLoadAverage</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"CPU load averages:"</span> <span class="token operator">+</span> <span class="token punctuation">(</span>loadAverage<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token string">" N/A"</span> <span class="token operator">:</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">" %.2f"</span><span class="token punctuation">,</span> loadAverage<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token operator">+</span> <span class="token punctuation">(</span>loadAverage<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token string">" N/A"</span> <span class="token operator">:</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">" %.2f"</span><span class="token punctuation">,</span> loadAverage<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token operator">+</span> <span class="token punctuation">(</span>loadAverage<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token string">" N/A"</span> <span class="token operator">:</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">" %.2f"</span><span class="token punctuation">,</span> loadAverage<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// per core CPU</span>
+        StringBuilder procCpu <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token string">"CPU load per processor:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span><span class="token punctuation">[</span><span class="token punctuation">]</span> load <span class="token operator">=</span> processor<span class="token punctuation">.</span><span class="token function">getProcessorCpuLoadBetweenTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">double</span> avg <span class="token operator">:</span> load<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            procCpu<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">" %.1f%%"</span><span class="token punctuation">,</span> avg <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>procCpu<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="4-snmp"><a href="#4-snmp" class="headerlink" title="4 . snmp"></a>4 . snmp</h2><p>SNMP是英文”Simple Network Management Protocol”的缩写，中文意思是”简单网络管理协议”。SNMP是一种简单网络管理协议，它属于TCP/IP五层协议中的应用层协议，用于网络管理的协议。SNMP主要用于网络设备的管理。由于SNMP协议简单可靠 ，受到了众多厂商的欢迎，成为了目前最为广泛的网管协议。SNMP协议主要由两大部分构成：SNMP管理站和SNMP代理。SNMP管理站是一个中心节点，负责收集维护各个SNMP元素的信息，并对这些信息进行处理，最后反馈给网络管理员；而SNMP代理是运行在各个被管理的网络节点之上，负责统计该节点的各项信息，并且负责与SNMP管理站交互，接收并执行管理站的命令，上传各种本地的网络信息。SNMP管理站和SNMP代理之间是松散耦合。他们之间的通信是通过UDP协议完成的。一般情况下，SNMP管理站通过UDP协议向SNMP代理发送各种命令，当SNMP代理收到命令后，返回SNMP管理站需要的参数。但是当SNMP代理检测到网络元素异常的时候，也可以主动向SNMP管理站发送消息，通告当前异常状况。使用snmp服务需要在Linux服务器上安装并启动snmpd服务。在java中同样提供了开源工具包使用snmpd服务，maven依赖如下</p>
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.snmp4j&lt;/groupId&gt;
+            &lt;artifactId&gt;snmp4j&lt;/artifactId&gt;
+            &lt;version&gt;1.10.1&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><p>代码使用实例如下</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">initSnmp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 设置Agent方传输协议并打开监听</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>transport <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            transport <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultUdpTransportMapping</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            transport<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>snmp <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            snmp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Snmp</span><span class="token punctuation">(</span>transport<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            snmp<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> String <span class="token function">getInfoByOidGet</span><span class="token punctuation">(</span>String ip<span class="token punctuation">,</span> String port<span class="token punctuation">,</span> String oid<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//1、初始化snmp,并开启监听</span>
+            <span class="token function">initSnmp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//2、创建目标对象</span>
+            Target target <span class="token operator">=</span> <span class="token function">getTarget</span><span class="token punctuation">(</span>ip <span class="token operator">+</span> <span class="token string">"/"</span> <span class="token operator">+</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//3、创建报文</span>
+            PDU pdu <span class="token operator">=</span> <span class="token function">createPDU</span><span class="token punctuation">(</span>oid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//4、发送报文，并获取返回结果</span>
+            ResponseEvent responseEvent <span class="token operator">=</span> snmp<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>pdu<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            PDU response <span class="token operator">=</span> responseEvent<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>response <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                Vector vector <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">getVariableBindings</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>vector <span class="token operator">==</span> null <span class="token operator">||</span> vector<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    String str <span class="token operator">=</span> vector<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    str <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"="</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> str<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>    </code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2019/02/17/liao-liao-yun-wei-jian-kong/">http://yoursite.com/2019/02/17/liao-liao-yun-wei-jian-kong/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E8%BF%90%E7%BB%B4%E7%9B%91%E6%8E%A7/">
+                                    <span class="chip bg-color">运维监控</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2019-02-17T17-05-15',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="java并发编程-cpu的高速缓存">
+                        
+                        <span class="card-title">java并发编程-cpu的高速缓存</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            CPU缓存是CPU一个重要的组成部分，CPU缓存的出现主要是为了解决CPU运算速度与内存读写速度不匹配的矛盾，这种访问速度的显著差异，导致CPU可能会花费很长时间等待数据到来或把数据写入内存，基于此，现在CPU大多数情况下读写都不会直接访问
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-03-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/14/git-de-yuan-li/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Git的原理">
+                        
+                        <span class="card-title">Git的原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            自工作起就一直使用Git，但一直没去真正了解Git的工作原理，实在惭愧。任何一个项目，团队协作非常重要，在互联网企业级开发中，没有个人英雄主义，一个人几乎不可能独立完成一个项目。因此当很多人共同协作去完成一个项目时，工作成果的维护是一个老大
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-14
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Git/">
+                        <span class="chip bg-color">Git</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

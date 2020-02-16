@@ -1,0 +1,1961 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="HashMap的底层实现, 一寸灰">
+    <meta name="description" content="HashMap的底层实现相信是Java开发者们面试都会碰到的问题。它方便易用，在Java开发中使用频率非常高。它的实现原理包含很多知识点，所以当面试官问到你HashMap的时候可就要当心了，因为如果基本功不够扎实的话，很容易被带到沟里哦。以">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>HashMap的底层实现 | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">HashMap的底层实现</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-01-02
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>HashMap的底层实现相信是Java开发者们面试都会碰到的问题。它方便易用，在Java开发中使用频率非常高。它的实现原理包含很多知识点，所以当面试官问到你HashMap的时候可就要当心了，因为如果基本功不够扎实的话，很容易被带到沟里哦。以下暂时说jdk1.8的HashMap实现，我们都知道在数据结构中，物理存储的数据结构只有两种，即数组和链表，其余的如树，队列，栈等数据结构都是在它们的基础上逻辑抽象而来。它们各有优势，数组存储区域连续，查找快，增删慢，而链表存储区域离散，查找慢，增删快，因此各有各的应用场景。并没有一种既满足查找快也满足增删快的基本数据结构。那能不能把数组和链表组合在一起构成一种新的数据结构呢？HashMap就此诞生了，它的底层就是通过数组加链表组合的方式实现了查找快和增删快的统一。那么怎么样的组合才能使两者达到平衡呢？来看一下HashMap的实现细节</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/1.png" alt></p>
+<p>在此之前我们先了解一下几种常用的数据结构，从图中也可以看出，它们是组成HashMap的基石。</p>
+<p><strong>数组</strong>：数组指的就是一组相关类型的变量集合，并且这些变量彼此之间没有任何的关联。占用连续的内存空间存储数据，数组有下标，查询数据快，但是增删比较慢。</p>
+<p><strong>链表：</strong>链表是一种线性表，不会占用连续的内存空间存储数据，而是每一个节点里存到下一个节点的指针。由于存储区间离散，因而占用内存比较宽松，链表查询比较慢，但是增删比较快；</p>
+<p><strong>哈希：</strong>哈希是单词Hash的英译，也翻译为散列。把任意长度的输入，通过散列算法变换成固定长度的输出，该输出就是散列值</p>
+<a id="more"></a> 
+
+<h3 id="1-HashMap的实现"><a href="#1-HashMap的实现" class="headerlink" title="1.HashMap的实现"></a>1.HashMap的实现</h3><p>以下暂时说jdk1.8的HashMap实现，我们都知道在数据结构中，物理存储的数据结构只有两种，即数组和链表，其余的如树，队列，栈等数据结构都是在它们的基础上逻辑抽象而来。它们各有优势，数组存储区域连续，查找快，增删慢，而链表存储区域离散，查找慢，增删快，因此各有各的应用场景。并没有一种既满足查找快也满足增删快的基本数据结构。那能不能把数组和链表组合在一起构成一种新的数据结构呢？HashMap就此诞生了，它的底层就是通过数组加链表组合的方式实现了查找快和增删快的统一。那么怎么样的组合才能使两者达到平衡呢？下面我们来一探究竟，下图是HashMap实现的结构图。</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/2.png" alt></p>
+<p>可以看出组成HashMap最基本的单元是Entry。图中紫色框的Entry构成数组，红色框中的Entry构成链表。当有新的Entry需要加入进来时，通过Entry的Key哈希后得到值和table数组的长度位与运算得到数组的下标。再遍历链表，通过equals方法逐个比较key，如果有相同的Key就覆盖,如果没有就追加到链表头部（<strong>HashMap并不会将元素放在链表的尾部，而是放在头部，这是为了避免尾部遍历[tail traversing]</strong>）。数组和链表就是通过这种方式的组合实现了查找和增删效率的平衡。其中Entry对象除了包含本身的Key和Value外还包含它指向的下一个Entry。在jdk1.8后，对HashMap做了优化，当链表长度不小于8时就将链表转化成红黑树，长度小于8时再转化为链表。既然红黑树能有效的提高查询速度（黑红树查找相当于二分查找），那为什么不一开始就把链表转化为红黑树，而是要在链表长度大于8时才做这样的处理呢？这里个人理解，红黑树固然能提高查询速度，但也带来了维护红黑树的成本。我们知道红黑树是一颗自平衡的二叉树，因此在插入数据时，有可能导致红黑树不平衡，这时需要翻转红黑树使它达到平衡状态。而8这个数字就是链表和数字在插入效率和查询效率上的折中处理，就如同HashMap的负载因子是0.75，而不是0.6或是0.8，是一个道理。在jdk源码中Entry的实现类如下</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token keyword">implements</span> <span class="token class-name">Map<span class="token punctuation">.</span>Entry</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// key的哈希值</span>
+        <span class="token keyword">final</span> <span class="token keyword">int</span> hash<span class="token punctuation">;</span>
+        <span class="token keyword">final</span> K key<span class="token punctuation">;</span>
+        V value<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 下一个Node，没有则为null</span>
+        Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> next<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//省略下面代码</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>在HashMap类中还定义了几个静态常量，这几个常量是一些很重要的属性，源码如下</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMap</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> 
+    <span class="token keyword">implements</span> <span class="token class-name">Map</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">,</span> Cloneable<span class="token punctuation">,</span> Serializable <span class="token punctuation">{</span>
+
+     <span class="token comment" spellcheck="true">/**
+     * HashMap的默认初始容量大小 16
+     */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> DEFAULT_INITIAL_CAPACITY <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// aka 16</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * HashMap的最大容量 2的30次方
+     */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> MAXIMUM_CAPACITY <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">30</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 负载因子，代表了table的填充度有多少，默认是0.75。当数组中的数据大于总长度的0.75倍时
+     * HashMap会自动扩容，默认扩容到原长度的两倍。为什么是两倍，而不是1.5倍，或是3倍。这个
+     * 2倍很睿智，后面会说到
+     */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">float</span> DEFAULT_LOAD_FACTOR <span class="token operator">=</span> <span class="token number">0.75f</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 默认阈值，当桶(bucket)上的链表长度大于这个值时会转成红黑树，put方法的代码里有用到
+     * 在jdk1.7中链表就是普通的单向链表，很多数据出现哈希碰撞导致这些数据集中在某一个哈希桶上，
+     * 因而导致链表很长，会出现效率问题，jdk1.8对此做了优化，默认当链表长度大于8时转化为红黑树
+     */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> TREEIFY_THRESHOLD <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 和上一个的阈值相对的阈值，当桶(bucket)上的链表长度小于这个值时红黑树退化成链表
+     */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> UNTREEIFY_THRESHOLD <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 用于快速失败，由于HashMap非线程安全，在对HashMap进行迭代时，如果期间其他线程的参与导致HashMap      * 的结构发生变化了（比如put，remove等操作），需要抛出异常ConcurrentModificationException
+     */</span>
+    <span class="token keyword">transient</span> <span class="token keyword">int</span> modCount<span class="token punctuation">;</span>
+
+
+<span class="token punctuation">}</span></code></pre>
+<p>HashMap有两个有参构造器可以用来设置initialCapacity和loadFactor的值，即HashMap的初始容量和负载因子的值，如果不传参则都使用默认值。</p>
+<h3 id="2-HashMap的几个重要方法"><a href="#2-HashMap的几个重要方法" class="headerlink" title="2.HashMap的几个重要方法"></a>2.HashMap的几个重要方法</h3><h4 id="（1）put方法"><a href="#（1）put方法" class="headerlink" title="（1）put方法"></a>（1）put方法</h4><p>废话不多说，直接上源码，下面所有方法我都加上了注释，以方便阅读理解</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> V <span class="token function">put</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">putVal</span><span class="token punctuation">(</span><span class="token function">hash</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>源码中put方法调用了putval方法，OK,接下来我们来看看putval操作的实现吧</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> V <span class="token function">putVal</span><span class="token punctuation">(</span><span class="token keyword">int</span> hash<span class="token punctuation">,</span> K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">boolean</span> onlyIfAbsent<span class="token punctuation">,</span>
+               <span class="token keyword">boolean</span> evict<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">//table全局变量,存储链表头节点数组</span>
+    Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab<span class="token punctuation">;</span> Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> p<span class="token punctuation">;</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//如果table数组是空的，则创建一个头结点数据，默认长度是16</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tab <span class="token operator">=</span> table<span class="token punctuation">)</span> <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token punctuation">(</span>n <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        n <span class="token operator">=</span> <span class="token punctuation">(</span>tab <span class="token operator">=</span> <span class="token function">resize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//n是table长度,根据数组长度和key的哈希值，定位当前key在table中的下标位置,如果为空则新建一个node。不为空走else</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>p <span class="token operator">=</span> tab<span class="token punctuation">[</span>i <span class="token operator">=</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> hash<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span>
+        tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">newNode</span><span class="token punctuation">(</span>hash<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> e<span class="token punctuation">;</span> K k<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 如果新的key与table中索引处取出的头节点的key相等，且hash值一致，则把新的node替换掉旧的node</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>hash <span class="token operator">==</span> hash <span class="token operator">&amp;&amp;</span>
+            <span class="token punctuation">(</span><span class="token punctuation">(</span>k <span class="token operator">=</span> p<span class="token punctuation">.</span>key<span class="token punctuation">)</span> <span class="token operator">==</span> key <span class="token operator">||</span> <span class="token punctuation">(</span>key <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> key<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            e <span class="token operator">=</span> p<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//如果头节点不是空，且头节点的类型是树节点类型，则把当前节点插入当前头节点所在的树中(红黑树，防止链表过长，1.8的优化)</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token keyword">instanceof</span> <span class="token class-name">TreeNode</span><span class="token punctuation">)</span>
+            e <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">)</span>p<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">putTreeVal</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> tab<span class="token punctuation">,</span> hash<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//map的数据结构处理</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//遍历链表</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> binCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation">;</span> <span class="token operator">++</span>binCount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                如果当前节点的下一个节点为空，则把新节点插入到下一个节点
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>e <span class="token operator">=</span> p<span class="token punctuation">.</span>next<span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    p<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token function">newNode</span><span class="token punctuation">(</span>hash<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">//如果链表长度大于或等于8，则把链表转化为红黑树，重点转化方法(treeifyBin)</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>binCount <span class="token operator">>=</span> TREEIFY_THRESHOLD <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// -1 for 1st</span>
+                    <span class="token comment" spellcheck="true">//此方法构建红黑树</span>
+                        <span class="token function">treeifyBin</span><span class="token punctuation">(</span>tab<span class="token punctuation">,</span> hash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment" spellcheck="true">//如果当前节点的key和hash均和待插入的节点相等，则退出循环，(注意此时e的值在前一个if时赋值过，因此当前的e值，就是链表中的当前节点值)</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>hash <span class="token operator">==</span> hash <span class="token operator">&amp;&amp;</span>
+                    <span class="token punctuation">(</span><span class="token punctuation">(</span>k <span class="token operator">=</span> e<span class="token punctuation">.</span>key<span class="token punctuation">)</span> <span class="token operator">==</span> key <span class="token operator">||</span> <span class="token punctuation">(</span>key <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> key<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                p <span class="token operator">=</span> e<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//如果老节点不是空，则将老节点的值替换为新值，并返回老的值</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// existing mapping for key</span>
+            V oldValue <span class="token operator">=</span> e<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>onlyIfAbsent <span class="token operator">||</span> oldValue <span class="token operator">==</span> null<span class="token punctuation">)</span>
+                e<span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//此方法实现的逻辑,是把入参的节点放置在链表的尾部，但在HashMap中是空实现，在LinkedHashMap中有具体实现</span>
+            <span class="token function">afterNodeAccess</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> oldValue<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//保证并发访问时，若HashMap内部结构发生变化，快速响应失败</span>
+    <span class="token operator">++</span>modCount<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//当table[]长度大于临界阈值，调用resize方法进行扩容</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">++</span>size <span class="token operator">></span> threshold<span class="token punctuation">)</span>
+        <span class="token function">resize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//此方法在HashMap中是空方法，在LinkedHashMap中有实现</span>
+    <span class="token function">afterNodeInsertion</span><span class="token punctuation">(</span>evict<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h4 id="2-treeify方法构建红黑树"><a href="#2-treeify方法构建红黑树" class="headerlink" title="(2) treeify方法构建红黑树"></a>(2) treeify方法构建红黑树</h4><p>此方法中比较重要的方法就是treefyBin方法了，此方法以当前节点为头节点，构建一个双向链表(双向链表：链表的一种，它的每个数据结点中都有两个指针，分别指向直接后继和直接前驱。所以，从双向链表中的任意一个结点开始，都可以很方便地访问它的前驱结点和后继结点</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">treeifyBin</span><span class="token punctuation">(</span>Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab<span class="token punctuation">,</span> <span class="token keyword">int</span> hash<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> n<span class="token punctuation">,</span> index<span class="token punctuation">;</span> Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> e<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>tab <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token punctuation">(</span>n <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token operator">&lt;</span> MIN_TREEIFY_CAPACITY<span class="token punctuation">)</span>
+        <span class="token function">resize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>e <span class="token operator">=</span> tab<span class="token punctuation">[</span>index <span class="token operator">=</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> hash<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> hd <span class="token operator">=</span> null<span class="token punctuation">,</span> tl <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">do</span> <span class="token punctuation">{</span>
+            TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> p <span class="token operator">=</span> <span class="token function">replacementTreeNode</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>tl <span class="token operator">==</span> null<span class="token punctuation">)</span>
+                hd <span class="token operator">=</span> p<span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                p<span class="token punctuation">.</span>prev <span class="token operator">=</span> tl<span class="token punctuation">;</span>
+                tl<span class="token punctuation">.</span>next <span class="token operator">=</span> p<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            tl <span class="token operator">=</span> p<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>e <span class="token operator">=</span> e<span class="token punctuation">.</span>next<span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tab<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> hd<span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">//以当前节点为根节点，构建一颗红黑树</span>
+            hd<span class="token punctuation">.</span><span class="token function">treeify</span><span class="token punctuation">(</span>tab<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后在这个方法中构建红黑树，jdk1.8对HashMap的优化核心也在于此方法，可以重点看看</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">treeify</span><span class="token punctuation">(</span>Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> root <span class="token operator">=</span> null<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 定义树的根节点</span>
+    <span class="token comment" spellcheck="true">//这里的this是通过hd.treeify(tab);方法调用的，因此this就是hd，而hd是table数组中某个值，也就是链表的头节点</span>
+    <span class="token comment" spellcheck="true">// 以下的代码就是从头节点开始遍历链表</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">,</span> next<span class="token punctuation">;</span> x <span class="token operator">!=</span> null<span class="token punctuation">;</span> x <span class="token operator">=</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 遍历链表，x指向当前节点、next指向下一个节点</span>
+        next <span class="token operator">=</span> <span class="token punctuation">(</span>TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">)</span>x<span class="token punctuation">.</span>next<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 下一个节点</span>
+        x<span class="token punctuation">.</span>left <span class="token operator">=</span> x<span class="token punctuation">.</span>right <span class="token operator">=</span> null<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 设置当前节点的左右节点为空</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 如果还没有根节点</span>
+            x<span class="token punctuation">.</span>parent <span class="token operator">=</span> null<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当前节点的父节点设为空</span>
+            x<span class="token punctuation">.</span>red <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当前节点的红色属性设为false（把当前节点设为黑色）</span>
+            root <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 根节点指向到当前节点</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 如果已经存在根节点了</span>
+            K k <span class="token operator">=</span> x<span class="token punctuation">.</span>key<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 取得当前链表节点的key</span>
+            <span class="token keyword">int</span> h <span class="token operator">=</span> x<span class="token punctuation">.</span>hash<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 取得当前链表节点的hash值</span>
+            Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> kc <span class="token operator">=</span> null<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 定义key所属的Class</span>
+            <span class="token comment" spellcheck="true">//遍历红黑树</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> p <span class="token operator">=</span> root<span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 从根节点开始遍历，此遍历没有设置边界，只能从内部跳出</span>
+                <span class="token comment" spellcheck="true">// GOTO1</span>
+                <span class="token keyword">int</span> dir<span class="token punctuation">,</span> ph<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// dir 标识方向（左右）、ph标识当前树节点的hash值</span>
+                K pk <span class="token operator">=</span> p<span class="token punctuation">.</span>key<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当前树节点的key</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ph <span class="token operator">=</span> p<span class="token punctuation">.</span>hash<span class="token punctuation">)</span> <span class="token operator">></span> h<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 如果当前树节点hash值 大于 当前链表节点的hash值</span>
+                    dir <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 标识当前链表节点会放到当前树节点的左侧</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ph <span class="token operator">&lt;</span> h<span class="token punctuation">)</span>
+                    dir <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 右侧</span>
+
+                <span class="token comment" spellcheck="true">/*
+                 * 如果两个节点的key的hash值相等，那么还要通过其他方式再进行比较
+                 * 如果当前链表节点的key实现了comparable接口，并且当前树节点和链表节点是相同Class的实例，那么通过comparable的方式再比较两者。
+                 * 如果还是相等，最后再通过 tieBreakOrder 比较一次
+                 */</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>kc <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span>
+                <span class="token comment" spellcheck="true">//comparableClassFor返回键的类对象，该类必须实现Comparable接口，否则返回null</span>
+                            <span class="token punctuation">(</span>kc <span class="token operator">=</span> <span class="token function">comparableClassFor</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token operator">||</span>
+                            <span class="token punctuation">(</span>dir <span class="token operator">=</span> <span class="token function">compareComparables</span><span class="token punctuation">(</span>kc<span class="token punctuation">,</span> k<span class="token punctuation">,</span> pk<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                    dir <span class="token operator">=</span> <span class="token function">tieBreakOrder</span><span class="token punctuation">(</span>k<span class="token punctuation">,</span> pk<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> xp <span class="token operator">=</span> p<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 保存当前树节点</span>
+
+                <span class="token comment" spellcheck="true">/*
+                 * 如果dir 小于等于0 ： 当前链表节点一定放置在当前树节点的左侧，但不一定是该树节点的左孩子，也可能是左孩子的右孩子 或者 更深层次的节点。
+                 * 如果dir 大于0 ： 当前链表节点一定放置在当前树节点的右侧，但不一定是该树节点的右孩子，也可能是右孩子的左孩子 或者 更深层次的节点。
+                 * 如果当前树节点不是叶子节点，那么最终会以当前树节点的左孩子或者右孩子 为 起始节点  再从GOTO1 处开始 重新寻找自己（当前链表节点）的位置
+                 * 如果当前树节点就是叶子节点，那么根据dir的值，就可以把当前链表节点挂载到当前树节点的左或者右侧了。
+                 * 挂载之后，还需要重新把树进行平衡。平衡之后，就可以针对下一个链表节点进行处理了。
+                 */</span>
+                 <span class="token comment" spellcheck="true">//如果dir等于-1则，插入到左树，如果是1则插入到右树</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>p <span class="token operator">=</span> <span class="token punctuation">(</span>dir <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">?</span> p<span class="token punctuation">.</span>left <span class="token operator">:</span> p<span class="token punctuation">.</span>right<span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    x<span class="token punctuation">.</span>parent <span class="token operator">=</span> xp<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当前链表节点 作为 当前树节点的子节点</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>dir <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                        xp<span class="token punctuation">.</span>left <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 作为左孩子</span>
+                    <span class="token keyword">else</span>
+                        xp<span class="token punctuation">.</span>right <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 作为右孩子</span>
+                    root <span class="token operator">=</span> <span class="token function">balanceInsertion</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 重新平衡</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 把所有的链表节点都遍历完之后，最终构造出来的树可能经历多个平衡操作，根节点目前到底是链表的哪一个节点是不确定的</span>
+    <span class="token comment" spellcheck="true">// 因为我们要基于树来做查找，所以就应该把 tab[N] 得到的对象一定根节点对象，而目前只是链表的第一个节点对象，所以要做相应的处理。</span>
+    <span class="token function">moveRootToFront</span><span class="token punctuation">(</span>tab<span class="token punctuation">,</span> root<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span></code></pre>
+<h4 id="（3）resize方法对HashMap扩容"><a href="#（3）resize方法对HashMap扩容" class="headerlink" title="（3）resize方法对HashMap扩容"></a>（3）resize方法对HashMap扩容</h4><p>接下来看看扩容方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">resize</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> oldTab <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//oldCap---原hashMap的最大容量,oldThr---原hashMap的负载容量</span>
+    <span class="token keyword">int</span> oldCap <span class="token operator">=</span> <span class="token punctuation">(</span>oldTab <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> oldTab<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> oldThr <span class="token operator">=</span> threshold<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> newCap<span class="token punctuation">,</span> newThr <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>oldCap <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>oldCap <span class="token operator">>=</span> MAXIMUM_CAPACITY<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            threshold <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> oldTab<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//左移一位,就是将原来的容量翻倍，翻倍后的值小于2的30次方，大于原来的容量值</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>newCap <span class="token operator">=</span> oldCap <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> MAXIMUM_CAPACITY <span class="token operator">&amp;&amp;</span>
+                 oldCap <span class="token operator">>=</span> DEFAULT_INITIAL_CAPACITY<span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">//原来的负载容量翻倍     </span>
+            newThr <span class="token operator">=</span> oldThr <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// double threshold</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldThr <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// initial capacity was placed in threshold</span>
+        newCap <span class="token operator">=</span> oldThr<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>               <span class="token comment" spellcheck="true">// zero initial threshold signifies using defaults</span>
+        newCap <span class="token operator">=</span> DEFAULT_INITIAL_CAPACITY<span class="token punctuation">;</span>
+        newThr <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">(</span>DEFAULT_LOAD_FACTOR <span class="token operator">*</span> DEFAULT_INITIAL_CAPACITY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>newThr <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">float</span> ft <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>newCap <span class="token operator">*</span> loadFactor<span class="token punctuation">;</span>
+        newThr <span class="token operator">=</span> <span class="token punctuation">(</span>newCap <span class="token operator">&lt;</span> MAXIMUM_CAPACITY <span class="token operator">&amp;&amp;</span> ft <span class="token operator">&lt;</span> <span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>MAXIMUM_CAPACITY <span class="token operator">?</span>
+                  <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>ft <span class="token operator">:</span> Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    threshold <span class="token operator">=</span> newThr<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"rawtypes"</span><span class="token punctuation">,</span><span class="token string">"unchecked"</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+        Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> newTab <span class="token operator">=</span> <span class="token punctuation">(</span>Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">[</span>newCap<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    table <span class="token operator">=</span> newTab<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>oldTab <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> oldCap<span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> e<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>e <span class="token operator">=</span> oldTab<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                oldTab<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>next <span class="token operator">==</span> null<span class="token punctuation">)</span>
+                    newTab<span class="token punctuation">[</span>e<span class="token punctuation">.</span>hash <span class="token operator">&amp;</span> <span class="token punctuation">(</span>newCap <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token keyword">instanceof</span> <span class="token class-name">TreeNode</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">(</span><span class="token punctuation">(</span>TreeNode<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">)</span>e<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> newTab<span class="token punctuation">,</span> j<span class="token punctuation">,</span> oldCap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// preserve order</span>
+                    Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> loHead <span class="token operator">=</span> null<span class="token punctuation">,</span> loTail <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                    Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> hiHead <span class="token operator">=</span> null<span class="token punctuation">,</span> hiTail <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                    Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> next<span class="token punctuation">;</span>
+                    <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                        next <span class="token operator">=</span> e<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>hash <span class="token operator">&amp;</span> oldCap<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            <span class="token keyword">if</span> <span class="token punctuation">(</span>loTail <span class="token operator">==</span> null<span class="token punctuation">)</span>
+                                loHead <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                            <span class="token keyword">else</span>
+                                loTail<span class="token punctuation">.</span>next <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                            loTail <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                        <span class="token punctuation">}</span>
+                        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                            <span class="token keyword">if</span> <span class="token punctuation">(</span>hiTail <span class="token operator">==</span> null<span class="token punctuation">)</span>
+                                hiHead <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                            <span class="token keyword">else</span>
+                                hiTail<span class="token punctuation">.</span>next <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                            hiTail <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>e <span class="token operator">=</span> next<span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>loTail <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        loTail<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                        newTab<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> loHead<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>hiTail <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        hiTail<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                        newTab<span class="token punctuation">[</span>j <span class="token operator">+</span> oldCap<span class="token punctuation">]</span> <span class="token operator">=</span> hiHead<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> newTab<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>以上就是HashMpa中几个重要的方法，get方法相对来说比较简单就不做介绍了，当一个容量稍大的HashMap对象放在jvm中时，它数据的逻辑结构如下图</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap1.png" alt></p>
+<p>其中白底的虚线框是数组，也可以说是哈希桶，当不同的数据经过哈希计算后被放到同一个哈希桶时（哈希碰撞）这些数据会以链表的方式组合在一起，也就是图中绿底框。当有相当多的数据出现哈希碰撞时，会导致这个链表很长，在使用get方法时，需要遍历链表，我们知道链表优势是增删快，查找慢，这样get方法效率会很低。因此在jdk1.8中对这里做了优化，当链表长度不小于8时就将链表转化成红黑树，长度小于8时再转化为链表。既然红黑树能有效的提高查询速度（黑红树查找相当于二分查找），那为什么不一开始就把链表转化为红黑树，而是要在链表长度大于8时才做这样的处理呢？这里个人理解，红黑树固然能提高查询速度，但也带来了维护红黑树的成本。我们知道红黑树是一颗自平衡的二叉树，因此在插入数据时，有可能导致红黑树不平衡，这时需要翻转红黑树使它达到平衡状态。而8这个数字就是链表和数字在插入效率和查询效率上的折中处理，就如同HashMap的负载因子是0.75，而不是0.6或是0.8，是一个道理。</p>
+<h3 id="3-HashMap的扩容"><a href="#3-HashMap的扩容" class="headerlink" title="3 . HashMap的扩容"></a>3 . HashMap的扩容</h3><p>通过阅读源码，我们知道HashMap中数组的默认初始长度是16。但当数组中有数据的个数超过总数的0.75时，HashMap就会自动扩容。一旦扩容，就意味着，旧的HashMap中的Entry全部要迁移到新的HashMap中，也就是rehash。想一下如果是你做这件事，你会怎么做呢？我思考过这个问题，首先要把所有的Entry放到一起，然后遍历所有的Entry，出现哈希碰撞时，就把碰撞的数据组成链表。为什么要遍历所有的Entry，因为table[]的长度变成了原来的两倍，所以所有的Entry都需要通过哈希算法重新定位到新的哈希桶。这样做确实很直接，简单粗暴。但如果旧的HashMap中数据量非常大，这样做不但需要一个超大的数组暂存所有的Entry，而且HashMap的扩容将是一个巨大且低效率的 “工程” 。HashMap源码的编写者比我要睿智的多，我们来看看HashMap源码中扩容是怎么做的。其实这个问题的核心点在于哈希算法的设计。也就是Entry的key通过什么样的哈希算法定位到table中的位置。下面是jdk中的哈希算法</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token function">hash</span><span class="token punctuation">(</span>Object key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> h<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>key <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> <span class="token punctuation">(</span>h <span class="token operator">=</span> key<span class="token punctuation">.</span><span class="token function">hashCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>h <span class="token operator">>>></span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>以及putval方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> V <span class="token function">putVal</span><span class="token punctuation">(</span><span class="token keyword">int</span> hash<span class="token punctuation">,</span> K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">boolean</span> onlyIfAbsent<span class="token punctuation">,</span>
+                   <span class="token keyword">boolean</span> evict<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> tab<span class="token punctuation">;</span> Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> p<span class="token punctuation">;</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tab <span class="token operator">=</span> table<span class="token punctuation">)</span> <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token punctuation">(</span>n <span class="token operator">=</span> tab<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            n <span class="token operator">=</span> <span class="token punctuation">(</span>tab <span class="token operator">=</span> <span class="token function">resize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+       <span class="token comment" spellcheck="true">//这里是定位Entry在table[]中的下标，其中n是table[]的长度</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>p <span class="token operator">=</span> tab<span class="token punctuation">[</span>i <span class="token operator">=</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> hash<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span>
+            tab<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">newNode</span><span class="token punctuation">(</span>hash<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span></code></pre>
+<p>上面两个方法，第一个是hash算法，这个方法的作用是根据key计算哈希值，使结果尽量的离散，这样当数据很多时，数据才会尽可能均匀的分布在哈希桶中。而第二个方法中数组的长度与哈希值的与计算得到下标。然后就是最后一个巧妙的设计了，table[]扩容为原来的两倍。我们先来看以下两种情况，这里HashMap的长度是默认值16</p>
+<p>1.key计算后的哈希值小于16</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/3.png" alt></p>
+<p>2.key计算后的哈希值大于16</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/4.png" alt></p>
+<p>图中的与运算就是源码中Entry确定table下标的代码，也就是上面putval代码的第七行 p = tab[i = (n - 1) &amp; hash] 这行代码的计算。从图中计算的结果可以看出，与运算保留了低位的值，去掉了高位的值。因此在hash值小于16的情况下，旧的Entry在重新定位到扩容后的新HashMap的table下标时，得到的下标值是一样的。而在hash值大于16的情况下，旧的Entry在重新定位到扩容后的新HashMap的table下标时，得到的下标值是不一样的。这说明在第一次HashMap扩容时，hash值大于16的Entry会迁移到新的位置，而小于16的Entry不需要迁移。这就保证了旧table已经散列良好的数据位置重新调换的频率。而每次扩容两倍更是保证了，每次变化的位数只有一位，如下图</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap4.png" alt></p>
+<p>这样就可以使之前已经散列好的数组变动最小，这也是为什么扩容2倍的原因。到这里可以给HashMap的原理做个总结：<strong>HashMap由数组加链表组成的，数组是HashMap的哈希桶，链表则是为解决哈希碰撞而存在的，如果定位到的数组位置不含链表（即哈希桶中只有一个Entry）,那么对于查找，添加等操作很快，仅需一次寻址即可（数组根据下标寻址，速度很快）；如果定位到的数组包含链表，对于添加操作，其时间复杂度为O(n)，首先遍历链表，存在即覆盖，否则新增；对于查找操作来讲，也需遍历链表，然后通过key对象的equals方法逐一比较查找。所以，性能考虑，HashMap中的链表出现越少，性能就会越好。（其实也就是key的哈希值越离散，Entry就会尽可能的均匀分布，出现链表的概率也就越低）</strong></p>
+<h3 id="4-重写equals和hashCode方法"><a href="#4-重写equals和hashCode方法" class="headerlink" title="4 . 重写equals和hashCode方法"></a>4 . 重写equals和hashCode方法</h3><p>这个问题相信很多初学java的朋友都碰到过。就是在使用自定义对象作为HashMap的key时，如果重写了equals，也一定要重写hashcode方法。首先来看个小例子，如果在类中重写了equals方法，但是不重写hashCode方法会出现什么样的问题</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Car</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String card<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String name<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">Car</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token function">Car</span><span class="token punctuation">(</span>String card<span class="token punctuation">,</span>String name<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>card<span class="token operator">=</span>card<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token operator">=</span>name<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">equals</span><span class="token punctuation">(</span>Object o<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">==</span> o<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>o <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> o<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Car person <span class="token operator">=</span> <span class="token punctuation">(</span>Car<span class="token punctuation">)</span> o<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//两辆车，根据车牌判断是否相等</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>card<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>card<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">//省略set和get方法</span>
+
+
+   <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        HashMap<span class="token operator">&lt;</span>Car<span class="token punctuation">,</span>String<span class="token operator">></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Car car1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Car</span><span class="token punctuation">(</span><span class="token string">"湘B2731"</span><span class="token punctuation">,</span><span class="token string">"本田"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>car1<span class="token punctuation">,</span><span class="token string">"张三的车"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Car car2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Car</span><span class="token punctuation">(</span><span class="token string">"湘B2731"</span><span class="token punctuation">,</span><span class="token string">"本田"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"结果---"</span><span class="token operator">+</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>car2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>我定义了一个汽车类，重写了equals方法，通过判断两辆车的车牌号相等来判断是否为同一辆车，预期结果应该输出 张三的车 ，可实际结果却不是这样的，实际输出如下</p>
+<pre><code>结果---null</code></pre><p>通过上面HashMap的原理，我们大概能明白其中的道理，是因为我们没有重写hashCode方法的原因，因为两个对象的哈希值不一样，导致定位到了HashMap的不同哈希桶中，因此没有get到值。但为什么hashCode会不相等呢。这需要搞清楚hashCode方法的原理。equals方法和hashCode方法都属于java基类Object类的方法，其中equals方法是用于比较两个值是否相等的。hashCode主要作用是为了配合基于散列的集合一起正常运行，这样的散列集合包括HashSet、HashMap以及HashTable，可以这么理解hashCode方法就是为了集合而生的。或许很多数人都会想到调用equals方法来逐个进行比较，这个方法确实可行。但是如果集合中已经存在成千上万条数据或者更多，如果采用equals方法遍历比较，效率必然是一个问题。此时hashCode方法的作用就体现出来了，当需要通过集合查找某条数据时，先调用这个对象的hashCode方法，得到对应的hashcode值。这样就把值的范围定位到一小片区域（即哈希桶）中，只要遍历这里面的数据就能找到这条数据了。说了这么多，那么hashCode是怎么计算而来的呢？有些朋友误以为默认情况下，hashCode返回的就是对象的存储地址，这种看法是不全面的，确实有些JVM在实现时是直接返回对象的存储地址，但是大多时候并不是这样，只能说与存储地址有一定关联。下面是HotSpot JVM中生成hash散列值的实现：</p>
+<pre class=" language-c++"><code class="language-c++">static inline intptr_t get_next_hash(Thread * Self, oop obj) {
+  intptr_t value = 0 ;
+  if (hashCode == 0) {
+     // This form uses an unguarded global Park-Miller RNG,
+     // so it's possible for two threads to race and generate the same RNG.
+     // On MP system we'll have lots of RW access to a global, so the
+     // mechanism induces lots of coherency traffic.
+     value = os::random() ;
+  } else
+  if (hashCode == 1) {
+     // This variation has the property of being stable (idempotent)
+     // between STW operations.  This can be useful in some of the 1-0
+     // synchronization schemes.
+     intptr_t addrBits = intptr_t(obj) >> 3 ;
+     value = addrBits ^ (addrBits >> 5) ^ GVars.stwRandom ;
+  } else
+  if (hashCode == 2) {
+     value = 1 ;            // for sensitivity testing
+  } else
+  if (hashCode == 3) {
+     value = ++GVars.hcSequence ;
+  } else
+  if (hashCode == 4) {
+     value = intptr_t(obj) ;
+  } else {
+     // Marsaglia's xor-shift scheme with thread-specific state
+     // This is probably the best overall implementation -- we'll
+     // likely make this the default in future releases.
+     unsigned t = Self->_hashStateX ;
+     t ^= (t << 11) ;
+     Self->_hashStateX = Self->_hashStateY ;
+     Self->_hashStateY = Self->_hashStateZ ;
+     Self->_hashStateZ = Self->_hashStateW ;
+     unsigned v = Self->_hashStateW ;
+     v = (v ^ (v >> 19)) ^ (t ^ (t >> 8)) ;
+     Self->_hashStateW = v ;
+     value = v ;
+  }
+
+  value &= markOopDesc::hash_mask;
+  if (value == 0) value = 0xBAD ;
+  assert (value != markOopDesc::no_hash, "invariant") ;
+  TEVENT (hashCode: GENERATE) ;
+  return value;
+}</code></pre>
+<p>该实现位于hotspot/src/share/vm/runtime/synchronizer.cpp文件下。到这里我们就能明白为什么只重写equals方法不行了，既然hashCode和对象内存地址有关系，那么上面那个例子中，在往HahsMap中set和get时，明显是两个不同的对象，因此肯定会得到不同的哈希值。当我们重写了hashCode方法后，就能得到预期的结果了。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Car</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String card<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String name<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">Car</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token function">Car</span><span class="token punctuation">(</span>String card<span class="token punctuation">,</span>String name<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>card<span class="token operator">=</span>card<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token operator">=</span>name<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">hashCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">return</span> Objects<span class="token punctuation">.</span><span class="token function">hash</span><span class="token punctuation">(</span>card<span class="token punctuation">,</span> name<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">equals</span><span class="token punctuation">(</span>Object o<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">==</span> o<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>o <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> o<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Car person <span class="token operator">=</span> <span class="token punctuation">(</span>Car<span class="token punctuation">)</span> o<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//两辆车，根据车牌判断是否相等</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>card<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>card<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+      <span class="token comment" spellcheck="true">// 省略get和set方法</span>
+
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        HashMap<span class="token operator">&lt;</span>Car<span class="token punctuation">,</span>String<span class="token operator">></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Car car1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Car</span><span class="token punctuation">(</span><span class="token string">"湘B2731"</span><span class="token punctuation">,</span><span class="token string">"本田"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>car1<span class="token punctuation">,</span><span class="token string">"张三的车"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Car car2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Car</span><span class="token punctuation">(</span><span class="token string">"湘B2731"</span><span class="token punctuation">,</span><span class="token string">"本田"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"结果---"</span><span class="token operator">+</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>car2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>实际输出结果</p>
+<pre><code>结果---张三的车</code></pre><h3 id="5-HashMap的并发问题"><a href="#5-HashMap的并发问题" class="headerlink" title="5 . HashMap的并发问题"></a>5 . HashMap的并发问题</h3><p>HashMap是不能在并发场景下使用的，因为在HashMap的源码中，它的所有方法都没有同步处理。实际上只要是在堆中的对象，如果在多线程情况下使用而不做同步处理的话，都有可能导致数据不一致的问题。HashMap独特的数据结构还会带来另一个问题，这个问题在jdk1.8中得到了解决，但在jdk1.7中这个bug是很严重的存在，关于这个问题的解析，网上的博客也有很多，这里我也再回顾一下这个问题，权当复习，下面不做声明的话，默认都是说的jdk1.7的HashMap。</p>
+<h4 id="1-jdk1-7中HashMap的并发问题"><a href="#1-jdk1-7中HashMap的并发问题" class="headerlink" title="1. jdk1.7中HashMap的并发问题"></a>1. jdk1.7中HashMap的并发问题</h4><p>大家都知道HashMap正常情况下哈希桶中的数据是一个单向链表，而并发情况下哈希桶中的链表有可能会形成一个环形链表。而一旦环形链表出现将会出现一个严重的问题，就是HashMap的get方法。我们知道在使用get时，首先会通过哈希算法定位到哈希桶，然后再通过equals方法遍历链表，获取key对象的值。问题就出现在这里，因为需要遍历链表，如果链表变成环形链表，这个遍历就会变成死循环。这个导致当前线程持续占用cpu资源，得不到释放，甚至会把cpu资源耗尽，是一个极其危险的情况。当另外一个线程get 到这个死循环的key的时候，这个线程也陷入死循环。最后结果是越来越多的线程死循环，最后导致服务器宕机。那么HashMap的环形链表是如何出现的呢？究其原因是因为它的扩容机制，即rehash。当table中的哈希桶超过HashMap默认的0.75时，会自动扩容，这个扩容在单线程下没有任何问题。而在多线程下问题就暴露出来了。那么来看看多线程场景下，环形链表是怎么出现的。下面是jdk1.7中的resize方法，这里省略了部分代码，直接看核心代码</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">resize</span><span class="token punctuation">(</span><span class="token keyword">int</span> newCapacity<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Entry<span class="token punctuation">[</span><span class="token punctuation">]</span> oldTable <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> oldCapacity <span class="token operator">=</span> oldTable<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//省略无关代码</span>
+    <span class="token comment" spellcheck="true">//创建一个新的Hash Table</span>
+    Entry<span class="token punctuation">[</span><span class="token punctuation">]</span> newTable <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Entry</span><span class="token punctuation">[</span>newCapacity<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//将Old Hash Table上的数据迁移到New Hash Table上</span>
+    <span class="token function">transfer</span><span class="token punctuation">(</span>newTable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    table <span class="token operator">=</span> newTable<span class="token punctuation">;</span>
+    threshold <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">(</span>newCapacity <span class="token operator">*</span> loadFactor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在resize方法中调用了transfer方法，transfer方法源码如下</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">transfer</span><span class="token punctuation">(</span>Entry<span class="token punctuation">[</span><span class="token punctuation">]</span> newTable<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Entry<span class="token punctuation">[</span><span class="token punctuation">]</span> src <span class="token operator">=</span> table<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> newCapacity <span class="token operator">=</span> newTable<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//  从OldTable里摘一个元素出来，然后放到NewTable中</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> src<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Entry<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> e <span class="token operator">=</span> src<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            src<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> null<span class="token punctuation">;</span>
+            <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                Entry<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> next <span class="token operator">=</span> e<span class="token punctuation">.</span>next<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ① &lt;--假设线程一执行到这里就被调度挂起了</span>
+                <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token function">indexFor</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>hash<span class="token punctuation">,</span> newCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                e<span class="token punctuation">.</span>next <span class="token operator">=</span> newTable<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                newTable<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                e <span class="token operator">=</span> next<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>上面代码中，外层的for循环遍历的是HashMap的table[]，即所有哈希桶，而里层的do…while循环遍历的是哈希桶中的链表。现在假设有两个线程在执行put方法时，都出现了HashMap的扩容。两个线程怎么同时出现需要扩容的情况呢，很简单。看addEntry方法源码</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">addEntry</span><span class="token punctuation">(</span><span class="token keyword">int</span> hash<span class="token punctuation">,</span> K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">int</span> bucketIndex<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Entry<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> e <span class="token operator">=</span> table<span class="token punctuation">[</span>bucketIndex<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    table<span class="token punctuation">[</span>bucketIndex<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Entry</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span><span class="token punctuation">(</span>hash<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//查看当前的size是否超过了我们设定的阈值threshold，如果超过，需要resize</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>size<span class="token operator">++</span> <span class="token operator">>=</span> threshold<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// ② &lt;--线程挂起</span>
+        <span class="token function">resize</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> table<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>上面两方法的源码中，我分别标注了①和②两个断点。这两个点就是环形链表的形成的原因，为了方便分析，再假设服务器cpu为单核。在②处代码是关于HashMap是否需要扩容的判断，由于此方法没有加synchronized修饰。于是当线程1运行到②处时，线程判断当前的HashMap需要扩容，就在此时线程1被挂起（线程是操作系统调度的最小单元，是否被挂起，什么时候被挂起，什么时候继续运行，都是由操作系统的线程调度说了算）。这时线程2也运行到了②处，这时由于线程1被挂起了，HashMap实际上还没有进行扩容操作。因此线程2也判断当前的HashMap需要扩容。于是两个线程都会执行resize方法。如果此时线程2一鼓作气，将扩容操作全执行完倒也好了，大不了线程1再执行一遍扩容操作，两个线程也会相安无事。可事与愿违，两个线程是交替运行的。在代码①处再出现线程被挂起的情况，就会出现环形链表。下面拿几个数据，举例说明一下，首先来看一下正常情况下的rehash过程。我假设HashMap的table初始长度为2，现在由于要rehash扩容到4。HashMap中有一个长度为3的链表。同样的为了简化分析，这里哈希算法，仅仅只是用key值除以table的长度取余来定位哈希桶的位置，哈希桶0有一个key为2的Entry，哈希桶1有3个key为3,5,7的Entry组成的链表，数据结构如下</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap5.png" alt></p>
+<h5 id="正常的rehash过程"><a href="#正常的rehash过程" class="headerlink" title="正常的rehash过程"></a>正常的rehash过程</h5><p>1.table[]的第二次循环，遍历哈希桶1，链表的第一次循环，此时e指向Entry&lt;3,B&gt;，next指向Entry&lt;5,C&gt;；</p>
+<p>2.table[]的第二次循环，遍历哈希桶1，链表的第二次循环，此时e指向Entry&lt;5,C&gt;，next指向Entry&lt;7,D&gt;；</p>
+<p>3.table[]的第二次循环，遍历哈希桶1，链表的第三次循环，此时e指向Entry&lt;7,D&gt;，next指向null；为了便于理解，下图简单的描述了正常的rehash过程</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap9.png" alt></p>
+<h5 id="并发的rehash过程"><a href="#并发的rehash过程" class="headerlink" title="并发的rehash过程"></a>并发的rehash过程</h5><p>假设线程2已经完成了对hashMap的扩容，那么线程1和线程2的状态分别如下（再强调一下出现环链的前置条件是两个线程同时读到了原HashMap的值，都准备扩容）</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap10.png" alt></p>
+<p>这个时刻线程2完成rehash过程，有图不难看出，新的HashMap已经是由两条链表有值了，然后由于操作系统的调度，线程2挂起，线程1继续执行rehash过程。这时线程1拿到的新的HashMap已经是线程1rehash完成之后的HashMap，里面是有值的。我们来看线程1进行rehash的第一步</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap12.png" alt></p>
+<p>在链表的第一次循环时，取下原链表的Entry&lt;3,B&gt;值，经过hash算法得到插入新HashMap的第三个下标，由于会采用头节点插入法，因此会得到Entry&lt;3,B&gt; 指向 Entry&lt;7,D&gt;，而此链表中原本就存在Entry&lt;3,B&gt;，且链表结构为Entry&lt;7,D&gt;指向Entry&lt;3,B&gt;。所以就出现了 Entry&lt;3,B&gt; 指向 Entry&lt;7,D&gt; 指向 Entry&lt;3,B&gt;。环形链表就这样出现了，上图实际上应该是这样子的</p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap13.png" alt></p>
+<p>我们知道正常rehash流程线程拿到是是一个新的全空的HashMap，而在并发情况下，线程1是在线程2进行了全部或者部分rehash基础上，对新的HashMap进行rehash，而且扩容时操作同一个链表导致了环形链表的出现。环形链表一旦出现将导致get方法出现问题，因为get方法时会遍历链表去找到对应的key。假设某个key经过hash需要去遍历3链表，而恰巧3链表中没有这个key，那么get方法就一直在遍历这个链表break不掉了。在jdk1.8中修复了这个问题，使用了两个局部链表进行扩容不会出现哈希环。但jdk1.8中HashMap仍然不可在并发场景下使用，因为HashMap的put方法在并发下会出现丢数据的问题。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对于HashMap的并发问题，有几种解决办法。1. 使用HashTable，这个类是线程安全的。但HashTable源码好像只是在方法上加上了synchronize方法，而synchronize 属于重量级锁，对效率损耗是比较大的。2. 使用jdk1.8中的ConcurrentHashMap，这个类实现了更高级的线程安全，且使用分段锁，在并发下也可有很高的吞吐量，推荐使用。对于HashMap的原理解析就到这吧，如有纰漏，望指正。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2019/01/02/hashmap-de-di-ceng-shi-xian/">http://yoursite.com/2019/01/02/hashmap-de-di-ceng-shi-xian/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2019-01-02T22-07-03',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/01/20/spring-de-qian-shi-jin-sheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="spring的前世今生">
+                        
+                        <span class="card-title">spring的前世今生</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            相信java开发工程师对spring都不陌生，spring从2004年诞生至今已有10多年的历史，在企业级web服务开发领域举足轻重，也成为了每一个java开发工程师必须要掌握的一个框架。我从工作到现在使用spring有两年多，确也感觉到它
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-01-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">spring</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/10/01/windows-an-zhuang-docker/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="windows安装docker">
+                        
+                        <span class="card-title">windows安装docker</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上 。同时docker也可以安装在mac和windows系统上，本文记录的是docker在windows 1
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-10-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/docker/">
+                        <span class="chip bg-color">docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

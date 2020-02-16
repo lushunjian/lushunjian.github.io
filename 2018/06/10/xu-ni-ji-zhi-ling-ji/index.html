@@ -1,0 +1,2512 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="虚拟机指令集, 一寸灰">
+    <meta name="description" content="​    Java虚拟机既然是一台虚拟的计算机，那必有一套完善指令集，指令由一个字节长度，代表某种特定操作含义的操作码构成。这里在最初接触计算机的时候，我是有一些疑问的。例如为什么计算机都有它的指令集，这些指令是怎么被CPU执行的。由于我当">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>虚拟机指令集 | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">虚拟机指令集</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/jvm/">
+                                <span class="chip bg-color">jvm</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2018-06-10
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>​    Java虚拟机既然是一台虚拟的计算机，那必有一套完善指令集，指令由一个字节长度，代表某种特定操作含义的操作码构成。这里在最初接触计算机的时候，我是有一些疑问的。例如为什么计算机都有它的指令集，这些指令是怎么被CPU执行的。由于我当初学的是电子科学，包含模电数电，单片机等内容，其中单片机就是一个小型的片上系统，随着学习的深入这些疑问自然就迎刃而解了。我谈一下自己的理解，也顺便做一下记录。</p>
+<p>​    对于CPU而言它只认识0和1，对应的是数字电路中的高低电平，实现原理是把MOS管当做开关使用，MOS管是一种半导体晶体管，主要成分硅（这也是美国硅谷这个名字的由来吧）。通过MOS管可以实现各种寄存器，累加器，计数器，与非门，或非门等逻辑门电路。每一条指令都是特定的门电路组成的，门电路是CPU的基本工作单元，数以亿计的门电路才造就了CPU的强大运算能力，这些门电路输入是一位或多位二进制数，输出也是一位或多位二进制数。在最早的计算机上，程序员需要将0101这种二进制代码给CPU计算，这里的二进制代码会控制CPU进行加减乘除或者逻辑运算，对应于在MOS管上的状态就是开和关，这种二进制代码也叫机器语言，是计算机能直接读懂的语言。但是这对于程序员来说简直是噩梦，一个小小的计算功能，用机器语言来编写需要写一大串0和1。最关键的是这些0和1代码代表什么意思也非常难以记忆，开发成本很大。于是科学家们用了一种高级的语言来代替它 ，然后汇编语言诞生了，汇编语言更接近人类自然语言的习惯。然后再做一个编译器工具帮我们把汇编语言翻译成机器语言就行了。    </p>
+<a id="more"></a> 
+
+<p>​    那么问题来了，编译器按照什么规则来翻译汇编代码呢？答案就是指令集，指令集是由设计CPU的生产厂商给出。CPU指令集是描述CPU能实现什么功能的一个集合, 就是描述”CPU能使用哪些机器码”的集合。指令集的作用, 就是告诉程序员或者说编译器, 汇编一定要有什么格式. 支持什么指令, 指令带什么限制条件, 用什么操作数, 用什么地址, 都是指令集规范的内容, 要是写错了, 就无法翻译成机器码。不同的CPU生产厂商产生了不同的指令集，Intel阵营的8086指令集，ARM阵营的RISC指令集。不同阵营，其对应的汇编语言也是不一样的。 </p>
+<h3 id="1-JVM的指令集"><a href="#1-JVM的指令集" class="headerlink" title="1 . JVM的指令集"></a>1 . JVM的指令集</h3><p>​    前面说了那么多，都是为这里做铺垫。作为一个Java程序员怎么能不认识虚拟机的指令集，指令集不仅可以帮我们看懂字节码文件，同时也有助于理解JVM的运行原理。我总结了一下JVM的指令集，主要分为以下几种类型的指令。</p>
+<h4 id="1-空指令"><a href="#1-空指令" class="headerlink" title="(1) . 空指令"></a>(1) . 空指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x00</td>
+<td>nop</td>
+<td>什么都不做</td>
+</tr>
+</tbody></table>
+<p>nop指令相信接触过汇编语言的都知道，它什么都不做但是占用一个指令周期的时间。指令周期的时间不是固定的，不同的指令其指令周期时间不同，一个指令周期由如干个机器周期组成，每个机器周期能完成一项基本操作，比如取指令、存储器读、存储器写等。而机器周期又由如干个时钟周期组成，在一个时钟周期内，CPU只能完成一个最基本的动作，一个时钟周期的时间计算也比较简单，例如CPU的频率是2.7GHz，这里要注意换算单位，频率单位1GHz =1000MHz，1MHz就是1百万赫兹，所以频率为2.7GHz的CPU。一个时钟周期为 1/2700000000 秒 。 显然，时钟频率越高，CPU的工作速度就越快，这也是我们购买CPU时的一个重要指标。 </p>
+<h4 id="2-基本数据类型的取值和存储指令"><a href="#2-基本数据类型的取值和存储指令" class="headerlink" title="(2) . 基本数据类型的取值和存储指令"></a>(2) . 基本数据类型的取值和存储指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x01</td>
+<td>aconst_null</td>
+<td>将null推送至栈顶</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>iconst_m1</td>
+<td>将int型-1推送至栈顶</td>
+</tr>
+<tr>
+<td>0x0i（i=3,4,5,6,7,8）</td>
+<td>iconst_j（j=0,1,2,3,4,5）</td>
+<td>将int型 j 推送至栈顶</td>
+</tr>
+<tr>
+<td>0x0i（i=9,a）</td>
+<td>lconst_j（j=0,1）</td>
+<td>将long型 j 推送至栈顶</td>
+</tr>
+<tr>
+<td>0x0i（i=b,c,d）</td>
+<td>fconst_j（j=0,1,2）</td>
+<td>将float型 j 推送至栈顶</td>
+</tr>
+<tr>
+<td>0x0i（ie,f）</td>
+<td>dconst_j（j=0,1）</td>
+<td>将double型 j 推送至栈顶</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>bipush</td>
+<td>将单字节常量(-127~128)推送至栈顶</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>sipush</td>
+<td>将短整型常量(-32768~32767)推至栈顶</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ldc</td>
+<td>将int,float,String常量从常量池中推至栈顶</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>ldc_w</td>
+<td>将int,float,String常量从常量池中推至栈顶(宽索引)</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>ldc2_w</td>
+<td>将long,double常量从常量池中推至栈顶(宽索引)</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>iload</td>
+<td>将指定的int型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>lload</td>
+<td>将指定的long型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>fload</td>
+<td>将指定的float型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>dload</td>
+<td>将指定的double型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x1i（i=a,b,c,d）</td>
+<td>iload_j（j=0,1,2,3）</td>
+<td>将第 j 个int型的局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x1i（i=e,f）</td>
+<td>lload_j（j=0,1）</td>
+<td>将第 j 个long 型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x2i（i=0,1）</td>
+<td>lload_j（j=3,4）</td>
+<td>将第 j 个long 型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x2i（i=2,3,4,5）</td>
+<td>fload_j（j=0,1,2,3）</td>
+<td>将第 j 个float 型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x2i（i=6,7,8,9）</td>
+<td>dload_j（j=0,1,2,3）</td>
+<td>将第 j 个double 型局部变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>istore</td>
+<td>将栈顶 int 型数值存入指定的本地变量</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>lstore</td>
+<td>将栈顶 long 型数值存入指定的本地变量</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>dstore</td>
+<td>将栈顶 dloat 型数值存入指定的本地变量</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>fstore</td>
+<td>将栈顶 float 型数值存入指定的本地变量</td>
+</tr>
+<tr>
+<td>0x3i（i=b,c,d,e）</td>
+<td>istore_j（j=0,1,2,3）</td>
+<td>将栈顶 int 型数值存入第 j 个本地变量</td>
+</tr>
+<tr>
+<td>0x3f</td>
+<td>lstore_0</td>
+<td>将栈顶 long 型数值存入第 0 个本地变量</td>
+</tr>
+<tr>
+<td>0x4i（i=0,1,2）</td>
+<td>lstore_j（j=1,2,3）</td>
+<td>将栈顶 long 型数值存入第 j 个本地变量</td>
+</tr>
+<tr>
+<td>0x4i（i=3,4,5,6）</td>
+<td>fstore_j（j=0,1,2,3）</td>
+<td>将栈顶 float 型数值存入第 j 个本地变量</td>
+</tr>
+<tr>
+<td>0x4i（i=7,8,9,a）</td>
+<td>dstore_j（j=0,1,2,3）</td>
+<td>将栈顶 double 型数值存入第 j 个本地变量</td>
+</tr>
+<tr>
+<td>0xc4</td>
+<td>wide</td>
+<td>扩展本地变量的宽度</td>
+</tr>
+</tbody></table>
+<p>总的概括来说就是  </p>
+<p>将一个本地变量加载到操作数栈的指令有 </p>
+<pre><code>iload、iload_&lt;n&gt;、lload、lload_&lt;n&gt;、fload、fload_&lt;n&gt;、dload、dload_&lt;n&gt;、aload、aload_&lt;n&gt;</code></pre><p>将一个数值从操作数栈存储到本地变量表的指令由</p>
+<pre><code>istore、istore_&lt;n&gt;、lstore、lstore_&lt;n&gt;、fstore、fstore_&lt;n&gt;、dstore、dstore_&lt;n&gt;、astore、astore_&lt;n&gt;</code></pre><p>将一个常量加载到操作数栈的指令有  </p>
+<pre><code>bipush、sipush、ldc、ldc_w、ldc2_w、aconst_null、iconst_m1、iconst_&lt;i&gt;、lconst_&lt;l&gt;、fconst_&lt;f&gt;、dconst_&lt;d&gt;</code></pre><p>扩充局部变量表的访问索引的指令 </p>
+<pre><code>wide</code></pre><p>这里要注意的是随着数值取值范围的改变，指令会随之改变。例如当int取值<strong>-1~5</strong>采用iconst指令，取值<strong>-128~127</strong>采用bipush指令，取值<strong>-32768~32767</strong>采用sipush指令，取值<strong>-2147483648~2147483647</strong>采用 ldc 指令 </p>
+<h4 id="3-引用数据类型的取值与存储操作"><a href="#3-引用数据类型的取值与存储操作" class="headerlink" title="(3) . 引用数据类型的取值与存储操作"></a>(3) . 引用数据类型的取值与存储操作</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x19</td>
+<td>aload</td>
+<td>将指定的引用数据类型本地变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x2i（i=a,b,c,d）</td>
+<td>aload_j（j=0,1,2,3）</td>
+<td>将第 j 个引用类型本地变量推至栈顶</td>
+</tr>
+<tr>
+<td>0x2e</td>
+<td>iaload</td>
+<td>将int型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x2f</td>
+<td>laload</td>
+<td>将long型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>faload</td>
+<td>将float型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>daload</td>
+<td>将double型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>aaload</td>
+<td>将引用数据类型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>baload</td>
+<td>将boolean或byte型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>caload</td>
+<td>将char型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>saload</td>
+<td>将short型数组指定的索引的值推至栈顶</td>
+</tr>
+<tr>
+<td>0x3a</td>
+<td>astore</td>
+<td>将栈顶的引用型数值存入指定的本地变量</td>
+</tr>
+<tr>
+<td>0x4i（i=b,c,d,e）</td>
+<td>astore_j（j=0,1,2,3）</td>
+<td>将栈顶引用型数值存入第 j 个本地变量</td>
+</tr>
+<tr>
+<td>0x4f</td>
+<td>iastore</td>
+<td>将栈顶 int 型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>lastore</td>
+<td>将栈顶 long 型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>fastore</td>
+<td>将栈顶 float 型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>dastore</td>
+<td>将栈顶 double 型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>aastore</td>
+<td>将栈顶引用型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>bastore</td>
+<td>将栈顶boolean或byte型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>castore</td>
+<td>将栈顶 char 型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>sastore</td>
+<td>将栈顶 short 型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>pop</td>
+<td>将栈顶弹出（数值不能是 long 或 double类型）</td>
+</tr>
+<tr>
+<td>0xbb</td>
+<td>new</td>
+<td>创建一个对象，并将其压入栈顶</td>
+</tr>
+<tr>
+<td>0xbc</td>
+<td>newarray</td>
+<td>创建一个基本数据类型（如int,char）的数组，并将其引用的值压入栈顶</td>
+</tr>
+<tr>
+<td>0xbd</td>
+<td>anewarray</td>
+<td>创建一个引用型数组（如类，接口，数组），并将其引用的值压入栈顶</td>
+</tr>
+<tr>
+<td>0xc5</td>
+<td>multianewarray</td>
+<td>创建指定类型和指定维度的多维数组，并将其引用值压入栈顶</td>
+</tr>
+<tr>
+<td>0xbe</td>
+<td>arraylength</td>
+<td>获取数组长度值并压入栈顶</td>
+</tr>
+<tr>
+<td>0xc0</td>
+<td>checkcast</td>
+<td>校验类型转换，校验未通过抛出ClassCastException</td>
+</tr>
+<tr>
+<td>0xc1</td>
+<td>instanceof</td>
+<td>校验对象是否是指定的类的实例，如果是，则将1压入栈顶，否则将0压入栈顶</td>
+</tr>
+<tr>
+<td>0xb2</td>
+<td>getstatic</td>
+<td>获取指定类的静态域，并将其值压人栈顶</td>
+</tr>
+<tr>
+<td>0xb3</td>
+<td>putstatic</td>
+<td>为指定的类的静态域赋值</td>
+</tr>
+<tr>
+<td>0xb4</td>
+<td>getfield</td>
+<td>获取指定类的实例域，并将其压入栈顶</td>
+</tr>
+<tr>
+<td>0xb5</td>
+<td>putfield</td>
+<td>为指定类的实例域赋值</td>
+</tr>
+</tbody></table>
+<p>这里总结概括一下，创建实例的指令</p>
+<pre><code>new</code></pre><p>创建数组对象以及获取数组长度的指令</p>
+<pre><code>newarray、anewarray、multianewarray、arraylength</code></pre><p>访问类字段（static字段就是类变量）和实例字段（非static字段就是实例变量）指令</p>
+<pre><code>getfield、putfield、getstatic、putstatic</code></pre><p>把一个数组中指定索引处的值加载到操作数栈的指令 </p>
+<pre><code>baload、caload、saload、iaload、laload、faload、daload、aaload</code></pre><p>将一个操作数栈的值储存到数组中指定索引处的指令 </p>
+<pre><code>bastore、castore、sastore、iastore、fastore、dastore、aastore</code></pre><p>检查类实例类型的指令 </p>
+<pre><code>instanceof、checkcast</code></pre><p>虽然实例和数组都是对象，但是虚拟机对实例和数组实例的创建与操作使用了不同的字节码指令 </p>
+<h4 id="4-操作数栈管理指令"><a href="#4-操作数栈管理指令" class="headerlink" title="(4) . 操作数栈管理指令"></a>(4) . 操作数栈管理指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x57</td>
+<td>pop</td>
+<td>将栈顶弹出（数值不能是 long 或 double类型）</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>pop2</td>
+<td>将栈顶一个（对于 long 或double类型）或两个（非 long 或double类型）数值弹出</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>dup</td>
+<td>复制栈顶数值并将复制值压入栈顶</td>
+</tr>
+<tr>
+<td>0x5a</td>
+<td>dup_x1</td>
+<td>复制栈顶数值并将两个复制值压入栈顶</td>
+</tr>
+<tr>
+<td>0x5f</td>
+<td>swap</td>
+<td>将栈最顶端的两数值互换（数值不能是 long 或 double类型）</td>
+</tr>
+<tr>
+<td>0x5b</td>
+<td>dup_x2</td>
+<td>复制栈顶数值并将三个（或两个）复制值压入栈顶</td>
+</tr>
+<tr>
+<td>0x5c</td>
+<td>dup2</td>
+<td>复制栈顶一个(对于 long 或double类型)或两个(非 long 或double类型)值并压栈</td>
+</tr>
+<tr>
+<td>0x5d</td>
+<td>dup2_x1</td>
+<td>dup_x1 指令的双倍版本</td>
+</tr>
+<tr>
+<td>x05e</td>
+<td>dup2_x2</td>
+<td>dup_x2 指令的双倍版本</td>
+</tr>
+</tbody></table>
+<h4 id="5-控制转移指令"><a href="#5-控制转移指令" class="headerlink" title="(5) . 控制转移指令"></a>(5) . 控制转移指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x99</td>
+<td>ifeq</td>
+<td>当栈顶int型数值等于0时跳转</td>
+</tr>
+<tr>
+<td>0x9a</td>
+<td>ifnq</td>
+<td>当栈顶int型数值不等于0时跳转</td>
+</tr>
+<tr>
+<td>0x9b</td>
+<td>iflt</td>
+<td>当栈顶int型数值小于0时跳转</td>
+</tr>
+<tr>
+<td>0x9c</td>
+<td>ifge</td>
+<td>当栈顶int型数值小于或等于0时跳转</td>
+</tr>
+<tr>
+<td>0x9d</td>
+<td>ifgt</td>
+<td>当栈顶int型数值大于0时跳转</td>
+</tr>
+<tr>
+<td>0x9e</td>
+<td>ifle</td>
+<td>当栈顶int型数值小于或等于0时跳转</td>
+</tr>
+<tr>
+<td>0x9f</td>
+<td>if_icmpeq</td>
+<td>比较栈顶两个int型数值的大小，结果等于0时跳转</td>
+</tr>
+<tr>
+<td>0xa0</td>
+<td>if_icmpne</td>
+<td>比较栈顶两个int型数值的大小，结果不等于0时跳转</td>
+</tr>
+<tr>
+<td>0xa1</td>
+<td>if_icmplt</td>
+<td>比较栈顶两个int型数值的大小，结果小于0时跳转</td>
+</tr>
+<tr>
+<td>0xa2</td>
+<td>if_icmpge</td>
+<td>比较栈顶两个int型数值的大小，结果大于或等于0时跳转</td>
+</tr>
+<tr>
+<td>0xa3</td>
+<td>if_icmpgt</td>
+<td>比较栈顶两个int型数值的大小，结果大于0时跳转</td>
+</tr>
+<tr>
+<td>0xa4</td>
+<td>if_icmple</td>
+<td>比较栈顶两个int型数值的大小，结果小于或等于0时跳转</td>
+</tr>
+<tr>
+<td>x0a5</td>
+<td>if_acmpeq</td>
+<td>比较栈顶两个引用型数值，结果相等时跳转</td>
+</tr>
+<tr>
+<td>0xa6</td>
+<td>if_acmpne</td>
+<td>比较栈顶两个引用型数值，结果不相等时跳转</td>
+</tr>
+<tr>
+<td>0xa7</td>
+<td>goto</td>
+<td>无条件跳转</td>
+</tr>
+<tr>
+<td>0xa8</td>
+<td>jsr</td>
+<td>跳转至指定的16位offset位置，并将jsr的下一条指令地址压入栈顶</td>
+</tr>
+<tr>
+<td>0xa9</td>
+<td>ret</td>
+<td>返回至本地变量指定的index的指令位置（一般与 jsr 或 jsr_w联合使用）</td>
+</tr>
+<tr>
+<td>0xaa</td>
+<td>tableswitch</td>
+<td>用于switch条件跳转，case值连续（可变长度指令）</td>
+</tr>
+<tr>
+<td>0xab</td>
+<td>lookupswitch</td>
+<td>用于switch条件跳转，case值不连续（可变长度指令）</td>
+</tr>
+<tr>
+<td>0xc6</td>
+<td>ifnull</td>
+<td>为null时跳转</td>
+</tr>
+<tr>
+<td>0xc7</td>
+<td>ifnonull</td>
+<td>不为null时跳转</td>
+</tr>
+<tr>
+<td>oxc8</td>
+<td>goto_w</td>
+<td>无条件跳转（宽索引）</td>
+</tr>
+<tr>
+<td>0xc9</td>
+<td>jsr_w</td>
+<td>跳转至指定32位offset位置，并将jsr_w的下一条指令地址压入栈顶</td>
+</tr>
+</tbody></table>
+<p>条件分支 </p>
+<pre><code>ifeq、iflt、ifle、ifne、ifgt、ifge、ifnull、ifnonnull、if_icmpeq、if_icmpne、if_icmplt、 if_icmpgt、if_icmple、if_icmpge、if_acmpeq、if_acmpne</code></pre><p>复合条件分支 </p>
+<pre><code>tableswitch、lookupswitch</code></pre><p>无条件分支 </p>
+<pre><code>goto、goto_w、jsr、jsr_w、ret</code></pre><p>Java条件分支比较包括三种类型值的比较，int类型，reference 类型，null 值。而其它boolean 类型、byte 类型、char 类型和 short 类型的条件分支比较操作，都使用 int 类型的比较指令来完成，而对于 long 类型、float 类型和 double 类型的条件分支比较操作，则会先执行相应类型的比较运算指令，运算指令会返回一个整型值到操作数栈中，随后再执行 int 类型的条件分支比较操作来完成整个分支跳转。由于各种类型的比较最终都会转化为 int 类型的比较操作，所以Java 虚拟机提供了非常丰富的 int类型的条件分支指令。另外所有 int 类型的条件分支转移指令进行的都是有符号的比较操作。</p>
+<h4 id="6-线程同步"><a href="#6-线程同步" class="headerlink" title="(6) . 线程同步"></a>(6) . 线程同步</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xc2</td>
+<td>monitorenter</td>
+<td>获得对象的锁，用于同步方法或同步代码块</td>
+</tr>
+<tr>
+<td>0xc3</td>
+<td>monitorexit</td>
+<td>释放对象的锁，用于同步方法或同步代码块</td>
+</tr>
+</tbody></table>
+<p>Java 虚拟机可以支持方法级的同步和方法内一段代码块的同步，这两种同步结构都是使用监视器 （monitor）来支持实现的。</p>
+<p>方法级的同步是隐式，即无需通过字节码指令来控制的，它实现在方法调用和返回操作之中。虚拟机可以从方法常量池中的方法表结构（method_info Structure）中的 ACC_SYNCHRONIZED 访问标志区分一个方法是否同步方法。当方法调用时，调用指令将会检查方法的 ACC_SYNCHRONIZED 访问标志是否被设置，如果设置了，执行线程将先持有管程，然后再执行方法，最后再方法完成（无论是正常完成还是非正常完成）时释放管程。在方法执行期间，执行线程持有了管程，其他任何线程都无法再获得同一个管程。如果一个同步方法执行期间抛出了异常，并且在方法内部无法处理此异常，那这个同步方法所持有的管程将在异常抛到同步方法之外时自动释放</p>
+<h4 id="7-运算指令"><a href="#7-运算指令" class="headerlink" title="(7) . 运算指令"></a>(7) . 运算指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x60</td>
+<td>iadd</td>
+<td>将栈顶两个 int 型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>ladd</td>
+<td>将栈顶两个 long 型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>fadd</td>
+<td>将栈顶两个 float 型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>dadd</td>
+<td>将栈顶两个 double 型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>isub</td>
+<td>将栈顶两个 int 型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>lsub</td>
+<td>将栈顶两个 long 型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>fsub</td>
+<td>将栈顶两个 float 型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>dsub</td>
+<td>将栈顶两个 double 型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>imul</td>
+<td>将栈顶两个 int 型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>x069</td>
+<td>lmul</td>
+<td>将栈顶两个 long 型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x6a</td>
+<td>fmul</td>
+<td>将栈顶两个 float 型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x6b</td>
+<td>dmul</td>
+<td>将栈顶两个 double 型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x6c</td>
+<td>idiv</td>
+<td>将栈顶两个 int 型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x6d</td>
+<td>ldiv</td>
+<td>将栈顶两个 long 型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x6e</td>
+<td>fdiv</td>
+<td>将栈顶两个 float 型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x6f</td>
+<td>ddiv</td>
+<td>将栈顶两个 double 型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>irem</td>
+<td>将栈顶两个int 型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>lrem</td>
+<td>将栈顶两个long 型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>frem</td>
+<td>将栈顶两个float 型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>drem</td>
+<td>将栈顶两个double 型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>ineg</td>
+<td>将栈顶两个int 型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>lneg</td>
+<td>将栈顶两个long 型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>fneg</td>
+<td>将栈顶两个float 型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>dneg</td>
+<td>将栈顶两个double 型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ishl</td>
+<td>将 int 型数值取左移指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>lshl</td>
+<td>将 long 型数值取左移指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x7a</td>
+<td>ishr</td>
+<td>将 int 型数值（带符号）取右移指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x7b</td>
+<td>lshr</td>
+<td>将 long 型数值（带符号）取右移指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x7c</td>
+<td>iushr</td>
+<td>将 int 型数值（无符号）取右移指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x7d</td>
+<td>lushr</td>
+<td>将 long 型数值（无符号）取右移指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x7e</td>
+<td>iand</td>
+<td>将栈顶两 int 型数值作 按位与 并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x7f</td>
+<td>land</td>
+<td>将栈顶两 long 型数值作 按位与 并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>ior</td>
+<td>将栈顶两 int 型数值作 按位或 并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>lor</td>
+<td>将栈顶两 long 型数值作 按位或 并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>ixor</td>
+<td>将栈顶两 int 型数值作 按位异或 并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>lxor</td>
+<td>将栈顶两 long 型数值作 按位异或 并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>iinc</td>
+<td>将指定int 型数值增加指定值（如 i++，i–，j += 1等）</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>lcmp</td>
+<td>比较栈顶两long型数值大小，并将结果（1，0，-1）压入栈顶</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>fcmpl</td>
+<td>比较栈顶两float型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将-1压入栈顶</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>fcmpg</td>
+<td>比较栈顶两 float 型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将1压入栈顶</td>
+</tr>
+<tr>
+<td>0x97</td>
+<td>dcmpl</td>
+<td>比较栈顶两double 型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将-1压入栈顶</td>
+</tr>
+<tr>
+<td>0x98</td>
+<td>dcmpg</td>
+<td>比较栈顶两 double 型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将1压入栈顶</td>
+</tr>
+</tbody></table>
+<p>概括来说就是下面这几种分类</p>
+<p>加法指令：iadd、ladd、fadd、dadd<br>减法指令：isub、lsub、fsub、dsub<br>乘法指令：imul、lmul、fmul、dmul<br>除法指令：idiv、ldiv、fdiv、ddiv<br>求余指令：irem、lrem、frem、drem<br>取反指令：ineg、lneg、fneg、dneg<br>位移指令：ishl、ishr、iushr、lshl、lshr、lushr<br>按位或指令：ior、lor<br>按位与指令：iand、land<br>按位异或指令：ixor、lxor<br>局部变量自增指令：iinc<br>比较指令：dcmpg、dcmpl、fcmpg、fcmpl、lcmp </p>
+<p>Java 虚拟机没有明确规定整型数据溢出的情况，但是规定了在处理整型数据时，只有除法指令（idiv 和 ldiv）以及求余指令（irem 和 lrem）出现除数为零时会导致虚拟机抛出异常，如果发生了这种情况，虚拟机将会抛出 ArithmeitcException 异常。 例如下面的代码</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> num <span class="token operator">=</span> Integer<span class="token punctuation">.</span>MAX_VALUE <span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//获得int的最大值</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"num = "</span><span class="token operator">+</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"num+1 = "</span><span class="token operator">+</span><span class="token punctuation">(</span>num<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"num+2 = "</span><span class="token operator">+</span><span class="token punctuation">(</span>num<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>得到的结果</p>
+<pre><code>num = 2147483647
+num+1 = -2147483648
+num+2 = -2147483647</code></pre><p>这段代码获取了int型数据的最大值，并在最大值的基础上进行了加法运算，程序不会报错，但结果和预期却截然相反，其原因就是整型数据出现了溢出。</p>
+<p>Java 虚拟机在处理浮点数运算时，不会抛出任何运行时异常，当一个操作产生溢出时，将会使用有符号的无穷大来表示，如果某个操作结果没有明确的数学定义的话，将会时候 NaN 值来表示。所有使用 NaN 值作为操作数的算术操作，结果都会返回 NaN 。</p>
+<h4 id="8-类型转换指令"><a href="#8-类型转换指令" class="headerlink" title="(8) . 类型转换指令"></a>(8) . 类型转换指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x85</td>
+<td>i2l</td>
+<td>将栈顶 int 型数值强制转换成 long 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>i2f</td>
+<td>将栈顶 int 型数值强制转换成 float 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>i2d</td>
+<td>将栈顶 int 型数值强制转换成 double 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>l2i</td>
+<td>将栈顶 long 型数值强制转换成 int 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>l2f</td>
+<td>将栈顶 long 型数值强制转换成 float 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x8a</td>
+<td>l2d</td>
+<td>将栈顶 long 型数值强制转换成 double 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x8b</td>
+<td>f2i</td>
+<td>将栈顶 float 型数值强制转换成 int 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x8c</td>
+<td>f2l</td>
+<td>将栈顶 float 型数值强制转换成 long 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x8d</td>
+<td>f2d</td>
+<td>将栈顶 float 型数值强制转换成 double 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x8e</td>
+<td>d2i</td>
+<td>将栈顶 double 型数值强制转换成 int 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x8f</td>
+<td>d2l</td>
+<td>将栈顶 double 型数值强制转换成 long 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>d2f</td>
+<td>将栈顶 double 型数值强制转换成 float 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>i2b</td>
+<td>将栈顶 int 型数值强制转换成 byte 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>i2c</td>
+<td>将栈顶 int 型数值强制转换成 char 型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>i2s</td>
+<td>将栈顶 int 型数值强制转换成 short 型数值并将结果压入栈顶</td>
+</tr>
+</tbody></table>
+<p>这里需要注意的是强制转换可能会丢失精度的问题</p>
+<h4 id="9-方法调用与返回指令"><a href="#9-方法调用与返回指令" class="headerlink" title="(9) . 方法调用与返回指令"></a>(9) . 方法调用与返回指令</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xb6</td>
+<td>invokevirtual</td>
+<td>调用实例方法</td>
+</tr>
+<tr>
+<td>0xb7</td>
+<td>invokespecial</td>
+<td>调用超类构造方法，实例初始化方法，私有方法</td>
+</tr>
+<tr>
+<td>0xb8</td>
+<td>invokestatic</td>
+<td>调用静态方法</td>
+</tr>
+<tr>
+<td>0xb9</td>
+<td>invokeinterface</td>
+<td>调用接口方法</td>
+</tr>
+<tr>
+<td>0xba</td>
+<td>invokedynamic</td>
+<td>调用动态方法</td>
+</tr>
+<tr>
+<td>0xac</td>
+<td>ireturn</td>
+<td>从当前方法返回 int</td>
+</tr>
+<tr>
+<td>0xad</td>
+<td>lreturn</td>
+<td>从当前方法返回 long</td>
+</tr>
+<tr>
+<td>0xae</td>
+<td>freturn</td>
+<td>从当前方法返回 float</td>
+</tr>
+<tr>
+<td>0xaf</td>
+<td>dreturn</td>
+<td>从当前方法返回 double</td>
+</tr>
+<tr>
+<td>0xb1</td>
+<td>areturn</td>
+<td>从当前方法返回对象引用</td>
+</tr>
+</tbody></table>
+<p>invokevirtual 指令用于调用对象的实例方法，根据对象的实际类型进行分派（虚方法分派），这也是 Java 语言中最常见的方法分派方式。 返回类型中 ，返回类型为boolean、byte、char、short 和 int 类型时都通过ireturn指令实现。</p>
+<h4 id="10-异常"><a href="#10-异常" class="headerlink" title="(10) . 异常"></a>(10) . 异常</h4><table>
+<thead>
+<tr>
+<th>字节码</th>
+<th>指令助记符</th>
+<th>指令含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xbf</td>
+<td>athrow</td>
+<td>将栈顶的异常抛出</td>
+</tr>
+</tbody></table>
+<h3 id="2-如何通过class文件查看指令代码"><a href="#2-如何通过class文件查看指令代码" class="headerlink" title="2 . 如何通过class文件查看指令代码"></a>2 . 如何通过class文件查看指令代码</h3><p>这个方法通过一个指令即可，以windows系统为例，首先打开windows的终端，然后进入到.class文件所在的目录，通过 javap -c 文件名 即可查看指令代码。例如下面的代码</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> m2 <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> m0 <span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> m <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> a1 <span class="token operator">=</span> <span class="token number">128</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> a2 <span class="token operator">=</span> <span class="token number">32768</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> k1 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> k2 <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> d <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        Integer ii <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Integer</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span><span class="token punctuation">{</span>
+            <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>Test<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">int</span> x <span class="token operator">=</span> m<span class="token operator">/</span>n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NullPointerException</span> e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后通过打开终端</p>
+<p><img src="/2018/06/10/xu-ni-ji-zhi-ling-ji/jvmcode1.png" alt></p>
+<p>回车之后就可以看到指令代码了，具体结果如下</p>
+<pre><code>F:\workSpace\ideaSpace\busted\out\production\busted\com\lsj\test&gt;javap -c Test
+Compiled from &quot;Test.java&quot;
+public class com.lsj.test.Test {
+  public com.lsj.test.Test();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_m1
+       1: istore_1
+       2: iconst_5
+       3: istore_2
+       4: iconst_2
+       5: istore_3
+       6: bipush        6
+       8: istore        4
+      10: sipush        128
+      13: istore        5
+      15: ldc           #2                  // int 32768
+      17: istore        6
+      19: lconst_1
+      20: lstore        7
+      22: ldc2_w        #3                  // long 5l
+      25: lstore        9
+      27: dconst_1
+      28: dstore        11
+      30: new           #5                  // class java/lang/Integer
+      33: dup
+      34: bipush        8
+      36: invokespecial #6                  // Method java/lang/Integer.&quot;&lt;init&gt;&quot;:(I)V
+      39: astore        13
+      41: ldc           #7                  // class com/lsj/test/Test
+      43: dup
+      44: astore        14
+      46: monitorenter
+      47: iload         4
+      49: iload_3
+      50: idiv
+      51: istore        15
+      53: aload         14
+      55: monitorexit
+      56: goto          67
+      59: astore        16
+      61: aload         14
+      63: monitorexit
+      64: aload         16
+      66: athrow
+      67: goto          87
+      70: astore        14
+      72: aload         14
+      74: invokevirtual #9                  // Method java/lang/NullPointerException.printStackTrace:()V
+      77: goto          87
+      80: astore        14
+      82: aload         14
+      84: invokevirtual #11                 // Method java/lang/Exception.printStackTrace:()V
+      87: return
+    Exception table:
+       from    to  target type
+          47    56    59   any
+          59    64    59   any
+          41    67    70   Class java/lang/NullPointerException
+          41    67    80   Class java/lang/Exception
+}</code></pre><p>通过指令代码就能看到java代码编译之后每一步究竟做了什么事情了，也方便我们去解决问题。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2018/06/10/xu-ni-ji-zhi-ling-ji/">http://yoursite.com/2018/06/10/xu-ni-ji-zhi-ling-ji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/jvm/">
+                                    <span class="chip bg-color">jvm</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2018-06-10T09-52-23',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2018/06/16/xu-ni-ji-de-lei-wen-jian-jie-gou/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="虚拟机的类文件结构">
+                        
+                        <span class="card-title">虚拟机的类文件结构</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            ​    在没有Java之前，同一个应用程序，由于硬件架构和操作系统的不同而需要开发几套应用程序以便程序能运行在不同平台上，这对于开发人员来说无疑是件痛苦的事情，而不同的硬件体系结构和操作系统肯定会长期并存发展，因而需要一门语言解决这个问题
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-06-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/jvm/">
+                        <span class="chip bg-color">jvm</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Hexo和Github搭建个人博客">
+                        
+                        <span class="card-title">Hexo和Github搭建个人博客</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            ​    作为一个纯种程序猿，怎么能没有自己的博客呢。每每看大牛的博客时总是充满敬畏的同时，也想拥有一个属于自己的博客，一方面记录自己在技术上的问题和心得体会，另一方面也是记录着自己从菜鸟到大牛的成长经历。话不多说，下面来一起搭建一个自己的
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AE%9E%E8%B7%B5/">
+                        <span class="chip bg-color">实践</span>
+                    </a>
+                    
+                    <a href="/tags/other/">
+                        <span class="chip bg-color">other</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

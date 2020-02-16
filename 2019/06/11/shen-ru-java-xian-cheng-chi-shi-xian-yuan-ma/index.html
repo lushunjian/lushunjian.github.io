@@ -1,0 +1,2062 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="深入Java线程池实现源码, 一寸灰">
+    <meta name="description" content="Java线程池是使用频率很高的开源框架。也是在面试中常被问到的组件。它的实现源码在J.U.C包下，本人也经常使用线程池，简单方便。大多是浮于表面的一些API的调用，对于框架实现中具体做了哪些事情，却是知之甚少。本文将从源码角度，深入了聊一聊">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>深入Java线程池实现源码 | 一寸灰</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">一寸灰</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>音乐</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">一寸灰</div>
+        <div class="logo-desc">
+            
+            相信奇迹的人，本身就和奇迹一样了不起
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/musics " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>音乐</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">深入Java线程池实现源码</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">java</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-06-11
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>Java线程池是使用频率很高的开源框架。也是在面试中常被问到的组件。它的实现源码在J.U.C包下，本人也经常使用线程池，简单方便。大多是浮于表面的一些API的调用，对于框架实现中具体做了哪些事情，却是知之甚少。本文将从源码角度，深入了聊一聊Java线程池的源码实现中到底做了什么事情。Java线程池的源码编写者也是大名鼎鼎的 Doug Lea 。这老爷子对Java并发编程的贡献相当大，说他是这个世界上对Java影响力最大的一个人，一点也不为过。因为两次Java历史上的大变革，他都间接或直接的扮演了举足轻重的角色。2004年所推出的Tiger。Tiger广纳了15项JSRs(Java Specification Requests)的语法及标准，其中一项便是JSR-166。JSR-166是来自于Doug编写的util.concurrent包。所以看J.U.C包下的源码，也是理解老爷子对于并发编程的思维方式的最好材料。</p>
+<p><img src="/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/poll.jpg" alt></p>
+<a id="more"></a> 
+
+<h2 id="为什么使用线程池"><a href="#为什么使用线程池" class="headerlink" title="为什么使用线程池"></a>为什么使用线程池</h2><p>在Java开发过程中，总是不可避免的要使用各种池，比如线程池，连接池，缓存池等等。那么既然可以使用原生的方式实现功能，为什么还要使用池呢？其实虽然池管理的对象不一样，但原因大同小异。对于线程池来说，线程是稀缺资源，如果被无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，合理的使用线程池对线程进行统一分配、调优和监控，有以下好处：</p>
+<ol>
+<li>降低资源消耗。对于任何在池中的对象而言，肯定是使用频率比较高，而且创建的代价比较昂贵。如果频繁的被创建和销毁，就会过多的消耗系统资源，降低了服务的性能。</li>
+<li>提高响应速度。正因为创建的代价高，比较消耗资源，因此在需要对象的时候直接去线程池中获取就行了，不需要等待创建线程，提高了响应速度</li>
+<li>提高线程的可管理性。连接池可帮我们做一些公共的事情，比如想让线程被阻塞时间过长后返回，想知道当前线程的状态。回收一些长期空闲的线程等</li>
+</ol>
+<p>在Java1.5中引入的Executor框架把任务的提交和执行进行解耦，只需要定义好任务，然后提交给线程池，而不用关心该任务是如何执行、被哪个线程执行，以及什么时候执行。在深入源码之前先来看看Executor框架线程池的类图：</p>
+<p><img src="/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/calss.png" alt></p>
+<p>它们的最顶层是一个Executor接口，它只有一个方法：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Executor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span>Runnable command<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="线程池状态"><a href="#线程池状态" class="headerlink" title="线程池状态"></a>线程池状态</h2><p>ExecutorService扩展了Executor，添加了操控线程池生命周期的方法，如shutDown()，shutDownNow()等，以及扩展了可异步跟踪执行任务生成返回值Future的方法，如submit()等方法。ThreadPoolExecutor继承自AbstractExecutorService，同时实现了ExecutorService接口，也是Executor框架默认的线程池实现类，也是这篇文章重点分析的对象，一般我们使用线程池，如没有特殊要求，直接创建ThreadPoolExecutor，初始化一个线程池，如果需要特殊的线程池，则直接继承ThreadPoolExecutor，并实现特定的功能，如ScheduledThreadPoolExecutor，它是一个具有定时执行任务的线程池。Executor框架中创建线程池非常简单，使用线程池提交线程也很简单。代码如下</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 创建线程池</span>
+ExecutorService executeService <span class="token operator">=</span> Executors<span class="token punctuation">.</span><span class="token function">newCachedThreadPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 提交线程</span>
+executeService<span class="token punctuation">.</span><span class="token function">submit</span><span class="token punctuation">(</span>thread<span class="token punctuation">)</span><span class="token punctuation">;</span>
+executeService<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span>thread<span class="token punctuation">)</span><span class="token punctuation">;</span>
+executeService<span class="token punctuation">.</span><span class="token function">invokeAll</span><span class="token punctuation">(</span>threads<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>submit，execute，invokeAll都可以提交线程。其中invokeAll可以批量提交线程，并提供了返回值。而这三个方法最终都会执行顶层接口中的execute方法。因此直接看execute方法的实现。该方法的实现在ThreadPoolExecutor类中，在看该方法的实现之前需要先了解一些线程池的是属性信息，因为在提交线程到线程池时，都围绕着这些属性的改变。</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">private</span> <span class="token keyword">final</span> AtomicInteger ctl <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token function">ctlOf</span><span class="token punctuation">(</span>RUNNING<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> COUNT_BITS <span class="token operator">=</span> Integer<span class="token punctuation">.</span>SIZE <span class="token operator">-</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> CAPACITY   <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> COUNT_BITS<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// runState is stored in the high-order bits</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> RUNNING    <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> COUNT_BITS<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> SHUTDOWN   <span class="token operator">=</span>  <span class="token number">0</span> <span class="token operator">&lt;&lt;</span> COUNT_BITS<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> STOP       <span class="token operator">=</span>  <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> COUNT_BITS<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> TIDYING    <span class="token operator">=</span>  <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> COUNT_BITS<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> TERMINATED <span class="token operator">=</span>  <span class="token number">3</span> <span class="token operator">&lt;&lt;</span> COUNT_BITS<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Packing and unpacking ctl</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">runStateOf</span><span class="token punctuation">(</span><span class="token keyword">int</span> c<span class="token punctuation">)</span>     <span class="token punctuation">{</span> <span class="token keyword">return</span> c <span class="token operator">&amp;</span> <span class="token operator">~</span>CAPACITY<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">workerCountOf</span><span class="token punctuation">(</span><span class="token keyword">int</span> c<span class="token punctuation">)</span>  <span class="token punctuation">{</span> <span class="token keyword">return</span> c <span class="token operator">&amp;</span> CAPACITY<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">ctlOf</span><span class="token punctuation">(</span><span class="token keyword">int</span> rs<span class="token punctuation">,</span> <span class="token keyword">int</span> wc<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> rs <span class="token operator">|</span> wc<span class="token punctuation">;</span> <span class="token punctuation">}</span></code></pre>
+<p>从代码中可以看到，线程池一共有状态5种状态，分别是：</p>
+<ol>
+<li><strong>RUNNING：</strong>线程池初始化时默认的状态，表示线程池正处于运行状态，能够接受新提交的任务，同时也能够处理阻塞队列中的任务</li>
+<li><strong>SHUTDOWN：</strong>调用shutdown()方法会使线程池进入到该状态，该状态下不再继续接受新提交的任务，但是还会处理阻塞队列中的任务</li>
+<li><strong>STOP：</strong>调用shutdownNow()方法会使线程池进入到该状态，该状态下不再继续接受新提交的任务，同时不再处理阻塞队列中的任务</li>
+<li><strong>TIDYING：</strong>如果线程池中workerCount=0，即有效线程数量为0时，会进入该状态</li>
+<li><strong>TERMINATED：</strong>在terminated()方法执行完后进入该状态，只不过terminated()方法需要我们自行实现。</li>
+</ol>
+<p>这些状态均由int型表示，大小关系为 RUNNING&lt;SHUTDOWN&lt;STOP&lt;TIDYING&lt;TERMINATED，这个顺序基本上也是遵循线程池从 运行 到 终止这个过程。此外下面还有三个方法用于获取线程池当前的状态，有效线程数等。其中CAPACITY经过(1 &lt;&lt; COUNT_BITS) - 1运算后得到的是一个高3位是0，低29位是1的整数。</p>
+<ol>
+<li><strong>runStateOf(int c)：</strong> CAPACITY取反码，即高3位是1，低29位是0。c &amp; ~CAPACITY用于获取高3位保存的线程池状态。</li>
+<li><strong>workerCountOf(int c)：</strong>运算 c &amp; CAPACITY，用于获取c变量低29位的值，也就是获取线程池中的有效线程数。</li>
+<li><strong>ctlOf(int rs, int wc)：</strong>参数rs表示runState，参数wc表示workerCount，即根据runState和workerCount打包合并成ctl。</li>
+</ol>
+<p>仔细思考的朋友肯定会有疑问，我刚看的时候也非常困惑。Doug Lea大神为什么要用一个int变量的高3位表示线程池状态，低29位表示线程池当前的有效线程数，为什么不使用两个变量分别表示。有人会觉得是为了节省了存储空间，但是这里很显然不是为了节省空间而设计的，两个变量也就多4个字节而已。为了这4个字节而去大费周章地设计一通，不但麻烦而且增加了代码复杂度。从上面关于线程状态的解释可以看出，线程状态的转变很大程度上决定于线程池中的有效线程数，在多线程运行环境下，线程池中的线程数量和线程池状态往往是动态改变的，并且运行状态和有效线程数量需要保证统一，不能出现一个改而另一个没有改的情况。因此把他们放到一个变量中，用一个变量表示两个值，那么在修改的时候只需要修改一次，就统一了两个值的修改，同时该值又是AtomicInteger类型，保证了多线程下修改它的值是一个原子操作。试想一下，如果使用两个值会是什么情况，首先要保证两个值各自的修改是原子操作，因此必须将两个变量设置为原子类AtomicInteger类型，同时又得保证两个值的修改是统一的同步的，所以得把两个值的修改操作放到一个方法中并使用synchronize关键字修饰该方法保证同步，这样做就能实现源码中用一个类表示两个值的最终效果，但是性能消耗就大大增加了，因为synchronize是一把重量级锁，虽然JDK对它做了优化，但是在竞争激烈的情况下synchronize还是会升级为重量级锁，当然也可以使用Lock锁，但肯定也不会比一个int类型数据的修改性能消耗低。分析完这一波，是不是更加佩服老爷子的神操作了。</p>
+<h2 id="线程池运行过程"><a href="#线程池运行过程" class="headerlink" title="线程池运行过程"></a>线程池运行过程</h2><h3 id="execute-–-提交任务"><a href="#execute-–-提交任务" class="headerlink" title="execute()  –  提交任务"></a>execute()  –  提交任务</h3><p>excute方法是提交任务到线程池的核心方法，下面是ThreadPoolExecutor类中关于该方法的源码。源码中的注释也很好的解释了提交任务的逻辑</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+     * Executes the given task sometime in the future.  The task
+     * may execute in a new thread or in an existing pooled thread.
+     * 在要执行给定的任务时。这个任务会用一个新线程执行，或者用线程池中的一个线程执行
+     *
+     * If the task cannot be submitted for execution, either because this
+     * executor has been shutdown or because its capacity has been reached,
+     * the task is handled by the current {@code RejectedExecutionHandler}.
+     * 如果任务无法被提交执行，要么是因为这个Executor已经被shutdown关闭，
+     * 要么是已经达到其容量上限，任务会被当前的RejectedExecutionHandler处理
+     *
+     * @param command the task to execute
+     * @throws RejectedExecutionException at discretion of
+     *         {@code RejectedExecutionHandler}, if the task
+     *         cannot be accepted for execution
+     * @throws NullPointerException if {@code command} is null
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span>Runnable command<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>command <span class="token operator">==</span> null<span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/*
+         * Proceed in 3 steps:
+         *
+         * 1. If fewer than corePoolSize threads are running, try to
+         * start a new thread with the given command as its first
+         * task.  The call to addWorker atomically checks runState and
+         * workerCount, and so prevents false alarms that would add
+         * threads when it shouldn't, by returning false.
+         * 如果运行的线程少于corePoolSize，尝试开启一个新线程去运行command，
+         * command作为这个线程的第一个任务
+         *
+         * 2. If a task can be successfully queued, then we still need
+         * to double-check whether we should have added a thread
+         * (because existing ones died since last checking) or that
+         * the pool shut down since entry into this method. So we
+         * recheck state and if necessary roll back the enqueuing if
+         * stopped, or start a new thread if there are none.
+         * 如果任务被成功放入队列，我们仍需要一个双重校验去确认是否应该新建一个线程
+         *（因为可能存在有些线程在我们上次检查后死了） 或者 从我们进入这个方法后，pool被关闭了
+         * 所以我们需要再次检查state，如果线程池停止了需要回滚入队列，如果池中没有线程了，新开启 一个线程
+         *
+         * 3. If we cannot queue task, then we try to add a new
+         * thread.  If it fails, we know we are shut down or saturated
+         * and so reject the task.
+         * 如果无法将任务入队列（可能队列满了），需要添加一个新线程（线程池扩容：往maxPoolSize发展）
+         * 如果失败了，说明线程池shutdown 或者 饱和了，所以我们拒绝任务
+         */</span>
+        <span class="token keyword">int</span> c <span class="token operator">=</span> ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment" spellcheck="true">/**
+       * 1、如果当前线程数少于corePoolSize，则添加任务
+       */</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">workerCountOf</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token operator">&lt;</span> corePoolSize<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">addWorker</span><span class="token punctuation">(</span>command<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+         <span class="token comment" spellcheck="true">/**
+         * 没有成功addWorker()，再次获取c（凡是需要再次用ctl做判断时，都会再次调用ctl.get()）
+         * 失败的原因可能是：
+         * 1、线程池已经shutdown，shutdown的线程池不再接收新任务
+         * 2、workerCountOf(c) &lt; corePoolSize 判断后，由于并发，别的线程先创建了worker线程，导致workerCount>=corePoolSize
+         */</span>
+            c <span class="token operator">=</span> ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/**
+        * 2、如果线程池RUNNING状态，且入队列成功
+        * offer方法是往队列中添加任务，队列已满无法添加，返回false
+        */</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isRunning</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> workQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 再次获取ctl的值</span>
+            <span class="token keyword">int</span> recheck <span class="token operator">=</span> ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+         <span class="token comment" spellcheck="true">/**
+         * 再次校验放入workerQueue中的任务是否能被执行
+         * 1、如果线程池不是运行状态了，应该拒绝添加新任务，从workQueue中删除任务
+         * 2、如果线程池是运行状态，或者从workQueue中删除任务失败（刚好有一个线程执行完毕，并消耗了这个任务），确保还有线程执行任务（只要有一个就够了）
+         */</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span> <span class="token function">isRunning</span><span class="token punctuation">(</span>recheck<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">remove</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token function">reject</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token comment" spellcheck="true">/**
+          * 如果当前worker数量为0，通过addWorker(null, false)创建一个线程，其任务为null
+          * 为什么只检查运行的worker数量是否等于0而不和corePoolSize比较呢？
+          * 因为只保证有一个worker线程可以从queue中获取任务执行就行了
+          * 因为只要还有活动的worker线程，就可以消费workerQueue中的任务
+          */</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">workerCountOf</span><span class="token punctuation">(</span>recheck<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">//第一个参数为null，说明只为新建一个worker线程，没有指定firstTask</span>
+                <span class="token comment" spellcheck="true">//第二个参数为true代表占用corePoolSize，false占用maxPoolSize</span>
+                <span class="token function">addWorker</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">/**
+        * 3、如果线程池不是running状态 或者 无法入队列
+        *   尝试开启新线程，扩容至maxPoolSize，如果addWork(command, false)失败了，拒绝当前command
+        */</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">addWorker</span><span class="token punctuation">(</span>command<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token function">reject</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>单从execute()方法来说，这个方法就干了一件事情，就是添加任务。添加任务分为三种情况，分别对应代码中的三个大 if 条件。下面来说说每种情况的具体条件</p>
+<p><strong>参数：</strong> command  &lt;执行任务的线程，不能为空&gt;</p>
+<p><strong>执行流程：</strong> </p>
+<p><strong>1 . 添加任务到线程池（coreSizePool）：</strong> 第一个 if 判断，当前线程池中的线程数小于corePoolSize，则通过addWorker方法创建新线程，并添加到线程池中。如果添加成功则返回，如果添加失败继续后续步骤。核心线程池中添加失败的原因可能有： </p>
+<ol>
+<li>线程池已经被其他线程shutdown，shutdown的线程池不再接收新任务。</li>
+<li>workerCountOf(c) &lt; corePoolSize 判断通过后，由于并发，别的线程先创建了worker线程，导致workerCount&gt;=corePoolSize</li>
+</ol>
+<p><strong>2 . 添加任务到队列（BlockingQueue）：</strong> 第二个 if 判断，当往核心线程池中添加任务失败，说明线程池中的有效线程池已经等于设置的核心线程数大小。这时继续被添加的任务只能添加到阻塞队列中，等待核心线程池中有线程空闲到队列中取任务执行。往队列中添加任务失败的原因可能有：</p>
+<ol>
+<li>如果线程池已经不是running状态了，应该拒绝添加新任务，从workQueue中删除刚刚添加的任务任务。</li>
+<li>如果线程池是运行状态，或者从workQueue中删除任务失败（刚好核心线程池中有一个线程执行完毕，并消耗了刚添加到队列的这个任务），确保还有线程执行任务（只要有一个就够了）</li>
+</ol>
+<p><strong>3 . 添加任务到线程池（maxSizePool）：</strong> 第三个 if 判断，当核心线程池中添加任务失败，任务队列中添加任务也失败时。会将线程池的线程数扩容到设置的最大线程数。新添加的任务会通过addWorker方法创建新线程，并添加到线程池中，这部分新创建的线程是一些临时工。当任务执行完后会被回收，使线程池的大小最终维持在coreSize。</p>
+<p>execute方法的大致流程就分析完了，下面是它的执行流程图。</p>
+<p><img src="/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/execute.png" alt></p>
+<h3 id="addWorker-–-添加worker线程"><a href="#addWorker-–-添加worker线程" class="headerlink" title="addWorker()  –  添加worker线程"></a>addWorker()  –  添加worker线程</h3><p>此方法的作用是添加任务到线程池，并运行任务。该方法的源码如下</p>
+<pre class=" language-java"><code class="language-java"> <span class="token comment" spellcheck="true">/**
+     * Checks if a new worker can be added with respect to current
+     * pool state and the given bound (either core or maximum). If so,
+     * the worker count is adjusted accordingly, and, if possible, a
+     * new worker is created and started, running firstTask as its
+     * first task. This method returns false if the pool is stopped or
+     * eligible to shut down. It also returns false if the thread
+     * factory fails to create a thread when asked.  If the thread
+     * creation fails, either due to the thread factory returning
+     * null, or due to an exception (typically OutOfMemoryError in
+     * Thread.start()), we roll back cleanly.
+     * 检查根据当前线程池的状态和给定的边界(core or maximum)是否可以创建一个新的worker
+     * 如果是这样的话，worker的数量做相应的调整，如果可能的话，创建一个新的worker并启动，
+     * 参数中的firstTask作为worker的第一个任务
+     * 如果方法返回false，可能因为pool已经关闭或者调用过了shutdown
+     * 如果线程工厂创建线程失败，也会失败，返回false
+     * 如果线程创建失败，要么是因为线程工厂返回null，要么是发生了OutOfMemoryError
+     *
+     * @param firstTask the task the new thread should run first (or
+     * null if none). Workers are created with an initial first task
+     * (in method execute()) to bypass queuing when there are fewer
+     * than corePoolSize threads (in which case we always start one),
+     * or when the queue is full (in which case we must bypass queue).
+     * Initially idle threads are usually created via
+     * prestartCoreThread or to replace other dying workers.
+     *
+     * @param core if true use corePoolSize as bound, else
+     * maximumPoolSize. (A boolean indicator is used here rather than a
+     * value to ensure reads of fresh values after checking other pool
+     * state).
+     * @return true if successful
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">addWorker</span><span class="token punctuation">(</span>Runnable firstTask<span class="token punctuation">,</span> <span class="token keyword">boolean</span> core<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token comment" spellcheck="true">//外层循环，负责判断线程池状态</span>
+        retry<span class="token operator">:</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> c <span class="token operator">=</span> ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> rs <span class="token operator">=</span> <span class="token function">runStateOf</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// Check if queue empty only if necessary.</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>rs <span class="token operator">>=</span> SHUTDOWN <span class="token operator">&amp;&amp;</span>
+                <span class="token operator">!</span> <span class="token punctuation">(</span>rs <span class="token operator">==</span> SHUTDOWN <span class="token operator">&amp;&amp;</span>
+                   firstTask <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span>
+                   <span class="token operator">!</span> workQueue<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//内层循环，负责对worker数量的+1</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> wc <span class="token operator">=</span> <span class="token function">workerCountOf</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>wc <span class="token operator">>=</span> CAPACITY <span class="token operator">||</span>
+                    wc <span class="token operator">>=</span> <span class="token punctuation">(</span>core <span class="token operator">?</span> corePoolSize <span class="token operator">:</span> maximumPoolSize<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                 <span class="token comment" spellcheck="true">//调用unsafe CAS操作，使得worker数量+1，成功则跳出retry循环</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndIncrementWorkerCount</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">break</span> retry<span class="token punctuation">;</span>
+                c <span class="token operator">=</span> ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// Re-read ctl</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">runStateOf</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token operator">!=</span> rs<span class="token punctuation">)</span>
+                    <span class="token keyword">continue</span> retry<span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// else CAS failed due to workerCount change; retry inner loop</span>
+                <span class="token comment" spellcheck="true">// else CAS失败时因为workerCount改变了，继续内层循环尝试CAS对worker数量+1</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">//worker数量+1成功的后续操作，添加到workers Set集合，并启动worker线程</span>
+        <span class="token keyword">boolean</span> workerStarted <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span> workerAdded <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        Worker w <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            w <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span>firstTask<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">final</span> Thread t <span class="token operator">=</span> w<span class="token punctuation">.</span>thread<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">final</span> ReentrantLock mainLock <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mainLock<span class="token punctuation">;</span>
+                mainLock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// Recheck while holding lock.</span>
+                    <span class="token comment" spellcheck="true">// Back out on ThreadFactory failure or if</span>
+                    <span class="token comment" spellcheck="true">// shut down before lock acquired.</span>
+                    <span class="token keyword">int</span> rs <span class="token operator">=</span> <span class="token function">runStateOf</span><span class="token punctuation">(</span>ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>rs <span class="token operator">&lt;</span> SHUTDOWN <span class="token operator">||</span>
+                        <span class="token punctuation">(</span>rs <span class="token operator">==</span> SHUTDOWN <span class="token operator">&amp;&amp;</span> firstTask <span class="token operator">==</span> null<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">isAlive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// precheck that t is startable</span>
+                            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalThreadStateException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        workers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>w<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">int</span> s <span class="token operator">=</span> workers<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">></span> largestPoolSize<span class="token punctuation">)</span>
+                            largestPoolSize <span class="token operator">=</span> s<span class="token punctuation">;</span>
+                        workerAdded <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                    mainLock<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>workerAdded<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//如果往HashSet中添加worker成功，启动线程</span>
+                    t<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    workerStarted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span> workerStarted<span class="token punctuation">)</span>
+                <span class="token function">addWorkerFailed</span><span class="token punctuation">(</span>w<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> workerStarted<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>当线程池是可添加任务状态的时候，都会执行到addWorker方法。这个方法的功能简单理解就是创建任务线程并执行任务，具体流程逻辑如下</p>
+<p><strong>参数：</strong> firstTask &lt; worker线程的初始任务，可以为null &gt;，core &lt; true：将corePoolSize作为上限，false：将maximumPoolSize作为上限 &gt;</p>
+<p><strong>执行流程：</strong> </p>
+<p><strong>1 . 判断线程池状态：</strong> 判断线程池当前是否为可以添加worker线程的状态，可以则继续下一步，不可以返回 false：</p>
+<ol>
+<li>线程池状态&gt;shutdown，可能为stop、tidying、terminated，不能添加worker线程</li>
+<li>线程池状态==shutdown，firstTask不为空，不能添加worker线程，因为shutdown状态的线程池不接收新任务</li>
+<li>线程池状态==shutdown，firstTask==null，workQueue为空，不能添加worker线程，因为firstTask为空是为了添加一个没有任务的线程再从workQueue获取task，而workQueue为空，说明添加无任务线程已经没有意义</li>
+</ol>
+<p><strong>2 . 判断线程池边界：</strong> 线程池当前线程数量是否超过上限（corePoolSize 或 maximumPoolSize），如果超过了返回false，没超过则对workerCount+1，继续下一步</p>
+<p><strong>3 . 创建并执行任务：</strong> 在ReentrantLock保证下（在操作work set集合largestPoolSize时需要上锁，一个线程池只有一把可重入锁），向线程池中添加新创建的worker实例，并启动worker线程，如果都成功了，返回 true，如果向线程池添加worker实例失败或任务线程启动失败，调用addWorkerFailed()逻辑。</p>
+<p><strong>方法参数：</strong> addWorker有两个参数，对应于4种传参方式。作用分别如下</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>在execute方法中就使用了前3种</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>addWorker(command, true)</td>
+<td>线程数小于corePoolSize时，放一个需要处理的task进Workers Set。<br>如果Workers Set长度超过corePoolSize，就返回false</td>
+</tr>
+<tr>
+<td>addWorker(command, false)</td>
+<td>当队列被放满时，就将这个新来的task直接放入Workers Set。<br>此时Workers Set的长度限制是maximumPoolSize。如果线程池也满了的话就返回false</td>
+</tr>
+<tr>
+<td>addWorker(null, false)</td>
+<td>放入一个空的task进workers Set，此时长度限制是maximumPoolSize。<br>这样一个task为空的worker在线程执行的时候会去任务队列里拿任务，<br>这样就相当于创建了一个新的线程，只是没有马上分配任务</td>
+</tr>
+<tr>
+<td>addWorker(null, true)</td>
+<td>此方法就是放一个null的task进Workers Set，而且是在小于corePoolSize时，<br>如果此时Set中的数量已经达到corePoolSize那就返回false，什么也不干。<br>实际使用中是在prestartAllCoreThreads()方法，<br>此方法用来为线程池预先启动corePoolSize个worker等待从队列中获取任务执行</td>
+</tr>
+</tbody></table>
+<p>下面是addWorker方法的流程图</p>
+<p><img src="/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/addwork.png" alt></p>
+<h3 id="内部类Worker"><a href="#内部类Worker" class="headerlink" title="内部类Worker"></a>内部类Worker</h3><p>Worker类本身既实现了Runnable，又继承了AbstractQueuedSynchronizer（以下简称AQS），所以其既是一个可执行的任务，又可以达到锁的效果。前面分析到提交任务时，线程池会把提交的线程封装成Worker实例。任务提交后通过Worker类中的t.start()运行线程。刚看到这里时，就有一个疑问了。执行线程的start方法是直接运行线程了。那么是它怎么保证线程池中的核心线程池数不变的。一切的奥秘就隐藏在Worker类中的run方法了。需要注意的是，执行t.start方法并不会直接运行提交线程的run()方法中的代码，而会运行Worker类中的run方法。因为在Worker实例创建时，通过工程创建了线程，而创建时又将自身作为参数传了进去。下面是内部类Worker类的源码实现</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+     * Class Worker mainly maintains interrupt control state for
+     * threads running tasks, along with other minor bookkeeping.
+     * This class opportunistically extends AbstractQueuedSynchronizer
+     * to simplify acquiring and releasing a lock surrounding each
+     * task execution.  This protects against interrupts that are
+     * intended to wake up a worker thread waiting for a task from
+     * instead interrupting a task being run.  We implement a simple
+     * non-reentrant mutual exclusion lock rather than use
+     * ReentrantLock because we do not want worker tasks to be able to
+     * reacquire the lock when they invoke pool control methods like
+     * setCorePoolSize.  Additionally, to suppress interrupts until
+     * the thread actually starts running tasks, we initialize lock
+     * state to a negative value, and clear it upon start (in
+     * runWorker).
+     * Worker类大体上管理着运行线程的中断状态 和 一些指标。
+     * 此类继承了AQS吗，又实现了Runnable，说明其既是一个可运行的任务，也是一把锁（不可重入）
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Worker</span>
+        <span class="token keyword">extends</span> <span class="token class-name">AbstractQueuedSynchronizer</span>
+        <span class="token keyword">implements</span> <span class="token class-name">Runnable</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">/**
+         * This class will never be serialized, but we provide a
+         * serialVersionUID to suppress a javac warning.
+         */</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> 6138294804551838833L<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">/** Thread this worker is running in.  Null if factory fails. */</span>
+        <span class="token keyword">final</span> Thread thread<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/** Initial task to run.  Possibly null. */</span>
+        Runnable firstTask<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/** Per-thread task counter */</span>
+        <span class="token keyword">volatile</span> <span class="token keyword">long</span> completedTasks<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">/**
+         * Creates with given first task and thread from ThreadFactory.
+         * @param firstTask the first task (null if none)
+         */</span>
+        <span class="token function">Worker</span><span class="token punctuation">(</span>Runnable firstTask<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+             <span class="token comment" spellcheck="true">//设置AQS的同步状态private volatile int state，是一个计数器，大于0代表锁已经被获取</span>
+             <span class="token comment" spellcheck="true">// 在运行runWorker方法之前，不可被中断</span>
+            <span class="token function">setState</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// inhibit interrupts until runWorker</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>firstTask <span class="token operator">=</span> firstTask<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>thread <span class="token operator">=</span> <span class="token function">getThreadFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">newThread</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">/** Delegates main run loop to outer runWorker  */</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">runWorker</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// Lock methods</span>
+        <span class="token comment" spellcheck="true">//</span>
+        <span class="token comment" spellcheck="true">// The value 0 represents the unlocked state.</span>
+        <span class="token comment" spellcheck="true">// The value 1 represents the locked state.</span>
+
+        <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">isHeldExclusively</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">tryAcquire</span><span class="token punctuation">(</span><span class="token keyword">int</span> unused<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">setExclusiveOwnerThread</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">tryRelease</span><span class="token punctuation">(</span><span class="token keyword">int</span> unused<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">setExclusiveOwnerThread</span><span class="token punctuation">(</span>null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">setState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>        <span class="token punctuation">{</span> <span class="token function">acquire</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">tryLock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token function">tryAcquire</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>      <span class="token punctuation">{</span> <span class="token function">release</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isLocked</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token function">isHeldExclusively</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+        <span class="token keyword">void</span> <span class="token function">interruptIfStarted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Thread t<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>t <span class="token operator">=</span> thread<span class="token punctuation">)</span> <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>t<span class="token punctuation">.</span><span class="token function">isInterrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    t<span class="token punctuation">.</span><span class="token function">interrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">SecurityException</span> ignore<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>为什么要把传进来的线程再封装成一个Worker类，为什么不直接执行execute(command)提交的command呢。主要是为了控制中断，用AQS锁，当运行时上锁，就不能中断，TreadPoolExecutor的shutdown()方法中断前都要获取worker锁，只有在等待从workQueue中获取任务getTask()时才能中断，worker实现了一个简单的不可重入的互斥锁，而不是用ReentrantLock可重入锁。</p>
+<p><strong>new Worker()：</strong></p>
+<ol>
+<li>将AQS的state置为-1，在runWoker()前不允许中断</li>
+<li>待执行的任务会以参数传入，并赋予firstTask</li>
+<li>用Worker这个Runnable创建Thread</li>
+</ol>
+<p>之所以Worker自己实现Runnable，并创建Thread，在firstTask外包一层，是因为要通过Worker控制中断，而firstTask这个工作任务只是负责执行业务</p>
+<p><strong>Worker控制中断的几方面：</strong></p>
+<ol>
+<li>初始AQS状态为-1，此时不允许中断interrupt()，只有在worker线程启动了，执行了runWoker()，将state置为0，才能中断，其中不允许中断体现在：(a) . shutdown()线程池时，会对每个worker tryLock()上锁，而Worker类这个AQS的tryAcquire()方法是固定将state从0-&gt;1，故初始状态state==-1时tryLock()失败，没发interrupt()。(b) . shutdownNow()线程池时，不用tryLock()上锁，但调用worker.interruptIfStarted()终止worker，interruptIfStarted()也有state&gt;0才能interrupt的逻辑</li>
+<li>为了防止某种情况下，在运行中的worker被中断，runWorker()每次运行任务时都会lock()上锁，而shutdown()这类可能会终止worker的操作需要先获取worker的锁，这样就防止了中断正在运行的线程</li>
+</ol>
+<p><strong>Worker和firstTask的区别：</strong>Worker是线程池中的线程，而Task虽然是runnable，但是并没有真正执行，只是被Worker调用了run方法，后面会看到这部分的实现。这也是线程池能保证核心线程数的原因（因为线程池并不是直接创建我们提交给线程池任务的线程，而是自己创建线程，用它创建的线程调用我们提交的线程的run()方法。）</p>
+<h3 id="runWorker-–-执行任务"><a href="#runWorker-–-执行任务" class="headerlink" title="runWorker()  –  执行任务"></a>runWorker()  –  执行任务</h3><p>下面是Worker类中run()方法中调用的runWorker()方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+     * Main worker run loop.  Repeatedly gets tasks from queue and
+     * executes them, while coping with a number of issues:
+     *
+     * 1. We may start out with an initial task, in which case we
+     * don't need to get the first one. Otherwise, as long as pool is
+     * running, we get tasks from getTask. If it returns null then the
+     * worker exits due to changed pool state or configuration
+     * parameters.  Other exits result from exception throws in
+     * external code, in which case completedAbruptly holds, which
+     * usually leads processWorkerExit to replace this thread.
+     * 
+     * 1.我们可能使用一个初始化任务开始，即firstTask为null
+     * 然后只要线程池在运行，我们就从getTask()获取任务
+     * 如果getTask()返回null，则worker由于改变了线程池状态或参数配置而退出
+     * 其它退出因为外部代码抛异常了，这会使得completedAbruptly为true，
+     * 这会导致在processWorkerExit()方法中替换当前线程
+     *
+     * 2. Before running any task, the lock is acquired to prevent
+     * other pool interrupts while the task is executing, and then we
+     * ensure that unless pool is stopping, this thread does not have
+     * its interrupt set.
+     *
+     * 2. 在任何任务执行之前，都需要对worker加锁去防止在任务运行时，其它任务执行时中断，
+     * 此外还需确保线程没有中断标记，除非线程池已经停了 
+     *
+     * 3. Each task run is preceded by a call to beforeExecute, which
+     * might throw an exception, in which case we cause thread to die
+     * (breaking loop with completedAbruptly true) without processing
+     * the task.
+     * 
+     * 3. 每个任务执行前会调用beforeExecute()，其中可能抛出一个异常，这种情况下会导致线程死亡
+     *（跳出循环，且completedAbruptly==true），没有执行任务
+     * 因为beforeExecute()的异常没有cache住，会上抛，跳出循环
+     *
+     * 4. Assuming beforeExecute completes normally, we run the task,
+     * gathering any of its thrown exceptions to send to afterExecute.
+     * We separately handle RuntimeException, Error (both of which the
+     * specs guarantee that we trap) and arbitrary Throwables.
+     * Because we cannot rethrow Throwables within Runnable.run, we
+     * wrap them within Errors on the way out (to the thread's
+     * UncaughtExceptionHandler).  Any thrown exception also
+     * conservatively causes thread to die.
+     * 
+     * 4. 假定beforeExecute()正常完成，我们执行任务
+     * 汇总任何抛出的异常并发送给afterExecute(task, thrown)
+     * 因为我们不能在Runnable.run()方法中重新上抛Throwables，
+     * 我们将Throwables包装到Errors上抛（会到线程的UncaughtExceptionHandler去处理）
+     * 任何上抛的异常都会导致线程死亡
+     *
+     * 5. After task.run completes, we call afterExecute, which may
+     * also throw an exception, which will also cause thread to
+     * die. According to JLS Sec 14.20, this exception is the one that
+     * will be in effect even if task.run throws.
+     *
+     * 5 .任务执行结束后，调用afterExecute()，也可能抛异常，也会导致线程die
+     * 根据JLS Sec 14.20，这个异常（finally中的异常）会生效
+     *
+     * The net effect of the exception mechanics is that afterExecute
+     * and the thread's UncaughtExceptionHandler have as accurate
+     * information as we can provide about any problems encountered by
+     * user code.
+     *
+     * @param w the worker
+     */</span>
+    <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">runWorker</span><span class="token punctuation">(</span>Worker w<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Thread wt <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Runnable task <span class="token operator">=</span> w<span class="token punctuation">.</span>firstTask<span class="token punctuation">;</span>
+        w<span class="token punctuation">.</span>firstTask <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        w<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// allow interrupts</span>
+        <span class="token keyword">boolean</span> completedAbruptly <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>task <span class="token operator">!=</span> null <span class="token operator">||</span> <span class="token punctuation">(</span>task <span class="token operator">=</span> <span class="token function">getTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                w<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// If pool is stopping, ensure thread is interrupted;</span>
+                <span class="token comment" spellcheck="true">// if not, ensure thread is not interrupted.  This</span>
+                <span class="token comment" spellcheck="true">// requires a recheck in second case to deal with</span>
+                <span class="token comment" spellcheck="true">// shutdownNow race while clearing interrupt</span>
+
+                <span class="token comment" spellcheck="true">// 确保只有在线程stoping时，才会被设置中断标示，否则清除中断标示</span>
+                <span class="token comment" spellcheck="true">// 1、如果线程池状态>=stop，且当前线程没有设置中断状态，wt.interrupt()</span>
+                <span class="token comment" spellcheck="true">// 2、如果一开始判断线程池状态&lt;stop，但Thread.interrupted()为true，即线程已经被中断，又清除了中断标示，再次判断线程池状态是否>=stop</span>
+                <span class="token comment" spellcheck="true">// 是，再次设置中断标示，wt.interrupt()</span>
+                <span class="token comment" spellcheck="true">//  否，不做操作，清除中断标示后进行后续步骤</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">runStateAtLeast</span><span class="token punctuation">(</span>ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> STOP<span class="token punctuation">)</span> <span class="token operator">||</span>
+                     <span class="token punctuation">(</span>Thread<span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+                      <span class="token function">runStateAtLeast</span><span class="token punctuation">(</span>ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> STOP<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+                    <span class="token operator">!</span>wt<span class="token punctuation">.</span><span class="token function">isInterrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    wt<span class="token punctuation">.</span><span class="token function">interrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    <span class="token function">beforeExecute</span><span class="token punctuation">(</span>wt<span class="token punctuation">,</span> task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    Throwable thrown <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                        task<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RuntimeException</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        thrown <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token keyword">throw</span> x<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Error</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        thrown <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token keyword">throw</span> x<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        thrown <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                        <span class="token function">afterExecute</span><span class="token punctuation">(</span>task<span class="token punctuation">,</span> thrown<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                    task <span class="token operator">=</span> null<span class="token punctuation">;</span>
+                    w<span class="token punctuation">.</span>completedTasks<span class="token operator">++</span><span class="token punctuation">;</span>
+                    w<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            completedAbruptly <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token function">processWorkerExit</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> completedAbruptly<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p><strong>runWorker(Worker w)执行流程：</strong></p>
+<ol>
+<li>执行任务之前，首先worker.unlock()，将AQS的state置为0，允许中断当前worker线程</li>
+<li>开始执行firstTask，调用task.run()，在执行任务前会上锁wroker.lock()，在执行完任务后会解锁，为了防止在任务运行时被线程池一些中断操作中断</li>
+<li>在任务执行前后，可以根据业务场景自定义beforeExecute() 和 afterExecute()方法</li>
+<li>无论在beforeExecute()、task.run()、afterExecute()发生异常上抛，都会导致worker线程终止，进入processWorkerExit()处理worker退出的流程</li>
+<li>如正常执行完当前task后，会通过getTask()从阻塞队列中获取新任务，当队列中没有任务，且获取任务超时，那么当前worker也会进入退出流程</li>
+</ol>
+<p><img src="/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/runWork.png" alt></p>
+<h3 id="getTask-–-获取任务"><a href="#getTask-–-获取任务" class="headerlink" title="getTask()  –  获取任务"></a>getTask()  –  获取任务</h3><p>这个方法也是线程池的很重要的方法，它定义了任务从线程池获取线程的具体逻辑。也是保证线程池中核心线程数量的关键方法。当有效线程数小于corePoolSize时，有阻塞的从队列中获取任务。源码如下</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+     * Performs blocking or timed wait for a task, depending on
+     * current configuration settings, or returns null if this worker
+     * must exit because of any of:
+     * 1. There are more than maximumPoolSize workers (due to
+     *    a call to setMaximumPoolSize).
+     * 2. The pool is stopped.
+     * 3. The pool is shutdown and the queue is empty.
+     * 4. This worker timed out waiting for a task, and timed-out
+     *    workers are subject to termination (that is,
+     *    {@code allowCoreThreadTimeOut || workerCount > corePoolSize})
+     *    both before and after the timed wait, and if the queue is
+     *    non-empty, this worker is not the last thread in the pool.
+     *
+     * @return task, or null if the worker must exit, in which case
+     *         workerCount is decremented
+     */</span>
+    <span class="token keyword">private</span> Runnable <span class="token function">getTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">boolean</span> timedOut <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Did the last poll() time out?</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> c <span class="token operator">=</span> ctl<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> rs <span class="token operator">=</span> <span class="token function">runStateOf</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// Check if queue empty only if necessary.</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>rs <span class="token operator">>=</span> SHUTDOWN <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>rs <span class="token operator">>=</span> STOP <span class="token operator">||</span> workQueue<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">decrementWorkerCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">int</span> wc <span class="token operator">=</span> <span class="token function">workerCountOf</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// Are workers subject to culling?</span>
+            <span class="token keyword">boolean</span> timed <span class="token operator">=</span> allowCoreThreadTimeOut <span class="token operator">||</span> wc <span class="token operator">></span> corePoolSize<span class="token punctuation">;</span>
+
+             <span class="token comment" spellcheck="true">/**
+             * 如果线程数量大于maximumPoolSize（可能maximumPoolSize被修改了）
+             * 要么既需要计时timed==true，也超时了timedOut==true
+             * worker数量-1，减一执行一次就行了，然后返回null，在runWorker()中会有逻辑减少worker线程
+             * 如果本次减一失败，继续内层循环再次尝试减一
+             */</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>wc <span class="token operator">></span> maximumPoolSize <span class="token operator">||</span> <span class="token punctuation">(</span>timed <span class="token operator">&amp;&amp;</span> timedOut<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>wc <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">||</span> workQueue<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndDecrementWorkerCount</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                Runnable r <span class="token operator">=</span> timed <span class="token operator">?</span>
+                    <span class="token comment" spellcheck="true">// 大于corePoolSize</span>
+                    workQueue<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span>keepAliveTime<span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>NANOSECONDS<span class="token punctuation">)</span> <span class="token operator">:</span>   
+                    <span class="token comment" spellcheck="true">// 小于等于corePoolSize</span>
+                    workQueue<span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token comment" spellcheck="true">// 如果获取到了任务就返回</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+                    <span class="token keyword">return</span> r<span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 没有返回，说明超时，那么在下一次内层循环时会进入worker count减一的步骤</span>
+                timedOut <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> retry<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                timedOut <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p><strong>执行流程：</strong></p>
+<p>1、首先判断是否可以满足从workQueue中获取任务的条件，不满足return null<br>​    A、线程池状态是否满足：<br>​        （1）shutdown状态 + workQueue为空 或 stop状态，都不满足，因为被shutdown后还是要执行workQueue剩余的任务，但workQueue也为空，就可以退出了<br>​        （2）stop状态，shutdownNow()操作会使线程池进入stop，此时不接受新任务，中断正在执行的任务，workQueue中的任务也不执行了，故return null返回<br>​    B、线程数量是否超过maximumPoolSize 或 获取任务是否超时<br>​        （1）线程数量超过maximumPoolSize可能是线程池在运行时被调用了setMaximumPoolSize()被改变了大小，否则已经addWorker()成功不会超过maximumPoolSize<br>​        （2）如果 当前线程数量&gt;corePoolSize，才会检查是否获取任务超时，这也体现了当线程数量达到maximumPoolSize后，如果一直没有新任务，会逐渐终止worker线程直到corePoolSize<br>2、如果满足获取任务条件，根据是否需要定时获取调用不同方法：<br>​    A、workQueue.poll()：如果在keepAliveTime时间内，阻塞队列还是没有任务，返回null<br>​    B、workQueue.take()：如果阻塞队列为空，当前线程会被挂起等待；当队列中有任务加入时，线程被唤醒，take方法返回任务<br>3、在阻塞从workQueue中获取任务时，可以被interrupt()中断，代码中捕获了InterruptedException，重置timedOut为初始值false，再次执行第1步中的判断，满足就继续获取任务，不满足return null，会进入worker退出的流程</p>
+<p><img src="/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/getTask.png" alt></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com" rel="external nofollow noreferrer">John Doe</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://yoursite.com/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/">http://yoursite.com/2019/06/11/shen-ru-java-xian-cheng-chi-shi-xian-yuan-ma/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="http://yoursite.com" target="_blank">John Doe</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">java</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '80762ed6a02305983b8f',
+        clientSecret: '1bfce4e667c75cd6240ddad02fa081a86f2171d3',
+        repo: 'lushunjian.github.io',
+        owner: 'lushunjian',
+        admin: "lushunjian",
+        id: '2019-06-11T17-44-19',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/06/22/liao-liao-dui-threadlocal-de-li-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="聊聊对ThreadLocal的理解">
+                        
+                        <span class="card-title">聊聊对ThreadLocal的理解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            JDK 1.2的版本中就提供java.lang.ThreadLocal，ThreadLocal为解决多线程程序的并发问题提供了一种新的思路。使用这个工具类可以很简洁地编写出优美的多线程程序。也是面试中出现频率比较高的知识点。ThreadLo
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-22
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/08/java-shi-xian-mysql-zeng-liang-tong-bu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Java实现Mysql增量同步">
+                        
+                        <span class="card-title">Java实现Mysql增量同步</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            最近公司有个基于Mysql做增量数据同步的需求需要我要完成。源端是两个不同业务系统数据库的两张表，需要把这两张表的数据字段做一些过滤和处理，然后增量同步到本地服务的数据库中。由于数据量不大，源端两个表都是几十万的数据，因此当时首先想到的就是
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Mysql/">
+                        <span class="chip bg-color">Mysql</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://yoursite.com" target="_blank">John Doe</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
