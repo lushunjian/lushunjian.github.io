@@ -575,7 +575,7 @@
 </tr>
 </tbody></table>
 <h3 id="1-JDK安装"><a href="#1-JDK安装" class="headerlink" title="1 . JDK安装"></a>1 . JDK安装</h3><p>(1) . jdk 1.8下载地址：<a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">jdk-8u181-linux-x64.tar.gz</a> 。进入官网后选择Linux 64位下载</p>
-<p><img src="/blogs/blogs/2018/08/05/centos-da-jian-zookeeper-ji-qun/jdk.png" alt></p>
+<p><img src="/2018/08/05/centos-da-jian-zookeeper-ji-qun/jdk.png" alt></p>
 <p>创建一个用户文件夹</p>
 <pre class=" language-shell"><code class="language-shell">mkdir /user/java</code></pre>
 <p>将要下载好的jdk包上传到这个目录下，然后进入到这个目录执行如下命令</p>
@@ -630,19 +630,19 @@ java version "1.8.0_181"
 Java(TM) SE Runtime Environment (build 1.8.0_45-b14)
 Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)</code></pre>
 <h3 id="2-Zookeeper下载"><a href="#2-Zookeeper下载" class="headerlink" title="(2) . Zookeeper下载"></a>(2) . Zookeeper下载</h3><p>下载地址：<a href="http://apache.fayea.com/zookeeper/" target="_blank" rel="noopener">zookeeper</a> 。如下图</p>
-<p><img src="/blogs/blogs/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper1.png" alt></p>
+<p><img src="/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper1.png" alt></p>
 <p>选择合适的版本，这里我下载的是3.4.10。点击即可下载</p>
-<p><img src="/blogs/blogs/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper2.png" alt></p>
+<p><img src="/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper2.png" alt></p>
 <p>也可在CentOS中通过shell命令下载。命令如下</p>
 <pre class=" language-shell"><code class="language-shell">wget http://mirrors.cnnic.cn/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz</code></pre>
 <p>通过如下镜像网址，可选择合适的版本下载</p>
-<p><img src="/blogs/blogs/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper3.png" alt></p>
+<p><img src="/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper3.png" alt></p>
 <p>下载完成后将tar包放到 /user/zookeeper下，此目录可自行定义</p>
-<p><img src="/blogs/blogs/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper4.png" alt></p>
+<p><img src="/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper4.png" alt></p>
 <p>进入到该目录，解压缩</p>
 <pre class=" language-shell"><code class="language-shell">tar -zxvf zookeeper-3.4.10.tar.gz</code></pre>
 <p>再定义两个目录用于存放日志和数据</p>
-<p><img src="/blogs/blogs/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper5.png" alt></p>
+<p><img src="/2018/08/05/centos-da-jian-zookeeper-ji-qun/zookeeper5.png" alt></p>
 <p>图中3.3.6是我之前安装的版本。具体命令如下</p>
 <pre class=" language-shell"><code class="language-shell">mkdir zkdata #存放快照日志
 mkdir zkdatalog#存放事物日志</code></pre>
@@ -1528,12 +1528,12 @@ systemctl  status  iptables.service</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/hadoop/">
-                        <span class="chip bg-color">hadoop</span>
-                    </a>
-                    
                     <a href="/tags/%E5%AE%9E%E8%B7%B5/">
                         <span class="chip bg-color">实践</span>
+                    </a>
+                    
+                    <a href="/tags/hadoop/">
+                        <span class="chip bg-color">hadoop</span>
                     </a>
                     
                 </div>

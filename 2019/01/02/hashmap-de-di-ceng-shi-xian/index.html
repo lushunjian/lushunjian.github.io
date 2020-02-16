@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>HashMap的底层实现相信是Java开发者们面试都会碰到的问题。它方便易用，在Java开发中使用频率非常高。它的实现原理包含很多知识点，所以当面试官问到你HashMap的时候可就要当心了，因为如果基本功不够扎实的话，很容易被带到沟里哦。以下暂时说jdk1.8的HashMap实现，我们都知道在数据结构中，物理存储的数据结构只有两种，即数组和链表，其余的如树，队列，栈等数据结构都是在它们的基础上逻辑抽象而来。它们各有优势，数组存储区域连续，查找快，增删慢，而链表存储区域离散，查找慢，增删快，因此各有各的应用场景。并没有一种既满足查找快也满足增删快的基本数据结构。那能不能把数组和链表组合在一起构成一种新的数据结构呢？HashMap就此诞生了，它的底层就是通过数组加链表组合的方式实现了查找快和增删快的统一。那么怎么样的组合才能使两者达到平衡呢？来看一下HashMap的实现细节</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/1.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/1.png" alt></p>
 <p>在此之前我们先了解一下几种常用的数据结构，从图中也可以看出，它们是组成HashMap的基石。</p>
 <p><strong>数组</strong>：数组指的就是一组相关类型的变量集合，并且这些变量彼此之间没有任何的关联。占用连续的内存空间存储数据，数组有下标，查询数据快，但是增删比较慢。</p>
 <p><strong>链表：</strong>链表是一种线性表，不会占用连续的内存空间存储数据，而是每一个节点里存到下一个节点的指针。由于存储区间离散，因而占用内存比较宽松，链表查询比较慢，但是增删比较快；</p>
@@ -555,7 +555,7 @@
 <a id="more"></a> 
 
 <h3 id="1-HashMap的实现"><a href="#1-HashMap的实现" class="headerlink" title="1.HashMap的实现"></a>1.HashMap的实现</h3><p>以下暂时说jdk1.8的HashMap实现，我们都知道在数据结构中，物理存储的数据结构只有两种，即数组和链表，其余的如树，队列，栈等数据结构都是在它们的基础上逻辑抽象而来。它们各有优势，数组存储区域连续，查找快，增删慢，而链表存储区域离散，查找慢，增删快，因此各有各的应用场景。并没有一种既满足查找快也满足增删快的基本数据结构。那能不能把数组和链表组合在一起构成一种新的数据结构呢？HashMap就此诞生了，它的底层就是通过数组加链表组合的方式实现了查找快和增删快的统一。那么怎么样的组合才能使两者达到平衡呢？下面我们来一探究竟，下图是HashMap实现的结构图。</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/2.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/2.png" alt></p>
 <p>可以看出组成HashMap最基本的单元是Entry。图中紫色框的Entry构成数组，红色框中的Entry构成链表。当有新的Entry需要加入进来时，通过Entry的Key哈希后得到值和table数组的长度位与运算得到数组的下标。再遍历链表，通过equals方法逐个比较key，如果有相同的Key就覆盖,如果没有就追加到链表头部（<strong>HashMap并不会将元素放在链表的尾部，而是放在头部，这是为了避免尾部遍历[tail traversing]</strong>）。数组和链表就是通过这种方式的组合实现了查找和增删效率的平衡。其中Entry对象除了包含本身的Key和Value外还包含它指向的下一个Entry。在jdk1.8后，对HashMap做了优化，当链表长度不小于8时就将链表转化成红黑树，长度小于8时再转化为链表。既然红黑树能有效的提高查询速度（黑红树查找相当于二分查找），那为什么不一开始就把链表转化为红黑树，而是要在链表长度大于8时才做这样的处理呢？这里个人理解，红黑树固然能提高查询速度，但也带来了维护红黑树的成本。我们知道红黑树是一颗自平衡的二叉树，因此在插入数据时，有可能导致红黑树不平衡，这时需要翻转红黑树使它达到平衡状态。而8这个数字就是链表和数字在插入效率和查询效率上的折中处理，就如同HashMap的负载因子是0.75，而不是0.6或是0.8，是一个道理。在jdk源码中Entry的实现类如下</p>
 <pre class=" language-java"><code class="language-java">    <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token keyword">implements</span> <span class="token class-name">Map<span class="token punctuation">.</span>Entry</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">// key的哈希值</span>
@@ -839,7 +839,7 @@
     <span class="token keyword">return</span> newTab<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>以上就是HashMpa中几个重要的方法，get方法相对来说比较简单就不做介绍了，当一个容量稍大的HashMap对象放在jvm中时，它数据的逻辑结构如下图</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap1.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap1.png" alt></p>
 <p>其中白底的虚线框是数组，也可以说是哈希桶，当不同的数据经过哈希计算后被放到同一个哈希桶时（哈希碰撞）这些数据会以链表的方式组合在一起，也就是图中绿底框。当有相当多的数据出现哈希碰撞时，会导致这个链表很长，在使用get方法时，需要遍历链表，我们知道链表优势是增删快，查找慢，这样get方法效率会很低。因此在jdk1.8中对这里做了优化，当链表长度不小于8时就将链表转化成红黑树，长度小于8时再转化为链表。既然红黑树能有效的提高查询速度（黑红树查找相当于二分查找），那为什么不一开始就把链表转化为红黑树，而是要在链表长度大于8时才做这样的处理呢？这里个人理解，红黑树固然能提高查询速度，但也带来了维护红黑树的成本。我们知道红黑树是一颗自平衡的二叉树，因此在插入数据时，有可能导致红黑树不平衡，这时需要翻转红黑树使它达到平衡状态。而8这个数字就是链表和数字在插入效率和查询效率上的折中处理，就如同HashMap的负载因子是0.75，而不是0.6或是0.8，是一个道理。</p>
 <h3 id="3-HashMap的扩容"><a href="#3-HashMap的扩容" class="headerlink" title="3 . HashMap的扩容"></a>3 . HashMap的扩容</h3><p>通过阅读源码，我们知道HashMap中数组的默认初始长度是16。但当数组中有数据的个数超过总数的0.75时，HashMap就会自动扩容。一旦扩容，就意味着，旧的HashMap中的Entry全部要迁移到新的HashMap中，也就是rehash。想一下如果是你做这件事，你会怎么做呢？我思考过这个问题，首先要把所有的Entry放到一起，然后遍历所有的Entry，出现哈希碰撞时，就把碰撞的数据组成链表。为什么要遍历所有的Entry，因为table[]的长度变成了原来的两倍，所以所有的Entry都需要通过哈希算法重新定位到新的哈希桶。这样做确实很直接，简单粗暴。但如果旧的HashMap中数据量非常大，这样做不但需要一个超大的数组暂存所有的Entry，而且HashMap的扩容将是一个巨大且低效率的 “工程” 。HashMap源码的编写者比我要睿智的多，我们来看看HashMap源码中扩容是怎么做的。其实这个问题的核心点在于哈希算法的设计。也就是Entry的key通过什么样的哈希算法定位到table中的位置。下面是jdk中的哈希算法</p>
 <pre class=" language-java"><code class="language-java">    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token function">hash</span><span class="token punctuation">(</span>Object key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -860,11 +860,11 @@
    <span class="token punctuation">}</span></code></pre>
 <p>上面两个方法，第一个是hash算法，这个方法的作用是根据key计算哈希值，使结果尽量的离散，这样当数据很多时，数据才会尽可能均匀的分布在哈希桶中。而第二个方法中数组的长度与哈希值的与计算得到下标。然后就是最后一个巧妙的设计了，table[]扩容为原来的两倍。我们先来看以下两种情况，这里HashMap的长度是默认值16</p>
 <p>1.key计算后的哈希值小于16</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/3.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/3.png" alt></p>
 <p>2.key计算后的哈希值大于16</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/4.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/4.png" alt></p>
 <p>图中的与运算就是源码中Entry确定table下标的代码，也就是上面putval代码的第七行 p = tab[i = (n - 1) &amp; hash] 这行代码的计算。从图中计算的结果可以看出，与运算保留了低位的值，去掉了高位的值。因此在hash值小于16的情况下，旧的Entry在重新定位到扩容后的新HashMap的table下标时，得到的下标值是一样的。而在hash值大于16的情况下，旧的Entry在重新定位到扩容后的新HashMap的table下标时，得到的下标值是不一样的。这说明在第一次HashMap扩容时，hash值大于16的Entry会迁移到新的位置，而小于16的Entry不需要迁移。这就保证了旧table已经散列良好的数据位置重新调换的频率。而每次扩容两倍更是保证了，每次变化的位数只有一位，如下图</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap4.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap4.png" alt></p>
 <p>这样就可以使之前已经散列好的数组变动最小，这也是为什么扩容2倍的原因。到这里可以给HashMap的原理做个总结：<strong>HashMap由数组加链表组成的，数组是HashMap的哈希桶，链表则是为解决哈希碰撞而存在的，如果定位到的数组位置不含链表（即哈希桶中只有一个Entry）,那么对于查找，添加等操作很快，仅需一次寻址即可（数组根据下标寻址，速度很快）；如果定位到的数组包含链表，对于添加操作，其时间复杂度为O(n)，首先遍历链表，存在即覆盖，否则新增；对于查找操作来讲，也需遍历链表，然后通过key对象的equals方法逐一比较查找。所以，性能考虑，HashMap中的链表出现越少，性能就会越好。（其实也就是key的哈希值越离散，Entry就会尽可能的均匀分布，出现链表的概率也就越低）</strong></p>
 <h3 id="4-重写equals和hashCode方法"><a href="#4-重写equals和hashCode方法" class="headerlink" title="4 . 重写equals和hashCode方法"></a>4 . 重写equals和hashCode方法</h3><p>这个问题相信很多初学java的朋友都碰到过。就是在使用自定义对象作为HashMap的key时，如果重写了equals，也一定要重写hashcode方法。首先来看个小例子，如果在类中重写了equals方法，但是不重写hashCode方法会出现什么样的问题</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Car</span> <span class="token punctuation">{</span>
@@ -1040,17 +1040,17 @@
         <span class="token function">resize</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> table<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>上面两方法的源码中，我分别标注了①和②两个断点。这两个点就是环形链表的形成的原因，为了方便分析，再假设服务器cpu为单核。在②处代码是关于HashMap是否需要扩容的判断，由于此方法没有加synchronized修饰。于是当线程1运行到②处时，线程判断当前的HashMap需要扩容，就在此时线程1被挂起（线程是操作系统调度的最小单元，是否被挂起，什么时候被挂起，什么时候继续运行，都是由操作系统的线程调度说了算）。这时线程2也运行到了②处，这时由于线程1被挂起了，HashMap实际上还没有进行扩容操作。因此线程2也判断当前的HashMap需要扩容。于是两个线程都会执行resize方法。如果此时线程2一鼓作气，将扩容操作全执行完倒也好了，大不了线程1再执行一遍扩容操作，两个线程也会相安无事。可事与愿违，两个线程是交替运行的。在代码①处再出现线程被挂起的情况，就会出现环形链表。下面拿几个数据，举例说明一下，首先来看一下正常情况下的rehash过程。我假设HashMap的table初始长度为2，现在由于要rehash扩容到4。HashMap中有一个长度为3的链表。同样的为了简化分析，这里哈希算法，仅仅只是用key值除以table的长度取余来定位哈希桶的位置，哈希桶0有一个key为2的Entry，哈希桶1有3个key为3,5,7的Entry组成的链表，数据结构如下</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap5.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap5.png" alt></p>
 <h5 id="正常的rehash过程"><a href="#正常的rehash过程" class="headerlink" title="正常的rehash过程"></a>正常的rehash过程</h5><p>1.table[]的第二次循环，遍历哈希桶1，链表的第一次循环，此时e指向Entry&lt;3,B&gt;，next指向Entry&lt;5,C&gt;；</p>
 <p>2.table[]的第二次循环，遍历哈希桶1，链表的第二次循环，此时e指向Entry&lt;5,C&gt;，next指向Entry&lt;7,D&gt;；</p>
 <p>3.table[]的第二次循环，遍历哈希桶1，链表的第三次循环，此时e指向Entry&lt;7,D&gt;，next指向null；为了便于理解，下图简单的描述了正常的rehash过程</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap9.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap9.png" alt></p>
 <h5 id="并发的rehash过程"><a href="#并发的rehash过程" class="headerlink" title="并发的rehash过程"></a>并发的rehash过程</h5><p>假设线程2已经完成了对hashMap的扩容，那么线程1和线程2的状态分别如下（再强调一下出现环链的前置条件是两个线程同时读到了原HashMap的值，都准备扩容）</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap10.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap10.png" alt></p>
 <p>这个时刻线程2完成rehash过程，有图不难看出，新的HashMap已经是由两条链表有值了，然后由于操作系统的调度，线程2挂起，线程1继续执行rehash过程。这时线程1拿到的新的HashMap已经是线程1rehash完成之后的HashMap，里面是有值的。我们来看线程1进行rehash的第一步</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap12.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap12.png" alt></p>
 <p>在链表的第一次循环时，取下原链表的Entry&lt;3,B&gt;值，经过hash算法得到插入新HashMap的第三个下标，由于会采用头节点插入法，因此会得到Entry&lt;3,B&gt; 指向 Entry&lt;7,D&gt;，而此链表中原本就存在Entry&lt;3,B&gt;，且链表结构为Entry&lt;7,D&gt;指向Entry&lt;3,B&gt;。所以就出现了 Entry&lt;3,B&gt; 指向 Entry&lt;7,D&gt; 指向 Entry&lt;3,B&gt;。环形链表就这样出现了，上图实际上应该是这样子的</p>
-<p><img src="/blogs/blogs/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap13.png" alt></p>
+<p><img src="/2019/01/02/hashmap-de-di-ceng-shi-xian/hashMap13.png" alt></p>
 <p>我们知道正常rehash流程线程拿到是是一个新的全空的HashMap，而在并发情况下，线程1是在线程2进行了全部或者部分rehash基础上，对新的HashMap进行rehash，而且扩容时操作同一个链表导致了环形链表的出现。环形链表一旦出现将导致get方法出现问题，因为get方法时会遍历链表去找到对应的key。假设某个key经过hash需要去遍历3链表，而恰巧3链表中没有这个key，那么get方法就一直在遍历这个链表break不掉了。在jdk1.8中修复了这个问题，使用了两个局部链表进行扩容不会出现哈希环。但jdk1.8中HashMap仍然不可在并发场景下使用，因为HashMap的put方法在并发下会出现丢数据的问题。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对于HashMap的并发问题，有几种解决办法。1. 使用HashTable，这个类是线程安全的。但HashTable源码好像只是在方法上加上了synchronize方法，而synchronize 属于重量级锁，对效率损耗是比较大的。2. 使用jdk1.8中的ConcurrentHashMap，这个类实现了更高级的线程安全，且使用分段锁，在并发下也可有很高的吞吐量，推荐使用。对于HashMap的原理解析就到这吧，如有纰漏，望指正。</p>
 

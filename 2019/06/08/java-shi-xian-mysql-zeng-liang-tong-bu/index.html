@@ -552,7 +552,7 @@
 <li><a href="https://github.com/alibaba/canal" target="_blank" rel="noopener">阿里巴巴开源组件canal</a> </li>
 </ul>
 <p>canal使用集群方式部署，系统比较臃肿，复杂性也相对较高，可定制性也比较差，所以我没有考虑这种方案，采用了mysql-binlog-connector-java</p>
-<p><img src="/blogs/blogs/2019/06/08/java-shi-xian-mysql-zeng-liang-tong-bu/mysql.jpg" alt></p>
+<p><img src="/2019/06/08/java-shi-xian-mysql-zeng-liang-tong-bu/mysql.jpg" alt></p>
 <a id="more"></a> 
 
 <h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>将mysql的日志格式设置为row模式，使用mysql-binlog-connector对日志进行读取，将读取到的mysql操作事件进行解析封装，最终封装为事件对象，进而对mysql的日志进行处理。但区别在于canal是模拟mysql slave端，主动从master端拉取日志数据。而mysql-binlog-connector只是一个解析库，它有两种模式：BinaryLogFileReader日志读取模式，和BinaryLogClient客户端访问模式。但似乎BinaryLogFileReader日志读取模式更适合于增量同步，它是可中断可指定position读取的的模式。下面是BinaryLogFileReader日志读取模式的示例代码</p>

@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>在公司做新一个项目的开发时，又接触到了RPC。虽然我以前做过WebService的相关开发，不过那时只是照葫芦画瓢的实现功能开发，没有深入研究它的实现原理。RPC的概念由来已久，最早是由互联网大师 Jon Postel在1974年冬发表了RFC674：“<em>Procedure Call Protocol Documents，Version 2</em>”，尝试定义一种在包含70个节点的网络中共享资源的通用方法。在大师一生中编辑过的无数个RFC文档中，674属于并不突出的一个，但却拉开了RPC的序幕。在随后80年代Bruce Jay Nelson在他的论文<a href="http://birrell.org/andrew/papers/ImplementingRPC.pdf" target="_blank" rel="noopener">“Implementing Remote Procedure Calls”</a> 正式提出RPC 这个概念术语，并定义了RPC的调用标准。后面所有RPC框架，都是按照这个标准模式来的。RPC是Remote Procedure Call的缩写，即远程过程调用。</p>
-<p><img src="/blogs/blogs/2019/08/11/che-di-gao-dong-rpc/rpc.jpeg" alt></p>
+<p><img src="/2019/08/11/che-di-gao-dong-rpc/rpc.jpeg" alt></p>
 <a id="more"></a> 
 
 <h2 id="什么是RPC"><a href="#什么是RPC" class="headerlink" title="什么是RPC"></a>什么是RPC</h2><p>首先要纠正一个观点，<strong>RPC是一种技术思想或者编程模型而不是一种技术的具体实现</strong>。也就是说RPC只是一种理论模型，它是一种进程间通信方式。允许像调用本地服务一样调用远程服务，它的具体实现方式可以不同，例如Spring的 HTTP Invoker，Facebook的 Thrift二进制私有协议通信。，在Nelson 的论文中提到了RPC应具备的特性</p>
@@ -565,7 +565,7 @@
 </ol>
 <p>其实三描述的场景也是<strong>服务化 、微服务</strong> 和<strong>分布式系统架构</strong> 的基础场景。即RPC框架就是实现以上结构的有力方式。为什么有了HTTP，我们还需要RPC呢。如果产生这个疑问那只能说明对RPC的概念理解不透彻，因为HTTP只是一个通信协议，它跟RPC不是一个层级的概念，HTTP本身也可以作为RPC的传输层协议。但HTTP请求是非常浪费资源的。虽然其实本质上，HTTP也是走在TCP上面的，但是HTTP请求自己增加了很多自己的信息，因此会消耗带宽资源。因此很多RPC框架为了效率都是基于Socket通信。</p>
 <h2 id="RPC-的结构"><a href="#RPC-的结构" class="headerlink" title="RPC 的结构"></a>RPC 的结构</h2><p>Nelson 的论文中指出实现 RPC 的程序包括 5 个部分：1. User；2.User-Stub；3.RPCRuntime；4.Server-stub；5.Server。他们调用原理图如下：</p>
-<p><img src="/blogs/blogs/2019/08/11/che-di-gao-dong-rpc/rpc1.png" alt></p>
+<p><img src="/2019/08/11/che-di-gao-dong-rpc/rpc1.png" alt></p>
 <p>以左边的Client端为例，User就是RPC的调用方，User-Stub就是User的代理实例，其实内部是通过RPC方式来进行远程调用的代理对象。至于RPCRuntime 则是实现远程调用的工具包，比如jdk的Socket，最后通过底层网络实现实现数据的传输。这个过程中最重要的就是<strong>序列化</strong>和<strong>反序列化</strong>了，因为数据传输的数据包必须是二进制的，Java对象是没法直接进行网络传输的，你必须把Java对象序列化为二进制格式，传给Server端，Server端接收到之后，再反序列化为Java对象。</p>
 <h2 id="Java中常用的RPC框架"><a href="#Java中常用的RPC框架" class="headerlink" title="Java中常用的RPC框架"></a>Java中常用的RPC框架</h2><p><strong>Thrift</strong>：thrift是一个软件框架，用来进行可扩展且跨语言的服务的开发。它结合了功能强大的软件堆栈和代码生成引擎，以构建在 C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, and OCaml 这些编程语言间无缝结合的、高效的服务。</p>
 <p><strong>Dubbo</strong>：Dubbo是一个分布式服务框架，以及SOA治理方案。其功能主要包括：高性能NIO通讯及多协议集成，服务动态寻址与路由，软负载均衡与容错，依赖分析与降级等。 Dubbo是阿里巴巴内部的SOA服务化治理方案的核心框架，Dubbo自2011年开源后，已被许多非阿里系公司使用。 是国内较早开源的服务治理的Java RPC框架，虽然在阿里巴巴内部竞争中落败于HSF，沉寂了几年，但是在国内得到了广泛的应用，目前dubbo项目又获得了支持，并且dubbo 3.0也开始开发</p>

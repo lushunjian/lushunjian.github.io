@@ -555,59 +555,59 @@
 <p>​    2 . 在博客平台上注册账号，通过平台来撰写博客。如博客园，CSDN，简书等。</p>
 <p>​    3 . 使用hexo生成静态网页并托管在免费的github平台上，开启GitHub Page即可。</p>
 <p>方案一：成本太高，对技术要求也较高，而且对于小白来说难度太大不推荐。方案二：这也是一种选择，而且很多大牛不只有自己的个人博客，而且在各大平台上都有自己的博客，成本低，只是个性化设置不够灵活，但不失为一个不错的选择。方案三：很多基于git的代码托管平台都提供静态网页服务，例如 Github，Gitlab，Gitee（码云）等，这些平台都可以和Hexo配合搭建个人博客，使用这种方式的好处是博客主题，布局，样式，域名全部可以私人订制，对于喜欢个性化的朋友是一个绝佳的选择，而且只需通过几个步骤即可拥有自己的个人博客。下面我记录了一下我个人使用 Hexo+Github的方式搭建个人博客的具体方法，同时今天也是Github被微软收购的日子，祝愿Github能越来越好 !</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github.jpeg" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github.jpeg" alt></p>
 <a id="more"></a> 
 
 <h3 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1. 安装git"></a>1. 安装git</h3><p>git是一个分布式的代码版本控制工具，可以有效、高速的处理从很小到非常大的项目版本管理 。首先下载git，直接去git官网下载git，下载地址：<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">https://git-scm.com/downloads</a> </p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/git1.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/git1.png" alt></p>
 <p>选择Windows平台下载即可。</p>
 <p>接下来是安装，如果不熟悉git的直接可以傻瓜式安装，全部默认设置，一路next即可。下载完成后，双击安装程序“Git-2.10.2-64-bit.exe”，显示截图如下 </p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/git2.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/git2.png" alt></p>
 <p>然后点击next</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/git3.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/git3.png" alt></p>
 <p>然后都是默认设置，一路next。直至最后结束。这样，你的git就安装好了 。我们通过cmd的方式验证一下，按快捷键win+R然后输入cmd打开windows的终端</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/cmd0.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/cmd0.png" alt></p>
 <p>然后在终端中输入 git version 回车即可看到git的版本号，说明git已经安装好了，如图</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/cmd1.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/cmd1.png" alt></p>
 <h3 id="2-安装node-js"><a href="#2-安装node-js" class="headerlink" title="2 . 安装node.js"></a>2 . 安装node.js</h3><p>Node.js是一个Javascript运行环境，发布于2009年5月 ，实质是对Chrome V8引擎进行了封装。 下载地址为官方网站：<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a> 打开如下图：</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/nodejs0.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/nodejs0.png" alt></p>
 <p>选择windows平台下载，然后就是一路next。最后可通过终端验证是否安装成功，同样通过win+R打开windows的终端 输入 node -v</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/nodejs1.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/nodejs1.png" alt></p>
 <p>出现版本号信息说明已经安装成功</p>
 <h3 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3 . 安装Hexo"></a>3 . 安装Hexo</h3><p>这个步骤相对来说就很简单了，在桌面空白处点击鼠标右键，点击Git Bash Here，输入npm命令即可安装 ，安装命令：npm install hexo-cli -g </p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo1.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo1.png" alt></p>
 <p>如果半天没反应，耐心等待一会。然后是安装发布到github的插件，命令：npm install hexo-deployer-git –save </p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo2.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo2.png" alt></p>
 <p>然后就是等待安装完成即可。</p>
 <h3 id="4-初始化Hexo"><a href="#4-初始化Hexo" class="headerlink" title="4 . 初始化Hexo"></a>4 . 初始化Hexo</h3><p>新建一个Hexo工作目录，文件名可随便定义</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo4.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo4.png" alt></p>
 <p>进入到这个目录，然后右键点击 Git Bash Here，然后在窗口中输入 hexo init </p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo5.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo5.png" alt></p>
 <p>这个过程可能会比较漫长，请耐心等待即可。完成后文件夹会多出很多文件，如下图</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo6.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo6.png" alt></p>
 <p>这里介绍一些我们需要关注的文件。</p>
 <p>1 . node_modules文件夹是hexo安装插件的地方，</p>
 <p>2 . source文件夹是放markdown文件的地方，也就是说我们写博客的markdown是放在这个目录下</p>
 <p>3 . themes是下载博客主题的地方</p>
 <p>4 . _config.yml是博客的配置文件</p>
 <p>下面介绍一下_config.yml因为后面跟这个文件打交道的地方比较频繁，如图</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo7.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo7.png" alt></p>
 <p>还有个需要关注的地方，如下图，不是软件行业的朋友，可能对github的项目地址可能没有概念，没关系，这里后面我会再讲到，这里先有个印象，因为发布到github时，这里需要配github的项目地址</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo8.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo8.png" alt></p>
 <p>到此，hexo初始化完成，下面可以在本地运行看看效果了。在刚刚那个目录下执行 hexo g 生成静态文件，然后再执行hexo s 启动hexo</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo10.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo10.png" alt></p>
 <p>可以看到hexo已经成功运行起来了，同时还告诉了我们运行网址，复制这个网址在浏览器打开</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo11.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo11.png" alt></p>
 <p>到这一步，恭喜你。博客已经完美的在本地运行起来了。这个是hexo的默认主题，喜欢个性化的朋友，可自行去百度下载自己想要的主题。注意这里Hexo中有两个_ config.yml文件，一个是在Hexo主目录下的_ config.yml，一个是在/themes/主题名/ 下的_ config.yml。其中主目录下的_ config.yml主要设置博客相关的属性配置，而主题下的_ config.yml主要配置主题相关的属性配置。</p>
 <h3 id="5-创建github项目"><a href="#5-创建github项目" class="headerlink" title="5 . 创建github项目"></a>5 . 创建github项目</h3><p>首先需要先注册一个github账号，这个就不解释了。跟注册QQ号码是一样的，只不过注册页面全是英文，所以考验英语水平的时候到了 ！这里假设你已经拥有了一个github账号，然后需先创建一个项目</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github1.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github1.png" alt></p>
 <p>点击New repository 然后会来到如下的页面</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github2.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github2.png" alt></p>
 <p>这里需要注意的是项目名称中 github.io前面的那部分名称 一定要和你的github名字一样，其余都默认。然后点击Create repository。创建完成会来到如下界面</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github4.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github4.png" alt></p>
 <p>需要注意的就是上面红框里的地址，这个就是项目的git地址，选HTTPS的方式即可。<strong>这个地址要配置在前面提到过的hexo根路径的_config.yml文件的中项目地址。</strong></p>
 <p>然后点击右边的Settings，会来到如下界面</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github5.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github5.png" alt></p>
 <p>往下找到GitHub Pages，这里如果项目名称就是github的用户名，默认就是master branch。例如我这里就默认为None，这种情况下选择master branch然后保存即可，如果master branch是不可选的状态，选择下面一行有个Choose a theme的按钮，选择一个主题就可以开启GitHub Pages了。然后点击Save。</p>
 <p>接下来配置github的SSH密钥 ，在Hexo初始化的目录下，右键点击Git Bash Here。首先配置git的个人信息</p>
 <p>1、设置Git的user name和email：(如果是第一次的话) </p>
@@ -618,31 +618,31 @@ git config --global user.email &quot;xiaobai@163.com&quot;</code></pre><p>这两
 <p>3、保存到github中</p>
 <p>通过下面的命令，把刚刚生成好的密钥复制出来</p>
 <pre><code>clip &lt; ~/.ssh/id_rsa.pub </code></pre><p>然后，到github界面点击Settings</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github6.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github6.png" alt></p>
 <p>然后选择SSH and GPG keys，点击New SSH keys，在Title中给密钥写个名字，然后把密钥粘贴在Key中，最后点击Add SSH Key</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github7.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github7.png" alt></p>
 <p>到此已经全部配置完毕，在Hexo目录下右键Git Bash Here，然后通过命令</p>
 <pre><code>hexo d</code></pre><p>发布项目到github吧，发布完成后可通过查看项目中的Settings查看发布路径，如下图</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github15.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github15.png" alt></p>
 <p>可能会遇到的问题：</p>
 <p>​    1 . 在平常写博客中肯定会引用到图片资源，如果使用绝对路径，发布上去肯定会找不到图片资源，使用相对路径，也会因为经过Hexo的编译，使得路径发生了变化，还是会找不到图片资源。这里需要借助Hexo的一个插件，通过命令</p>
 <pre><code>npm install hexo-asset-image --save</code></pre><p>此外还需把hexo路径下的post_asset_folder 属性设置为true</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo12.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo12.png" alt></p>
 <p>稍等片刻，待这个插件下载好后再通过</p>
 <pre><code>hexo n &quot;xxx&quot;</code></pre><p>命令生成博客时，在/source/_posts 路径下会发现在生成xxx.md文件的同时，也生成了一个同名的xxx文件夹，然后在xxx.md中想引入图片时，先把图片复制到xxx这个文件夹中，然后只需要在xxx.md中按照markdown的格式引入图片：</p>
 <pre><code>![你想输入的替代文字](xxx/图片名.jpg)</code></pre><p>这样就能解决图片资源的问题。</p>
 <p>​    2 . 使用 hexo d 命令报 ERROR Deployer not found: git ，原因是没有安装 hexo 发布到git的插件。在git终端中输入 npm install –save hexo-deployer-git 命令等待插件下载完成即可。</p>
 <h3 id="6-如何使用自定义首页"><a href="#6-如何使用自定义首页" class="headerlink" title="6 . 如何使用自定义首页"></a>6 . 如何使用自定义首页</h3><p>在做完上面五个步骤后，博客已经能正常访问了。但是爱折腾的朋友可能仍不满足，想自定义一个首页，打开博客时先到首页，然后再跳到博客主页。本人在搭博客时也想这样做，踩了不少坑，在此也分享一下。这里需要再建立一个github项目，名字随便起，可以起成blog，这里我做测试起名为test。</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github17.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github17.png" alt></p>
 <p>同时开启Github Pages，如果起名为blog，这时blog项目的网页预览功能的网址会是 <a href="https://xxx.github.io/blog，然后在" target="_blank" rel="noopener">https://xxx.github.io/blog，然后在</a> _ config.yml的相关配置</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo14.png" alt></p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo8.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo14.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo8.png" alt></p>
 <p>发布路径写成这个项目的github项目地址，在主题中的 _ config.yml跟路径配置为</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo19.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/hexo19.png" alt></p>
 <p>重薪把现在的博客部署在新的github项目上，而原来的 xxx.github.io 的项目中只需留下index.html 页面，例如我的博客。</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github18.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github18.png" alt></p>
 <p>在index.html中就可以随意定义自己喜欢的样式，主题，开启装逼模式。而仅仅只需留下一个 a 链接跳向刚刚创建的新项目的博客预览地址即可</p>
-<p><img src="/blogs/blogs/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github19.png" alt></p>
+<p><img src="/2018/06/03/hexo-github-da-jian-ge-ren-bo-ke/github19.png" alt></p>
 <p>当然如果看着 <a href="https://xxx.github.io" target="_blank" rel="noopener">https://xxx.github.io</a> 这个域名不爽，也可以使用自己的域名，这就需要花钱了，方法也比较简单。可以自行百度，这里就不做介绍了。</p>
 
             </div>

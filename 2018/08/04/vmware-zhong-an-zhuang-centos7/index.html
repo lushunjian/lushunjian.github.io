@@ -555,86 +555,86 @@
 
 <p>平时如果想玩Centos又没有多余的电脑配置怎么办呢？这里虚拟机就派上用场了，可以在windows上安装虚拟机，然后再虚拟机中安装Linux操作系统即可。需要注意的是安装虚拟机需要电脑开启虚拟化技术，否则就会有问题的哦，开启虚拟化需要进入电脑的BIOS。不同的主板厂商BIOS界面略有区别，可自己根据个人的电脑型号百度一下如何开启虚拟化。</p>
 <h3 id="1-安装VMware"><a href="#1-安装VMware" class="headerlink" title="1 . 安装VMware"></a>1 . 安装VMware</h3><p>首先去官网下载VMware，这里我下载的是最新版本VMware 14。下载地址： <a href="https://my.vmware.com/web/vmware/details?downloadGroup=WKST-1412-WIN&productId=686&rPId=23138" target="_blank" rel="noopener">VMware Workstation 14.1.2 Pro for Windows</a>。如下图</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/vmware.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/vmware.png" alt></p>
 <p>选择产品下载，然后可以去百度找个秘钥破解即可(作为天朝的一员，这个技能应该信手拈来了)。下载好后，安装过程除了文件安装路径，其余都可以选择默认安装。</p>
 <h3 id="2-下载Centos-7"><a href="#2-下载Centos-7" class="headerlink" title="2 . 下载Centos 7"></a>2 . 下载Centos 7</h3><p>同样去Centos的官网下载，下载地址：<a href="https://www.centos.org/download/" target="_blank" rel="noopener">Centos</a>。进入官网后会来到如下界面</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos1.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos1.png" alt></p>
 <p>这里有几个版本，当然你可以选择你喜欢的版本下载，点击下面的More download choices可以选择更多的版本下载。题外话，这里发现Centos还支持Docker的下载方式，容器化正在成为一种趋势。这里选择Minimal IOS下载，这个版本是迷你版，不包含桌面只提供一些基本功能。</p>
 <h3 id="3-创建虚拟机"><a href="#3-创建虚拟机" class="headerlink" title="3 . 创建虚拟机"></a>3 . 创建虚拟机</h3><p>(1) . 启动虚拟机后， 首先，点击创建新的虚拟机。出现下图所示，选择典型类型的配置，点击下一步： </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos2.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos2.png" alt></p>
 <p>(2) . 此处选择第三个选项：稍后安装操作系统。然后点击下一步</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos3.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos3.png" alt></p>
 <p>(3) . 选择Linux，版本选择Centos 7 64位，然后点击下一步</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos4.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos4.png" alt></p>
 <p>(4) . 设置虚拟机的名称以及安装路径</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos5.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos5.png" alt></p>
 <p>(5) . 默认20G即可，虚拟磁盘拆分成多个文件。点击下一步 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos6.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos6.png" alt></p>
 <p>(6) . 点击自定义硬件，进行虚拟机硬件配置</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos7.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos7.png" alt></p>
 <p>然后会来到如下界面，内存和CPU设置可根据个人需求设置，光驱此处选择使用ISO映像文件，选择我们已下载ISO的存储路径；其他配置项均默认即可，设置好后，点击关闭按钮。 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos8.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos8.png" alt></p>
 <p>到这里，我们的虚拟机硬件配置就已经完成了，点击完成。</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos9.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos9.png" alt></p>
 <p>下面开始安装操作系统。 </p>
 <h3 id="4-安装CentOS"><a href="#4-安装CentOS" class="headerlink" title="4 . 安装CentOS"></a>4 . 安装CentOS</h3><p>(1) . 点击“开启此虚拟机” </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos10.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos10.png" alt></p>
 <p>进入如下界面： </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos11.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos11.png" alt></p>
 <p>可选择第一项，install Centos开始安装系统，然后就耐心等待吧 </p>
 <p>(2) . 选择语言，我们这里将鼠标拉到页面底部，选择中文，点击继续。</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos12.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos12.png" alt></p>
 <p>(3) .  在设置首页，向下滑动至系统选项，选择安装位置 (D)</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos13.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos13.png" alt></p>
 <p>选中磁盘，点击“我要配置分区”后，点击完成 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos14.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos14.png" alt></p>
 <p>(4) . 在手动分区页面，进行如下设置 。点击加号按钮，弹出选择挂载点框，首先添加一个swap分区，容量输入2048，点击添加挂载点。 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos15.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos15.png" alt></p>
 <p>同样方法，再次点击加号，添加根分区，挂载点选择/，大小输入可用空间容量即可（粉红按钮里显示的，比如输入16GB），点击添加挂载点。最后，再添加一个/boot分区，将添加的3个分区的设备类型都设置为标准分区 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos16.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos16.png" alt></p>
 <p>点击左上角的完成按钮，会弹出一个页面，点击接收更改即可 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos17.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos17.png" alt></p>
 <p>(5) . 配置网络和主机名 ，设置页面，点击网络和主机名</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos18.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos18.png" alt></p>
 <p>由于我们的网络是NAT模式，它会通过DHCP自动获取IP，我们把网络开启，点击左上角完成 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos19.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos19.png" alt></p>
 <p>返回设置页面后，点击右下角的开始安装即可 </p>
 <p>(6) . 设置用户名和密码 。点击root密码，进行root用户的密码设置 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos20.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos20.png" alt></p>
 <p>如果密码太简单会提示我们，并且需要点击二次完成。</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos21.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos21.png" alt></p>
 <p>(7) . 密码设置完成后，等待安装 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos22.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos22.png" alt></p>
 <p> 安装完成后，需要重启，然后会来到登录界面，输入刚刚填写的账号密码即可登录 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos23.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos23.png" alt></p>
 <h3 id="5-联网设置"><a href="#5-联网设置" class="headerlink" title="5 . 联网设置"></a>5 . 联网设置</h3><p>由于安装的是CentOS7 Minimal版。当输入ifconfig时，会报错。是因为Minimal版没有ifconfig的组件，需要手动安装下面首先安装ifconfig，注意此时需设置为NAT模式连接，如设置成桥接模式，将无法联网，也就无法下载东西了。在终端输入yum search ifconfig，出现如下界面。</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos24.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos24.png" alt></p>
 <p>这里得到包名为：net-tools.x86_64，然后通过 yum  install  net-tools.x86_64 命令下载包。这里只是举例，包名以通过上面的命令实际得到的包名为准。输入下载命令后界面如下</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos25.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos25.png" alt></p>
 <p>安装过程中，默认输入y，回车。直到安装完成</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos26.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos26.png" alt></p>
 <p>此时输入ifconfig便可查看本地ip了</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos27.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos27.png" alt></p>
 <h3 id="6-使用CRT连接CentOS"><a href="#6-使用CRT连接CentOS" class="headerlink" title="6 . 使用CRT连接CentOS"></a>6 . 使用CRT连接CentOS</h3><p>SecureCRT是一款支持SSH（SSH1和SSH2）的终端仿真程序，简单地说是Windows下登录UNIX或Linux服务器主机的软件，类似的软件还有Xshell。当前是NAT模式联网，不方便使用CRT工具连接Centos，下面我们设置使用桥接模式，然后使用CRT连接Centos </p>
 <p>(1)  首先查看物理机ip ，注意是物理机ip。可打开windows的终端查看，按win+R键，输入cmd打开终端然后输入ipconfig即可查看ip信息</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos28.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos28.png" alt></p>
 <p>找到物理网卡对应的ip信息，其余是虚拟网卡，无需关心，其中ip地址，子网掩码，默认网关记下来 这是我们需要用的东西 </p>
 <p>(2) . 然后进入物理机查看网卡使用情况 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos29.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos29.png" alt></p>
 <p>一定是物理机的网卡，前面以V开头的都是虚拟网卡，无需关心。记住这个网卡名称 ，然后到VMware上面的导航栏中选择编辑 &gt; 虚拟网络编辑器 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos30.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos30.png" alt></p>
 <p>点击更改设置，会出现如下界面</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos31.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos31.png" alt></p>
 <p>选中VMnet0,桥接到  选中物理机上使用的网卡名称，点击确定。然后设置虚拟机的网络适配器，选中桥接模式</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos32.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos32.png" alt></p>
 <p>(3) . 然后进入Centos，查询当前的mac地址，并记下mac地址 </p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos33.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos33.png" alt></p>
 <p>然后进入/etc/sysconfig/network-scripts目录vi第一个文件</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos34.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos34.png" alt></p>
 <p>首先修改两个属性BOOTPROTO=static，ONBOOT=yes</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos35.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos35.png" alt></p>
 <p>然后添加一些属性，如图</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos36.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos36.png" alt></p>
 <p>具体如下</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true">#设置我想用的静态ip地址，要和物理主机在同一网段，但又不能相同。</span>
 IPADDR=192.168.31.77　　
@@ -648,13 +648,13 @@ DNS1=8.8.8.8　　　　　　
 HWADDR=00<span class="token punctuation">:</span>0c<span class="token punctuation">:</span>29<span class="token punctuation">:</span>22<span class="token punctuation">:</span>05<span class="token punctuation">:</span>4c
 </code></pre>
 <p>然后通过命令 service network restart 重启网卡，然后在物理机上ping虚拟机ip</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos37.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos37.png" alt></p>
 <p>这样物理机已经和Centos实现通信，然后打开CRT，输入Centos的ip</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos38.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos38.png" alt></p>
 <p>输入Centos登录的账号密码</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos39.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos39.png" alt></p>
 <p>点击确定，已经连上虚拟机</p>
-<p><img src="/blogs/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/centos40.png" alt></p>
+<p><img src="/2018/08/04/vmware-zhong-an-zhuang-centos7/centos40.png" alt></p>
 <p>这样我们在使用Centos系统时，可以直接使用CRT工具连接，强大方便。</p>
 
             </div>

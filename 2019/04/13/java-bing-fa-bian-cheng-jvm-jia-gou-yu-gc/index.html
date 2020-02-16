@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>作为一名Java开发者，掌握JVM的体系结构也是很有必要的，了解底层的东西，有助于更好的理解和掌握程序运行中的原理。JVM是Java Virtual Machine（Java虚拟机）的缩写，JVM是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。Java虚拟机包括一套字节码指令集、一组寄存器、一个栈、一个垃圾回收堆和一个存储方法域。 JVM屏蔽了与具体操作系统平台相关的信息，使Java程序只需生成在Java虚拟机上运行的目标代码（字节码）,就可以在多种平台上不加修改地运行。JVM在执行字节码时，实际上最终还是把字节码解释成具体平台上的机器指令执行。JVM伴随Java程序的开始而开始，程序的结束而停止。一个Java程序会开启一个JVM进程，一台计算机上可以运行多个程序，也就可以运行多个JVM进程。JVM将线程分为两种：守护线程和普通线程。守护线程是JVM自己使用的线程，比如垃圾回收（GC）就是一个守护线程。普通线程一般是Java程序的线程，只要JVM中有普通线程在执行，那么JVM就不会停止。</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jvm.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jvm.png" alt></p>
 <a id="more"></a> 
 
 <h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><p>JRE由Java API和JVM组成，JVM通过类加载器(Class Loader)加类Java应用，并通过Java API进行执行。</p>
@@ -567,7 +567,7 @@
 <li><strong>JVM（Java Virtual Machine， Java虚拟机）：</strong>是JRE的一部分。JVM主要工作是解释自己的指令集（即字节码）并映射到本地的CPU指令集和OS的系统调用。Java语言是跨平台运行的，不同的操作系统会有不同的JVM映射规则，使之与操作系统无关，完成跨平台性。</li>
 </ol>
 <p>使用JDK（调用JAVA API）开发JAVA程序后，通过JDK中的编译程序（javac）将Java程序编译为Java字节码，在JRE上运行这些字节码，JVM会解析并映射到真实操作系统的CPU指令集和OS的系统调用。下图表示了JDK、JRE和JVM三者间的关系：</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/javas.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/javas.png" alt></p>
 <h2 id="JVM架构"><a href="#JVM架构" class="headerlink" title="JVM架构"></a>JVM架构</h2><p>JVM被分为三个主要的子系统：（1）类加载器子系统（2）运行时数据区（3）执行引擎</p>
 <h3 id="类装载子系统"><a href="#类装载子系统" class="headerlink" title="类装载子系统"></a>类装载子系统</h3><p>在JAVA虚拟机中，负责查找并装载类型的那部分被称为类装载子系统。JAVA虚拟机有两种类装载器：启动类装载器和用户自定义类装载器。前者是JAVA虚拟机实现的一部分，后者则是Java程序的一部分。由不同的类装载器装载的类将被放在虚拟机内部的不同命名空间中。类装载器子系统涉及Java虚拟机的其他几个组成部分，以及几个来自java.lang库的类。比如，用户自定义的类装载器是普通的Java对象，它的类必须派生自java.lang.ClassLoader类。ClassLoader中定义的方法为程序提供了访问类装载器机制的接口。此外，对于每一个被装载的类型，JAVA虚拟机都会为它创建一个java.lang.Class类的实例来代表该类型。和所有其他对象一样，用户自定义的类装载器以及Class类的实例都放在内存中的堆区，而装载的类型信息则都位于方法区。类装载器子系统除了要定位和导入二进制class文件外，还必须负责验证被导入类的正确性，为类变量分配并初始化内存，以及帮助解析符号引用。类加载系统主要分为三个部分，而且类的加载动作必须严格按以下顺序进行：</p>
 <p><strong>装载：</strong>装载过程负责找到二进制字节码并加载至JVM中，JVM通过类名、类所在的包名通过ClassLoader来完成类的加载，同样，也采用以上三个元素来标识一个被加载了的类：类名+包名+ClassLoader实例ID，因此不同类加载器加载相同的类是不同的。有继承，将先在加载父类。</p>
@@ -607,7 +607,7 @@
 <li>分派调用则即可能是静态,也可能是动态的,根据分派标准可以分为单分派和多分派。两两组合有形成了静态单分派、静态多分派、动态单分派、动态多分派</li>
 </ol>
 <p>简单理解来说静态分派的典型应用是方法的重载，动态分派的典型应用是方法的重写。至于单分派和多分派就是方法的接收者与方法的参数统称为方法的宗量。根据分派基于多少种宗量，可以将分派划分为单分派和多分派两种。单分派是根据一个宗量对目标方法进行选择，多分派则是根据多于一个宗量对目标方法进行选择。至此，除了垃圾回收器，JVM的各个部分基本都说到了，下面将着重了解垃圾收集器，它是一个重要的组件，正是由于它的存在才使得Java开发者不用像C++开发者那样去管理令人头皮发麻的运行时内存，同时它也是JVM调优的重要阵地。下图是整个JVM的架构图</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jvmjg.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jvmjg.png" alt></p>
 <h2 id="对象的内存分布"><a href="#对象的内存分布" class="headerlink" title="对象的内存分布"></a>对象的内存分布</h2><p>在 HotSpot 虚拟机中，分为 3 块区域：对象头(Header)、实例数据(Instance Data)和对齐填充(Padding)</p>
 <ol>
 <li>对象头(Header)：包含两部分，第一部分用于存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等，32 位虚拟机占 32 bit，64 位虚拟机占 64 bit。官方称为 Mark Word。第二部分是类型指针，即对象指向它的类的元数据指针，虚拟机通过这个指针确定这个对象是哪个类的实例。另外，如果是 Java 数组，对象头中还必须有一块用于记录数组长度的数据，因为普通对象可以通过 Java 对象元数据确定大小，而数组对象不可以。</li>
@@ -616,15 +616,15 @@
 </ol>
 <p>当对象被创建了后，Java程序需要通过栈上的reference引用来操作堆上的具体对象。由于reference类型在Java虚拟机规范中只规定了一个指向对象的引用，并没有定义这个引用应该通过何种方式去定位、访问堆中的对象的具体位置，所以对象访问方法也是取决于虚拟机的实现而决定的。目前主流的访问方式有 <strong>句柄访问</strong> 和 <strong>指针访问</strong> 两种。</p>
 <p><strong>句柄访问：</strong>Java 堆中会分配一块内存作为句柄池。reference 存储的是句柄地址。详情见图。</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jbfw.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/jbfw.png" alt></p>
 <p><strong>指针访问：</strong>reference 中直接存储对象地址</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/zjfw.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/zjfw.png" alt></p>
 <p>使用句柄的最大好处是 reference 中存储的是稳定的句柄地址，在对象移动(GC)是只改变实例数据指针地址，reference 自身不需要修改。直接指针访问的最大好处是速度快，节省了一次指针定位的时间开销。如果是对象频繁 GC 那么句柄方法好，如果是对象频繁访问则直接指针访问好。</p>
 <h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p>说起垃圾回收（GC），大部分人都把这项技术当做Java语言的伴生产物。事实上，GC的历史比Java久远，早在1960年Lisp这门语言中就使用了内存动态分配和垃圾回收技术。 JAVA GC（Garbage Collection，垃圾回收）机制是区别C++的一个重要特征，C++需要开发者自己实现垃圾回收的逻辑，而JAVA开发者则只需要专注于业务开发，因为垃圾回收这件繁琐的事情JVM已经为我们代劳了，从这一点上来说，JAVA还是要做的比较完善一些。但这并不意味着我们不用去理解GC机制的原理，因为如果不了解其原理，可能会引发内存泄漏、频繁GC导致应用卡顿,甚至出现OOM等问题，因此我们需要深入理解其原理，才能编写出高性能的应用程序，解决性能瓶颈。在Java中垃圾回收主要针对堆区，垃圾收集器在对堆区和方法区进行回收前，首先要确定这些区域的对象哪些可以被回收，哪些暂时还不能回收，这就要用到判断对象是否存活的算法！</p>
 <h4 id="堆区的查找算法"><a href="#堆区的查找算法" class="headerlink" title="堆区的查找算法"></a>堆区的查找算法</h4><p>JVM中判断对象是否存活的算法主要有两种。1. 引用计数法，2. 根搜索算法</p>
 <p><strong>(1) . 引用计数法：</strong>引用计数是垃圾收集器中的早期策略。在这种方法中，堆中每个对象实例都有一个引用计数。当一个对象被创建时，就将该对象实例分配给一个变量，该变量计数设置为1。当任何其它变量被赋值为这个对象的引用时，计数加1（a = b,则b引用的对象实例的计数器+1），但当一个对象实例的某个引用超过了生命周期或者被设置为一个新值时，对象实例的引用计数器减1。任何引用计数器为0的对象实例可以被当作垃圾收集。当一个对象实例被垃圾收集时，它引用的任何对象实例的引用计数器减1。引用计数法的优点是引用计数收集器可以很快的执行，交织在程序运行中。对程序需要不被长时间打断的实时环境比较有利，而缺点也很明显，它不能解决循环引用的问题。</p>
 <p><strong>(2) . 可达性分析</strong>：此算法是从离散数学中的图论引入的，程序把所有的引用关系看作一张图，从一个节点GC ROOT开始，寻找对应的引用节点，找到这个节点以后，继续寻找这个节点的引用节点，当所有的引用节点寻找完毕之后，剩余的节点则被认为是没有被引用到的节点，即无用的节点，无用的节点将会被判定为是可回收的对象。</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/gcroot.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/gcroot.png" alt></p>
 <p>根搜索算法的核心在于GC Root，在Java语言中，可作为GC Root的对象包括下面几种：</p>
 <ul>
 <li>虚拟机栈中引用的对象（栈帧中的本地变量表）；</li>
@@ -646,13 +646,13 @@
 <li>该类对应的<code>java.lang.Class</code>对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
 </ul>
 <h2 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h2><h5 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h5><p>如它的名字一样，算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，标记完毕后再扫描整个空间中未被标记的对象进行回收。之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其缺点进行改进而得到的。标记-清除算法不需要进行对象的移动，只需对不存活的对象进行处理，在存活对象比较多的情况下极为高效，但由于标记-清除算法直接回收不存活的对象，因此会造成内存碎片。此外空间碎片太多可能会导致，当程序在以后的运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/bj.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/bj.png" alt></p>
 <h5 id="复制算法（Copying）"><a href="#复制算法（Copying）" class="headerlink" title="复制算法（Copying）"></a>复制算法（Copying）</h5><p>复制算法的提出是为了克服句柄的开销和解决内存碎片的问题。它将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。样使得每次都是对其中的一块进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法的代价是将内存缩小为原来的一半，持续复制长生存期的对象则导致效率降低。</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/fz.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/fz.png" alt></p>
 <h5 id="标记-整理算法-Mark-compact"><a href="#标记-整理算法-Mark-compact" class="headerlink" title="标记-整理算法(Mark-compact)"></a>标记-整理算法(Mark-compact)</h5><p>复制收集算法在对象存活率较高时就要执行较多的复制操作，效率将会变低。更关键的是，如果不想浪费50%的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中所有对象都100%存活的极端情况，所以在老年代一般不能直接选用这种算法。根据老年代的特点，有人提出了另外一种“标记-整理”（Mark-Compact）算法，标记过程仍然与“标记-清除”算法一样。在清除时不同，在回收不存活的对象占用的空间后，会将所有的存活对象往左端空闲空间移动，并更新对应的指针<strong>。标记-整理算法是在标记-清除算法的基础上，又进行了对象的移动</strong>，因此成本更高，但是却解决了内存碎片的问题</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/bjzl.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/bjzl.png" alt></p>
 <h5 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h5><p>GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存活时间短。分代收集（Generational Collection）算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每时每刻都大量的对象创建和死亡，处于新生代的对象可以说是朝生夕死，每次垃圾收集时都有大批对象死去，只有少量存活，适用于复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。堆内存由<strong>年轻代</strong>和<strong>老年代</strong>组成，而年轻代内存又被分成三部分，<strong>Eden空间</strong>、<strong>From Survivor空间</strong>、<strong>To Survivor空间</strong>,默认情况下年轻代按照8:1:1的比例来分配</p>
-<p><img src="/blogs/blogs/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/dui.png" alt></p>
+<p><img src="/2019/04/13/java-bing-fa-bian-cheng-jvm-jia-gou-yu-gc/dui.png" alt></p>
 <h5 id="年轻代（Young-Generation）的回收算法-回收主要以复制算法为主"><a href="#年轻代（Young-Generation）的回收算法-回收主要以复制算法为主" class="headerlink" title="年轻代（Young Generation）的回收算法 (回收主要以复制算法为主)"></a>年轻代（Young Generation）的回收算法 (回收主要以复制算法为主)</h5><ul>
 <li>所有新生成的对象首先都是放在年轻代的。年轻代的目标就是尽可能快速的收集掉那些生命周期短的对象。</li>
 <li>新生代内存按照8:1:1的比例分为一个Eden区和两个Survivor(From，To)区。一个Eden区，两个 Survivor区(一般而言)。大部分对象在Eden区中生成。回收时先将Eden区存活对象复制到From区，然后清空Eden区，当From区也存放满了时，则将Eden区和From区存活对象复制到To区，然后清空Eden和From区，此时From区是空的，然后将From区和To区交换，即保持To区为空， 如此往复。</li>

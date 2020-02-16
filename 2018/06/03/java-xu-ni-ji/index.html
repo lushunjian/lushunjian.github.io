@@ -622,7 +622,7 @@
 </tr>
 </tbody></table>
 <p>​    这些.class文件实际上包含了半编译的代码——字节码。之所以称之为半编译，是因为字节码并不像C/C++编译器编译的二进制文件一样可以直接执行。字节码要先被输入到JVM中，再通过 JVM 调用底层操作系统。所以字节码包含了JVM的指令、符号表和其他的辅助信息。实际上不管何种语言，能根据JVM的语法和结构约束编译生成字节码的编译器，都可以在 JVM 上执行。虽然java编译器生成的.class文件是平台独立的，但 JVM 与特定平台相关的，如下图所示。</p>
-<p><img src="/blogs/blogs/2018/06/03/java-xu-ni-ji/jvm.png" alt></p>
+<p><img src="/2018/06/03/java-xu-ni-ji/jvm.png" alt></p>
 <h2 id="三-JVM，JRE，JDK的联系"><a href="#三-JVM，JRE，JDK的联系" class="headerlink" title="三 . JVM，JRE，JDK的联系"></a>三 . JVM，JRE，JDK的联系</h2><p>​    JVM是JRE的一部分，JRE是我们安装运行Java程序的最基本运行环境。它和java类库以及运行java程序所需要的其他组件一起组成了JVM的一个实现。所以如果想运行java程序，只需安装JRE就够了。而JDK是JRE的超集，JDK是java开发工具包，里面包含了JRE，也包含了java编译器，调试器以及其他相关的java程序开发工具类。当我们需要开发和编译java源码时就需要用到JDK。</p>
 <p>​    Java提供了Java虚拟机规范来让我们对JVM的工作原理有一个完整的认识。你可以从这里得到概念性知识，并开发一个自己的JVM；但这并不是一个简单的工作。现在市场上已经有很多JVM了。众多JVM产品中最有名的莫过于现在Oracle公司的HotSpot。后续章节中将深入探讨 JVM 的工作原理，如果没有特别说明，探讨的都是Oracle公司的HotSpot虚拟机。 </p>
 <h2 id="四-JVM的源码"><a href="#四-JVM的源码" class="headerlink" title="四 . JVM的源码"></a>四 . JVM的源码</h2><p>​    在平常使用Java开发的过程中，我们写好代码然后再写一个main函数就可以把程序跑起来，一切是那么的简单，自然而然。但是好奇的朋友可能会去想 java 的 JVM 到底是怎么工作的，为什么main函数只能那么写？为什么运行main函数程序就能跑起来？为什么我们不能定义自己的main函数？在启动main函数的时候 JVM 底层到底发生了什么？</p>
@@ -635,7 +635,7 @@
 <h3 id="（1）-openJDK源码下载"><a href="#（1）-openJDK源码下载" class="headerlink" title="（1）. openJDK源码下载"></a>（1）. openJDK源码下载</h3><p>​    OK，上述的第一个问题解决，其余的问题只能去 HotSpot 的源码中去寻找答案了。在安装jdk时，就已经安装了jvm，jdk中的jvm是 jdk1.8.0_121\jre\bin\server下jvm.dll ，但本身并不开源，只能通过openJDK来查看jdk的源码，这里可以通过官网下载。飞机票：<a href="http://download.java.net/openjdk/jdk8，官方下载网速较慢，故附上百度网盘：链接" target="_blank" rel="noopener">http://download.java.net/openjdk/jdk8，官方下载网速较慢，故附上百度网盘：链接</a>: <a href="https://pan.baidu.com/s/1ezWqQ_30n0FEhKFRVMshIg" target="_blank" rel="noopener">https://pan.baidu.com/s/1ezWqQ_30n0FEhKFRVMshIg</a> 密码: nbni。</p>
 <p>​    这里还要提及的一点就是openJDK和Oracle/Sun JDK的区别，OpenJDK原是SunMicrosystems公司为Java平台构建的Java开发环境（JDK）的开源版本，并于2009年4月15日正式发布OpenJDK，后来甲骨文在 2010 年收购SunMicrosystem之后接管了这个项目。 Oracle/Sun JDK里面包含的JVM是HotSpotVM，HotSpot VM只有非常少量的功能没有在OpenJDK里，那部分在Oracle内部的代码库里。这些私有部分都不涉及JVM的核心功能。所以说，Oracle/Sun JDK与OpenJDK其实使用的是同一个代码库。值得注意的是，Oracle JDK只发布二进制安装包，而OpenJDK只发布源码。</p>
 <p>下载完openJDK，解压得到目录结构如下图</p>
-<p><img src="/blogs/blogs/2018/06/03/java-xu-ni-ji/openJDK_home.png" alt></p>
+<p><img src="/2018/06/03/java-xu-ni-ji/openJDK_home.png" alt></p>
 <p>下面对OpenJDK目录结构做个解释</p>
 <pre><code>|——openjdk 
 |    |—— corba                                不流行的多语言、分布式通讯接口 
@@ -1064,7 +1064,7 @@ CreateExecutionEnvironment(int *_argc,
 <pre class=" language-c"><code class="language-c">    <span class="token comment" spellcheck="true">/* Invoke main method. */</span>
     <span class="token punctuation">(</span><span class="token operator">*</span>env<span class="token punctuation">)</span><span class="token operator">-></span><span class="token function">CallStaticVoidMethod</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> mainClass<span class="token punctuation">,</span> mainID<span class="token punctuation">,</span> mainArgs<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>至此 JVM 启动全部完成了，接下来就会进入 java 的主函数执行具体业务代码。概括来说 JVM 启动主要包括几个步骤 1. 通过jvm.cfg加载 jvm.dll 文件 创建 JVM环境。2. 设置 JVM 参数，主要就是 GC 策略的设置以及分代堆内存的设置，线程栈大小的设置。3 . 找到 java的主类，运行java main函数。</p>
-<p><img src="/blogs/blogs/2018/06/03/java-xu-ni-ji/jvmStart.png" alt></p>
+<p><img src="/2018/06/03/java-xu-ni-ji/jvmStart.png" alt></p>
 <p>上图大致描述了 JVM 启动的主要步骤，仅做参考。</p>
 
             </div>
