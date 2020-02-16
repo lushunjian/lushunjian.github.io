@@ -26,7 +26,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/blogs/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -34,7 +34,7 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
+                <a href="/blogs/" class="waves-effect waves-light">
                     
                     <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
                     
@@ -136,7 +136,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/galleries">
+        <a href="/blogs/galleries">
           
           <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -145,7 +145,7 @@
       </li>
       
       <li>
-        <a href="/movies">
+        <a href="/blogs/movies">
           
           <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -154,7 +154,7 @@
       </li>
       
       <li>
-        <a href="/books">
+        <a href="/blogs/books">
           
           <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -281,7 +281,7 @@
               
                 <li>   
 				
-                  <a href="/galleries " style="margin-left:75px";>
+                  <a href="/blogs/galleries " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
 			      
@@ -291,7 +291,7 @@
               
                 <li>   
 				
-                  <a href="/movies " style="margin-left:75px";>
+                  <a href="/blogs/movies " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
 			      
@@ -301,7 +301,7 @@
               
                 <li>   
 				
-                  <a href="/books " style="margin-left:75px";>
+                  <a href="/blogs/books " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
 			      
@@ -513,7 +513,7 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                            <a href="/blogs/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
                                 <span class="chip bg-color">并发编程</span>
                             </a>
                         
@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>作为程序员，CPU在我们的工作中扮演了核心角色，因此了解处理器内部的工作方式对程序员来说不无裨益。CPU是如何工作的呢？一条指令执行需要多长时间？当我们讨论某个新款处理器拥有12级流水线还是18级流水线，甚至是更深的31级流水线时，这到些都意味着什么呢？应用程序通常会将CPU看作是黑盒子。程序中的指令按照顺序依次进入CPU，执行完之后再按顺序依次从CPU中出来，而内部到底发生了什么，我们通常并不了解。对我们程序员来说，尤其是对做程序性能调优工作的程序员来说，学习CPU内部的细节非常必要。前文讲到过为了尽量利用CPU的资源，使用高速缓存来缓解内存工作速度远小于CPU工作速度的矛盾。那CPU本身对于效率的优化有哪些方式呢？本文仅从软件层面来了解一下CPU的优化手段，至于硬件层面不作阐述。CPU里存在两样优化速度的技术，分别是 ：指令流水线和指令乱序执行。</p>
-<p><img src="/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpus.png" alt></p>
+<p><img src="/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpus.png" alt></p>
 <a id="more"></a> 
 
 <h2 id="CPU技术发展历史"><a href="#CPU技术发展历史" class="headerlink" title="CPU技术发展历史"></a>CPU技术发展历史</h2><p>从一个非常广的角度来说，X86处理器架构在近35年来并没有变化太多。虽然X86架构被附加了很多新功能，但是最初的设计（包括几乎所有最初的指令集）仍然基本上是完整保留的，即使在最新的处理器上仍然被支持。最初的8086处理器支持14个寄存器，这些寄存器在如今最新的处理器中仍然存在。这14个寄存器中，有4个是通用寄存器：AX，BX，CX和DX；有4个是段寄存器，段寄存器用来辅助指针的实现：代码段(CS)，数据段(DS)，扩展段(ES)和堆栈段(SS)；有4个是索引寄存器，用来指向内存地址：源引用(SI)，目的引用(DI)，基指针(BP)，栈指针(SP)；有1个寄存器包含状态位；最后是最重要的寄存器：指令指针(IP)。指令指针寄存器是一个拥有特殊功能的指针。指令指针的功能是指向将要运行的下一条指令。所有的X86处理器都按照相同的模式运行。首先，根据指令指针指向的地址取得下一条即将运行的指令并解析该指令（译码）。在译码完成后，会有一个指令的执行阶段。有些指令用来从内存读取数据或者向内存写数据，有些指令用来执行计算或者比较等工作。当指令执行完成后，这条指令会通过退出(retire)阶段并将指令指针修改为下一条指令。相较于现今的标准，最初的处理器设计显得太过简单。最初的8086处理器的执行过程可以简述为从当前指令指针取得指令，通过译码，执行最后退出，然后继续从指令指针指向的下一条指令处取得指令。新的处理器增加了新的功能，有些增加了新的指令，有些增加了新的寄存器。我将主要关注和本文主题有关系的改变，这些改变影响了CPU指令执行的流程。其他的一些变化比如虚拟内存或者并行处理虽然都很有意义而且有趣，但是并不在本文主题的范围内。</p>
@@ -578,9 +578,9 @@
 <h2 id="CPU指令流水线"><a href="#CPU指令流水线" class="headerlink" title="CPU指令流水线"></a>CPU指令流水线</h2><p>根据之前描述的基础，指令进入流水线，通过流水线处理，从流水线出来的过程，对于我们程序员来说，是比较直观的。对于CPU性能有以下公式：</p>
 <p>处理器性能 = 主频 X IPC</p>
 <p>由上述公式我们可以知道，提高CPU性能要么就提高主频，要么就提高IPC(CPU每一时钟周期内所执行的指令数量)，提升IPC有两种做法，一个是增加单核并行的度，一个是加多几个核。早期一些采用非常简单的指令集的电脑是采用单周期设计的，取指、解码、执行、写回都是放在同一个节拍（周期）内顺序完成此时的 CPI(每条指令执行时所花费的平均时钟周期数）基本上是 1，但是这样设计的效率很低：当取指的时候，其余工位都只能瞎瞪眼等开饭，这样的设计也被称作非流水线化执行。其执行图如下</p>
-<p><img src="/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpu1.png" alt></p>
+<p><img src="/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpu1.png" alt></p>
 <p>因此也可得出一个结论，想要提供CPU的工作效率，就要让CPU在每个时钟周期内尽可能多的执行指令。I486拥有五级流水线。分别是：取指(Fetch)，译码(D1, main decode)，转址(D2, translate)，执行(EX, execute)，写回(WB)。某个指令可以在流水线的任何一级。在理想情况下，流水线级数越多，可同时流水执行的指令数越多，正比增长。这就是推出该问题的理论基础。并行度越大，在宏观上看其实就等效于每一条指令的执行速度都变快了。但现实不是这样理想的。流水的时候，会遇见各种冒险机制（某硬件不支持同时钟周期被多个资源访问，数据依赖或逻辑关系不被满足的情况，跳转指令等），造成流水设计的困难。下面是流水线工作的流程图</p>
-<p><img src="/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpu.png" alt></p>
+<p><img src="/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cpu.png" alt></p>
 <p>流水线是将组合逻辑分割成多个小块，因为每段的关键路径变短了，所以能提高系统主频。同时能让任务以类似并行方式处理，提高硬件模块的利用率，提高系统频率，提高吞吐量。这里可能有些朋友会有疑问，流水线的级数是不是越高，CPU的利用率就越高呢？理想很丰满，现实很骨感。理论上流水线级数越多，每级所花的时间越短，时钟周期就可以设计的越短，指令速度越快，指令平均执行时间也就越短。但实际上，流水线越长，重叠执行的指令就越多，那么发生竞争冲突得可能性就越大，一般来说流水线越长，整体性能越差，而且还有前车之鉴。著名的奔腾四，就是因为流水线过长，而落得个高频低能的名声。而且，拜糟糕的奔腾四所赐， AMD 在那个时代全面超越了 intel，这也是历史上唯一的一小段 AMD 主营 CPU 在性能上完全超越 intel 主营 CPU 的年代。（这个年代持续得不长，就因为酷睿的出世而结束了。）流水线过长对性能没有帮助，只对提升主频有帮助。长流水线能够使你提升主频更容易，所以容易造就高频低能的芯片。另一方面，流水线技术是以空间换时间的技术，如果流水线过长，就需要更多的寄存器来保存流水线中产生的中间结果，对于芯片的制作成本也会有所提升。</p>
 <table>
 <thead>
@@ -625,7 +625,7 @@
 <li>控制冒险：如果现在要执行哪条指令，是由之前指令的运行结果决定，而现在那条之前指令的结果还没产生，就导致了控制冒险。</li>
 </ul>
 <h2 id="分支预测"><a href="#分支预测" class="headerlink" title="分支预测"></a>分支预测</h2><p>虽然同一时间，流水线中执行了多条指令，但是分支判断带来的跳转，导致无法正确顺序地载入对应的跳转代码进流水线。如果没有分支预测器，处理器将会等待分支指令通过了指令流水线的执行阶段，才把下一条指令送入流水线的第一个阶段—取指令阶段（fetch stage）或者将后续流水线全部清空。这种技术叫做流水线停顿（pipeline stalled）或者流水线冒泡（pipeline bubbling）或者分支延迟间隙，这个非常影响流水线并行执行的效率。</p>
-<p><img src="/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/branch.png" alt></p>
+<p><img src="/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/branch.png" alt></p>
 <p>为了解决上述问题，流水线中引入了分支预测器来完成分支预测机制。分支预测就是通过预测，把接下来最有可能执行的分支获取进入流水线，就像不存在对比较结果的依赖那样直接执行，这么一来就保持了指令的流畅执行，这也被称为Speculative Execution。不过这种通过预测获取进入流水线的分支终究只是预测分支，实际上不一定是执行这一分支，因此这部分指令的执行结果不应该从流水线中输出。在得到比较结果后，就能知道预测的分支是否为实际应该执行的分支，如果是，流水线中的预测分支指令就能继续执行下去，否则就需要把预测分支的指令排空，重新获取正确分支的指令进入流水线继续执行。 分支预测，可能的方法有很多种。如：分支判断可能的结果是A和B，最差的情况是永远将分支判断的A指令加入流水线，如果真实判断时是A，那就直接执行，如果是B那么再重新加入B也可以，效率能够提高。实际的分支预测中，可能存入很多种方法，也会有固件的模式（Pattern）来适应。如改进上术的分支预判，当有一次实际判断为B时，后面的全部就预判断为B。上面只是简单的介绍一下分支预测的最简单模式，实际现在CPU的分支预测越来越强大，适应的模式越来越多。像AMD的新款Ryzen处理器，已经使用神经网络的机器学习来强化分支预测了。 主流的分支预测器主要有两种：静态预测器（Static Predictor）和动态预测器(Dynamic Predictor)</p>
 <ol>
 <li>静态预测器：预测条件跳转不发生，因此总是顺序取下一条指令推测执行。仅当条件跳转指令被求值确实发生了跳转，则非顺序的代码地址被加载执行。另外一种，则预测条件跳转总会发生，因CPU而异。对于这种静态预测如果产生错误，则惩罚就是清空后续的流水线中的指令。</li>
@@ -708,7 +708,7 @@ sum = -460681728
 sort time
 7225
 sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的乱序执行" class="headerlink" title="指令的乱序执行"></a>指令的乱序执行</h2><p>在按序执行中，一旦遇到指令依赖的情况，流水线就会停滞，如果采用乱序执行，就可以跳到下一个非依赖指令并发布它。这样，执行单元就可以总是处于工作状态，把时间浪费减到最少。乱序执行是一种应用在高性能微处理器中来利用指令周期以避免特定类型的延迟消耗的范式。在这种范式中，处理器在一个由输入数据可用性所决定的顺序中执行指令，而不是由程序的原始数据所决定。在这种方式下，可以避免因为获取下一条程序指令所引起的处理器等待，提前处理下一条可以立即执行的指令。其实很多设计思想都来源于生活，只是应用到不同的领域，就有了它的专业术语，让不懂的人觉得很深奥很高大上，在搞明白怎么回事后，会发现其实也没那么难。举个生活中例子，假设晚上下班回家饿了，想煮碗面做宵夜。需要做以下操作：1.洗水锅，2.烧开水，3.煮面条，4.热菜，5，洗碗筷，6.吃面。其中比较耗时的操作就是烧开水了，如果按CPU的流水线顺序处理这些操作，那我们进行到第2步时就只能等水烧好然后才进去后面的步骤，这要做比较符合常规思维，但是太浪费资源了。因为后面的操作不依赖于前面操作的结果，因此我们完全可以在烧水的同时，把菜热好，把碗筷洗干净准备盛面。这就是CPU指令乱序执行</p>
-<p><img src="/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cm.png" alt></p>
+<p><img src="/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/cm.png" alt></p>
 <p>同理类比在CPU的一条流水线中，需要执行多条指令，比如有a,b,c三条指令组成的流水线，执行顺序是a-&gt;b-&gt;c，这三条指令在数据上没有依赖关系，其中b指令需要去主存中读取数据，c指令是为变量分配内存地址，我们知道在CPU在缓存未命中情况下去主存读取数据是比较慢的，因此b指令会占用比较长的时钟周期，而指令c只能干等，这会使程序的执行效率大打折扣。这时指令乱序就会发挥出它的作用了，因为b,c指令没有依赖关系，b,c指令执行顺序调换不会影响最终结果，所以CPU在执行b指令时先会向数据总线发起向主存中读数据的请求，在等待数据加载到CPU的高速缓存期间，会继续执行c指令（注意此时b指令并没有执行完，因为它还没有真正从主存中读到数据），然后再执行继续b指令，这时指令的执行顺序就变成了a-&gt;c-&gt;b。在理解了乱序执行，那么对编码有什么帮助吗？有的，对于开发人员来说，单例模式应该都不陌生，由于频繁创建对象比较浪费资源，就考虑将所有用到某个类的实例时，公用同一个实例，于是就有了单例模式，然而单例模式并不是想象的那么简单。单例模式写法有很多，在保证并发同步的单例模式中，有如下一种写法：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">{</span>
 
@@ -758,7 +758,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
 <li>Load：将内存的数据拷贝到处理器的缓存中。</li>
 </ul>
 <p>编译器和CPU能够重排序指令，保证最终相同的结果，尝试优化性能。插入一条Memory Barrier会告诉编译器和CPU：不管什么指令都不能和这条Memory Barrier指令重排序。Memory Barrier所做的另外一件事是强制刷出各种CPU cache，如一个Write-Barrier（写入屏障）将刷出所有在Barrier之前写入 cache 的数据，因此，任何CPU上的线程都能读取到这些数据的最新版本。java内存模型volatile是基于Memory Barrier实现的。如果一个变量是volatile修饰的，JMM会在写入这个字段之后插进一个Write-Barrier指令，并在读这个字段之前插入一个Read-Barrier指令。这意味着，如果写入一个volatile变量，就可以保证：1.一个线程写入变量a后，任何线程访问该变量都会拿到最新值。2.在写入变量a之前的写入操作，其更新的数据对于其他线程也是可见的。因为Memory Barrier会刷出cache中的所有先前的写入。简单来说内存屏障（Memory Barrier，或内存栅栏，Memory Fence）就是从本地或工作内存到主存之间的拷贝动作。如下图：</p>
-<p><img src="/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/lsx.png" alt></p>
+<p><img src="/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/lsx.png" alt></p>
 <p>上面三种颜色的箭头，就是跨越内存栅栏。在多线程并发过程中，仅当写操作线程先跨越内存栅栏而读线程后跨越内存栅栏的情况下，写操作线程所做的变更才对其他线程可见。内存屏障分为以下3类：</p>
 <table>
 <thead>
@@ -818,7 +818,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/">https://lushunjian.gitee.io/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/">https://lushunjian.gitee.io/blogs/blogs/2019/03/30/java-bing-fa-bian-cheng-cpu-de-liu-shui-xian/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -856,7 +856,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                <a href="/blogs/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
                                     <span class="chip bg-color">并发编程</span>
                                 </a>
                             
@@ -1316,7 +1316,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/">
+                <a href="/blogs/2019/04/04/java-bing-fa-bian-cheng-jmm-yu-jsr133/">
                     <div class="card-image">
                         
                         
@@ -1346,7 +1346,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                    <a href="/blogs/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
                         <span class="chip bg-color">并发编程</span>
                     </a>
                     
@@ -1361,7 +1361,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">
+                <a href="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">
                     <div class="card-image">
                         
                         
@@ -1391,7 +1391,7 @@ sum = -460681728</code></pre><h2 id="指令的乱序执行"><a href="#指令的�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                    <a href="/blogs/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
                         <span class="chip bg-color">并发编程</span>
                     </a>
                     
@@ -1591,7 +1591,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+    <a href="/blogs/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
         <i class="fas fa-rss"></i>
     </a>
 
@@ -1617,7 +1617,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 <script src="/js/search.js"></script>
 <script type="text/javascript">
 $(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/blogs/" + "search.xml", 'searchInput', 'searchResult');
 });
 </script>
     <!-- 回到顶部按钮 -->

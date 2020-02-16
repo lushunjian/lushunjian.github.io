@@ -26,7 +26,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/blogs/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -34,7 +34,7 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
+                <a href="/blogs/" class="waves-effect waves-light">
                     
                     <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
                     
@@ -136,7 +136,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/galleries">
+        <a href="/blogs/galleries">
           
           <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -145,7 +145,7 @@
       </li>
       
       <li>
-        <a href="/movies">
+        <a href="/blogs/movies">
           
           <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -154,7 +154,7 @@
       </li>
       
       <li>
-        <a href="/books">
+        <a href="/blogs/books">
           
           <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -281,7 +281,7 @@
               
                 <li>   
 				
-                  <a href="/galleries " style="margin-left:75px";>
+                  <a href="/blogs/galleries " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
 			      
@@ -291,7 +291,7 @@
               
                 <li>   
 				
-                  <a href="/movies " style="margin-left:75px";>
+                  <a href="/blogs/movies " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
 			      
@@ -301,7 +301,7 @@
               
                 <li>   
 				
-                  <a href="/books " style="margin-left:75px";>
+                  <a href="/blogs/books " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
 			      
@@ -513,11 +513,11 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                            <a href="/blogs/tags/%E7%AE%97%E6%B3%95/">
                                 <span class="chip bg-color">算法</span>
                             </a>
                         
-                            <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+                            <a href="/blogs/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
                                 <span class="chip bg-color">负载均衡</span>
                             </a>
                         
@@ -557,12 +557,12 @@
 <p>1.每个长连接任务的时间长，短则几天，长则几个月。并且长期占用服务器的资源。<br>2.每个长连接任务消耗的资源不一样。以摄像机为例，不同规格的摄像机像素不一样。有标清，高清，超清之分。对应的就是流量带宽的区别，有2M，4M，8M之分。因此每个长连接任务占用的资源大小不一样的。<br>3.长连接任务启动时，初始化较慢，例如需要做认证，或是请求一些接口来获取数据。这样会导致做负载均衡时，并不能实时获取到节点的负载情况，出现几秒钟的延时。</p>
 <p>在这些特点下如何做负载均衡呢？短连接的负载均衡算法轮询，哈希，随机，平均负载。如果这些算法能不能直接应用于长连接的业务场景，会出现哪些问题呢？我们先从最简单的特点开始，逐渐递进的去思考这个问题，从无到有的推导出一个针对这些特点的负载均衡算法。上面三个特点以下简称特点一，特点二，特点三。</p>
 <h4 id="1，满足特点一，不考虑特点二，三。"><a href="#1，满足特点一，不考虑特点二，三。" class="headerlink" title="1，满足特点一，不考虑特点二，三。"></a>1，满足特点一，不考虑特点二，三。</h4><p>这种情景下长连接任务只是时间长，但每个长连接任务消耗资源大小一样，启动时无延时。这种场景是最为简单也是最理想的场景，在这种场景下轮询，哈希，随机算法都适用。因为每个任务大小一样，当任务数量够多时就能保证任务是平均分配到节点上的，从而保证了每个节点的负载基本一致，这些算法都能使服务器节点达到较为均匀的负载状态，这种情况根短连接的情况差不多，只是任务时间长一些。如下图</p>
-<p><img src="/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj1.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj1.png" alt></p>
 <h4 id="2，满足特点一，二，不考虑特点三"><a href="#2，满足特点一，二，不考虑特点三" class="headerlink" title="2，满足特点一，二，不考虑特点三"></a>2，满足特点一，二，不考虑特点三</h4><p>这种场景下任务启动时没有延时。但由于每个任务大小不一样轮询，哈希，随机就也就不再适应了。因为这几种算法适用于请求数量很大，任务大小差别不大的情况。也就是样本数足够大，样本基本一致才能保证这些样本均匀的分布在节点上。但也仅仅只是保证了每个节点上的样本数量均匀分布，倘若每个样本的所占用的资源不一样。那么这种均匀分配实际并不会使服务器的节点能够均匀的负载，达不到负载均衡的效果。那么这样的场景下，只平均负载的算法能够适用与这种场景。平均负载算法是在每次派发任务时，会收到节点反馈过来的负载情况，然后根据每个节点的负载情况，选择负载最小的节点派发任务。下面以图来说明这两种情况，如下图</p>
-<p><img src="/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj2.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj2.png" alt></p>
 <p>从图上可知，有任务a,b,c分别对应三个摄像机。任务a是2M流量，任务b是4M流量，任务c是8M流量，假设每个节点配置都一样，满载时为100。很明显如果使用轮询节点c的负载肯定会大，这样实际上集群负载并不均衡。但如果使用平均负载，那么负载均衡器在派发任务时会根据节点的负载情况去分发任务，这样最终效果肯定是要比轮询好的</p>
 <h4 id="3，满足特点一，二，三"><a href="#3，满足特点一，二，三" class="headerlink" title="3，满足特点一，二，三"></a>3，满足特点一，二，三</h4><p>其实在前面两个特点下，我们忽略了一个重要问题。就是可信度问题，也就是特点三带来的问题。在分布式环境中，节点之间通信是不可靠。如果由于网络波动，或是业务场景导致负载均衡器在得到节点反馈过来的负载信息时，这个负载信息可能是存在几秒钟的延时。实际上得到的并不是当前的实时负载情况，而是几秒钟之前的负载情况。如下图：</p>
-<p><img src="/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj3.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj3.png" alt></p>
 <p>这样会存在一个极大的隐患。假设有1000个请求过来了。根据平均负载的算法得到节点a的负载最低。那么请求理应分发到节点a上，但是由于反馈过来的负载信息是存在延时的，于是在两三秒内得到的结果都是节点a负载最低，那么这1000个请求可能会全部被分发到节点a上。这种现象被称为扎堆效应。这种情况的结果就是节点a扛不住压力宕机。那么由此可见平均负载算法也不适用了。</p>
 <h3 id="2-平均负载算法的改进-一"><a href="#2-平均负载算法的改进-一" class="headerlink" title="2.平均负载算法的改进(一)"></a>2.平均负载算法的改进(一)</h3><p>从上面几种场景可以看出，平均负载算法还是适用性是非常强的，而在第三种场景下如果能得到一个可信度较高的节点当前负载情况，那么就可以继续沿用平均负载算法。那么该如何得到可信的节点负载呢，由前面的分析可知得到的节点负载之所以不可信是因为存在延时，那么我们可以记录节点前三秒，或者是前五秒的每秒节点负载，在<br>把这些节点负载取平均值作为节点的当前负载。公式如下<br>$$<br>m=(m4+m3+m2+m1+m0)/5<br>$$<br>m表示当前负载 ，m4,m3,m2,m1,m0分别表示4,3,2,1,0秒前的负载，对于存在延时的系统，这样做法就能在一定程度上得到较为可靠节点的负载情况。但仍然不够准确，在实际生产环境中仍然会出现不均衡的情况，究其原因是因为对前5秒的数据取平均，但实际上，这样计算是不合理的，难道5秒以前的数据和1秒以前的数据对当前结果的影响还是一样的吗？显然不是，应该认为越靠近当前时间的负载值可信度就越高，越远离当前时间的负载值可信度就越低。这样才会越接近于实际。所以上面的公式应该是这样的<br>$$<br>m= 0.36<em>m0+0.28</em>m1+0.20<em>m2+0.12</em>m3+0.04*m4<br>$$<br>其中m0离当前时间最近，认为m0的可信度最高，所以给了36%的权重，而m4离当前时间最远，可信度最低，所以给了4%的权重。当然这里的权重应根据实际情况或经验设置值，根据这个公式算出的当前节点的负载值更能反应出节点的真实负载情况</p>
 <h3 id="3-平均负载算法的改进-二"><a href="#3-平均负载算法的改进-二" class="headerlink" title="3.平均负载算法的改进(二)"></a>3.平均负载算法的改进(二)</h3><p>上面两个公式是在得到几秒内的负载值然后计算出加权平均值确能在一定程度上反应节点的负载情况，但是这个种方法需要多次记录节点的负载信息，还比较麻烦。那有没有更好的方法呢，答案是有的，其实只需记录上一秒的节点负载情况，然后再获取当前节点负载，在这段时间段内对节点内，节点负载对时间取积分即可。这个方法是根据自动控制原理中的PID算法得到的那么上面节点负载的计算公式可得如下<br>$$<br>m=m0+\frac{\int_0^t{(m0-m1)*t},{\rm d}t}{D}<br>$$<br>公式中m表示计算得到的负载值，m0表示当前获取到的节点负载，m1表示上一秒获取到的节点负载，参数D是可信度系数，表示上一秒的节点负载值对当前负载值的影响程度，越大表示影响越小，这个值可根据实际情况设置。这样既只需要维护上一秒的节点负载值，减小了成本，又能得到相对准确的当前节点负载值。</p>
@@ -626,7 +626,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/">https://lushunjian.gitee.io/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/">https://lushunjian.gitee.io/blogs/blogs/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -664,11 +664,11 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <a href="/blogs/tags/%E7%AE%97%E6%B3%95/">
                                     <span class="chip bg-color">算法</span>
                                 </a>
                             
-                                <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+                                <a href="/blogs/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
                                     <span class="chip bg-color">负载均衡</span>
                                 </a>
                             
@@ -1128,7 +1128,7 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2018/08/04/vmware-zhong-an-zhuang-centos7/">
+                <a href="/blogs/2018/08/04/vmware-zhong-an-zhuang-centos7/">
                     <div class="card-image">
                         
                         
@@ -1158,11 +1158,11 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AE%9E%E8%B7%B5/">
+                    <a href="/blogs/tags/%E5%AE%9E%E8%B7%B5/">
                         <span class="chip bg-color">实践</span>
                     </a>
                     
-                    <a href="/tags/Linux/">
+                    <a href="/blogs/tags/Linux/">
                         <span class="chip bg-color">Linux</span>
                     </a>
                     
@@ -1177,7 +1177,7 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/07/15/da-shu-ju-sheng-tai-quan/">
+                <a href="/blogs/2018/07/15/da-shu-ju-sheng-tai-quan/">
                     <div class="card-image">
                         
                         
@@ -1207,7 +1207,7 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+                    <a href="/blogs/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
                         <span class="chip bg-color">大数据</span>
                     </a>
                     
@@ -1407,7 +1407,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+    <a href="/blogs/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
         <i class="fas fa-rss"></i>
     </a>
 
@@ -1433,7 +1433,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 <script src="/js/search.js"></script>
 <script type="text/javascript">
 $(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/blogs/" + "search.xml", 'searchInput', 'searchResult');
 });
 </script>
     <!-- 回到顶部按钮 -->

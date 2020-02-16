@@ -28,7 +28,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/blogs/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -36,7 +36,7 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
+                <a href="/blogs/" class="waves-effect waves-light">
                     
                     <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
                     
@@ -138,7 +138,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/galleries">
+        <a href="/blogs/galleries">
           
           <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -147,7 +147,7 @@
       </li>
       
       <li>
-        <a href="/movies">
+        <a href="/blogs/movies">
           
           <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -156,7 +156,7 @@
       </li>
       
       <li>
-        <a href="/books">
+        <a href="/blogs/books">
           
           <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -283,7 +283,7 @@
               
                 <li>   
 				
-                  <a href="/galleries " style="margin-left:75px";>
+                  <a href="/blogs/galleries " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
 			      
@@ -293,7 +293,7 @@
               
                 <li>   
 				
-                  <a href="/movies " style="margin-left:75px";>
+                  <a href="/blogs/movies " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
 			      
@@ -303,7 +303,7 @@
               
                 <li>   
 				
-                  <a href="/books " style="margin-left:75px";>
+                  <a href="/blogs/books " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
 			      
@@ -515,7 +515,7 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/jvm/">
+                            <a href="/blogs/tags/jvm/">
                                 <span class="chip bg-color">jvm</span>
                             </a>
                         
@@ -551,7 +551,7 @@
                 <p>JVM的类加载机制</p>
 <p>​    整体来看，JVM体系分为三个部分：类加载器（Class Loader），运行时数据区（Runtime Data Area），和执行引擎（Execution Engine）,这里主要探讨一下 JVM 的类加载器</p>
 <h2 id="一-类的生命周期"><a href="#一-类的生命周期" class="headerlink" title="一 . 类的生命周期"></a>一 . 类的生命周期</h2><p>​    先通过一个图对类加载流程有个整体认识，如下图</p>
-<p><img src="/blogs/2018/06/02/jvm-de-lei-jia-zai/pic1.png" alt></p>
+<p><img src="/blogs/blogs/2018/06/02/jvm-de-lei-jia-zai/pic1.png" alt></p>
 <p>类从被加载到虚拟机内存中开始，直到卸载出内存为止，它的整个生命周期包括了：<strong>加载、验证、准备、解析、初始化、使用和卸载</strong>这7个阶段。其中，<strong>验证、准备和解析这三个部分统称为连接（linking）</strong>。</p>
 <p>其中，加载、验证、准备、初始化和卸载这五个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班的“开始”（仅仅指的是开始，而非执行或者结束，因为这些阶段通常都是互相交叉的混合进行，通常会在一个阶段执行的过程中调用或者激活另一个阶段），而解析阶段则不一定（它在某些情况下可以在初始化阶段之后再开始，这是为了支持Java语言的运行时绑定。</p>
 <a id="more"></a> 
@@ -567,7 +567,7 @@
 <p>​          4、有其他文件生成，典型例子的就是jsp，由jsp文件生成对应的Class类 </p>
 <p>​    加载阶段与连接阶段的部分内容(如一部分字节码文件格式验证动作)是交叉进行的，加载阶段尚未完成，连接阶段可能已经开始。加载阶段完成后，虚拟机外部的 二进制字节流就按照虚拟机所需的格式存储在方法区之中，而且在Java堆中也创建一个java.lang.Class类的对象，这样便可以通过该对象访问方法区中的这些数据。</p>
 <p>这里有个需要注意的地方，对于后面理解类锁和对象锁至关重要。什么是Class对象？为了方便理解可看下图：</p>
-<p><img src="/blogs/2018/06/02/jvm-de-lei-jia-zai/classloader.png" alt></p>
+<p><img src="/blogs/blogs/2018/06/02/jvm-de-lei-jia-zai/classloader.png" alt></p>
 <p>虚拟机为每种类的数据结构管理一个独一无二的Class对象。也就是说，每个类有且只有一个Class对象。运行程序时，Java虚拟机(JVM)首先检查是否所要加载的类对应的Class对象是否已经加载。如果没有加载，JVM就会根据类名查找.class文件，并在堆中生成类的Class对象。<strong>所有的类都是在对其第一次使用时，动态加载到JVM中的（并不是启动时全部加载到内存中，而是懒加载）。</strong>当程序创建第一个对类的静态成员的引用时，就会加载这个类。使用new创建类对象的时候也会被当作对类的静态成员的引用。<strong>因此java程序程序在它开始运行之前并非被完全加载，其各个类都是在必需时才加载的。</strong>这一点与许多传统语言都不同。动态加载使能的行为，在诸如C++这样的静态加载语言中是很难或者根本不可能复制的，其中类的Class对象就负责生成类的具体实例对象。再来说一说静态方法和非静态方法同步锁的问题。</p>
 <p>​    非静态同步方法用的是同一把锁——实例对象本身，当多个线程操作堆中的同一个实例对象的同步非静态方法时，持有的是该这个实例对象的锁，其他线程想要执行这个实例对象的其余同步非静态方法时，需等待持有该对象锁的线程释放对象锁。</p>
 <p>​        静态同步方法用的也是同一把锁——类对象本身，当多个线程操作同一个类的同步静态方法时，线程持有的是这个类对象的锁，也就是类的Class对象的锁，其他线程想要执行同一个类的其余同步静态方法时，需等待持有该对象锁的线程释放对象锁。</p>
@@ -628,7 +628,7 @@
 <p>– Java虚拟机启动时被标明为启动类的类（也就是包含main函数），虚拟机会首先初始化这个类</p>
 <h3 id="4-卸载"><a href="#4-卸载" class="headerlink" title="4 . 卸载"></a>4 . 卸载</h3><p>​    类的生命周期和Class对象是否被引用有关，当代表类的Class对象不再被引用时，Class对象就会结束生命周期，类在方法区内的数据也会被卸载。因此，<strong>一个类何时结束生命周期，取决于代表它的Class对象何时结束生命周期</strong>。由Java虚拟机自带的类加载器所加载的类，在虚拟机的生命周期中，始终不会被卸载，而用户自定义的类加载器是可以被卸载的</p>
 <h2 id="二-类加载流程"><a href="#二-类加载流程" class="headerlink" title="二 . 类加载流程"></a>二 . 类加载流程</h2><p>​    JVM的类加载机制采用的是双亲委派模型：当某个类需要被加载时，它自己的类加载器首先不会自己去加载，而是把这个工作委托自己的父加载器，直到最顶层的类加载器也无法加载此类时，才会尝试自己去加载此类。双亲委派模型如下图所示：</p>
-<p><img src="/blogs/2018/06/02/jvm-de-lei-jia-zai/classLoader_1.png" alt></p>
+<p><img src="/blogs/blogs/2018/06/02/jvm-de-lei-jia-zai/classLoader_1.png" alt></p>
 <p>先来看一个例子：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
 
@@ -830,7 +830,7 @@ null</code></pre><p>首先说明一下三个类加载器的作用</p>
 <span class="token punctuation">}</span></code></pre>
 <p>通过源码可以发现ClassLoader中有三个构造函数其中两个protected修饰，而另外一个是private修饰的私有构造方法，是在SecureClassLoader的构造函数中的super(parent);代码调用的是ClassLoader的protected的有参构造方法，而在这个方法中调用了私有构造方法，在私有构造方法中，一路从传过来的parent变量被赋值给了一个静态常量。而且getParent()也在这个类中，这个方法返回的就是parent常量。</p>
 <p>​    到这里一切都明白了，当它的子类调用getParent()方法时，实际上返回的是这个parent常量，这个常量是子类构造方法中传进来的。而Launcher创建类加载器时，先创建了ExtClassLoader，这个类的构造函数中parent属性传的是null，因此它调用getParent()得到的是null，创建AppClassLoader，这个类的构造是把ExtClassLoader作为parent属性传给父类，因此它调用getParent()得到的是ExtClassLoader。这几个类的类图如下</p>
-<p>​    <img src="/blogs/2018/06/02/jvm-de-lei-jia-zai/classloaderextend.png" alt></p>
+<p>​    <img src="/blogs/blogs/2018/06/02/jvm-de-lei-jia-zai/classloaderextend.png" alt></p>
 <p>那Bootstrap ClassLoader和ExtClassLoader又是什么关系呢，我们来看一下双亲委派模型的源码</p>
 <pre class=" language-java"><code class="language-java">   <span class="token keyword">protected</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">loadClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">,</span> <span class="token keyword">boolean</span> resolve<span class="token punctuation">)</span>
         <span class="token keyword">throws</span> ClassNotFoundException
@@ -1114,7 +1114,7 @@ Hello Word!!!!!!!
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/blogs/2018/06/02/jvm-de-lei-jia-zai/">https://lushunjian.gitee.io/blogs/2018/06/02/jvm-de-lei-jia-zai/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/blogs/2018/06/02/jvm-de-lei-jia-zai/">https://lushunjian.gitee.io/blogs/blogs/2018/06/02/jvm-de-lei-jia-zai/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1152,7 +1152,7 @@ Hello Word!!!!!!!
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/jvm/">
+                                <a href="/blogs/tags/jvm/">
                                     <span class="chip bg-color">jvm</span>
                                 </a>
                             
@@ -1612,7 +1612,7 @@ Hello Word!!!!!!!
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2018/06/03/java-xu-ni-ji/">
+                <a href="/blogs/2018/06/03/java-xu-ni-ji/">
                     <div class="card-image">
                         
                         
@@ -1642,7 +1642,7 @@ Hello Word!!!!!!!
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/jvm/">
+                    <a href="/blogs/tags/jvm/">
                         <span class="chip bg-color">jvm</span>
                     </a>
                     
@@ -1657,7 +1657,7 @@ Hello Word!!!!!!!
                 Current&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2018/06/02/jvm-de-lei-jia-zai/">
+                <a href="/blogs/2018/06/02/jvm-de-lei-jia-zai/">
                     <div class="card-image">
                         
                         
@@ -1690,7 +1690,7 @@ Hello Word!!!!!!!
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/jvm/">
+                    <a href="/blogs/tags/jvm/">
                         <span class="chip bg-color">jvm</span>
                     </a>
                     
@@ -1890,7 +1890,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+    <a href="/blogs/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
         <i class="fas fa-rss"></i>
     </a>
 
@@ -1916,7 +1916,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 <script src="/js/search.js"></script>
 <script type="text/javascript">
 $(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/blogs/" + "search.xml", 'searchInput', 'searchResult');
 });
 </script>
     <!-- 回到顶部按钮 -->

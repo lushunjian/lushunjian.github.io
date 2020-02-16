@@ -26,7 +26,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/blogs/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -34,7 +34,7 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
+                <a href="/blogs/" class="waves-effect waves-light">
                     
                     <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
                     
@@ -136,7 +136,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/galleries">
+        <a href="/blogs/galleries">
           
           <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -145,7 +145,7 @@
       </li>
       
       <li>
-        <a href="/movies">
+        <a href="/blogs/movies">
           
           <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -154,7 +154,7 @@
       </li>
       
       <li>
-        <a href="/books">
+        <a href="/blogs/books">
           
           <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -281,7 +281,7 @@
               
                 <li>   
 				
-                  <a href="/galleries " style="margin-left:75px";>
+                  <a href="/blogs/galleries " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
 			      
@@ -291,7 +291,7 @@
               
                 <li>   
 				
-                  <a href="/movies " style="margin-left:75px";>
+                  <a href="/blogs/movies " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
 			      
@@ -301,7 +301,7 @@
               
                 <li>   
 				
-                  <a href="/books " style="margin-left:75px";>
+                  <a href="/blogs/books " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
 			      
@@ -513,7 +513,7 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/other/">
+                            <a href="/blogs/tags/other/">
                                 <span class="chip bg-color">other</span>
                             </a>
                         
@@ -556,7 +556,7 @@
 <a id="more"></a> 
 
 <p>这段代码是用来显示访客数的，可根据个人喜好放在合适的位置即可。我放在了footer.ejs 中。运行的效果如下图</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/fangke.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/fangke.png" alt></p>
 <p>计算访问量的方法有两种，我用的是uv的方式，大家自行选择即可。</p>
 <p>算法a：pv的方式，单个用户连续点击n篇文章，记录n次访问量。 </p>
 <p>算法b：uv的方式，单个用户连续点击n篇文章，只记录1次访客数。 </p>
@@ -629,9 +629,9 @@ tags:</code></pre><p>这里设置是只有在用到公式的页面才会有，�
 <span class="token keyword">import</span> Gitalk <span class="token keyword">from</span> <span class="token string">'gitalk'</span></code></pre>
 <p><strong>注册OAuth application</strong></p>
 <p>既然使用github的issue，那么肯定要得到github的授权，这步操作就是做这个事情。如果没有需先去注册，注册地址：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">Register a new OAuth application</a>  。</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk.png" alt></p>
 <p>注册后来到如下界面</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk1.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk1.png" alt></p>
 <p>在这里会得到Client ID和Client Secret两个值，这两个值是后面需要用到的。</p>
 <p><strong>配置</strong></p>
 <p>进入yilia主题的文件路径，打开 /yilia/layout_partial/目录下的article.ejs文件。拉至底部，可以发现原作者已经为我们集成了很多评论系统，如下</p>
@@ -713,11 +713,11 @@ gitalk<span class="token punctuation">:</span>
   #页面的唯一标识，gitalk 会根据这个标识自动创建的issue的标签<span class="token punctuation">,</span>我们使用页面的相对路径作为标识
   id<span class="token punctuation">:</span> <span class="token string">'window.location.pathname'</span></code></pre>
 <p>更多属性设置，可进入官方查看。至此评论系统配置完毕，启动看一下效果</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk3.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk3.png" alt></p>
 <p>这里需要登录一下，对gitalk进行初始化，每篇文章都需如此。初始化完成后，会在github对应的仓库中创建队应的issues</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk2.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk2.png" alt></p>
 <p>此时再看博客效果如下图</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk4.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blogtalk4.png" alt></p>
 <h3 id="5-添加萌宠"><a href="#5-添加萌宠" class="headerlink" title="5. 添加萌宠"></a>5. 添加萌宠</h3><p>这个功能比较适合女生吧，可以在博客页面中添加可爱的妹纸或者是萌宠，作者提供了很多模型，移动鼠标时萌宠也会跟着鼠标转头，没事可以逗一逗。插件使用比较简单，通过以下命令直接获取就行了</p>
 <pre><code>npm install --save hexo-helper-live2d</code></pre><p>然后在主题的配置文件 _config.yml 中添加以下配置属性</p>
 <pre><code>live2d:
@@ -736,17 +736,17 @@ gitalk<span class="token punctuation">:</span>
     show: true</code></pre><p>更多模型选择可以作者的github地址：<a href="https://github.com/xiazeyu/live2d-widget-models" target="_blank" rel="noopener">模型</a></p>
 <h3 id="6-使用第三方图床，缩短图片加载时间"><a href="#6-使用第三方图床，缩短图片加载时间" class="headerlink" title="6. 使用第三方图床，缩短图片加载时间"></a>6. 使用第三方图床，缩短图片加载时间</h3><p>在博客中难免会频繁的使用图片，但是如果图片过多的放在github上，由于github服务器在国外，国内访问会导致页面加载异常缓慢，当然解决的办法也是很多的。就是图片放在国内的服务器上，这里选择方式就很多了，可以把图片单独放在专门的云服务上，也可托管在第三方平台上如七牛等。这里介绍我自己使用的一种方式，简单免费。我们知道在国外github比较有名气，但是由于网速和它禁用百度爬虫的问题，许多程序员会选用gitee作为在国内的代码托管平台，gitee可以说就是国内的github。功能也大多相同，gitee也提供了静态文件的访问服务。因此实际上我们直接可以之间把博客搭建在gitee上。这是一种一劳永逸的办法，而且还可以被百度爬虫爬到哦。由于本人比较懒，暂时没有迁移。github除了图片加载较慢外，其他到是还可以接受，所以我们可以只把图片放在gitee上，然后在github的文章中引用gitee上的图片，问题就完美的解决了。</p>
 <h4 id="（1）-在gitee上创建一个项目"><a href="#（1）-在gitee上创建一个项目" class="headerlink" title="（1）. 在gitee上创建一个项目"></a>（1）. 在gitee上创建一个项目</h4><p>点击右上角头像图标右边的加号，选择新建仓库，仓库名字自己定义好</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog20.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog20.png" alt></p>
 <h4 id="（2）-开启pages服务"><a href="#（2）-开启pages服务" class="headerlink" title="（2）. 开启pages服务"></a>（2）. 开启pages服务</h4><p>创建完项目后，进入项目点击服务，选择gitee pages</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/bolg1.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/bolg1.png" alt></p>
 <p>在开启pages服务时，注意要勾选强制使用HTTPS，因为github在访问HTTP文件时会报错，导致访问出错。开启gitee pages服务后，上面会提示你网站地址。通过这个地址就可以访问到这个项目中的静态文件了。</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/bolg2.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/bolg2.png" alt></p>
 <h4 id="（3）-图片的访问"><a href="#（3）-图片的访问" class="headerlink" title="（3）. 图片的访问"></a>（3）. 图片的访问</h4><p>开启好gitee pages服务后，我们可以直接在浏览器中输入网站地址。例如我的是 <a href="https://lsjlsjlsj.gitee.io/photo。通过这个网址访问到的是项目根路径下的文件，假如我要访问文件夹中的图片该怎么写呢？举个例子，我的项目下有个img文件夹，我想访问img中的一张图片怎么做" target="_blank" rel="noopener">https://lsjlsjlsj.gitee.io/photo。通过这个网址访问到的是项目根路径下的文件，假如我要访问文件夹中的图片该怎么写呢？举个例子，我的项目下有个img文件夹，我想访问img中的一张图片怎么做</a></p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog4.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog4.png" alt></p>
 <p>进入到img文件夹中，假设我要访问11.jpg</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog5.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog5.png" alt></p>
 <p>直接在浏览器中加上图片相对于根路径的相对路径就可以了。<a href="https://lsjlsjlsj.gitee.io/photo/img/11.jpg" target="_blank" rel="noopener">https://lsjlsjlsj.gitee.io/photo/img/11.jpg</a> ，可以在浏览器中打开看看，如果能打开就是能正常访问了。</p>
-<p><img src="/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog6.png" alt></p>
+<p><img src="/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/blog6.png" alt></p>
 <p>这样在使用github写博客，或者制作博客相册时，便可引用gitee中的图片作为图床。解决github博客页面因为图片加载过慢的问题</p>
 
             </div>
@@ -773,7 +773,7 @@ gitalk<span class="token punctuation">:</span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/">https://lushunjian.gitee.io/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/">https://lushunjian.gitee.io/blogs/blogs/2018/07/08/bo-ke-ge-xing-hua-pei-zhi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -811,7 +811,7 @@ gitalk<span class="token punctuation">:</span>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/other/">
+                                <a href="/blogs/tags/other/">
                                     <span class="chip bg-color">other</span>
                                 </a>
                             
@@ -1271,7 +1271,7 @@ gitalk<span class="token punctuation">:</span>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2018/07/14/paxos-suan-fa/">
+                <a href="/blogs/2018/07/14/paxos-suan-fa/">
                     <div class="card-image">
                         
                         
@@ -1301,11 +1301,11 @@ gitalk<span class="token punctuation">:</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                    <a href="/blogs/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
                         <span class="chip bg-color">分布式系统</span>
                     </a>
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                    <a href="/blogs/tags/%E7%AE%97%E6%B3%95/">
                         <span class="chip bg-color">算法</span>
                     </a>
                     
@@ -1320,7 +1320,7 @@ gitalk<span class="token punctuation">:</span>
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/07/07/yi-zhi-xing-ha-xi/">
+                <a href="/blogs/2018/07/07/yi-zhi-xing-ha-xi/">
                     <div class="card-image">
                         
                         
@@ -1350,11 +1350,11 @@ gitalk<span class="token punctuation">:</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                    <a href="/blogs/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
                         <span class="chip bg-color">分布式系统</span>
                     </a>
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                    <a href="/blogs/tags/%E7%AE%97%E6%B3%95/">
                         <span class="chip bg-color">算法</span>
                     </a>
                     
@@ -1554,7 +1554,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+    <a href="/blogs/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
         <i class="fas fa-rss"></i>
     </a>
 
@@ -1580,7 +1580,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 <script src="/js/search.js"></script>
 <script type="text/javascript">
 $(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/blogs/" + "search.xml", 'searchInput', 'searchResult');
 });
 </script>
     <!-- 回到顶部按钮 -->

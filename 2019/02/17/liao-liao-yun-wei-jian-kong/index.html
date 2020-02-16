@@ -26,7 +26,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/blogs/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -34,7 +34,7 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
+                <a href="/blogs/" class="waves-effect waves-light">
                     
                     <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
                     
@@ -136,7 +136,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/galleries">
+        <a href="/blogs/galleries">
           
           <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -145,7 +145,7 @@
       </li>
       
       <li>
-        <a href="/movies">
+        <a href="/blogs/movies">
           
           <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -154,7 +154,7 @@
       </li>
       
       <li>
-        <a href="/books">
+        <a href="/blogs/books">
           
           <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -281,7 +281,7 @@
               
                 <li>   
 				
-                  <a href="/galleries " style="margin-left:75px";>
+                  <a href="/blogs/galleries " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
 			      
@@ -291,7 +291,7 @@
               
                 <li>   
 				
-                  <a href="/movies " style="margin-left:75px";>
+                  <a href="/blogs/movies " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
 			      
@@ -301,7 +301,7 @@
               
                 <li>   
 				
-                  <a href="/books " style="margin-left:75px";>
+                  <a href="/blogs/books " style="margin-left:75px";>
 				  
 				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
 			      
@@ -513,7 +513,7 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%BF%90%E7%BB%B4%E7%9B%91%E6%8E%A7/">
+                            <a href="/blogs/tags/%E8%BF%90%E7%BB%B4%E7%9B%91%E6%8E%A7/">
                                 <span class="chip bg-color">运维监控</span>
                             </a>
                         
@@ -547,7 +547,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>最近在公司参与公司运维监控平台的建设，用到一些关于监控的第三方开源工具包，在此记录一下。说到运维监控，本人在公司就曾经历过一段痛苦的日子，在某个重要的日子，由于公司没有完善运维监控平台，为保障系统稳定。公司大部分的开发人员和售后全都扑在了服务器和服务状态的监测上，每天的工作就是手动检查上千台服务器和几千个服务的内存，磁盘，CPU使用情况，大概持续了一周左右。因为这些都是重复性的工作，我还记得当时有人提出用跑脚本的方式直接看结果。没想到我们的上级负责人竟然说：“不许使用脚本，这种重要时候我只相信人，不相信脚本”。此言一出，我真的是无力吐槽，人是会累的，机器不会累，竟然还只信人，不信机器。后来想想其实可以理解，他大概是太过紧张了，那段重要日子对于公司来说确实非常重要，出不得差错。不过在经历过那段黑暗的时间后，让我觉得，系统的运维监控必须要有，靠人力运维是一件高成本，低回报，费力不讨好的活。在未接触运维之前，我总认为开发就是一个项目的重中之重，一个优秀的开发者，一个精良的架构设计能使项目的工作事半功倍。但现在我觉得运维才是重点，因为任何一个项目的开发周期是远远小于它的维护周期的，如何低成本的保障系统长期稳定的运行才是最重要的，也是保证用户体验的重要手段  。特别是对于庞大复杂的系统，运维监控系统必不可少。一个成熟完善的运维系统能有效的监测公司服务器和业务系统的异常情况，并马上做出告警大大减小了问题排查的成本。后面公司也意识到了这一点，并开展了运维平台的建设工作，下面就是在工作中总结的一些关于监控开源工具包的使用，以及一些开源的运维监控组件的介绍。</p>
-<p><img src="/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/yw.png" alt></p>
+<p><img src="/blogs/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/yw.png" alt></p>
 <a id="more"></a> 
 
 <h2 id="监控核心"><a href="#监控核心" class="headerlink" title="监控核心"></a>监控核心</h2><p>简单来说，监控系统就是一套解决应用、服务或系统故障发现、故障预警、故障定位，运行状态展示等多种功能融合一体的一个解决文案。也可以称之为一套系统。监控系统是整个运维环节，乃至整个产品生命周期中最重要的一环，事前及时预警发现故障，事后提供翔实的数据用于追查定位问题。监控系统作为一个成熟的运维产品，业界有很多开源的实现可供选择。当公司刚刚起步，业务规模较小，运维团队也刚刚建立的初期，选择一款开源的监控系统，是一个省时省力，效率最高的方案。之后，随着业务规模的持续快速增长，监控的对象也越来越多，越来越复杂。开源监控工具也非常多，主要如下</p>
@@ -562,9 +562,9 @@
 <p><strong>OWL：</strong>是TalkingData公司推出的一款开源分布式监控系统<a href="https://github.com/TalkingData/owl" target="_blank" rel="noopener">OWL的github地址</a></p>
 <h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p>一般的监控系统的架构是在被监控的节点运行自己的监控Agent，作为嗅探器。按照用户自定义的方式实时采集监控数据，采集到数据后，就需要将数据提交到数据中心了，这里提交的方式有两种，一种是数据中心主动向各个Agent拉取监控数据，这样的好处是编程简单，但数据中心的压力会比较大。第二种是各个Agent主动上报数据，先将数据提交到消息队列，数据中心直接从消息队列拉取数据就行了。</p>
 <p><strong>中心端主动拉取</strong>：就是由一个中心端定时的向采集端<code>按需拉取数据</code>。这种模式的优点在于可以按需拉取，不会有浪费。但是在这个模型中，中心承担了过大的压力。理论上性能会有很大的瓶颈。</p>
-<p><img src="/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/jk1.png" alt></p>
+<p><img src="/blogs/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/jk1.png" alt></p>
 <p><strong>客户端主动上报</strong>：就是所有数据一视同仁，全都上报。一般来讲，会采用一个统一的proxy来收集，后边会考虑做多级的组件，或者加一层MQ等，都是可以考量的设计。整体来讲，如果预估监控数据的量比较大。还是建议采用自采集然后集中上报的模式。</p>
-<p><img src="/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/jk.png" alt></p>
+<p><img src="/blogs/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/jk.png" alt></p>
 <p>由于公司的运维平台需求不多，只是做一些服务器和服务的简单监控，所以公司建设的运维监控平台没有使用开源的组件，而是通过一些基本的手段来获取监控信息，并将收集到的监控信息存储到数据库，再做统计分析展示。架构方案则使用的是客户端主动上报的方式。我负载的就是基础数据采集部分的开发工作，对期间使用的技术，方案做一些记录。</p>
 <h2 id="1-Linux监控命令"><a href="#1-Linux监控命令" class="headerlink" title="1. Linux监控命令"></a>1. Linux监控命令</h2><h3 id="1-top"><a href="#1-top" class="headerlink" title="(1) . top"></a>(1) . top</h3><p>top命令是最流行Unix/Linux的性能工具之一。它显示所有正在运行而且处于活动状态的实时进程， 而且会定期更新显示结果；它显示了CPU使用率，内存使用率，交换内存使用大小，调整缓存使用大小，缓冲区使用大小，进程PID， 使用的命令等信息。在终端执行top命令后，结果如下：</p>
 <pre class=" language-shell"><code class="language-shell">[root@localhost ~]# top
@@ -824,7 +824,7 @@ Swap:         2047          0       2047</code></pre>
 </tbody></table>
 <p>对内存来说，buffers/cached 都是属于被使用，所以它认为free只有74kb。我们通过free命令查看机器空闲内存时，会发现free的值很小。这主要是因为，在Linux系统中有这么一种思想，内存不用白不用，因此它尽可能的cache和buffer一些数据，以方便下次使用。但实际上这些内存也是可以立刻拿来给需要的进程使用的。弄清楚参数意义，才能更好的使用这些命令来帮助我们了解服务器状态，开发出更高质量的应用，以为Mem行free内存很少，是不是需要升级服务器内存等等。看内存够不够用重点是要看(-/+ buffers/cache)的free和used为主。可见-buffers/cache反映的是被程序实实在在吃掉的内存，而+buffers/cache反映的是可以挪用的内存总数。对应用程序来讲是(-/+ buffers/cach).buffers/cached 是等同可用的，因为buffer/cached是为了提高程序执行的性能，当程序使用内存时，buffer/cached会很快地被使用。这里还需要理解几个名词的含义</p>
 <h4 id="buff-cache"><a href="#buff-cache" class="headerlink" title="buff/cache"></a><strong>buff/cache</strong></h4><p><strong>buffer</strong> 在操作系统中指 buffer cache， 中文一般翻译为 “缓冲区”。要理解缓冲区，必须明确另外两个概念：”扇区” 和 “块”。扇区是设备的最小寻址单元，也叫 “硬扇区” 或 “设备块”。块是操作系统中文件系统的最小寻址单元，也叫 “文件块” 或 “I/O 块”。每个块包含一个或多个扇区，但大小不能超过一个页面，所以一个页可以容纳一个或多个内存中的块。当一个块被调入内存时，它要存储在一个缓冲区中。buffer cache 只有块的概念而没有文件的概念，它只是把磁盘上的块直接搬到内存中而并不关心文件内容。每个缓冲区与一个块对应，它相当于是磁盘块在内存中的表示：</p>
-<p><img src="/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/yunwei1.png" alt></p>
+<p><img src="/blogs/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/yunwei1.png" alt></p>
 <p><strong>cache</strong> 在操作系统中指 page cache，中文一般翻译为 “页高速缓存”。页高速缓存是内核实现的磁盘缓存。它主要用来减少对磁盘的 I/O 操作。具体地讲，是通过把磁盘中的数据缓存到物理内存中，把对磁盘的访问变为对物理内存的访问。页高速缓存缓存的是内存页面。<strong>缓存中的页来自对普通文件、块设备文件(这个指的就是 buffer cache 呀)和内存映射文件的读写</strong>。页高速缓存对普通文件的缓存我们可以这样理解：当内核要读一个文件(比如 /etc/hosts)时，会先检查这个文件的数据是不是已经在页高速缓存中了。如果在，就放弃访问磁盘，从内存中读取。这个行为称为缓存命中。如果数据不在缓存中，就是未命中缓存，此时内核就要调度块 I/O 操作从磁盘去读取数据。然后内核将读来的数据放入页高速缓存中。这种缓存的目标是文件系统可以识别的文件(比如 /etc/hosts)。页高速缓存对块设备文件的缓存就是在前面介绍的 buffer cahce。因为独立的磁盘块通过缓冲区也被存入了页高速缓存(缓冲区最终是由页高速缓存来承载的)。到这里我们应该搞清楚了：无论是缓冲区还是页高速缓存，它们的实现方式都是一样的。缓冲区只不过是一种概念上比较特殊的页高速缓存罢了。那么为什么 free 命令不直接称为 cache 而非要写成 buff/cache？ 这是因为缓冲区和页高速缓存的实现并非天生就是统一的。在 linux 内核 2.4 中才将它们统一。更早的内核中有两个独立的磁盘缓存：页高速缓存和缓冲区高速缓存。前者缓存页面，后者缓存缓冲区。当你知道了这些故事之后，输出中列的名称可能已经不再重要了。</p>
 <h4 id="Swap"><a href="#Swap" class="headerlink" title="Swap"></a>Swap</h4><p>交换分区swap space 是磁盘上的一块区域，可以是一个分区，也可以是一个文件。所以具体的实现可以是 swap 分区也可以是 swap 文件。当系统物理内存吃紧时，Linux 会将内存中不常访问的数据保存到 swap 上，这样系统就有更多的物理内存为各个进程服务，而当系统需要访问 swap 上存储的内容时，再将 swap 上的数据加载到内存中，这就是常说的换出和换入。交换空间可以在一定程度上缓解内存不足的情况，但是它需要读写磁盘数据，所以性能不是很高。</p>
 <p>现在的机器一般都不太缺内存，如果系统默认还是使用了 swap 是不是会拖累系统的性能？理论上是的，但实际上可能性并不是很大。并且内核提供了一个叫做 swappiness 的参数，用于配置需要将内存中不常用的数据移到 swap 中去的紧迫程度。这个参数的取值范围是 0～100，0 告诉内核尽可能的不要将内存数据移到 swap 中，也即只有在迫不得已的情况下才这么做，而 100 告诉内核只要有可能，尽量的将内存中不常访问的数据移到 swap 中。在 ubuntu 系统中，swappiness 的默认值是 60。如果我们觉着内存充足，可以在 /etc/sysctl.conf 文件中设置 swappiness的值</p>
@@ -1304,7 +1304,7 @@ Process process <span class="token operator">=</span> run<span class="token punc
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/">https://lushunjian.gitee.io/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/</a>
+                    <a href="https://lushunjian.gitee.io/blogs/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/">https://lushunjian.gitee.io/blogs/blogs/2019/02/17/liao-liao-yun-wei-jian-kong/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1342,7 +1342,7 @@ Process process <span class="token operator">=</span> run<span class="token punc
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%BF%90%E7%BB%B4%E7%9B%91%E6%8E%A7/">
+                                <a href="/blogs/tags/%E8%BF%90%E7%BB%B4%E7%9B%91%E6%8E%A7/">
                                     <span class="chip bg-color">运维监控</span>
                                 </a>
                             
@@ -1802,7 +1802,7 @@ Process process <span class="token operator">=</span> run<span class="token punc
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">
+                <a href="/blogs/2019/03/24/java-bing-fa-bian-cheng-cpu-de-gao-su-huan-cun/">
                     <div class="card-image">
                         
                         
@@ -1832,7 +1832,7 @@ Process process <span class="token operator">=</span> run<span class="token punc
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                    <a href="/blogs/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
                         <span class="chip bg-color">并发编程</span>
                     </a>
                     
@@ -1847,7 +1847,7 @@ Process process <span class="token operator">=</span> run<span class="token punc
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/02/14/git-de-yuan-li/">
+                <a href="/blogs/2019/02/14/git-de-yuan-li/">
                     <div class="card-image">
                         
                         
@@ -1877,7 +1877,7 @@ Process process <span class="token operator">=</span> run<span class="token punc
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Git/">
+                    <a href="/blogs/tags/Git/">
                         <span class="chip bg-color">Git</span>
                     </a>
                     
@@ -2077,7 +2077,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+    <a href="/blogs/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
         <i class="fas fa-rss"></i>
     </a>
 
@@ -2103,7 +2103,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 <script src="/js/search.js"></script>
 <script type="text/javascript">
 $(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/blogs/" + "search.xml", 'searchInput', 'searchResult');
 });
 </script>
     <!-- 回到顶部按钮 -->
