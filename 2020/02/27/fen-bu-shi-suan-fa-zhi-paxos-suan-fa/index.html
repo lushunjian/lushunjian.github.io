@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="VUE简介与前后端分离架构, 一寸灰">
-    <meta name="description" content="前后端分离已成为互联网项目开发的业界标准使用方式，通过nginx+tomcat的方式有效的进行解耦，并且前后端分离会为以后的大型分布式架构、弹性计算架构、微服务架构、多端化服务（多种客户端，例如：浏览器，车载终端，安卓，IOS等等）打下坚实">
+    <meta name="keywords" content="分布式算法之paxos算法, 一寸灰">
+    <meta name="description" content=" Paxos是用于一种分布式系统并且具有容错性的一致性算法，是目前业界公认能解决分布式系统一致性的问题算法之一。它晦涩难懂的程度完全可以跟它的重要程度相匹敌。Paxos于1990年由Lamport提出，但直到1998才正式被计算机科学界接受">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>VUE简介与前后端分离架构 | 一寸灰</title>
+    <title>分布式算法之paxos算法 | 一寸灰</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">VUE简介与前后端分离架构</h1>
+                    <h1 class="description center-align post-title">分布式算法之paxos算法</h1>
                 </div>
             </div>
         </div>
@@ -532,8 +532,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/vue/">
-                                <span class="chip bg-color">vue</span>
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
                             </a>
                         
                     </div>
@@ -544,8 +544,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
+                            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" class="post-category">
+                                分布式
                             </a>
                         
                     </div>
@@ -557,7 +557,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-02-22
+                    2020-02-27
                 </div>
                 
 
@@ -574,98 +574,34 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>前后端分离已成为互联网项目开发的业界标准使用方式，通过nginx+tomcat的方式有效的进行解耦，并且前后端分离会为以后的大型分布式架构、弹性计算架构、微服务架构、多端化服务（多种客户端，例如：浏览器，车载终端，安卓，IOS等等）打下坚实的基础。这个步骤是系统架构从猿进化成人的必经之路。以前的Java Web项目大多数都是Java程序员又当爹又当妈，又搞前端，又搞后端。随着技术的不断发展更新，渐渐的许多大中小公司开始把前后端的界限分的越来越明确，前端工程师只管前端的事情，后端工程师只管后端的事情。正所谓术业有专攻，一个人如果什么都会，那么他毕竟什么都不精。前后端分离技术实现了前端和后端从开发到部署的完全分离，使得前端和后端可以同时开发，极大的提高了开发效率。由此也诞生了一些前端框架，VUE就是其中的佼佼者。</p>
-<p><img src="/2020/02/22/vue-jian-jie-yu-qian-hou-duan-fen-chi-jia-gou/1.png" alt></p>
-<h2 id="前后端分离架构图"><a href="#前后端分离架构图" class="headerlink" title="前后端分离架构图"></a>前后端分离架构图</h2><p>前后端分离并不只是开发模式，而是web应用的一种架构模式。在开发阶段，前后端工程师约定好数据交互接口，实现并行开发和测试；在运行阶段前后端分离模式需要对web应用进行分离部署，前后端之前使用HTTP或者其他协议进行交互请求。前后端交互方式通常是JSON格式数据。</p>
-<h3 id="前后端分离架构图-1"><a href="#前后端分离架构图-1" class="headerlink" title="前后端分离架构图"></a>前后端分离架构图</h3><p><img src="/2020/02/22/vue-jian-jie-yu-qian-hou-duan-fen-chi-jia-gou/2.png" alt></p>
-<h3 id="前端架构设计图"><a href="#前端架构设计图" class="headerlink" title="前端架构设计图"></a>前端架构设计图</h3><p><img src="/2020/02/22/vue-jian-jie-yu-qian-hou-duan-fen-chi-jia-gou/5.png" alt></p>
-<h2 id="Vue简介"><a href="#Vue简介" class="headerlink" title="Vue简介"></a>Vue简介</h2><p>Vue是一套用于构建用户界面的<strong>渐进式框架</strong>。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，Vue 完全有能力驱动采用单文件组件和 Vue 生态系统支持的库开发的复杂单页应用。Vue的作者借鉴了angular和react的优点，使得Vue成为当下最流行的前端框架。 </p>
-<h3 id="Vue的特点"><a href="#Vue的特点" class="headerlink" title="Vue的特点"></a>Vue的特点</h3><ol>
-<li><p><strong>轻量级框架</strong>：核心库只关注视图层，是一个构建数据的视图集合，大小只有几十kb </p>
-</li>
-<li><p><strong>数据双向绑定</strong>：保留了angular的特点，界面的操作能实时反映到数据，数据的变更能实时展现到界面。(mvvm即Model-View-ViewModel数据到视图，视图到数据的双向绑定模式) </p>
-</li>
-<li><p><strong>组件化开发</strong>：保留了react的优点，实现了html的封装和复用,在构建单页面应用方面有着独特的优势 </p>
-</li>
-<li><p><strong>虚拟DOM</strong>：原生js和jquery都是基于真实的dom操作，是非常耗费性能的。Vue通过虚拟dom操作节点，很大程度上减小了真实的dom操作（例如表格数据），极大的提升页面渲染性能 </p>
-</li>
+                <p> Paxos是用于一种分布式系统并且具有容错性的一致性算法，是目前业界公认能解决分布式系统一致性的问题算法之一。它晦涩难懂的程度完全可以跟它的重要程度相匹敌。Paxos于1990年由Lamport提出，但直到1998才正式被计算机科学界接受。因为Lamport刚开始采用描述故事的方式来描述算法，但不被相关的出版社接受。后来Lamport发表《Paxos Make Simple》论文使得Paxos加速被广大计算机工程师理解并接受。但一直以来计算机的工程师抱怨Paxos算法是难以理解、晦涩，本人在学习之初也有深有体会。我在之前的文章有写过Paxos算法的原理，但那时理解的不够透彻，这里再对Paxos算法的原理做分析记录，加深理解。</p>
+<p><img src="/2020/02/27/fen-bu-shi-suan-fa-zhi-paxos-suan-fa/1.jpg" alt></p>
+<h2 id="拜占庭将军问题"><a href="#拜占庭将军问题" class="headerlink" title="拜占庭将军问题"></a>拜占庭将军问题</h2><p>拜占庭将军问题也被称为“拜占庭容错”，拜占庭将军问题是Leslie Lamport（2013年的图灵讲得住）用来为描述<strong>分布式系统一致性问题</strong>（Distributed Consensus）在<a href="http://lamport.azurewebsites.net/pubs/byz.pdf" target="_blank" rel="noopener">论文</a>中抽象出来一个著名的例子。这个例子大意是这样的：</p>
+<p>拜占庭帝国想要进攻一个强大的敌人，为此派出了10支军队去包围这个敌人。这个敌人虽不比拜占庭帝国，但也足以抵御5支常规拜占庭军队的同时袭击。这10支军队在分开的包围状态下同时攻击。他们任一支军队单独进攻都毫无胜算，除非有至少6支军队（一半以上）同时袭击才能攻下敌国。他们分散在敌国的四周，依靠通信兵骑马相互通信来协商进攻意向及进攻时间。困扰这些将军的问题是，他们不确定他们中是否有叛徒，叛徒可能擅自变更进攻意向或者进攻时间。在这种状态下，拜占庭将军们才能保证有多于6支军队在同一时间一起发起进攻，从而赢取战斗？拜占庭将军问题中并不去考虑通信兵是否会被截获或无法传达信息等问题，即消息传递的信道绝无问题。拜占庭问题，假设将军总数是N，叛徒将军数为F，则当 N &gt;= 3F+1 时，问题才有解，共识才能达成，这就是Byzantine Fault Tolerant（BFT）算法。拜占庭算法不在本文章的范围之内，本文的Paxos算法是假设集群中不存在拜占庭问题，即不存在数据被篡改的情况，数据要么到达，要么不到达，不存在被篡改后送达。</p>
+<h2 id="Paxos算法"><a href="#Paxos算法" class="headerlink" title="Paxos算法"></a>Paxos算法</h2><p>Paxos算法有三种角色，两个大阶段，每个大阶段下又有两个小阶段，每种角色在不同阶段有不同的操作。就本人的学习经验而言觉得Paxos算法难以理解的地方在于，仅靠文字难以描述清楚Paxos算法的收敛过程。本文将全力把算法讲的通俗易懂，并配上小例子，Paxos算法中的参与者主要分为三个角色，同时每个参与者又可兼领多个角色：</p>
+<h3 id="三个角色"><a href="#三个角色" class="headerlink" title="三个角色"></a>三个角色</h3><ol>
+<li><strong>proposer：</strong> 提议者，提出提案（proposal），提案信息包括提案编号和提议的value</li>
+<li><strong>acceptor：</strong> 表决者，收到提案后可以接受(accept)提案</li>
+<li><strong>learner：</strong> 学习者，只能”学习”被批准的提案，并广播给未学习的learner学习提案。</li>
 </ol>
-<h3 id="vue与其他框架的关系"><a href="#vue与其他框架的关系" class="headerlink" title="vue与其他框架的关系"></a>vue与其他框架的关系</h3><p>如今前端框架可谓百花齐放，各种各样的框架层出不穷，看的人眼花缭乱。所以明白Vue在这些框架中扮演的角色尤为重要，实际上前端框架可分为几大类，一是ui框架，ui框架很多如eayui，bootstrap。二是工具型框架，典型的就是jquery，三是工程级别的框架，vue等。vue能帮助我们合理的设计和组织前端代码，提高代码复用性。当使用vue把html代码封装成组件后，组件之间可以相互引用，可以继承实现扩展，组件可以传参通信，有利于构建大型复杂的应用。下面是vue与其他框架的关系</p>
+<h3 id="三个承诺"><a href="#三个承诺" class="headerlink" title="三个承诺"></a>三个承诺</h3><ol>
+<li><strong>promise(v)：</strong>acceptor对proposer承诺，如果没有更大编号的proposal会accept它提交的proposal</li>
+<li><strong>accept(v)：</strong>acceptor没有发现有比之前的proposal更大编号的proposal，就批准了该proposal</li>
+<li><strong>chosen(v)：</strong>当acceptor的多数派都accept一个proposal时，该proposal就被最终chosen，也称为决议</li>
+</ol>
+<p>提案是Paxos算法的一个重要概念，一个提案中有两个值<strong>Proposal Number</strong>和<strong>Proposal Value</strong>，简称Number和Value。其中Number是每次提案的版本号，而Value是提案的值，在分布式系统中Value可以是一个具体的字段，一个文本，或是一个命令。下面是先贴上算法的官方描述，是算法保证一致性的基本语义：</p>
 <ol>
-<li><p><strong>vue与angular，react</strong>：竞争关系，并称为前端三大框架。vue与react属于mvvm模式，angular也是mvvm，但也有mvc成分，它们都是优秀的前端框架。目前vue追随者最多。 </p>
-</li>
-<li><p><strong>vue与jquery</strong>：严格来说jquery不能称之为框架，而是一个为了简化原生js复杂繁琐操作的工具库，因为jquery并不能帮组我们组织和复用前端代码。二者可以混合使用，jquery是基于真实的dom操作，vue专注于数据驱动dom操作。二者在实现思想上就有本质的区别 。</p>
-</li>
-<li><p><strong>vue与easyui，bootstrap等</strong>：不是一个维度的东西。eayui和bootstrap都是ui层框架，esyui基于js实现，bootstrap基于css实现。它们对前端开发模式没有根本性的改变，与vue比起来只能算是前端ui库。eayui和bootstrap可以作为vue视图层的实现去使用。</p>
-</li>
+<li>决议（value）只有在被proposers提出后才能被批准（未经批准的决议称为“提案（proposal）”）；</li>
+<li>在一次Paxos算法的执行实例中，只批准（chosen）一个value；</li>
+<li>learners只能获得被批准（chosen）的value。</li>
 </ol>
-<h3 id="Vue的生态"><a href="#Vue的生态" class="headerlink" title="Vue的生态"></a>Vue的生态</h3><ol>
-<li><p><strong>Vue-router</strong>：前端路由控制器，官方维护的路由插件。 </p>
-</li>
-<li><p><strong>Vue-Bus</strong>：总线控制，用于vue组件之间的通信 </p>
-</li>
-<li><p><strong>Vuex</strong>：用于状态管理，降低组件与组件之间的耦合，也用于组件通信 </p>
-</li>
-<li><p><strong>Vue-devtools</strong>：基于谷歌浏览器的一款调试vue.js应用的开发者浏览器扩展插件 </p>
-</li>
-<li><p><strong>Vue-cli</strong>： Vue的脚手架，快速的构建vue的工程。 </p>
-</li>
-<li><p><strong>Vue-axios</strong>：基于Promise的http请求客户端，可同时在浏览器和 Node.js 中使用。 </p>
-</li>
-<li><p><strong>UI</strong>：基于Vue的UI框架也很多 </p>
-</li>
-</ol>
-<p>​      (1)     <strong>Element</strong>：饿了么开源的基于vue 2.0后台UI框架，适用PC端 </p>
-<p>​      (2)     <strong>Iview</strong>：主要服务于 PC 界面的中后台产品，由Talking </p>
-<p>Data团队开发维护 </p>
-<h3 id="Vue工程目录结构"><a href="#Vue工程目录结构" class="headerlink" title="Vue工程目录结构"></a>Vue工程目录结构</h3><p>通过vue-cli生成vue工程，首先本地确保已经安装了vue-clie，如果没有安装可执行以下命令安装</p>
-<pre><code>// 全局安装 vue-cli
-$ cnpm install –global vue-cli
-
-// my-project为自定义项目名
-$ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录结构可能和下面的稍有区别，下面是vue-cli（版本2.9.9）以webpack模板生成的项目。</p>
-<pre><code>|-- build                 // 项目构建(webpack)相关代码
-|-- build.js              //生产环境构建代码
-|-- check-version.js        // 检查node、npm等版本
-|-- utils.js                 // 构建工具相关
-|-- vue-loader.conf.js          // webpack loader配置
-|-- webpack.base.conf.js        // webpack基础配置
-|-- webpack.dev.conf.js         // webpack开发环境配置,构建开发本地服务器
-|-- webpack.prod.conf.js        // webpack生产环境配置
-|-- config                          // 项目配置
-|   |-- dev.env.js                   // 开发环境变量
-|   |-- index.js                     // 项目一些配置变量
-|   |--prod.env.js                  // 生产环境变量                                               
-|--node_modules                       //项目依赖的第三方包，下载依赖包时自动创建
-|--dist                              //npm项目打包后的默认输出路径，打包时自动创建
-|-- src                             // 源码目录，开发常用的目录
-|   |-- components                 // vue公共组件
-|   |-- router                      // vue的路由管理
-|   |-- App.vue                     // 页面入口文件
-|   |-- main.js                      // 程序入口文件，加载各种公共组件
-|-- static                           // 静态文件，比如一些图片，json数据等
-|-- .babelrc                         // ES6语法编译配置
-|-- .editorconfig                     // 定义代码格式
-|-- .postcsssrc                       // postcss配置文件
-|-- index.html                       // 入口页面
-|-- package.json                     // 项目基本信息,包依赖信息等</code></pre><h3 id="Vue项目的部署"><a href="#Vue项目的部署" class="headerlink" title="Vue项目的部署"></a>Vue项目的部署</h3><p>Vue部署方式分为两种，一种主流的开发分离，部署分离，第二种非主流的开发分离，部署不分离。第一种方式实际上前后端已经完全分离，前端和后端是两个服务，它们通过http协议通信，第二种方式就是传统的方式，只是传统方式一般使用jsp模板引擎开发，而这里使用vue开发，vue编译之后会把编译后的前端代码复制到后端项目中。后端仍然使用模板引擎的方式返回前端代码。</p>
-<h4 id="开发分离，整体部署"><a href="#开发分离，整体部署" class="headerlink" title="开发分离，整体部署"></a>开发分离，整体部署</h4><p>适合业务相对独立的小型应用，部署容易，启动简单，不需要额外的前端web容器，减小维护成本。缺点前后端仍然是耦合在一个项目中，如果单是前端或是后端的代码修改也只能把整个项目重新部署，后期如果业务扩展导致后端拆分，这种方式就不适用了，改动较大。此外模板引擎只支持html的，对于jsp的模板引擎不支持（因为vue打包后生成html文件）。关于打包时整体打包的方法，在之前的博客中已经介绍过，这里就不赘述了，想了解整体打包<a href="https://lushunjian.gitee.io/2020/02/18/springboot-yu-vue-xiang-mu-zheng-he-da-bao/">点击这里</a></p>
-<h4 id="开发分离，部署分离"><a href="#开发分离，部署分离" class="headerlink" title="开发分离，部署分离"></a>开发分离，部署分离</h4><p>试想一种业务场景，前端页面左边的下拉菜单中一个菜单选项的数据全部来自A服务，另一个菜单选项全部来自B服务。这种情况如果使用第一种部署方式就不适用了，因为前端访问涉及到多个服务，无论把前端代码放在哪一个服务中都不合适，而且前端在一个服务上访问另一个服务会出现跨域问题。此时应使用前后端分离部署，这时前端可以根据不同服务设置不同的路由，例如当访问A服务时，所有路由以 /a开头，当访问B服务时，所有路由以 /b开头。然后通过nginx做反向代理，通过不同路由访问不同的服务。我们把vue打包好的工程放在服务器上的某个目录，然后核心配置如下</p>
-<pre><code>server {
-        listen       8012;
-        server_name  127.0.0.1;          
-        location
-        /rms/ {
-              proxy_pass
-              http://10.10.10.10:8080/;
-         } 
-        location
-        /cis/ {
-              proxy_pass
-              http://10.10.10.11:8081/;
-         }
-   }
-</code></pre><p>这种部署方式，适用于后端服务是大型的微服务集群，前端代码已不适合放在任何一个服务中，因此把前端代码抽离出来，前端和后端服务各自独立运行，前后端通过http方式进行数据交互。但需要多维护一个nginx集群（解决前端服务的单点问题）</p>
+<p>Paxos算法的作者Lamport通过不断加强上述3个约束（主要是第二个）获得了Paxos算法，因此又衍生出四个约束f分别是P1，P2，P2a，P2b，P2c。这也是Paxos算法的推导过程</p>
+<p><strong>P1：一个acceptor必须接受（accept）第一次收到的提案。</strong>注意P1是不完备的。如果恰好一半acceptor接受的提案具有value A，另一半接受的提案具有value B，那么就无法形成多数派，无法批准任何一个value。约束2并不要求只批准一个提案，暗示可能存在多个提案。只要提案的value是一样的，批准多个提案不违背约束2。于是可以产生约束P2。</p>
+<p><strong>P2：一旦一个具有value v的提案被批准（chosen），那么之后批准（chosen）的提案必须具有value v。</strong>注：通过某种方法可以为每个提案分配一个编号，在提案之间建立一个全序关系，所谓“之后”都是指所有编号更大的提案。如果P1和P2都能够保证，那么约束2就能够保证。批准一个value意味着多个acceptor接受（accept）了该value.因此，可以对P2进行加强。</p>
+<p><strong>P2a：一旦一个具有value v的提案被批准（chosen），那么之后任何acceptor再次接受（accept）的提案必须具有value v。</strong> 由于通信是异步的，P2a和P1会发生冲突。如果一个value被批准后，一个proposer和一个acceptor从休眠中苏醒，前者提出一个具有新的value的提案。根据P1，后者应当接受，根据P2a，则不应当接受，这中场景下P2a和P1有矛盾。于是需要换个思路，转而对proposer的行为进行约束。</p>
+<p><strong>P2b：一旦一个具有value v的提案被批准（chosen），那么以后任何proposer提出的提案必须具有value v。</strong>由于acceptor能接受的提案都必须由proposer提出，所以P2b蕴涵了P2a，是一个更强的约束。但是根据P2b难以提出实现手段。因此需要进一步加强P2b。假设一个编号为m的value v已经获得批准（chosen），来看看在什么情况下对任何编号为n（n&gt;m）的提案都含有value v。因为m已经获得批准（chosen），显然存在一个acceptors的多数派C，他们都接受（accept）了v。考虑到任何多数派都和C具有至少一个公共成员，可以找到一个蕴涵P2b的约束P2c。</p>
+<p><strong>P2c：如果一个编号为n的提案具有value v，那么存在一个多数派，要么他们中所有人都没有接受（accept）编号小于n 的任何提案，要么他们已经接受（accept）的所有编号小于n的提案中编号最大的那个提案具有value v。</strong>可以用数学归纳法证明P2c蕴涵P2b，根据数学归纳法，我们证明了若满足P2c，则P2b一定满足。P2c是可以通过消息传递模型实现的。另外，引入了P2c后，也解决了前文提到的P1不完备的问题。</p>
+<h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>前面看不懂没关系，那是论文中的内容，晦涩难懂，下面开始用大白话来剥开Paxos算法。用一句话总结就是：proposer将发起提案（value）给所有accpetor，超过半数同意(accpet)后，提案获得批准(chosen)，提案写入accpetor内，最终所有accpetor获得一致性的确定性取值，且后续不允许再修改。<strong>协议分为两大阶段，每个阶段又分为A/B两小步骤：</strong></p>
 
             </div>
             <hr/>
@@ -691,7 +627,7 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/02/22/vue-jian-jie-yu-qian-hou-duan-fen-chi-jia-gou/">https://lushunjian.gitee.io/2020/02/22/vue-jian-jie-yu-qian-hou-duan-fen-chi-jia-gou/</a>
+                    <a href="https://lushunjian.gitee.io/2020/02/27/fen-bu-shi-suan-fa-zhi-paxos-suan-fa/">https://lushunjian.gitee.io/2020/02/27/fen-bu-shi-suan-fa-zhi-paxos-suan-fa/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -729,8 +665,8 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/vue/">
-                                    <span class="chip bg-color">vue</span>
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
                                 </a>
                             
                         </div>
@@ -901,7 +837,7 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
         repo: 'lushunjian.github.io',
         owner: 'lushunjian',
         admin: "lushunjian",
-        id: '2020-02-22T14-28-27',
+        id: '2020-02-27T20-47-11',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -1185,9 +1121,10 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/02/27/fen-bu-shi-suan-fa-zhi-paxos-suan-fa/">
                     <div class="card-image">
@@ -1205,9 +1142,9 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-02-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1220,6 +1157,7 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1238,31 +1176,31 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/02/19/kai-fa-chang-yong-gong-ju/">
+                <a href="/2020/02/22/vue-jian-jie-yu-qian-hou-duan-fen-chi-jia-gou/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="开发常用工具">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="VUE简介与前后端分离架构">
                         
-                        <span class="card-title">开发常用工具</span>
+                        <span class="card-title">VUE简介与前后端分离架构</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            工欲善其事必先利其器！在编程开发中能够使用好一些开发辅助工具能够让我们事半功倍。Perl之父Larry Wall曾在 Programming Perl 一书中提到：程序员的三个美德是懒惰、不耐烦和傲慢。懒惰，是程序员美德的第一要素。Larr
+                            前后端分离已成为互联网项目开发的业界标准使用方式，通过nginx+tomcat的方式有效的进行解耦，并且前后端分离会为以后的大型分布式架构、弹性计算架构、微服务架构、多端化服务（多种客户端，例如：浏览器，车载终端，安卓，IOS等等）打下坚实
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%85%B6%E4%BB%96/" class="post-category">
-                                    其他
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1272,8 +1210,8 @@ $ vue init webpack my-project</code></pre><p>不同的vue-cli版本项目目录�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%85%B6%E4%BB%96/">
-                        <span class="chip bg-color">其他</span>
+                    <a href="/tags/vue/">
+                        <span class="chip bg-color">vue</span>
                     </a>
                     
                 </div>
