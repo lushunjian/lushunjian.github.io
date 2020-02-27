@@ -591,16 +591,21 @@
 </ol>
 <p>提案是Paxos算法的一个重要概念，一个提案中有两个值<strong>Proposal Number</strong>和<strong>Proposal Value</strong>，简称Number和Value。其中Number是每次提案的版本号，而Value是提案的值，在分布式系统中Value可以是一个具体的字段，一个文本，或是一个命令。下面是先贴上算法的官方描述，是算法保证一致性的基本语义：</p>
 <ol>
-<li>决议（value）只有在被proposers提出后才能被批准（未经批准的决议称为“提案（proposal）”）；</li>
-<li>在一次Paxos算法的执行实例中，只批准（chosen）一个value；</li>
-<li>learners只能获得被批准（chosen）的value。</li>
+<li><strong>决议（value）只有在被proposers提出后才能被批准（未经批准的决议称为“提案（proposal）”）；</strong></li>
+<li><strong>在一次Paxos算法的执行实例中，只批准（chosen）一个value；</strong></li>
+<li><strong>learners只能获得被批准（chosen）的value。</strong></li>
 </ol>
 <p>Paxos算法的作者Lamport通过不断加强上述3个约束（主要是第二个）获得了Paxos算法，因此又衍生出四个约束f分别是P1，P2，P2a，P2b，P2c。这也是Paxos算法的推导过程</p>
-<p><strong>P1：一个acceptor必须接受（accept）第一次收到的提案。</strong>注意P1是不完备的。如果恰好一半acceptor接受的提案具有value A，另一半接受的提案具有value B，那么就无法形成多数派，无法批准任何一个value。约束2并不要求只批准一个提案，暗示可能存在多个提案。只要提案的value是一样的，批准多个提案不违背约束2。于是可以产生约束P2。</p>
-<p><strong>P2：一旦一个具有value v的提案被批准（chosen），那么之后批准（chosen）的提案必须具有value v。</strong>注：通过某种方法可以为每个提案分配一个编号，在提案之间建立一个全序关系，所谓“之后”都是指所有编号更大的提案。如果P1和P2都能够保证，那么约束2就能够保证。批准一个value意味着多个acceptor接受（accept）了该value.因此，可以对P2进行加强。</p>
-<p><strong>P2a：一旦一个具有value v的提案被批准（chosen），那么之后任何acceptor再次接受（accept）的提案必须具有value v。</strong> 由于通信是异步的，P2a和P1会发生冲突。如果一个value被批准后，一个proposer和一个acceptor从休眠中苏醒，前者提出一个具有新的value的提案。根据P1，后者应当接受，根据P2a，则不应当接受，这中场景下P2a和P1有矛盾。于是需要换个思路，转而对proposer的行为进行约束。</p>
-<p><strong>P2b：一旦一个具有value v的提案被批准（chosen），那么以后任何proposer提出的提案必须具有value v。</strong>由于acceptor能接受的提案都必须由proposer提出，所以P2b蕴涵了P2a，是一个更强的约束。但是根据P2b难以提出实现手段。因此需要进一步加强P2b。假设一个编号为m的value v已经获得批准（chosen），来看看在什么情况下对任何编号为n（n&gt;m）的提案都含有value v。因为m已经获得批准（chosen），显然存在一个acceptors的多数派C，他们都接受（accept）了v。考虑到任何多数派都和C具有至少一个公共成员，可以找到一个蕴涵P2b的约束P2c。</p>
-<p><strong>P2c：如果一个编号为n的提案具有value v，那么存在一个多数派，要么他们中所有人都没有接受（accept）编号小于n 的任何提案，要么他们已经接受（accept）的所有编号小于n的提案中编号最大的那个提案具有value v。</strong>可以用数学归纳法证明P2c蕴涵P2b，根据数学归纳法，我们证明了若满足P2c，则P2b一定满足。P2c是可以通过消息传递模型实现的。另外，引入了P2c后，也解决了前文提到的P1不完备的问题。</p>
+<p><strong>P1：一个acceptor必须接受（accept）第一次收到的提案。</strong></p>
+<p>注意P1是不完备的。如果恰好一半acceptor接受的提案具有value A，另一半接受的提案具有value B，那么就无法形成多数派，无法批准任何一个value。约束2并不要求只批准一个提案，暗示可能存在多个提案。只要提案的value是一样的，批准多个提案不违背约束2。于是可以产生约束P2。</p>
+<p><strong>P2：一旦一个具有value v的提案被批准（chosen），那么之后批准（chosen）的提案必须具有value v。</strong></p>
+<p>注：通过某种方法可以为每个提案分配一个编号，在提案之间建立一个全序关系，所谓“之后”都是指所有编号更大的提案。如果P1和P2都能够保证，那么约束2就能够保证。批准一个value意味着多个acceptor接受（accept）了该value.因此，可以对P2进行加强。</p>
+<p><strong>P2a：一旦一个具有value v的提案被批准（chosen），那么之后任何acceptor再次接受（accept）的提案必须具有value v。</strong> </p>
+<p>由于通信是异步的，P2a和P1会发生冲突。如果一个value被批准后，一个proposer和一个acceptor从休眠中苏醒，前者提出一个具有新的value的提案。根据P1，后者应当接受，根据P2a，则不应当接受，这中场景下P2a和P1有矛盾。于是需要换个思路，转而对proposer的行为进行约束。</p>
+<p><strong>P2b：一旦一个具有value v的提案被批准（chosen），那么以后任何proposer提出的提案必须具有value v。</strong></p>
+<p>由于acceptor能接受的提案都必须由proposer提出，所以P2b蕴涵了P2a，是一个更强的约束。但是根据P2b难以提出实现手段。因此需要进一步加强P2b。假设一个编号为m的value v已经获得批准（chosen），来看看在什么情况下对任何编号为n（n&gt;m）的提案都含有value v。因为m已经获得批准（chosen），显然存在一个acceptors的多数派C，他们都接受（accept）了v。考虑到任何多数派都和C具有至少一个公共成员，可以找到一个蕴涵P2b的约束P2c。</p>
+<p><strong>P2c：如果一个编号为n的提案具有value v，那么存在一个多数派，要么他们中所有人都没有接受（accept）编号小于n 的任何提案，要么他们已经接受（accept）的所有编号小于n的提案中编号最大的那个提案具有value v。</strong></p>
+<p>可以用数学归纳法证明P2c蕴涵P2b，根据数学归纳法，我们证明了若满足P2c，则P2b一定满足。假设具有value v的提案m获得批准，当n=m+1时，采用反证法，假如提案n不具有value v，而是具有value w，根据P2c，则存在一个多数派S1，要么他们中没有人接受过编号小于n的任何提案，要么他们已经接受的所有编号小于n的提案中编号最大的那个提案是value w。由于S1和通过提案m时的多数派C之间至少有一个公共的acceptor，所以以上两个条件都不成立，导出矛盾从而推翻假设，证明了提案n必须具有value v；若（m+1）..（N-1）所有提案都具有value v，采用反证法，假如新提案N不具有value v，而是具有value w’,根据P2c，则存在一个多数派S2，要么他们没有接受过m..（N-1）中的任何提案，要么他们已经接受的所有编号小于N的提案中编号最大的那个提案是value w’。由于S2和通过m的多数派C之间至少有一个公共的acceptor，所以至少有一个acceptor曾经接受了m，从而也可以推出S2中已接受的所有编号小于n的提案中编号最大的那个提案的编号范围在m..（N-1）之间，而根据初始假设，m..（N-1）之间的所有提案都具有value v，所以S2中已接受的所有编号小于n的提案中编号最大的那个提案肯定具有value v，导出矛盾从而推翻新提案n不具有value v的假设。根据数学归纳法，我们证明了若满足P2c，则P2b一定满足。P2c是可以通过消息传递模型实现的。另外，引入了P2c后，也解决了前文提到的P1不完备的问题。</p>
 <h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>前面看不懂没关系，那是论文中的内容，晦涩难懂，下面开始用大白话来剥开Paxos算法。用一句话总结就是：proposer将发起提案（value）给所有accpetor，超过半数同意(accpet)后，提案获得批准(chosen)，提案写入accpetor内，最终所有accpetor获得一致性的确定性取值，且后续不允许再修改。<strong>协议分为两大阶段，每个阶段又分为A/B两小步骤：</strong></p>
 
             </div>
