@@ -591,9 +591,9 @@
 </ol>
 <p>提案是Paxos算法的一个重要概念，一个提案中有两个值<strong>Proposal Number</strong>和<strong>Proposal Value</strong>，简称Number和Value。其中Number是每次提案的版本号，而Value是提案的值，在分布式系统中Value可以是一个具体的字段，一个文本，或是一个命令。下面是先贴上算法的官方描述，是算法保证一致性的基本语义：</p>
 <ol>
-<li><strong>决议（value）只有在被proposers提出后才能被批准（未经批准的决议称为“提案（proposal）”）；</strong></li>
-<li><strong>在一次Paxos算法的执行实例中，只批准（chosen）一个value；</strong></li>
-<li><strong>learners只能获得被批准（chosen）的value。</strong></li>
+<li>决议（value）只有在被proposers提出后才能被批准（未经批准的决议称为“提案（proposal）”）；</li>
+<li>在一次Paxos算法的执行实例中，只批准（chosen）一个value；</li>
+<li>learners只能获得被批准（chosen）的value。</li>
 </ol>
 <p>Paxos算法的作者Lamport通过不断加强上述3个约束（主要是第二个）获得了Paxos算法，因此又衍生出四个约束f分别是P1，P2，P2a，P2b，P2c。这也是Paxos算法的推导过程</p>
 <p><strong>P1：一个acceptor必须接受（accept）第一次收到的提案。</strong></p>
