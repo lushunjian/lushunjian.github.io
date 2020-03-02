@@ -633,7 +633,7 @@
 </ul>
 <p>由于新生代和老生代特点不同，新生代对象基本朝生夕死。针对这两个区域，产生不同的算法回收垃圾对象。</p>
 <h5 id="Scavenge-算法"><a href="#Scavenge-算法" class="headerlink" title="Scavenge 算法"></a>Scavenge 算法</h5><p>新生代中的对象主要通过 Scavenge 算法进行垃圾回收。Scavenge 的具体实现，主要采用了Cheney算法。Cheney算法采用复制的方式进行垃圾回收。它将堆内存一分为二，每一部分空间称为 semispace。这两个空间，只有一个空间处于使用中，另一个则处于闲置。使用中的 semispace 称为 「From 空间」，闲置的 semispace 称为 「To 空间」。Scavenge 算法的缺点是，它的算法机制决定了只能利用一半的内存空间。但是新生代中的对象生存周期短、存活对象少，进行对象复制的成本不是很高，因而非常适合这种场景。学过Java虚拟机的对此算法应该很熟悉，这个算法主要是为了避免STW时间太长<strong>（Stop The World ）</strong>。</p>
-<h5 id="Mark-Sweep"><a href="#Mark-Sweep" class="headerlink" title="Mark-Sweep"></a>Mark-Sweep</h5><p>老生代的算法主要有两个Mark-Sweep，是标记清除的意思。它主要分为标记和清除两个阶段。</p>
+<h5 id="Mark-Sweep"><a href="#Mark-Sweep" class="headerlink" title="Mark-Sweep"></a>Mark-Sweep</h5><p>老生代的算法主要有两个Mark-Sweep和Mark-Compact，是标记清除的意思。它主要分为标记和清除两个阶段。</p>
 <ul>
 <li>标记阶段，它将遍历堆中所有对象，并对存活的对象进行标记；</li>
 <li>清除阶段，对未标记对象的空间进行回收。</li>
