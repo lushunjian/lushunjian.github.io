@@ -846,38 +846,38 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token keyword">import</span> <span class="token string">'echarts/lib/chart/line'</span>
 Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token string">'chart'</span><span class="token punctuation">,</span> ECharts<span class="token punctuation">)</span></code></pre>
 <p>创建一个<code>HelloWorld.vue</code>测试一下，代码如下</p>
-<pre class=" language-php+HTML"><code class="language-php+HTML"><template>
-  <div class="hello">
-    <chart ref="chart1" :options="orgOptions" :auto-resize="true"></chart>
-  </div>
-</template>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"hello"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>chart ref<span class="token operator">=</span><span class="token string">"chart1"</span> <span class="token punctuation">:</span>options<span class="token operator">=</span><span class="token string">"orgOptions"</span> <span class="token punctuation">:</span>auto<span class="token operator">-</span>resize<span class="token operator">=</span><span class="token string">"true"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>chart<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      orgOptions: {},
-    }
-  },
-  mounted() {
-    this.orgOptions = {
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line',
-            smooth: true
-        }]
-    }
-  }
-}
-    </script></code></pre>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'HelloWorld'</span><span class="token punctuation">,</span>
+  data <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      orgOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>orgOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+        xAxis<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> <span class="token string">'category'</span><span class="token punctuation">,</span>
+            data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'Mon'</span><span class="token punctuation">,</span> <span class="token string">'Tue'</span><span class="token punctuation">,</span> <span class="token string">'Wed'</span><span class="token punctuation">,</span> <span class="token string">'Thu'</span><span class="token punctuation">,</span> <span class="token string">'Fri'</span><span class="token punctuation">,</span> <span class="token string">'Sat'</span><span class="token punctuation">,</span> <span class="token string">'Sun'</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        yAxis<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> <span class="token string">'value'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        series<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+            data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">820</span><span class="token punctuation">,</span> <span class="token number">932</span><span class="token punctuation">,</span> <span class="token number">901</span><span class="token punctuation">,</span> <span class="token number">934</span><span class="token punctuation">,</span> <span class="token number">1290</span><span class="token punctuation">,</span> <span class="token number">1330</span><span class="token punctuation">,</span> <span class="token number">1320</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            type<span class="token punctuation">:</span> <span class="token string">'line'</span><span class="token punctuation">,</span>
+            smooth<span class="token punctuation">:</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
 <p>到这里就结束了。是不是很简单，毕竟是别人造好的轮子，只管用就行了。</p>
 <h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>两种方式都能满足常规的开发需求。个人认为：</p>
 <ul>
