@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的游戏, 一寸灰">
-    <meta name="description" content="我的游戏 | 一寸灰">
+    <meta name="keywords" content="amr文件转mp3格式, 一寸灰">
+    <meta name="description" content="由于公司业务需求，需要做录音播放功能，简单来说就是业务员跟客户的通话记录会落地保存，然后需要用H5实现录音播放，但是录音文件保存的是amr格式，H5的audio标签不支持amr格式，需要把amr格式转mp3格式。于是去查了查相关格式转换的资">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的游戏 | 一寸灰</title>
+    <title>amr文件转mp3格式 | 一寸灰</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的游戏</h1>
+                    <h1 class="description center-align post-title">amr文件转mp3格式</h1>
                 </div>
             </div>
         </div>
@@ -530,12 +530,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%96%87%E4%BB%B6/">
+                                <span class="chip bg-color">文件</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/java/" class="post-category">
+                                java
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -561,329 +574,107 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>大部分男生都无法抗拒游戏的魅力</p>
-</blockquote>
+                <p>由于公司业务需求，需要做录音播放功能，简单来说就是业务员跟客户的通话记录会落地保存，然后需要用H5实现录音播放，但是录音文件保存的是amr格式，H5的audio标签不支持amr格式，需要把amr格式转mp3格式。于是去查了查相关格式转换的资料，发现前端JS有类似的工具包，但后来想想这格式转换的事情还是给后端做比较合理吧，便在github上搜了半天找到两个Java的转码包，他们都是基于ffmpeg做的封装，兼容了Windos和Linux系统，话不多说，直接开干吧。</p>
+<p><img src="/2020/03/17/amr-wen-jian-zhuan-mp3-ge-shi/1.jpg" alt></p>
+<h2 id="方式一：JAVE包"><a href="#方式一：JAVE包" class="headerlink" title="方式一：JAVE包"></a>方式一：JAVE包</h2><p>jave项目实际上早就有了，它封装了 <a href="http://ffmpeg.org/" target="_blank" rel="noopener">ffmpeg</a> 的命令，让开发者可以<strong>通过 Java 转换文件格式</strong>。不幸的是，这个项目可谓年久失修，存在一些问题，<strong>JAVE 项目的问题：</strong></p>
+<ol>
+<li><strong>项目老旧没再维护</strong>。官网最近版本是2009年发布的，其依赖的ffmpeg早已过时，很多情况下用不了。</li>
+<li><strong>转码一直报异常</strong> EncoderException: Stream mapping</li>
+<li><strong>没有发布maven仓库</strong>，而且 JAVE 本身也不是一个maven项目</li>
+<li><strong>不支持Mac OS</strong></li>
+</ol>
+<p>不过这里介绍的是一位开发者根据网上的资料进行整理和修改，并基于 JAVE 项目的修改和升级。同时将写好的轮子发布到了Maven的中央仓库，<a href="https://github.com/dadiyang/jave" target="_blank" rel="noopener">github项目地址</a>，项目特点如下：</p>
+<ul>
+<li><strong>这是一个maven项目</strong>，而且已发布到中央仓库。</li>
+<li>项目依赖的 ffmpeg 可执行文件<strong>经过验证可以使用</strong>（单元测试中提供了一个简单的检验方法）</li>
+<li>解决了amr转mp3出现的 <strong>EncoderException: Stream mapping</strong></li>
+<li>支持 <strong>Linux/Windows/Mac</strong> 平台</li>
+</ul>
+<p>使用方式也很简单，代码如下</p>
+<h3 id="引入maven依赖"><a href="#引入maven依赖" class="headerlink" title="引入maven依赖"></a>引入maven依赖</h3><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.github.dadiyang<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jave<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.0.6<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<h3 id="调用-AudioUtils-amrToMp3-方法"><a href="#调用-AudioUtils-amrToMp3-方法" class="headerlink" title="调用 AudioUtils.amrToMp3 方法"></a>调用 AudioUtils.amrToMp3 方法</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">amrToMp3</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token punctuation">{</span>
+    File source <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"target/test-classes/material/testAudio.amr"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    File target <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"testAudio.mp3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    AudioUtils<span class="token punctuation">.</span><span class="token function">amrToMp3</span><span class="token punctuation">(</span>source<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这个jar包本人在windows10上测试过，确实可行。</p>
+<h2 id="方式二：JAVE2包"><a href="#方式二：JAVE2包" class="headerlink" title="方式二：JAVE2包"></a>方式二：JAVE2包</h2><p>这个开源项目也是在github上发现的，同样是基于ffmpeg实现（ffmpeg是C语言实现，不同的OS有所区别），不过看起来像是JAVE的升级版，不知道作者是不是一个人，JAVE2不仅仅支持音频还支持视频转码，可谓更加强大。JAVE2（Java音频视频编码器）库是ffmpeg项目上的Java包装器。开发人员可以利用JAVE2将音频和视频文件从一种格式转换到另一种格式。例如，可以将AVI文件转换为MPEG文件，可以将DivX视频流更改为（类似于youtube的）Flash FLV文件，可以将WAV音频文件转换为MP3或Ogg Vorbis文件，可以分离和转换音频和视频轨迹，可以调整视频大小，更改其大小和比例等。</p>
+<h3 id="环境支持"><a href="#环境支持" class="headerlink" title="环境支持"></a>环境支持</h3><p>JAVE2 需要 <strong>Java 8 or higher</strong>，JAVE2可以支持在哪些OS上格式转码呢</p>
+<table>
+<thead>
+<tr>
+<th>操作系统</th>
+<th>Windows x32,x64</th>
+<th>MacOS x32,x64</th>
+<th>Linux x32,x64</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>是否支持</strong></td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>在使用上JAVE2做了很多定制化需求，例如在引入时，就可以根据不同OS按需引入</p>
+<h3 id="引入maven依赖-1"><a href="#引入maven依赖-1" class="headerlink" title="引入maven依赖"></a>引入maven依赖</h3><h5 id="全平台依赖引入"><a href="#全平台依赖引入" class="headerlink" title="全平台依赖引入"></a>全平台依赖引入</h5><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>ws.schild<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jave-all-deps<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<p>这样引入包括了支持平台的所有二进制文件，一劳永逸。</p>
+<h5 id="单个平台引入"><a href="#单个平台引入" class="headerlink" title="单个平台引入"></a>单个平台引入</h5><p>当我们只想在Linux上运行时，我们可以只引入Linux的二进制文件，从而达到减少依赖的目的。当我们只想引入某一个平台的二进制文件时可以这样做，首先引入核心包，这个是所有平台都必须引入的</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>ws.schild<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jave-core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>Linux 64位</strong></p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>ws.schild<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jave-nativebin-linux64<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>Windows 64位</strong></p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>ws.schild<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jave-nativebin-win64<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>MacOS 64位</strong></p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>ws.schild<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jave-nativebin-osx64<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<h3 id="代码使用例子"><a href="#代码使用例子" class="headerlink" title="代码使用例子"></a>代码使用例子</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">try</span> <span class="token punctuation">{</span>                                                         
+ File source <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"file path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                         
+ File target <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>"file path<span class="token punctuation">)</span><span class="token punctuation">;</span>                         
 
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
+     <span class="token comment" spellcheck="true">//Audio Attributes                                       </span>
+ AudioAttributes audio <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AudioAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>              
+ audio<span class="token punctuation">.</span><span class="token function">setCodec</span><span class="token punctuation">(</span><span class="token string">"libmp3lame"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                               
+ audio<span class="token punctuation">.</span><span class="token function">setBitRate</span><span class="token punctuation">(</span><span class="token number">128000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                   
+ audio<span class="token punctuation">.</span><span class="token function">setChannels</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                       
+ audio<span class="token punctuation">.</span><span class="token function">setSamplingRate</span><span class="token punctuation">(</span><span class="token number">44100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                               
 
-.hexo-douban-tab {
-    padding: 5px;
-}
+ <span class="token comment" spellcheck="true">//Encoding attributes                                       </span>
+ EncodingAttributes attrs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EncodingAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        
+ attrs<span class="token punctuation">.</span><span class="token function">setFormat</span><span class="token punctuation">(</span><span class="token string">"mp3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                     
+ attrs<span class="token punctuation">.</span><span class="token function">setAudioAttributes</span><span class="token punctuation">(</span>audio<span class="token punctuation">)</span><span class="token punctuation">;</span>                            
 
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
+ <span class="token comment" spellcheck="true">//Encode                                                    </span>
+ Encoder encoder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Encoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                            
+ encoder<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MultimediaObject</span><span class="token punctuation">(</span>source<span class="token punctuation">)</span><span class="token punctuation">,</span> target<span class="token punctuation">,</span> attrs<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
-
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
-    }
-}
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <span class="hexo-douban-tab" id="hexo-douban-tab1" style="color: #42b983;cursor:pointer;"
-       rel="external">
-        Playing
-        (0)</span>
-    <span class="hexo-douban-tab" id="hexo-douban-tab2" style="color: #42b983;cursor:pointer;"
-       rel="external">
-        Wish
-        (0)</span>
-    <span class="hexo-douban-tab" id="hexo-douban-tab3" style="color: #42b983;cursor:pointer;"
-       rel="external">
-        Played
-        (6)</span>
-
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-pagination">
-    <span class="hexo-douban-button hexo-douban-firstpage" style="color: #42b983;cursor:pointer;" > Top</span>
-    <span class="hexo-douban-button hexo-douban-previouspage" style="color: #42b983;cursor:pointer;" >Prev</span>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <span class="hexo-douban-button hexo-douban-nextpage" style="color: #42b983;cursor:pointer;" >Next</span>
-    <span class="hexo-douban-button hexo-douban-lastpage" style="color: #42b983;cursor:pointer;" >End</span>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-pagination">
-    <span class="hexo-douban-button hexo-douban-firstpage" style="color: #42b983;cursor:pointer;" > Top</span>
-    <span class="hexo-douban-button hexo-douban-previouspage" style="color: #42b983;cursor:pointer;" >Prev</span>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <span class="hexo-douban-button hexo-douban-nextpage" style="color: #42b983;cursor:pointer;" >Next</span>
-    <span class="hexo-douban-button hexo-douban-lastpage" style="color: #42b983;cursor:pointer;" >End</span>
-</div>
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s27258549.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/25865152/">纪念碑谷 Monument Valley</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  手游 神作 独立游戏 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 惊叹作者的奇思构想，画风很美。里面的关卡是在真实三维世界不可能存在的，很赞</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s21863858.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/19956598/">逆战 AssaultFire</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  FPS 塔防 射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 大学时开始玩的设计游戏，最喜欢玩这个游戏的机甲模式，使用机甲打怪兽，简直不要太爽，燃爆了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29342102.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10740751/">穿越火线 크로스파이어</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  射击 CF 第一人称射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 穿越火线当年火到不行，初中玩的第一个游戏。还记得当年网吧通宵打幽灵生化模式，好像就在昨天。当初最想要的就是一把军斧，没舍得买，哈哈</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29003601.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10829706/">QQ飞车</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  赛车 网游 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 初中就开始玩的游戏，以前网吧通宵总会跑几个小时，怀恋琳琅天上的飞车</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28783216.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/26775340/">英雄联盟 League of Legends</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  策略 塔防 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 策略塔防，和好兄弟开黑必玩，直到现在依旧很火的游戏</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s10321409.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10793961/">剑灵 블레이드&amp;소울</a>
-        </div>
-        <div class="hexo-douban-meta">2019-01-15 /  角色扮演 剑灵 腾讯 /  </div>
-        <div class="hexo-douban-comments"> 游戏不管是画面，剧情，副本，时装都是我玩过的最好的一款游戏，相当不错。不过腾讯游戏你知道的，变着法子圈钱，导致玩家流失严重。只能怀念怀念了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-pagination">
-    <span class="hexo-douban-button hexo-douban-firstpage" style="color: #42b983;cursor:pointer;" > Top</span>
-    <span class="hexo-douban-button hexo-douban-previouspage" style="color: #42b983;cursor:pointer;" >Prev</span>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <span class="hexo-douban-button hexo-douban-nextpage" style="color: #42b983;cursor:pointer;" >Next</span>
-    <span class="hexo-douban-button hexo-douban-lastpage" style="color: #42b983;cursor:pointer;" >End</span>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
- 
-
-</script>
-
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>                                      
+ ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                       
+ succeeded <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>                                          
+<span class="token punctuation">}</span>               </code></pre>
 
             </div>
             <hr/>
@@ -909,7 +700,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/games/index.html">https://lushunjian.gitee.io/games/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2020/03/17/amr-wen-jian-zhuan-mp3-ge-shi/">https://lushunjian.gitee.io/2020/03/17/amr-wen-jian-zhuan-mp3-ge-shi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -946,7 +737,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/%E6%96%87%E4%BB%B6/">
+                                    <span class="chip bg-color">文件</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1378,30 +1173,19 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/03/17/amr-wen-jian-zhuan-mp3-ge-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="amr文件转mp3格式">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">amr文件转mp3格式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            由于公司业务需求，需要做录音播放功能，简单来说就是业务员跟客户的通话记录会落地保存，然后需要用H5实现录音播放，但是录音文件保存的是amr格式，H5的audio标签不支持amr格式，需要把amr格式转mp3格式。于是去查了查相关格式转换的资
                         
                     </div>
                     <div class="publish-info">
@@ -1410,13 +1194,25 @@ for (var i = 0; i < firstpages.length; i++) {
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            John Doe
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">文件</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1424,48 +1220,48 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/03/15/da-jian-ant-design-pro-xiang-mu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="搭建Ant-Design-Pro项目">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">搭建Ant-Design-Pro项目</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                             最近公司项目使用了ant design pro，从没接触过react的我只能趁着周末学习熟悉，赶紧上手。（都是泪。。）说到ant design pro，得先了解一下ant design是个什么东西？ant design蚂蚁金服基于reac
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            John Doe
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/react/">
+                        <span class="chip bg-color">react</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
