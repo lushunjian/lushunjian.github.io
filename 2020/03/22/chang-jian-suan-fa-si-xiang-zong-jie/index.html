@@ -710,7 +710,7 @@
 
 　　　　　　　　　　_ 　_
 
-　　　　　　　　　　   +</code></pre><p>在一般情况下，符号三角形第一行有N个符号，该问题要求对于给定n计算有多少种不同的符号三角形。使其所含的+  — 个数相同。</p>
+　　　　　　　　　　  +</code></pre><p>在一般情况下，符号三角形第一行有N个符号，该问题要求对于给定n计算有多少种不同的符号三角形。使其所含的+  — 个数相同。</p>
 </li>
 </ul>
 <h3 id="递归回溯算法模板"><a href="#递归回溯算法模板" class="headerlink" title="递归回溯算法模板"></a>递归回溯算法模板</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">backtrack</span><span class="token punctuation">(</span><span class="token keyword">int</span> t<span class="token punctuation">)</span>          <span class="token comment" spellcheck="true">//t表示递归深度，即当前扩展节点在解空间树的深度</span>
@@ -729,7 +729,7 @@
          <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h2 id="概率算法思想"><a href="#概率算法思想" class="headerlink" title="概率算法思想"></a>概率算法思想</h2><p>概率算法依照概率统计的思路来求解问题，往往不能得到问题的精确解，但却在数值计算领域得到了广泛的应用。因为很多数学问题，往往没有或者很难计算解析解，这时便需要通过数值计算来求解近似值。</p>
+<h2 id="8-概率算法思想"><a href="#8-概率算法思想" class="headerlink" title="8.概率算法思想"></a>8.概率算法思想</h2><p>概率算法依照概率统计的思路来求解问题，往往不能得到问题的精确解，但却在数值计算领域得到了广泛的应用。因为很多数学问题，往往没有或者很难计算解析解，这时便需要通过数值计算来求解近似值。</p>
 <h3 id="基本思想-6"><a href="#基本思想-6" class="headerlink" title="基本思想"></a>基本思想</h3><p>通过概率统计来求解问题，但是不能求解精准答案，概率算法大致分为如下4中形式：</p>
 <ul>
 <li>数值概率算法；</li>
@@ -747,7 +747,7 @@
 <h3 id="经典例子-6"><a href="#经典例子-6" class="headerlink" title="经典例子"></a>经典例子</h3><ul>
 <li><strong>蒙特卡罗计算圆周率</strong></li>
 </ul>
-<h2 id="双指针思想"><a href="#双指针思想" class="headerlink" title="双指针思想"></a>双指针思想</h2><p>一般暴力的做法的复杂度往往达到O(n^2）复杂度，双指针算法是运用题目内部的具体逻辑将上述算法的复杂度降到O(n)，是一种常用的有效的降低算法复杂度的算法思想</p>
+<h2 id="9-双指针思想"><a href="#9-双指针思想" class="headerlink" title="9.双指针思想"></a>9.双指针思想</h2><p>一般暴力的做法的复杂度往往达到O(n^2）复杂度，双指针算法是运用题目内部的具体逻辑将上述算法的复杂度降到O(n)，是一种常用的有效的降低算法复杂度的算法思想</p>
 <h3 id="基本思想-7"><a href="#基本思想-7" class="headerlink" title="基本思想"></a>基本思想</h3><p>双指针其实是利用数组（或者求解问题）的有序特性，在遍历的过程中使用两个相同方向或者相反方向的指针进行扫描，从而达到目的的一种算法。（注：这里的指针并非专指c语言中的指针，表达的含义是下标、索引值或者是可进行迭代的对象等）</p>
 <h3 id="算法模板"><a href="#算法模板" class="headerlink" title="算法模板"></a>算法模板</h3><p>我们常见的一般的二重循环如下：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
