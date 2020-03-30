@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="element-ui实现二级下拉多选框, 一寸灰">
+    <meta name="keywords" content="element-ui实现二级多选框, 一寸灰">
     <meta name="description" content="最近公司做项目碰到个需求，要实现一个二级下拉的多选框，并且实现选中一级条目时，此条目下的二级条目全选和全不选的功能。全选和全不选倒简单通过JS实现一下就行了，最主要的是elementUI没有现成的二级多选下拉框，因此首先需要实现一个多选二级">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>element-ui实现二级下拉多选框 | 一寸灰</title>
+    <title>element-ui实现二级多选框 | 一寸灰</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">element-ui实现二级下拉多选框</h1>
+                    <h1 class="description center-align post-title">element-ui实现二级多选框</h1>
                 </div>
             </div>
         </div>
@@ -575,11 +575,11 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>最近公司做项目碰到个需求，要实现一个二级下拉的多选框，并且实现选中一级条目时，此条目下的二级条目全选和全不选的功能。全选和全不选倒简单通过JS实现一下就行了，最主要的是elementUI没有现成的二级多选下拉框，因此首先需要实现一个多选二级下拉框。经过多方查阅资料，终于找到了elementUI有一个el-pot-right的class样式。这个样式可以实现在某个选项后面出现二级面板。在实现过程费了不少劲，故在此记录一下</p>
-<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/1.jpg" alt></p>
+<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-duo-xuan-kuang/1.jpg" alt></p>
 <h2 id="Select-选择器"><a href="#Select-选择器" class="headerlink" title="Select 选择器"></a>Select 选择器</h2><p>在做之前我在CSDN找了一下，发现基本都是两个下拉框然后实现二级联动，类似第一个框选择省份，第二个框自动出现该省份下对应的所有城市。比如下面这样的</p>
-<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/5.gif" alt></p>
+<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-duo-xuan-kuang/5.gif" alt></p>
 <p>而我实际上想要这样的效果（下面这图是我已经做好的）</p>
-<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/4.gif" alt></p>
+<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-duo-xuan-kuang/4.gif" alt></p>
 <p>话不多说直接上代码吧，这里用到了select框的multiple和collapse-tags两个属性，multiple是实现下拉框可多选，collapse-tags是实现当多选时，只展示一个条目多余的显示数字累加。同时我把el-select套了一层封装自定义组件，并通过v-model可以直接获取到选择的值，这里就涉及到vue组件的一个高级用法了，自定义组件怎么绑定v-model。一般父子组件中，当子组件中的一些input框，select框值发生改变，向父组件返回这些改变的值是是通过监听函数的方式，而如果仅仅只是返回一个object时，用v-model更加方便。话不多说，直接上代码吧</p>
 <h2 id="定义MySelect组件"><a href="#定义MySelect组件" class="headerlink" title="定义MySelect组件"></a>定义MySelect组件</h2><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
@@ -799,7 +799,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/">https://lushunjian.gitee.io/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/</a>
+                    <a href="https://lushunjian.gitee.io/2020/03/30/element-ui-shi-xian-er-ji-duo-xuan-kuang/">https://lushunjian.gitee.io/2020/03/30/element-ui-shi-xian-er-ji-duo-xuan-kuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1272,13 +1272,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/">
+                <a href="/2020/03/30/element-ui-shi-xian-er-ji-duo-xuan-kuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="element-ui实现二级下拉多选框">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="element-ui实现二级多选框">
                         
-                        <span class="card-title">element-ui实现二级下拉多选框</span>
+                        <span class="card-title">element-ui实现二级多选框</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
