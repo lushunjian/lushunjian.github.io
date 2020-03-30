@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的游戏, 一寸灰">
-    <meta name="description" content="我的游戏 | 一寸灰">
+    <meta name="keywords" content="element-ui实现二级下拉多选框, 一寸灰">
+    <meta name="description" content="最近公司做项目碰到个需求，要实现一个二级下拉的多选框，并且实现选中一级条目时，此条目下的二级条目全选和全不选的功能。全选和全不选倒简单通过JS实现一下就行了，最主要的是elementUI没有现成的二级多选下拉框，因此首先需要实现一个多选二级">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的游戏 | 一寸灰</title>
+    <title>element-ui实现二级下拉多选框 | 一寸灰</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的游戏</h1>
+                    <h1 class="description center-align post-title">element-ui实现二级下拉多选框</h1>
                 </div>
             </div>
         </div>
@@ -530,12 +530,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/vue/">
+                                <span class="chip bg-color">vue</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -561,329 +574,206 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>大部分男生都无法抗拒游戏的魅力</p>
-</blockquote>
+                <p>最近公司做项目碰到个需求，要实现一个二级下拉的多选框，并且实现选中一级条目时，此条目下的二级条目全选和全不选的功能。全选和全不选倒简单通过JS实现一下就行了，最主要的是elementUI没有现成的二级多选下拉框，因此首先需要实现一个多选二级下拉框。经过多方查阅资料，终于找到了elementUI有一个el-pot-right的class样式。这个样式可以实现在某个选项后面出现二级面板。在实现过程费了不少劲，故在此记录一下</p>
+<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/1.jpg" alt></p>
+<h2 id="Select-选择器"><a href="#Select-选择器" class="headerlink" title="Select 选择器"></a>Select 选择器</h2><p>在做之前我在CSDN找了一下，发现基本都是两个下拉框然后实现二级联动，类似第一个框选择省份，第二个框自动出现该省份下对应的所有城市。比如下面这样的</p>
+<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/5.gif" alt></p>
+<p>而我实际上想要这样的效果（下面这图是我已经做好的）</p>
+<p><img src="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/4.gif" alt></p>
+<p>话不多说直接上代码吧，这里用到了select框的multiple和collapse-tags两个属性，multiple是实现下拉框可多选，collapse-tags是实现当多选时，只展示一个条目多余的显示数字累加。同时我把el-select套了一层封装自定义组件，并通过v-model可以直接获取到选择的值，这里就涉及到vue组件的一个高级用法了，自定义组件怎么绑定v-model。一般父子组件中，当子组件中的一些input框，select框值发生改变，向父组件返回这些改变的值是是通过监听函数的方式，而如果仅仅只是返回一个object时，用v-model更加方便。话不多说，直接上代码吧</p>
+<h2 id="定义MySelect组件"><a href="#定义MySelect组件" class="headerlink" title="定义MySelect组件"></a>定义MySelect组件</h2><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-select</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectData<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">collapse-tags</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>请选择<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>select-item<span class="token punctuation">"</span></span> <span class="token attr-name">@change</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>changeData<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-option</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item1 in treeData<span class="token punctuation">"</span></span>
+                   <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item1.value<span class="token punctuation">"</span></span>
+                   <span class="token attr-name">:label</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item1.label<span class="token punctuation">"</span></span>
+                   <span class="token attr-name">:value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item1.value<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{item1.label}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>el-pot-right<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-option</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item2 in item1.children<span class="token punctuation">"</span></span>
+                       <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item2.value<span class="token punctuation">"</span></span>
+                       <span class="token attr-name">:label</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item2.label<span class="token punctuation">"</span></span>
+                       <span class="token attr-name">:value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item2.value<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{item2.label}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-option</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-option</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-select</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
+    <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span><span class="token string">'my-select'</span><span class="token punctuation">,</span>
+        model<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            prop<span class="token punctuation">:</span> <span class="token string">'data'</span><span class="token punctuation">,</span>
+            event<span class="token punctuation">:</span> <span class="token string">'revert'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        props<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            treeData<span class="token punctuation">:</span><span class="token punctuation">{</span>
+                type<span class="token punctuation">:</span> Array<span class="token punctuation">,</span>
+                <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+                selectData<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+            <span class="token function">changeData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'revert'</span><span class="token punctuation">,</span><span class="token keyword">this</span><span class="token punctuation">.</span>selectData<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style language-css">
+  <span class="token selector"><span class="token class">.el-pot-right</span></span><span class="token punctuation">{</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+    <span class="token property">top</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token property">right</span><span class="token punctuation">:</span> -<span class="token number">105%</span><span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token hexcode">#FFF</span><span class="token punctuation">;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#E4E7ED</span><span class="token punctuation">;</span>
+    <span class="token property">box-shadow</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">2</span>px <span class="token number">12</span>px <span class="token number">0</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">.1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+    <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">4</span>px<span class="token punctuation">;</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">5</span>px <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.is-multiple</span> <span class="token class">.el-scrollbar</span></span><span class="token punctuation">{</span>
+    <span class="token property">overflow</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.is-multiple</span> <span class="token class">.el-scrollbar__wrap</span></span><span class="token punctuation">{</span>
+    <span class="token property">overflow</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>
+    <span class="token property">margin-right</span><span class="token punctuation">:</span><span class="token number">0</span> <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.is-multiple</span> <span class="token class">.el-select-dropdown__item</span></span><span class="token punctuation">{</span>
+    <span class="token property">overflow</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.is-multiple</span> <span class="token class">.el-select-dropdown__item</span>><span class="token class">.el-pot-right</span><span class="token pseudo-class">:hover</span></span><span class="token punctuation">{</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.is-multiple</span> <span class="token class">.el-select-dropdown__item.hover</span>><span class="token class">.el-pot-right</span></span><span class="token punctuation">{</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.is-multiple</span> <span class="token class">.el-scrollbar__bar</span></span><span class="token punctuation">{</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> none <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span><span class="token number">0</span> <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+</code></pre>
+<h2 id="引用MySelect组件"><a href="#引用MySelect组件" class="headerlink" title="引用MySelect组件"></a>引用MySelect组件</h2><p>在表单或是div中引用MySelect组件</p>
+<pre class=" language-javascript"><code class="language-javascript"> <span class="token operator">&lt;</span>template<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+         <span class="token operator">&lt;</span>el<span class="token operator">-</span>col <span class="token punctuation">:</span>span<span class="token operator">=</span><span class="token string">"11"</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>my<span class="token operator">-</span>select <span class="token punctuation">:</span>tree<span class="token operator">-</span>data<span class="token operator">=</span><span class="token string">"treeData"</span> v<span class="token operator">-</span>model<span class="token operator">=</span><span class="token string">"treeDataList"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>my<span class="token operator">-</span>select<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>col<span class="token operator">></span>
+          <span class="token operator">&lt;</span>el<span class="token operator">-</span>col <span class="token punctuation">:</span>span<span class="token operator">=</span><span class="token string">"11"</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>el<span class="token operator">-</span>button @click<span class="token operator">=</span><span class="token string">"getSelectData"</span><span class="token operator">></span>取值<span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>button<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>col<span class="token operator">></span>
+     <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+ <span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-.hexo-douban-tab {
-    padding: 5px;
-}
+ <span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/ecmascript-6"</span><span class="token operator">></span>
+  <span class="token keyword">import</span> MySelect <span class="token keyword">from</span> <span class="token string">'../sub/MySelect.vue'</span>
 
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
-
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
-    }
-}
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <span class="hexo-douban-tab" id="hexo-douban-tab1" style="color: #42b983;cursor:pointer;"
-       rel="external">
-        Playing
-        (0)</span>
-    <span class="hexo-douban-tab" id="hexo-douban-tab2" style="color: #42b983;cursor:pointer;"
-       rel="external">
-        Wish
-        (0)</span>
-    <span class="hexo-douban-tab" id="hexo-douban-tab3" style="color: #42b983;cursor:pointer;"
-       rel="external">
-        Played
-        (6)</span>
-
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-pagination">
-    <span class="hexo-douban-button hexo-douban-firstpage" style="color: #42b983;cursor:pointer;" > Top</span>
-    <span class="hexo-douban-button hexo-douban-previouspage" style="color: #42b983;cursor:pointer;" >Prev</span>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <span class="hexo-douban-button hexo-douban-nextpage" style="color: #42b983;cursor:pointer;" >Next</span>
-    <span class="hexo-douban-button hexo-douban-lastpage" style="color: #42b983;cursor:pointer;" >End</span>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-pagination">
-    <span class="hexo-douban-button hexo-douban-firstpage" style="color: #42b983;cursor:pointer;" > Top</span>
-    <span class="hexo-douban-button hexo-douban-previouspage" style="color: #42b983;cursor:pointer;" >Prev</span>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <span class="hexo-douban-button hexo-douban-nextpage" style="color: #42b983;cursor:pointer;" >Next</span>
-    <span class="hexo-douban-button hexo-douban-lastpage" style="color: #42b983;cursor:pointer;" >End</span>
-</div>
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28384635.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/25865152/">纪念碑谷 Monument Valley</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  手游 神作 独立游戏 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 惊叹作者的奇思构想，画风很美。里面的关卡是在真实三维世界不可能存在的，很赞</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s21863858.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/19956598/">逆战 AssaultFire</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  FPS 塔防 射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 大学时开始玩的设计游戏，最喜欢玩这个游戏的机甲模式，使用机甲打怪兽，简直不要太爽，燃爆了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29342102.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10740751/">穿越火线 크로스파이어</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  射击 CF 第一人称射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 穿越火线当年火到不行，初中玩的第一个游戏。还记得当年网吧通宵打幽灵生化模式，好像就在昨天。当初最想要的就是一把军斧，没舍得买，哈哈</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29003601.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10829706/">QQ飞车</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  赛车 网游 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 初中就开始玩的游戏，以前网吧通宵总会跑几个小时，怀恋琳琅天上的飞车</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28783216.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/26775340/">英雄联盟 League of Legends</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  策略 塔防 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 策略塔防，和好兄弟开黑必玩，直到现在依旧很火的游戏</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img style="margin-top: 0px;margin-bottom: 0px;" src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s10321409.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10793961/">剑灵 블레이드&amp;소울</a>
-        </div>
-        <div class="hexo-douban-meta">2019-01-15 /  角色扮演 剑灵 腾讯 /  </div>
-        <div class="hexo-douban-comments"> 游戏不管是画面，剧情，副本，时装都是我玩过的最好的一款游戏，相当不错。不过腾讯游戏你知道的，变着法子圈钱，导致玩家流失严重。只能怀念怀念了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-pagination">
-    <span class="hexo-douban-button hexo-douban-firstpage" style="color: #42b983;cursor:pointer;" > Top</span>
-    <span class="hexo-douban-button hexo-douban-previouspage" style="color: #42b983;cursor:pointer;" >Prev</span>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <span class="hexo-douban-button hexo-douban-nextpage" style="color: #42b983;cursor:pointer;" >Next</span>
-    <span class="hexo-douban-button hexo-douban-lastpage" style="color: #42b983;cursor:pointer;" >End</span>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
- 
-
-</script>
-
+    <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+        components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            MySelect
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+                treeDataList<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                treeData<span class="token punctuation">:</span><span class="token punctuation">[</span>
+                    <span class="token punctuation">{</span>
+                        label<span class="token punctuation">:</span><span class="token string">"熟食类"</span><span class="token punctuation">,</span>
+                        value<span class="token punctuation">:</span><span class="token string">"cooked"</span><span class="token punctuation">,</span>
+                        children<span class="token punctuation">:</span><span class="token punctuation">[</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"炸鸡腿"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"drumstick"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"辣条"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"strips"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"小鱼干"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"fillet"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"老干妈"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"old"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"烤面包"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"bao"</span>
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">]</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                    <span class="token punctuation">{</span>
+                        label<span class="token punctuation">:</span><span class="token string">"炒货类"</span><span class="token punctuation">,</span>
+                        value<span class="token punctuation">:</span><span class="token string">"mast"</span><span class="token punctuation">,</span>
+                        children<span class="token punctuation">:</span><span class="token punctuation">[</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"杏仁"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"almond"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"腰果"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"cashew"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"夏威夷果"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"macadamia"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"开心果"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"pistachio"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"核桃"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"walnut"</span>
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">]</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                    <span class="token punctuation">{</span>
+                        label<span class="token punctuation">:</span><span class="token string">"水果类"</span><span class="token punctuation">,</span>
+                        value<span class="token punctuation">:</span><span class="token string">"fruit"</span><span class="token punctuation">,</span>
+                        children<span class="token punctuation">:</span><span class="token punctuation">[</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"苹果"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"apple"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"香蕉"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"banana"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"菠萝"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"pineapple"</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">{</span>
+                                label<span class="token punctuation">:</span><span class="token string">"草莓"</span><span class="token punctuation">,</span>
+                                value<span class="token punctuation">:</span><span class="token string">"strawberry"</span>
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">]</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token function">getSelectData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'--------------------'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>treeDataList<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>大功告成，比较难的就是自定义组件的v-model用法，剩下的就是一些css样式的美化，二级多选框的数据结构定义是一颗树，可在组件初始化时，通过入参传进去。</p>
 
             </div>
             <hr/>
@@ -909,7 +799,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/games/index.html">https://lushunjian.gitee.io/games/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/">https://lushunjian.gitee.io/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -946,7 +836,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/vue/">
+                                    <span class="chip bg-color">vue</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1378,30 +1272,19 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/03/30/element-ui-shi-xian-er-ji-xia-la-duo-xuan-kuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="element-ui实现二级下拉多选框">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">element-ui实现二级下拉多选框</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            最近公司做项目碰到个需求，要实现一个二级下拉的多选框，并且实现选中一级条目时，此条目下的二级条目全选和全不选的功能。全选和全不选倒简单通过JS实现一下就行了，最主要的是elementUI没有现成的二级多选下拉框，因此首先需要实现一个多选二级
                         
                     </div>
                     <div class="publish-info">
@@ -1410,13 +1293,25 @@ for (var i = 0; i < firstpages.length; i++) {
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            John Doe
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/vue/">
+                        <span class="chip bg-color">vue</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1424,48 +1319,48 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/03/28/python-de-ji-ben-gai-nian-he-yu-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="python的基本概念和语法">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">python的基本概念和语法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            随着人工智能的发展，python语言也越来越受到青睐。逐渐成为了人工智能领域的首选编程语言，实际上python不仅在人工智能领域应用广泛，同样可以用于服务端开发（虽然服务端是Java的主场）。目前Python是排名前3的最受欢迎和增长最快的
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-28
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            John Doe
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/python/" class="post-category">
+                                    python
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
