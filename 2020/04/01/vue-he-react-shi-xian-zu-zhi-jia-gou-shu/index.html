@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="vue和react的组织架构树, 一寸灰">
+    <meta name="keywords" content="vue和react实现组织架构树, 一寸灰">
     <meta name="description" content="公司项目需求，要在页面中实现一个公司组织架构图，并实现每个节点可以通过点击事件增加子节点，删除子节点。当时首先想到的是用echart的树图实现，但是echart的树图的节点不能自定义样式，而且点击事件也不是那么方便，于是就放弃了。然后在gi">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>vue和react的组织架构树 | 一寸灰</title>
+    <title>vue和react实现组织架构树 | 一寸灰</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/25.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">vue和react的组织架构树</h1>
+                    <h1 class="description center-align post-title">vue和react实现组织架构树</h1>
                 </div>
             </div>
         </div>
@@ -575,7 +575,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>公司项目需求，要在页面中实现一个公司组织架构图，并实现每个节点可以通过点击事件增加子节点，删除子节点。当时首先想到的是用echart的树图实现，但是echart的树图的节点不能自定义样式，而且点击事件也不是那么方便，于是就放弃了。然后在github上找找轮子，发现两个轻量的组织架构树组件，一个是vue版本，另一个是react版本的。在此记录一下使用步骤。</p>
-<p><img src="/2020/04/01/vue-he-react-de-zu-zhi-jia-gou-shu/1.jpg" alt></p>
+<p><img src="/2020/04/01/vue-he-react-shi-xian-zu-zhi-jia-gou-shu/1.jpg" alt></p>
 <h2 id="vue版本"><a href="#vue版本" class="headerlink" title="vue版本"></a>vue版本</h2><p>vue-org-tree ：这是一个纯vue版本，我喜欢它的缩进方式和样式，同时它也是github上星星最多的。它只是相当于提供了模板，要实现自己的功能需要对插件进行改造。<a href="https://github.com/hukaibaihu/vue-org-tree" target="_blank" rel="noopener">github项目地址</a></p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre class=" language-shell"><code class="language-shell">npm install --save-dev vue2-org-tree
 
@@ -604,7 +604,7 @@ npm install --save-dev less less-loader</code></pre>
         window<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><img src="/2020/04/01/vue-he-react-de-zu-zhi-jia-gou-shu/2.png" alt></p>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><img src="/2020/04/01/vue-he-react-shi-xian-zu-zhi-jia-gou-shu/2.png" alt></p>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>刚开始把玩一番，颇为得意，很轻松的解决了烦人的需求。果然天道酬勤，报应不爽啊，才懒一会儿，就被泼了凉水，因为我发现一个很让人绝望的问题。虽然这个组件支持你把数据传进来，然后渲染出效果。然后点两下开关，横排竖排显示。但是node节点不支持扩展，也就是说node节点只能显示字符串，不能自己自定义样式，这可不能满足变态的需求啊。可以看到节点方法，这个方法的返回值会渲染的节点中显示</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token function">renderContent</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> data<span class="token punctuation">.</span>label<span class="token punctuation">;</span>
@@ -924,7 +924,7 @@ npm install babel-preset-env --save-dev</code></pre>
 </code></pre>
 <h2 id="react版本"><a href="#react版本" class="headerlink" title="react版本"></a>react版本</h2><p>react-orgchart：这是一个纯的react版本，网上有个叫orgchart的组件，它是基于jquery的，使用时必须导入jquery。而这里使用的react-orgchart则不需要依赖其他东西，<a href="https://www.npmjs.com/package/react-orgchart" target="_blank" rel="noopener">npm官方地址</a></p>
 <h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><pre class=" language-shell"><code class="language-shell">npm install react-orgchart</code></pre>
-<h3 id="效果图-1"><a href="#效果图-1" class="headerlink" title="效果图"></a>效果图</h3><p><img src="/2020/04/01/vue-he-react-de-zu-zhi-jia-gou-shu/3.png" alt></p>
+<h3 id="效果图-1"><a href="#效果图-1" class="headerlink" title="效果图"></a>效果图</h3><p><img src="/2020/04/01/vue-he-react-shi-xian-zu-zhi-jia-gou-shu/3.png" alt></p>
 <h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h3><p>首先引入组件和样式</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> OrgChart <span class="token keyword">from</span> <span class="token string">'react-orgchart'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token string">'react-orgchart/index.css'</span><span class="token punctuation">;</span></code></pre>
@@ -1087,7 +1087,7 @@ npm install babel-preset-env --save-dev</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/04/01/vue-he-react-de-zu-zhi-jia-gou-shu/">https://lushunjian.gitee.io/2020/04/01/vue-he-react-de-zu-zhi-jia-gou-shu/</a>
+                    <a href="https://lushunjian.gitee.io/2020/04/01/vue-he-react-shi-xian-zu-zhi-jia-gou-shu/">https://lushunjian.gitee.io/2020/04/01/vue-he-react-shi-xian-zu-zhi-jia-gou-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1560,13 +1560,13 @@ npm install babel-preset-env --save-dev</code></pre>
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/04/01/vue-he-react-de-zu-zhi-jia-gou-shu/">
+                <a href="/2020/04/01/vue-he-react-shi-xian-zu-zhi-jia-gou-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="vue和react的组织架构树">
+                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="vue和react实现组织架构树">
                         
-                        <span class="card-title">vue和react的组织架构树</span>
+                        <span class="card-title">vue和react实现组织架构树</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
