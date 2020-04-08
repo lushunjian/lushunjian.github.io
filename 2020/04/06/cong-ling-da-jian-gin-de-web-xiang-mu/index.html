@@ -579,7 +579,15 @@
 <p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/1.png" alt></p>
 <p>这一步可选择Go的安装路径，其余都Next直到安装完毕。打开windows终端，输入 go version 出现版本号则说明已经安装成功</p>
 <p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/2.png" alt></p>
-<h2 id="安装Gin"><a href="#安装Gin" class="headerlink" title="安装Gin"></a>安装Gin</h2><p>未完。。</p>
+<h2 id="安装Gin"><a href="#安装Gin" class="headerlink" title="安装Gin"></a>安装Gin</h2><p>这里使用go module管理go的依赖包，go module也是官方推荐的go第三方包管理工具。咱们在 GOPATH 之外的地方，新建一个空文件夹 <code>my_go_web</code> ，然后执行以下命令</p>
+<pre class=" language-shell"><code class="language-shell">go mod init my_go_web</code></pre>
+<p>执行成功后会输出：go: creating new go.mod: module go-gin-api。这时目录中会多出一个go.mod文件，内容如下</p>
+<pre><code>
+module my_go_web
+
+go 1.14
+
+require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟的my_go_web是当前项目的模块名，使用go module管理工程，在项目中导包时都需要使用模块名导包。</p>
 
             </div>
             <hr/>
