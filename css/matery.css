@@ -575,7 +575,8 @@ header .go-back i {
     transform: translate3d(0px, 0px, 0px);
 }
 
-/*.index-cover:before{
+/*主页背景美化开始 lushunjian*/
+.index-bg-cover:before{
 	content: '';
     position: absolute;
     top: 0;
@@ -585,7 +586,13 @@ header .go-back i {
     z-index: 3;
     background-attachment: fixed;
     background-image: url(/medias/banner/dot.gif);	
-}*/
+}
+
+.index-bg-cover>.container{
+	z-index:99 !important
+}
+/*主页背景美化结束 lushunjian*/
+
 
 .index-bg-cover {
     position: relative;
