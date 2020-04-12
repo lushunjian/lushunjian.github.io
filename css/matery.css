@@ -39,6 +39,27 @@ body {
     color: #34495e;
 }
 
+/*滚动条样式美化开始 lushunjian*/
+body::-webkit-scrollbar{
+	width: 6px;
+    height: 6px;
+    background-color: #eee;
+}
+
+body::-webkit-scrollbar-thumb{
+	background: #FE9600;
+}
+
+body::-webkit-scrollbar-track{
+	background-color: #eee;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #eee;
+}
+
+/*滚动条样式美化结束 lushunjian*/
+
 h1 {
     margin: 48px 0 22px -5px;
     font-size: 2.0rem;
