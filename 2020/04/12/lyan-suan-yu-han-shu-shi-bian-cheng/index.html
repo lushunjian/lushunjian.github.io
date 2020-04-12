@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="从零搭建Gin的web项目, 一寸灰">
-    <meta name="description" content="Go语言（又称 Golang）是谷歌公司开发的强类型，编译型语言。Go 语言语法与 C相近，但功能上有：内存安全，GC（垃圾回收），结构形态及 CSP-style 并发计算。其实Go语言在2009就推出了，似乎不温不火。但是最近一两年在中国">
+    <meta name="keywords" content="λ演算与函数式编程, 一寸灰">
+    <meta name="description" content="最近在使用一些JS开源组件的源码时，感觉有些吃力。原因在于源码的写法非常娴熟，充分的利用了JS语言函数式的特性，代码老练。虽然我使用JS也有几个年头了，但是仅仅停留在前端页面的一些字段校验和简单逻辑上，没有深入的去理解函数式编程思想。随着近">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>从零搭建Gin的web项目 | 一寸灰</title>
+    <title>λ演算与函数式编程 | 一寸灰</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/32.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/29.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">从零搭建Gin的web项目</h1>
+                    <h1 class="description center-align post-title">λ演算与函数式编程</h1>
                 </div>
             </div>
         </div>
@@ -532,8 +532,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/go/">
-                                <span class="chip bg-color">go</span>
+                            <a href="/tags/javasript/">
+                                <span class="chip bg-color">javasript</span>
                             </a>
                         
                     </div>
@@ -544,8 +544,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/go/" class="post-category">
-                                go
+                            <a href="/categories/javasript/" class="post-category">
+                                javasript
                             </a>
                         
                     </div>
@@ -557,7 +557,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-04-06
+                    2020-04-12
                 </div>
                 
 
@@ -574,145 +574,136 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><strong>Go</strong>语言（又称 <strong>Golang</strong>）是谷歌公司开发的强类型，编译型语言。Go 语言语法与 C相近，但功能上有：内存安全，GC（垃圾回收），结构形态及 CSP-style 并发计算。其实Go语言在2009就推出了，似乎不温不火。但是最近一两年在中国范围内，确实被关注的一塌糊涂。Go语言适合做服务端开发，web开发。本文将使用Go语言的Gin框架搭建一个web微服务工程。</p>
-<h2 id="Go环境搭建"><a href="#Go环境搭建" class="headerlink" title="Go环境搭建"></a>Go环境搭建</h2><p>官方下载地址：<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>  。国外的地址貌似很难打开，可通过网盘下载 go1.14.1 版本，地址: <a href="https://pan.baidu.com/s/1rVLxkycsTADIsxglJx51NA" target="_blank" rel="noopener">https://pan.baidu.com/s/1rVLxkycsTADIsxglJx51NA</a> 提取码: 97b9 。下载完毕后就傻瓜式安装吧</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/1.png" alt></p>
-<p>这一步可选择Go的安装路径，其余都Next直到安装完毕。打开windows终端，输入 go version 出现版本号则说明已经安装成功</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/2.png" alt></p>
-<h2 id="安装Gin"><a href="#安装Gin" class="headerlink" title="安装Gin"></a>安装Gin</h2><p>这里使用go module管理go的依赖包，go module也是官方推荐的go第三方包管理工具。咱们在 GOPATH 之外的地方，新建一个空文件夹 <code>my_go_web</code> ，然后执行以下命令</p>
-<pre class=" language-shell"><code class="language-shell">go mod init my_go_web</code></pre>
-<p>执行成功后会输出：go: creating new go.mod: module go-gin-api。这时目录中会多出一个go.mod文件，内容如下</p>
-<pre><code>
-module my_go_web
+                <p>最近在使用一些JS开源组件的源码时，感觉有些吃力。原因在于源码的写法非常娴熟，充分的利用了JS语言函数式的特性，代码老练。虽然我使用JS也有几个年头了，但是仅仅停留在前端页面的一些字段校验和简单逻辑上，没有深入的去理解函数式编程思想。随着近几年函数式编程越来越受到重视，有必要去学学它的编程思维，与它有相同特性的 Python 也是函数式编程语言，Java8中也引入了函数式编程语言的特性（Java8的Lambda表达式）。我一直觉得学习一样新东西，首先要去了解它的历史，知道来龙去脉才会明白它的背景和价值，才会明白我们为什么要学习它使用它。</p>
+<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>现代形式科学的所有的故事都来自于莱布尼茨的两大梦想：<strong>一、建立一套严格精密的人工语言，这种语言没有人类语言的歧义多结构，可以精确地描述任何哲学、逻辑和数学问题；二、找到一种方法，利用这套“普遍语言”，解决任何科学、哲学和数学的问题</strong>。莱布尼茨的梦想，在20世纪先后成真：集合论和符号逻辑、计算科学。而这一切的一切都源自19世纪末20世纪初发生的第三次数学危机。这场危机的结果使得数学、逻辑学和哲学发生了脱胎换骨的变化，数学的公理化、逻辑学的数学化、哲学的逻辑化是这个伟大变革中最显著的特点。不过很遗憾，这里没有空间详细讲故事，只有三个关键词：数学公理化，数学逻辑化和公理集合论。如果对这段历史不太了解可以参考《数学悖论与三次数学危机》第3、4、5章以及《逻辑的引擎》这两本书。λ演算的创建人是Alonzo Church(中文：阿隆佐·丘奇)。Church1903年生于美国华盛顿特区，后在普林斯顿大学学习数学，专攻数理逻辑。函数编程语言最重要的基础是λ演算。是否存在一个通用模型来解决一切计算任务？1936年，阿隆佐·邱奇设计了一个名为lambda演算的形式系统用来解决这个问题。这个系统实质上是为一个超级机器设计的编程语言。在这种语言里面，函数的参数是函数，返回值也是函数。这种函数用希腊字母lambda（λ），这种系统因此得名。除了阿隆佐，艾伦·图灵也在进行类似的研究。他设计了一种完全不同的系统（后来被称为图灵机），并用这种系统得出了和阿隆佐相似的答案。冯.诺依曼结构实现了理论上的图灵机，并且用在了如今的电脑上。而Alonzo Church的计算模型，与图灵机一样强大，但由于一些历史原因（当时整个世界笼罩在战争的火光和硝烟之中，美国陆军和海军前所未有的大量使用炮弹，为了改进炮弹的精确度，部队组织了大批的科学家持续地计算微分方程以解出弹道发射轨迹。在渐渐意识到这个任务用人力手工完成太耗精力后，开始着手开发各种设备来攻克这个难关。第一个解出了弹道轨迹的机器是 IBM 制造的 Mark I，它重达 5 吨，有 75 万个组件，每秒可以完成三次操作。1949 年，第一台电子离散变量自动计算机EDVAC诞生并取得了巨大的成功。它是冯·诺伊曼设计架构的第一个实例，也是一台现实世界中实现的图灵机。那一年开始好运与阿隆佐·丘奇无缘。）走了上了一条更加学术化，更不商业化的道路。后来人们证明图灵机和 λ 演算能力等同。现在我们使用的家用计算机，服务器基本都是图灵机，图灵也因此被誉为计算机之父</p>
+<h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><p>上世纪50年代末，一个叫John McCarthy（约翰·麦卡锡）的MIT教授（他是普林斯顿的硕士）对阿隆佐的成果产生了兴趣。1958年他发明了一种列表处理语言（Lisp），这种语言是一种阿隆佐lambda演算在现实世界的实现，而且它能在冯·诺伊曼计算机上运行！很多计算机科学家都认识到了Lisp强大的能力。1973年在MIT人工智能实验室的一些程序员研发出一种机器，并把它叫做Lisp机。于是阿隆佐的lambda演算也有自己的硬件实现了！传统的程序设计语言是适应冯·诺依曼型计算机系统结构而发展起来的，LISP在诺依曼型计算机上运行的效率要低一些。计算机系统结构的发展，使得函数型语言有着广阔的前途。为了适应当前微型机发展水平和程序员使用传统语言编程的习惯，LISP语言增加了许多非函数型的语言成分，例如，prog、go等函数，所以，LISP已不是纯函数型语言，它既具有函数语言的功能，又具有传统语言的功能。</p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>在函数式语言中，函数(lambda 演算)作为一等公民，可以在任何地方定义，在函数内或函数外，可以作为函数的参数和返回值，可以对函数进行组合。函数式编程中的函数这个术语不是指计算机中的函数，而是指数学中的函数，即自变量的映射。也就是说一个函数的值仅决定于函数参数的值，不依赖其他状态。比如sqrt(x)函数计算x的平方根，只要x不变，不论什么时候调用，调用几次，值都是不变的。与函数式编程对应的是命令式编程（OOP），命令式编程是面向计算机硬件的抽象，有变量（对应存储单元），赋值语句（获取，存储指令），表达式（内存引用和算术运算）和控制语句（跳转指令）。下面是两种编程范式的对比</p>
+<table>
+<thead>
+<tr>
+<th>命令式范式（OOP）</th>
+<th>函数式范式（FP）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>万物皆对象<br>（这话并不准确，例如Java中的方法就不能抽象为对象）</td>
+<td>第一等公民是函数<br>（基本数据类型，如1，2，3也可以用函数表示）</td>
+</tr>
+<tr>
+<td>抽象和封装</td>
+<td>带有闭包的Lambdas/Anonymous函数</td>
+</tr>
+<tr>
+<td>核心活动是组合和对象</td>
+<td>核心活动是编写新的函数</td>
+</tr>
+<tr>
+<td>着重于数据和状态</td>
+<td>不变性，大部分无态处理，没有状态和变量</td>
+</tr>
+<tr>
+<td><strong>基于图灵机</strong></td>
+<td><strong>基于λ演算</strong></td>
+</tr>
+</tbody></table>
+<p>面向对象和面向函数一直在争论，实际上纯粹的OOP和纯粹的FP都是极端的。</p>
+<ul>
+<li>对于OOP来讲：存在的并一定都是对象，函数就不是对象</li>
+<li>对于FP来说：存在的并不总是纯粹的，副作用总是真实存在</li>
+</ul>
+<p>函数式中将超过计算的东西叫做副作用，因为文件读写，打印，随机数，这些东西都不是纯的计算过程，而是涉及到外部世界的交互，依赖于机器，不在理论的范畴。这些是不可避免的，因此副作用总是真实存在的。</p>
+<h2 id="lambda-λ演算-定义"><a href="#lambda-λ演算-定义" class="headerlink" title="lambda | λ演算 定义"></a>lambda | λ演算 定义</h2><p>在lambda演算中只有三种合法表达式（也可以称之为项：λ-expression or λ-term）存在，λ演算是一个为了表达和计算函数的形式化系统，有着自己的化简规则和语法。整个系统是基于表达式的（也叫λ项）。一个表达式可以是一个<strong>变量</strong>（variable），一个<strong>抽象体</strong>（abstraction）或者一个<strong>应用</strong>（application）。即</p>
+<pre class=" language-javascript"><code class="language-javascript">expression <span class="token operator">=</span> variable <span class="token operator">||</span> abstraction <span class="token operator">||</span> application </code></pre>
+<h4 id="变量-Variable"><a href="#变量-Variable" class="headerlink" title="变量(Variable)"></a>变量(Variable)</h4><p>形式：<code>x</code> ，变量名可能是一个字符或字符串，它表示一个参数（形参）或者一个值（实参）。如果 X 是<strong>变量</strong>，E 是表达式，则λx.E是一个<strong>抽象体</strong>。</p>
+<pre><code>variable = expression</code></pre><h4 id="抽象-Abstraction"><a href="#抽象-Abstraction" class="headerlink" title="抽象(Abstraction)"></a>抽象(Abstraction)</h4><p>形式：<code>λx.M</code>，在λ演算中，函数是用λ表示的匿名函数。一个匿名函数中只存在标识符和他自己的函数体。例如<code>λx.x</code>表达式定义了一个函数（也叫做λ抽象体）。紧跟在λ后面的名字是参数标识符，点后面的表达式是函数体。我们用javascript表示它：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">return</span> x 
+<span class="token punctuation">}</span> </code></pre>
+<p><code>λx.y</code>表示一个<strong>常量函数(constant function)</strong>，输出恒为y与输入无关。抽象体的通用模板</p>
+<pre><code>abstraction = λ(variable).(expression) </code></pre><h4 id="应用-Application"><a href="#应用-Application" class="headerlink" title="应用(Application)"></a>应用(Application)</h4><p>形式：<code>M N</code>，它表示将函数M应用于参数N，其中M、N均为合法lambda表达式。简单来说就是给函数M输入实参N。例如<code>(λx.x) y</code>, <code>(λx.x) (λx.x)</code>。前者表示将函数<code>λx.x</code>应用于变量<code>y</code>，得到<code>y</code>；后者表示将函数<code>λx.x</code>应用于<code>λx.x</code>，得到<code>λx.x</code>。函数<code>λx.x</code>是一个<strong>恒等函数(identity function)</strong>，即输入恒等于输出</p>
+<pre><code>application = (expression)(expression) </code></pre><p><strong>注意，</strong>这时候可能就有人纳闷儿了，<code>(λx.x) y</code>意义很明确，但<code>λy.xy</code>为什么代表函数抽象而不是将函数<code>λy.x</code>应用于<code>y</code>的函数应用呢？为了消除类似的表达式歧义，可以多使用小括号，也有以下几个<strong>消歧约定</strong>可以参考：</p>
+<ul>
+<li><em>一个函数抽象的函数体将尽最大可能向右扩展</em>，即：<code>λx.M N</code>代表的是一个函数抽象<code>λx.(M N)</code>而非函数应用<code>(λx.M) N</code>。</li>
+<li><em>函数应用是左结合的</em>，即：<code>M N P</code>意为<code>(M N) P</code>而非<code>M (N P)</code></li>
+</ul>
+<h2 id="柯里化-Currying"><a href="#柯里化-Currying" class="headerlink" title="柯里化(Currying)"></a>柯里化(Currying)</h2><p>有时候我们的函数需要有多个参数，这太正常不过了，但是lambda函数只能有一个参数怎么办？解决这个问题的方法就是柯里化(Currying)。柯里化是用于处理多参数输入情况的方法，我们已经知道<strong>一个lambda函数的输入和输出也可以是函数</strong>，那么基于它，可以把多参数函数和单参数函数做以下转换：</p>
+<pre><code>currying: λx y.xy = λx.(λy.xy)</code></pre><p>外层函数接受一个参数x返回一个函数<code>λy.xy</code>，这个返回函数（内层函数）又接受一个参数y返回xy，x绑定于外层函数，y绑定于内层函数，这样我们就在满足lambda函数只接受一个参数的约束下实现了多参数函数的功能，这就是柯里化，而<code>λx y.xy</code>称为<code>λx.(λy.xy)</code>的缩写，为了方便表达，后续会常常出现<code>λx y.xy</code>这样的书写方式，需要谨记它只是缩写写法。</p>
+<h2 id="lambda-λ-归约"><a href="#lambda-λ-归约" class="headerlink" title="lambda | λ 归约"></a>lambda | λ 归约</h2><h4 id="beta-β-归约"><a href="#beta-β-归约" class="headerlink" title="beta | β 归约"></a>beta | β 归约</h4><p>对于一个函数应用<code>(λx.x) y</code>，它意为将函数应用<code>λx.x</code>应用于<code>y</code>，等价于<code>x[x:=y]</code>，即结果是<code>y</code>。在这个过程中，<code>(λx.x) y ≡ x[x:=y]</code>一步就叫做<strong>beta归约</strong>，<code>x[x:=y] ≡ y</code>一步称作<strong>替换(substitution)</strong>，<code>[x:=y]</code>意为将表达式中的自由变量<code>x</code>替换为<code>y</code>。</p>
+<ul>
+<li><p><strong>替换</strong>：形式：<strong>E[V := R]</strong>，意为将表达式<code>E</code>中的所有 “自由变量” <code>V</code>替换为表达式<code>R</code>。对于变量<code>x,y</code>和lambda表达式<code>M,N</code>，有以下规则：</p>
+<pre><code>x[x := N]       ≡ N
+y[x := N]       ≡ y //注意 x ≠ y
+(M1 M2)[x := N] ≡ (M1[x := N]) (M2[x := N])
+(λx.M)[x := N]  ≡ λx.M //注意 x 是绑定变量无法替换
+(λy.M)[x := N]  ≡ λy.(M[x := N]) //注意 x ≠ y, 且表达式N的自由变量中不包含 y 即 y ∉ FV(N)</code></pre></li>
+<li><p><strong>beta归约</strong>：形式：<strong>β: ((λV.E) E′) ≡ E[V := E′]</strong>，其实就是用实参替换函数体中的形参，也就是函数抽象应用(apply)于参数的过程啦，只不过这个参数除了是一个变量还可能是一个表达式。</p>
+</li>
+</ul>
+<p>细心的话可以注意到，替换规则中特别标注了一些<code>x ≠ y</code>或者<code>y ∉ FV(N)</code>等约束条件，它们的意义在于防止lambda表达式的归约过程中出现歧义。比如以下过程：</p>
+<pre><code>// 错误演算
+(λx.(λy.xy)) y
+= (λy.xy)[x:=y] //beta归约：注意 y ∈ FV(y) 不满足替换的约束条件
+= λy.yy //替换：绑定变量y与自由变量y同名出现了冲突</code></pre><p>可以看出在不满足约束条件的情况强行替换造成了错误的结果，那么对于这种情况该如何处理呢？那就需要<strong>alpha转换</strong>啦。</p>
+<h4 id="alpha-α-转换"><a href="#alpha-α-转换" class="headerlink" title="alpha | α 转换"></a>alpha | α 转换</h4><p>这条规则就是说，一个lambda函数抽象在更名绑定变量前后是等价的，即： <strong>α: λx.x ≡ λy.y</strong>，其作用就是解决绑定变量与自由变量间的同名冲突问题。那么对于上面的那个错误归约过程就可以纠正一下了</p>
+<pre><code>(λx.(λy.xy))y
+= (λy.xy)[x:=y] //beta归约：注意 y ∈ FV(y) 不满足替换的约束条件
+= (λz.xz)[x:=y] //alpha转换：因为绑定变量y将与自由变量x（将被替换为y）冲突，所以更名为z
+= λz.yz</code></pre><h4 id="eta-η-归约"><a href="#eta-η-归约" class="headerlink" title="eta | η 归约"></a>eta | η 归约</h4><p>灵活运用alpha和beta已经可以解决所有的lambda表达式归约问题，但是考虑这样一个表达式：<code>λx.M x</code>，将它应用于任意一个参数上，比如<code>(λx.M x) N</code>，进行beta归约和替换后会发现它等价于<code>M N</code>，这岂不是意味着 <code>λx.M x ≡ M</code>。没错，对于形如<code>λx.M x</code>，其中表达式<code>M</code>不包含绑定变量<code>x</code>的函数抽象，它是冗余的，等价于<code>M</code>，而这就是<strong>eta归约</strong>，它一般用于<em>清除lambda表达式中存在的冗余函数抽象</em>。</p>
+<h2 id="邱奇数"><a href="#邱奇数" class="headerlink" title="邱奇数"></a>邱奇数</h2><p><strong>Church 编码</strong>是把数据和运算符嵌入到 lambda 演算]内的一种方式，最常见的形式是 Church 数，它是使用 lambda 符号的自然数的表示法。这种方法得名于 Alonzo Church，他首先以这种方法把数据编码到 lambda 演算中。在其他符号系统中通常被认定为基本的项(比如整数、布尔值、有序对、列表和 tagged unions)都被映射到使用 Church 编码的高阶函数；根据邱奇-图灵论题我们知道任何可计算的运算符(和它的运算数)都可以用 Church 编码表示。Church 数 <strong>0</strong>, <strong>1</strong>, <strong>2</strong>, … 在 lambda 演算中被定义如下:</p>
+<pre><code>0 ≡ λf.λx. x
+1 ≡ λf.λx. f x
+2 ≡ λf.λx. f (f x)
+3 ≡ λf.λx. f (f (f x))
+...
+</code></pre><p>我们可以使用js来验证这个计算模型</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
 
-go 1.14
+<span class="token comment" spellcheck="true">// 定义数字0:</span>
 
-require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟的my_go_web是当前项目的模块名，使用go module管理工程，在项目中导包时都需要使用模块名导包。</p>
-<h2 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h2><p>Web 服务体系结构是构建每个项目之前的第一个阶段，就像您准备构建房屋并从创建体系结构计划开始一样。保持简单但直观的体系结构非常重要，因为众所周知，在 golang 中，您可以通过引用包名称来调用方法。开始先来约定一下项目的目录结构</p>
-<pre><code>.
-├── src
-│   ├── config
-│   │   ├── mysql
-│   │   └── redis
-│   ├── cmd
-│   │   └── main.go
-│   ├── controller
-│   │   ├── car_controller.go
-│   │   ├── user_controller.go
-│   │   ├── login.go
-│   │   ├── system.go
-├── dao
-│   └── user_dao.go
-├── model
-│   ├── user_model.json
-│   ├── car_model.json
-├── route
-│   └── web_route.go
-├── service
-│   ├── user.json
-│   └── car.json
-├── util
-│   ├── date_util.go
-├── go.mod
-├── go.sum
-├── main.go
-</code></pre><h2 id="构建项目"><a href="#构建项目" class="headerlink" title="构建项目"></a>构建项目</h2><h4 id="main-go"><a href="#main-go" class="headerlink" title="main.go"></a>main.go</h4><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
+<span class="token comment" spellcheck="true">// 定义数字0:</span>
+<span class="token keyword">let</span> zero <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>f<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token keyword">import</span> <span class="token punctuation">(</span>
-    <span class="token string">"my_go_web/src/route"</span>
-<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 定义数字1:</span>
+<span class="token keyword">let</span> one <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>f<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token comment" spellcheck="true">/*    r := gin.Default()
-    r.GET("/ping", func(c *gin.Context) {
-        c.JSON(200, gin.H{
-            "message": "pong",
-        })
-    })*/</span>
-    router <span class="token operator">:=</span> route<span class="token punctuation">.</span><span class="token function">RegisterWebRoute</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    router<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token string">":8082"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// listen and serve on 0.0.0.0:8080</span>
+<span class="token comment" spellcheck="true">// 计算数字2 = 1 + 1:</span>
+<span class="token keyword">let</span> two <span class="token operator">=</span> <span class="token function">add</span><span class="token punctuation">(</span>one<span class="token punctuation">,</span> one<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 定义加法:</span>
+<span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span> m<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>f<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">m</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token function">n</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 计算数字3 = 1 + 2:</span>
+<span class="token keyword">let</span> three <span class="token operator">=</span> <span class="token function">add</span><span class="token punctuation">(</span>one<span class="token punctuation">,</span> two<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 给3传一个函数,会打印3次:</span>
+<span class="token function">three</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'print 3 times'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 计算数字5 = 2 + 3:</span>
+<span class="token keyword">let</span> five <span class="token operator">=</span> <span class="token function">add</span><span class="token punctuation">(</span>two<span class="token punctuation">,</span> three<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 给5传一个函数,会打印5次:</span>
+<span class="token function">five</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'print 5 times'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>main函数中可以直接注册接口，但当接口数量越来越多时，就会显得代码混乱。为了代码整洁，把接口注册的地方抽离到一个go文件中。main函数中只保留服务启动的配置信息</p>
-<h4 id="web-route-go"><a href="#web-route-go" class="headerlink" title="web_route.go"></a>web_route.go</h4><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> route
-
-<span class="token keyword">import</span> <span class="token punctuation">(</span>
-    <span class="token string">"github.com/gin-gonic/gin"</span>
-    <span class="token string">"my_go_web/src/controller"</span>
-<span class="token punctuation">)</span>
-
-<span class="token keyword">func</span> <span class="token function">RegisterWebRoute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span>gin<span class="token punctuation">.</span>Engine <span class="token punctuation">{</span>
-
-    router <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">// 加载html文件，即template包下所有文件</span>
-    <span class="token comment" spellcheck="true">//router.LoadHTMLGlob("template/*")</span>
-
-    <span class="token comment" spellcheck="true">//router.GET("/hello", hello)</span>
-
-    userRouter <span class="token operator">:=</span> router<span class="token punctuation">.</span><span class="token function">Group</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
-    userRouter<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/query"</span><span class="token punctuation">,</span> controller<span class="token punctuation">.</span>QueryUser<span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">// 更新产品</span>
-    userRouter<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/delete/:id"</span><span class="token punctuation">,</span> controller<span class="token punctuation">.</span>DeleteUser<span class="token punctuation">)</span>
-
-    fileRouter <span class="token operator">:=</span> router<span class="token punctuation">.</span><span class="token function">Group</span><span class="token punctuation">(</span><span class="token string">"/car"</span><span class="token punctuation">)</span>
-    fileRouter<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/list"</span><span class="token punctuation">,</span> controller<span class="token punctuation">.</span>CarList<span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">// 更新产品</span>
-    fileRouter<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/info"</span><span class="token punctuation">,</span> controller<span class="token punctuation">.</span>CarInfo<span class="token punctuation">)</span>
-
-
-    <span class="token keyword">return</span> router
-<span class="token punctuation">}</span></code></pre>
-<p>在 java的spring中可以通过把controller注解放在类上实现根路由，在gin中可以通过 router.Group 创建一个根路由。在根路由下添加多个子路由。然后分别创建 <code>car_controller.go</code> 和 <code>user_controller.go</code> 。这样就实现和 java 一样的效果，把不同模块的功能聚合在它自己的controller中，下面是两个controller的代码实现</p>
-<h4 id="car-controller-go"><a href="#car-controller-go" class="headerlink" title="car_controller.go"></a>car_controller.go</h4><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> controller
-
-<span class="token keyword">import</span> <span class="token string">"github.com/gin-gonic/gin"</span>
-
-<span class="token keyword">func</span> <span class="token function">CarList</span><span class="token punctuation">(</span>context <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    context<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span>gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
-        <span class="token string">"car"</span><span class="token punctuation">:</span> <span class="token string">"奔驰"</span><span class="token punctuation">,</span>
-        <span class="token string">"age"</span><span class="token punctuation">:</span><span class="token number">23</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">func</span> <span class="token function">CarInfo</span><span class="token punctuation">(</span>context <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        context<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span>gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
-            <span class="token string">"car"</span><span class="token punctuation">:</span> <span class="token string">"奔驰"</span><span class="token punctuation">,</span>
-            <span class="token string">"length"</span><span class="token punctuation">:</span><span class="token string">"2m"</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id="user-controller-go"><a href="#user-controller-go" class="headerlink" title="user_controller.go"></a>user_controller.go</h4><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> controller
-
-<span class="token keyword">import</span> <span class="token string">"github.com/gin-gonic/gin"</span>
-
-<span class="token keyword">func</span> <span class="token function">QueryUser</span><span class="token punctuation">(</span>context <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    context<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span>gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
-        <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"张三"</span><span class="token punctuation">,</span>
-        <span class="token string">"age"</span><span class="token punctuation">:</span><span class="token number">23</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">func</span> <span class="token function">DeleteUser</span><span class="token punctuation">(</span>context <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    id <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">Param</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span>
-    context<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span>gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
-        <span class="token string">"result"</span><span class="token punctuation">:</span>id<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>这样就用go实现了一个简单web服务，下面启动服务</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/7.png" alt></p>
-<p>可以看到服务已经正常启动在8082端口，同时从控制台可以看到服务注册的全部路由和每个路由的请求类型，在浏览器中请求一些 <code>/user/query</code> 接口</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/8.png" alt></p>
-<p>请求返回了数据！我们已经成功的搭建了一个go语言的web服务</p>
-<h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><p>引入gin的包时会出现，引用路径变红的问题。这时项目可以正常启动，但是看着代码报红，有强迫症的我很不舒服，按照网上的一些方法，例如执 <code>go mod vendor</code> 命令。这个命令是将项目依赖的包，放到项目的 vendor 目录中，执行完成后，项目的根路径下会出现一个 vendor 目录</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/11.png" alt></p>
-<p>执行这个命令后，发现项目导包仍然报错，而项目依赖下只有sdk，没有go mod依赖的模块。</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/12.png" alt></p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>新建一个项目，<strong>创建项目的时候不要选择go modules ! ! !</strong>。仅创建一个普通的go项目</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/13.png" alt></p>
-<p>项目创建好后，把原来那个项目里面的东西copy过来，删除vendor目录，这个目录用不上了。然后再打开setting，<strong>把go mod勾选上</strong>。</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/15.png" alt></p>
-<p>然后，在项目的依赖中就会出现go mod依赖的库了，这时在看go文件中的导包路径已经不报红，而且高亮了。</p>
-<p><img src="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/16.png" alt></p>
+<p>运行结果如下</p>
+<p><img src="/2020/04/12/lyan-suan-yu-han-shu-shi-bian-cheng/1.png" alt></p>
+<p>实现原理实际上这里打印的次数，就是函数被调用的次数，邱奇用函数的递归调用次数来表示基本数据。</p>
 
             </div>
             <hr/>
@@ -738,7 +729,7 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/">https://lushunjian.gitee.io/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/</a>
+                    <a href="https://lushunjian.gitee.io/2020/04/12/lyan-suan-yu-han-shu-shi-bian-cheng/">https://lushunjian.gitee.io/2020/04/12/lyan-suan-yu-han-shu-shi-bian-cheng/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -776,8 +767,8 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/go/">
-                                    <span class="chip bg-color">go</span>
+                                <a href="/tags/javasript/">
+                                    <span class="chip bg-color">javasript</span>
                                 </a>
                             
                         </div>
@@ -1206,9 +1197,10 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/04/12/lyan-suan-yu-han-shu-shi-bian-cheng/">
                     <div class="card-image">
@@ -1226,9 +1218,9 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1241,6 +1233,7 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1259,31 +1252,31 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/04/spring-boot-zhu-jie-da-quan/">
+                <a href="/2020/04/06/cong-ling-da-jian-gin-de-web-xiang-mu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="spring-boot注解大全">
+                        <img src="/medias/featureimages/32.jpg" class="responsive-img" alt="从零搭建Gin的web项目">
                         
-                        <span class="card-title">spring-boot注解大全</span>
+                        <span class="card-title">从零搭建Gin的web项目</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            spring boot是后端开发最主流的框架，spring boot的核心之一就是注解，它提供了很多注解来帮助我们简化配置，通过各种组合注解，极大地简化了spring项目的搭建和开发。为了方便我们在日常开发注解的使用，本文将开发所需要的注解
+                            Go语言（又称 Golang）是谷歌公司开发的强类型，编译型语言。Go 语言语法与 C相近，但功能上有：内存安全，GC（垃圾回收），结构形态及 CSP-style 并发计算。其实Go语言在2009就推出了，似乎不温不火。但是最近一两年在中国
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/java/" class="post-category">
-                                    java
+                            <a href="/categories/go/" class="post-category">
+                                    go
                                 </a>
                             
                             
@@ -1293,8 +1286,8 @@ require github.com/gin-gonic/gin v1.6.2</code></pre><p>注意module后面紧跟�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/spring-boot/">
-                        <span class="chip bg-color">spring boot</span>
+                    <a href="/tags/go/">
+                        <span class="chip bg-color">go</span>
                     </a>
                     
                 </div>
