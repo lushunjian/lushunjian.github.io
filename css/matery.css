@@ -401,7 +401,7 @@ header .side-nav .social-link {
 
 .cover-btns {
     position: relative;
-    top: 10vh;
+    top: 30vh;
     text-align: center;
 }
 
@@ -414,7 +414,7 @@ header .side-nav .social-link {
     color: #fff;
     border: 1px solid #fff;
     background-color: transparent;
-    border-radius: 30px;
+   /* border-radius: 30px;*/
     box-shadow: none;
 }
 
@@ -535,13 +535,13 @@ header .side-nav .social-link {
 
 .cover-social-link {
     position: relative;
-    top: 23vh;
+    /*top: 23vh;*/
     width: 100%;
     text-align: center;
 }
 
 .cover-social-link a {
-    padding: 0 15px;
+    padding: 0 7px;
     font-size: 1.35rem;
     color: #fff;
 }
@@ -608,7 +608,7 @@ header .go-back i {
 }
 
 .index-cover {
-    height: 100vh;
+    height: 100vh !important;
 }
 
 .post-cover {
@@ -1736,7 +1736,7 @@ thead {
 .my-skills .title,
 .my-gallery .title {
     font-size: 2rem;
-    margin-bottom: 2.25rem;
+    margin-bottom: 0.25rem;
 }
 
 .my-projects .info {
