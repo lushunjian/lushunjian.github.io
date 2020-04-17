@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="开发必备的Linux命令, 木子李">
+    <meta name="keywords" content="开发必需学会的Linux命令, 木子李">
     <meta name="description" content="市场大部分服务都运行Linux之上，开发过程中难免需要到服务器上查看服务日志，环境部署，排查问题等。操作系统是计算机科学都要接触的基本概念，抛开那些纯理论的操作系统底层实现，在Linux下做软件开发这么多年，每次程序运行出现问题，都要一步一">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>开发必备的Linux命令 | 木子李</title>
+    <title>开发必需学会的Linux命令 | 木子李</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +410,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/32.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">开发必备的Linux命令</h1>
+                    <h1 class="description center-align post-title">开发必需学会的Linux命令</h1>
                 </div>
             </div>
         </div>
@@ -575,7 +575,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>市场大部分服务都运行Linux之上，开发过程中难免需要到服务器上查看服务日志，环境部署，排查问题等。操作系统是计算机科学都要接触的基本概念，抛开那些纯理论的操作系统底层实现，在Linux下做软件开发这么多年，每次程序运行出现问题，都要一步一步分析进程各种状态，去排查问题出在哪里。这里总结一下开发常用的Linux命令，以便日后方便查阅</p>
-<p><img src="/2020/04/16/kai-fa-bi-bei-de-linux-ming-ling/1.jpg" alt></p>
+<p><img src="/2020/04/16/kai-fa-bi-xu-xue-hui-de-linux-ming-ling/1.jpg" alt></p>
 <p>本文命令以<code>CentOS release 7.6.1810</code>版本为准，下面分几大类总结开发过程中常用的命令</p>
 <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>在服务器上我们常需要查看进程的CPU，内存使用情况，获取进程的PID。线程是操作操作系统能够进行运算调度的最小单位。大部分情况下，它被包含在进程之中，是进程中的实际运作单位，一个进程内可以包含多个线程，是资源调度的最小单位</p>
 <h3 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h3><p>ps命令是Process Status的缩写, 用来列出系统中当前运行的那些进程. ps命令列出的是当前那些进程的快照，就是执行ps命令的那个时刻的那些进程，如果想要动态的显示进程信息，就可以使用top命令</p>
@@ -1054,7 +1054,7 @@ Thread 1 (Thread 0x7f0b260f2740 (LWP 11115)):
 <p>每一行都是一条系统调用，等号左边是系统调用的函数名及其参数，右边是该调用的返回值。其中第一行显示程序试图创建/tmp/.ICE-unix目录，权限为0777，这个操作因为目录已经存在而失败了。第二个系统调用（lstat64）检查 了目录状态，并显示这个目录的权限是0755，这里出现了第一个程序运行错误的线索：程序试图创建属性为0777的目录，但是已经存在了一个属性为 0755的目录。第三个系统调用（unlink）试图删除一个文件，但是这个文件并不存在。strace的常用参数如下</p>
 <p>-tt ：在每行输出的前面，显示毫秒级别的时间<br>-T ：显示每次系统调用所花费的时间<br>-v ：对于某些相关调用，把完整的环境变量，文件stat结构等打出来。<br>-f ：跟踪目标进程，以及目标进程创建的所有子进程<br>-e ：控制要跟踪的事件和跟踪行为,比如指定要跟踪的系统调用名称<br>-o ：把strace的输出单独写到指定的文件<br>-s ：当系统调用的某个参数是字符串时，最多输出指定长度的内容，默认是32个字节<br>-p ：指定要跟踪的进程pid, 要同时跟踪多个pid, 重复多次-p选项即可。</p>
 <h3 id="proc目录"><a href="#proc目录" class="headerlink" title="proc目录"></a>proc目录</h3><p>/proc目录下有很多以数字命名的目录，每个数字代表进程号PID它们是进程目录。<code>/proc</code>系统是一个伪文件系统，它只存在内存当中，而不占用外存空间，以文件系统的方式为内核与进程提供通信的接口。进入系统<code>/proc</code>目录：</p>
-<p><img src="/2020/04/16/kai-fa-bi-bei-de-linux-ming-ling/2.png" alt></p>
+<p><img src="/2020/04/16/kai-fa-bi-xu-xue-hui-de-linux-ming-ling/2.png" alt></p>
 <p>系统中当前运行的每一个进程在/proc下都对应一个以进程号为目录名的目录<code>/proc/pid</code>。通过<code>/proc/pid</code>文件了解进程的运行时信息和统计信息。它们是读取进程信息的接口，我们可以进到这个文件里面，了解进程的运行时信息和统计信息。<code>/proc/pid</code>目录下的有一些重要文件，挑几个使用频率高的讲一讲。</p>
 <h4 id="高频使用"><a href="#高频使用" class="headerlink" title="高频使用"></a>高频使用</h4><p><strong><code>/proc/pid/environ</code></strong> ：包含了进程的可用环境变量的列表 。程序出问题了如果不确定环境变量是否设置生效，可以<code>cat</code>这个文件出来查看确认一下。</p>
 <p><strong><code>/proc/pid/fd/</code></strong> ：这个目录包含了进程打开的每一个文件的链接。从这里可以查看进程打开的文件描述符信息，包括标准输入、输出、错误流，进程打开的<code>socket</code>连接文件描述符也能看到，<code>lsof</code>命令也有类似的作用。</p>
@@ -1064,7 +1064,7 @@ Thread 1 (Thread 0x7f0b260f2740 (LWP 11115)):
 <p><strong><code>/proc/pid/exe</code></strong>： 包含了正在进程中运行的程序链接</p>
 <p><strong><code>/proc/pid/mem</code></strong>： 包含了进程在内存中的内容</p>
 <p><strong><code>/proc/pid/statm</code></strong>： 包含了进程的内存使用信息</p>
-<h2 id="vi编辑文件"><a href="#vi编辑文件" class="headerlink" title="vi编辑文件"></a>vi编辑文件</h2>
+<h2 id="vi编辑文件"><a href="#vi编辑文件" class="headerlink" title="vi编辑文件"></a>vi编辑文件</h2><h2 id="操作系统信息"><a href="#操作系统信息" class="headerlink" title="操作系统信息"></a>操作系统信息</h2>
             </div>
             <hr/>
 
@@ -1089,7 +1089,7 @@ Thread 1 (Thread 0x7f0b260f2740 (LWP 11115)):
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/04/16/kai-fa-bi-bei-de-linux-ming-ling/">https://lushunjian.gitee.io/2020/04/16/kai-fa-bi-bei-de-linux-ming-ling/</a>
+                    <a href="https://lushunjian.gitee.io/2020/04/16/kai-fa-bi-xu-xue-hui-de-linux-ming-ling/">https://lushunjian.gitee.io/2020/04/16/kai-fa-bi-xu-xue-hui-de-linux-ming-ling/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1562,13 +1562,13 @@ Thread 1 (Thread 0x7f0b260f2740 (LWP 11115)):
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/04/16/kai-fa-bi-bei-de-linux-ming-ling/">
+                <a href="/2020/04/16/kai-fa-bi-xu-xue-hui-de-linux-ming-ling/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/32.jpg" class="responsive-img" alt="开发必备的Linux命令">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="开发必需学会的Linux命令">
                         
-                        <span class="card-title">开发必备的Linux命令</span>
+                        <span class="card-title">开发必需学会的Linux命令</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
