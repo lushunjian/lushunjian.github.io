@@ -652,7 +652,6 @@ Thread 26 (Thread 0x7f0b260f1700 (LWP 11116)):
 #2  0x00007f0b24dba529 in Monitor::IWait(Thread*, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #3  0x00007f0b24dbb950 in Monitor::wait(bool, long, bool) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #4  0x00007f0b24f6aff1 in Threads::destroy_vm() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#5  0x00007f0b24bb15c6 in jni_DestroyJavaVM () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #6  0x00007f0b25ab1418 in JavaMain () from /user/java/jdk1.8.0_221/bin/../lib/amd64/jli/libjli.so
 #7  0x00007f0b25cc8dd5 in start_thread () from /lib64/libpthread.so.0
 #8  0x00007f0b255d5ead in clone () from /lib64/libc.so.6
@@ -663,7 +662,6 @@ Thread 25 (Thread 0x7f0b0f7f0700 (LWP 11117)):
 #3  0x00007f0b24dbba8a in Monitor::wait(bool, long, bool) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #4  0x00007f0b24fc7922 in VMThread::loop() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #5  0x00007f0b24fc7eb8 in VMThread::run() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#6  0x00007f0b24dfc952 in java_start(Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #7  0x00007f0b25cc8dd5 in start_thread () from /lib64/libpthread.so.0
 #8  0x00007f0b255d5ead in clone () from /lib64/libc.so.6
 Thread 24 (Thread 0x7f0b0f6ef700 (LWP 11118)):
@@ -671,42 +669,12 @@ Thread 24 (Thread 0x7f0b0f6ef700 (LWP 11118)):
 #1  0x00007f0b24e053ab in os::PlatformEvent::park() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24de92d5 in ObjectMonitor::wait(long, bool, Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #3  0x00007f0b24be29b8 in JVM_MonitorWait () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#4  0x00007f0b11160468 in ?? ()
-#5  0x00000000f5b93448 in ?? ()
-#6  0x00007f0b00000000 in ?? ()
-#7  0x00007f0b0f6eea58 in ?? ()
-#8  0x00007f0b0f6eea18 in ?? ()
-#9  0x00007f0b1076aaf4 in ?? ()
-#10 0x00007f0b2009e800 in ?? ()
-#11 0x00007f0b0fa9a97d in ?? ()
-#12 0x00007f0b0fa9a978 in ?? ()
-#13 0x0000000000000001 in ?? ()
-#14 0x00007f0b1076aaf4 in ?? ()
-#15 0x00000000f5b93448 in ?? ()
-#16 0x00000000f5b93448 in ?? ()
-#17 0x00000000f5b93448 in ?? ()
-#18 0x00007f0b0f9f35e8 in ?? ()
-#19 0x0000000000000003 in ?? ()
-#20 0x00000000f5b93448 in ?? ()
-#21 0x0000000000000003 in ?? ()
-#22 0x00007f0b105927d0 in ?? ()
-#23 0x00007f0b0f6eea58 in ?? ()
-#24 0x00007f0b105927d0 in ?? ()
-#25 0x00007f0b0f6eea58 in ?? ()
-#26 0x00007f0b105927d0 in ?? ()
-#27 0x0000000000000001 in ?? ()
-#28 0x00007f0b0f6eea18 in ?? ()
-#29 0x00007f0b0fa9a979 in ?? ()
-#30 0x00007f0b0f6eea68 in ?? ()
-#31 0x00007f0b0fa9aa98 in ?? ()
 #32 0x0000000000000000 in ?? ()
 Thread 23 (Thread 0x7f0b0f5ee700 (LWP 11119)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e053ab in os::PlatformEvent::park() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24de92d5 in ObjectMonitor::wait(long, bool, Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #3  0x00007f0b24be29b8 in JVM_MonitorWait () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#4  0x00007f0b11160468 in ?? ()
-#5  0x00000000f5b93290 in ?? ()
 #6  0x0000000000000000 in ?? ()
 Thread 22 (Thread 0x7f0b0f4ed700 (LWP 11120)):
 #0  0x00007f0b25cceadb in do_futex_wait.constprop.1 () from /lib64/libpthread.so.0
@@ -716,7 +684,6 @@ Thread 22 (Thread 0x7f0b0f4ed700 (LWP 11120)):
 #4  0x00007f0b24df320c in signal_thread_entry(JavaThread*, Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #5  0x00007f0b24f6aa9b in JavaThread::thread_main_inner() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #6  0x00007f0b24f6ada1 in JavaThread::run() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#7  0x00007f0b24dfc952 in java_start(Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #8  0x00007f0b25cc8dd5 in start_thread () from /lib64/libpthread.so.0
 #9  0x00007f0b255d5ead in clone () from /lib64/libc.so.6
 Thread 21 (Thread 0x7f0b0f3ec700 (LWP 11121)):
@@ -724,10 +691,8 @@ Thread 21 (Thread 0x7f0b0f3ec700 (LWP 11121)):
 #1  0x00007f0b24dface7 in os::PlatformEvent::park(long) [clone .part.33] () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24dba614 in Monitor::IWait(Thread*, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #3  0x00007f0b24dbbace in Monitor::wait(bool, long, bool) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#4  0x00007f0b24973772 in CompileQueue::get() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #5  0x00007f0b2497c01b in CompileBroker::compiler_thread_loop() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #6  0x00007f0b24f6aa9b in JavaThread::thread_main_inner() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#7  0x00007f0b24f6ada1 in JavaThread::run() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #8  0x00007f0b24dfc952 in java_start(Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #9  0x00007f0b25cc8dd5 in start_thread () from /lib64/libpthread.so.0
 #10 0x00007f0b255d5ead in clone () from /lib64/libc.so.6
@@ -750,7 +715,6 @@ Thread 19 (Thread 0x7f0b0f1ea700 (LWP 11123)):
 #3  0x00007f0b24dbba8a in Monitor::wait(bool, long, bool) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #4  0x00007f0b24eac4d1 in ServiceThread::service_thread_entry(JavaThread*, Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #5  0x00007f0b24f6aa9b in JavaThread::thread_main_inner() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#6  0x00007f0b24f6ada1 in JavaThread::run() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #7  0x00007f0b24dfc952 in java_start(Thread*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #8  0x00007f0b25cc8dd5 in start_thread () from /lib64/libpthread.so.0
 #9  0x00007f0b255d5ead in clone () from /lib64/libc.so.6
@@ -767,167 +731,76 @@ Thread 17 (Thread 0x7f0b0efe8700 (LWP 11150)):
 #0  0x00007f0b25cccd12 in pthread_cond_timedwait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05aea in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x00000000f62c0080 in ?? ()
 #6  0x00007f0b0efe7840 in ?? ()
 #7  0x00007f0b255ebc6d in clock_gettime () from /lib64/libc.so.6
 #8  0x00007f0b24dfd5cf in os::javaTimeNanos() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#9  0x00007f0b10ebbc80 in ?? ()
-#10 0x00000001000844a0 in ?? ()
-#11 0x00000000f0c92288 in ?? ()
-#12 0x00000000f62c0080 in ?? ()
-#13 0x00000000f62bd908 in ?? ()
-#14 0x00000000f635f390 in ?? ()
-#15 0x00000000f62c0090 in ?? ()
-#16 0xf0c92288f62c0080 in ?? ()
-#17 0x003d22837b8d6672 in ?? ()
-#18 0x0000000000000001 in ?? ()
-#19 0x00000000f635f390 in ?? ()
-#20 0x00000000f6474020 in ?? ()
-#21 0x00007f0b10a8b17c in ?? ()
 #22 0x00000000f6369810 in ?? ()
 #23 0x00007f0b24dfd5cf in os::javaTimeNanos() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 Thread 16 (Thread 0x7f0b0dc32700 (LWP 11152)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x00000000f62c0080 in ?? ()
 #6  0x00007f0b0dc31840 in ?? ()
 #7  0x00007f0b255ebc6d in clock_gettime () from /lib64/libc.so.6
 #8  0x00007f0b24dfd5cf in os::javaTimeNanos() () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#9  0x00007f0b10ebb604 in ?? ()
-#10 0x00000001000844a0 in ?? ()
-#11 0x00000000f635f1d0 in ?? ()
-#12 0x00000000f62c0080 in ?? ()
-#13 0x00000000f62bd908 in ?? ()
-#14 0x00000000f62c0090 in ?? ()
-#15 0x00000001f0c70d70 in ?? ()
-#16 0xf62c0090f62c0080 in ?? ()
-#17 0x00000000f0c70d70 in ?? ()
 #18 0x0000000000000000 in ?? ()
 Thread 15 (Thread 0x7f0b0cf1f700 (LWP 11153)):
 #0  0x00007f0b25cccd12 in pthread_cond_timedwait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24dface7 in os::PlatformEvent::park(long) [clone .part.33] () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24e02586 in os::sleep(Thread*, long, bool) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #3  0x00007f0b24bf366a in JVM_Sleep () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#4  0x00007f0b10dcebf1 in ?? ()
-#5  0x00007f0b0cf1e9d0 in ?? ()
-#6  0x00007f0b0cf1e9c0 in ?? ()
-#7  0x00007f0b0f9f8b08 in ?? ()
-#8  0x00000000ffffffff in ?? ()
-#9  0x00007f0b04003c00 in ?? ()
-#10 0x00007f0b10dceb58 in ?? ()
-#11 0x00000000f5b8eb60 in ?? ()
-#12 0x0000000000000246 in ?? ()
-#13 0x00000000f622f8ec in ?? ()
-#14 0x00007f0b1089f580 in ?? ()
-#15 0x00000000f622f8b8 in ?? ()
 #16 0x0000000000000000 in ?? ()
 Thread 14 (Thread 0x7f0b0cc1e700 (LWP 11156)):
 #0  0x00007f0b255d6483 in epoll_wait () from /lib64/libc.so.6
 #1  0x00007f0b0d927844 in Java_sun_nio_ch_EPollArrayWrapper_epollWait () from /user/java/jdk1.8.0_221/jre/lib/amd64/libnio.so
-#2  0x00007f0b10c527f2 in ?? ()
-#3  0x00000000f6440e20 in ?? ()
-#4  0x0000000000000001 in ?? ()
-#5  0x0000000000000001 in ?? ()
 #6  0x0000000000000000 in ?? ()
 Thread 13 (Thread 0x7f0b0cb1d700 (LWP 11157)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0cb1c900 in ?? ()
-#7  0x0000000000000001 in ?? ()
-#8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
-#13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 12 (Thread 0x7f0b0ca1c700 (LWP 11158)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0ca1b900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
-#8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
-#13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 11 (Thread 0x7f0b0c91b700 (LWP 11159)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c91a900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
 #8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
 #13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 10 (Thread 0x7f0b0c81a700 (LWP 11160)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c819900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
 #8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
 #13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 9 (Thread 0x7f0b0c719700 (LWP 11161)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c718900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
 #8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
-#13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 8 (Thread 0x7f0b0c618700 (LWP 11162)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c617900 in ?? ()
-#7  0x0000000000000001 in ?? ()
 #8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
 #13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 7 (Thread 0x7f0b0c517700 (LWP 11163)):
@@ -937,93 +810,40 @@ Thread 7 (Thread 0x7f0b0c517700 (LWP 11163)):
 #3  0x00007f0b10db83ea in ?? ()
 #4  0x00000000f5b9c730 in ?? ()
 #5  0x00007f0b24fc6ff0 in VMThread::execute(VM_Operation*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#6  0x00007f0b110594e2 in ?? ()
-#7  0x00000000f0886978 in ?? ()
-#8  0x00000000f64953c0 in ?? ()
-#9  0x53203a657461440a in ?? ()
-#10 0x00000000f6788090 in ?? ()
 #11 0x0000000000000000 in ?? ()
 Thread 6 (Thread 0x7f0b0c416700 (LWP 11164)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c415900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
 #8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
-#13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 5 (Thread 0x7f0b0c315700 (LWP 11165)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c314900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
-#8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
-#13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 4 (Thread 0x7f0b0c214700 (LWP 11166)):
 #0  0x00007f0b25ccc965 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
 #1  0x00007f0b24e05ac0 in Parker::park(bool, long) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
 #2  0x00007f0b24f9347b in Unsafe_Park () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#3  0x00007f0b10db83ea in ?? ()
-#4  0x00000000f5b9c730 in ?? ()
-#5  0x0000000100000002 in ?? ()
-#6  0x00007f0b0c213900 in ?? ()
-#7  0x00007f0b00000001 in ?? ()
-#8  0x00000000f643fbc8 in ?? ()
 #9  0x00000000f6493598 in ?? ()
 #10 0x00007f0b254b6f8c in os::_initial_active_processor_count () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00000000f6788090 in ?? ()
-#12 0x00000000f643fc38 in ?? ()
-#13 0x00007f0b110594e2 in ?? ()
 #14 0x0000000000000000 in ?? ()
 Thread 3 (Thread 0x7f0b0c113700 (LWP 11167)):
 #0  0x00007f0b255d6483 in epoll_wait () from /lib64/libc.so.6
 #1  0x00007f0b0d927844 in Java_sun_nio_ch_EPollArrayWrapper_epollWait () from /user/java/jdk1.8.0_221/jre/lib/amd64/libnio.so
-#2  0x00007f0b10c527f2 in ?? ()
 #3  0x00000000f643f968 in ?? ()
 #4  0x00007f0b2494bf2c in CollectedHeap::new_store_pre_barrier(JavaThread*, oopDesc*) () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#5  0x00007f0b10dd8ec8 in ?? ()
-#6  0x00000000f643f968 in ?? ()
-#7  0x00000000f643fa08 in ?? ()
-#8  0x00000000f643f9f8 in ?? ()
-#9  0xf643f9f8f643f968 in ?? ()
-#10 0x0000000000000007 in ?? ()
-#11 0x000000000007cb7b in ?? ()
-#12 0x00000000000003e8 in ?? ()
-#13 0x00000000f643f9b0 in ?? ()
-#14 0x00000000f643fa08 in ?? ()
-#15 0x00000000f645dc30 in ?? ()
-#16 0x00000000f622fab8 in ?? ()
 #17 0x0000000000000000 in ?? ()
 Thread 2 (Thread 0x7f0af9ad5700 (LWP 11168)):
 #0  0x00007f0b25ccf97d in accept () from /lib64/libpthread.so.0
 #1  0x00007f0b0d92b1d3 in Java_sun_nio_ch_ServerSocketChannelImpl_accept0 () from /user/java/jdk1.8.0_221/jre/lib/amd64/libnio.so
-#2  0x00007f0b106a3dea in ?? ()
-#3  0x00000000f643f748 in ?? ()
-#4  0x00000000f643f7a8 in ?? ()
-#5  0x00000000f08936c8 in ?? ()
-#6  0x00000000f08936e8 in ?? ()
-#7  0x00000000f643f748 in ?? ()
-#8  0x00007f0b20773000 in ?? ()
 #9  0x00000000f643dcc8 in ?? ()
 #10 0x00007f0b24be85a4 in JVM_IsInterrupted () from /user/java/jdk1.8.0_221/jre/lib/amd64/server/libjvm.so
-#11 0x00007f0b114474e1 in ?? ()
-#12 0x00007f0af9ad4998 in ?? ()
 #13 0x0000000000000000 in ?? ()
 Thread 1 (Thread 0x7f0b260f2740 (LWP 11115)):
 #0  0x00007f0b25cc9f47 in pthread_join () from /lib64/libpthread.so.0
