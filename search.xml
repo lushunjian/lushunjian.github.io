@@ -15,16 +15,16 @@
           
           <category> 算法 </category>
           
+          <category> java </category>
+          
+          <category> python </category>
+          
+          <category> go </category>
+          
       </categories>
       
       
         <tags>
-            
-            <tag> python </tag>
-            
-            <tag> go </tag>
-            
-            <tag> java </tag>
             
             <tag> leetcode </tag>
             
