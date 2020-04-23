@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的图书, 木子李">
-    <meta name="description" content="我的图书 | 木子李">
+    <meta name="keywords" content="LeetCode-求两数组的中位数, 木子李">
+    <meta name="description" content="继续一天一个算法题，额….这个要求真的有点高 o(╥﹏╥)o ，今天这个算法题在LeetCode上是一个困难级别的题，我在看完这个题后基本上有了个大概的思路，然而理想很丰满，现实很骨感，用代码实现算法却用了一天多。这里记录一下我的解题思路
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的图书 | 木子李</title>
+    <title>LeetCode-求两数组的中位数 | 木子李</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -410,12 +411,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的图书</h1>
+                    <h1 class="description center-align post-title">LeetCode-求两数组的中位数</h1>
                 </div>
             </div>
         </div>
@@ -530,12 +531,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/leetcode/">
+                                <span class="chip bg-color">leetcode</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -544,7 +558,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-04-23
+                    2020-04-22
                 </div>
                 
 
@@ -561,494 +575,173 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>身体和心灵必须有一个在路上</p>
-</blockquote>
-
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban-tab {
-    padding: 5px;
-}
-
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
-
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
-    }
-}
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <a class="hexo-douban-tab" id="hexo-douban-tab1" href="javascript:;"
-       rel="external">
-        Reading
-        (2)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab2" href="javascript:;"
-       rel="external">
-        Wish
-        (2)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab3" href="javascript:;"
-       rel="external">
-        Read
-        (7)</a>
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s1398106.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/1034279/"> 果壳中的宇宙</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  [英] 史蒂芬·霍金 / 吴忠超 / 湖南科学技术出版社 / 2006-3 / 42.00元
-
-        </div>
-        <div class="hexo-douban-meta">2020-02-17
-      在读 /  物理 宇宙</div>
-        <div class="hexo-douban-comments">
-      非常好的科普读物，真想去探寻宇宙的奥义
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/view/subject/s/public/s1164759.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/1219329/"> Unix/Linux编程实践教程</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  Bruce Molay、杨宗源、黄海涛 / 杨宗源、黄海涛 / 清华大学出版社 / 2004-10-1 / 56.00元
-
-        </div>
-        <div class="hexo-douban-meta">2019-03-03
-      在读 /  程序设计 Linux/Unix 操作系统</div>
-        <div class="hexo-douban-comments">
-      深入浅出的阐述了操作系统的工作原理，并配有大量插图，通俗易懂。确实如大家所说，很经典，值得推荐
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/view/subject/s/public/s3078482.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/3066477/"> 三体Ⅱ</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  刘慈欣 / 重庆出版社 / 2008-5 / 32.00
-
-      
-        </div>
-        <div class="hexo-douban-meta">2020-02-17
-      想读 /  宇宙 刘慈欣 中国 三体</div>
-        <div class="hexo-douban-comments">
-      宇宙就像一个黑暗的森林。每个文明都是带枪的猎人
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s26012674.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/5363767/"> 三体Ⅲ</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  刘慈欣 / 重庆出版社 / 2010-11 / 38.00元
-
-      
-        </div>
-        <div class="hexo-douban-meta">2020-02-17
-      想读 /  宇宙 虚拟机 科幻 经典 刘慈欣</div>
-        <div class="hexo-douban-comments">
-      刘大的硬科幻作品，想读，抽个时间看看
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/view/subject/s/public/s27988451.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/2143016/"> 我，机器人</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  (美)阿西莫夫 / 国强等 / 科学普及出版社 / 1983 / 0.66
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  宇宙 科幻 机器人 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      阿西莫夫的经典小说，人和机器人到底是什么关系，如果机器人发展出自我意识，人和机器人能和谐共处吗
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/view/subject/s/public/s27964262.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/24380577/"> 平凡的世界</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  路遥 / 北京十月文艺出版社 / 2013-5 / 99.00元
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  小说 至诚至朴 简单的追求 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      是一部现实主义小说，也是一部小说形式的家族史。都说人生会经历三个阶段，1.认识到父母是个普通人，2.认识到自己是个普通人，3.认识到儿子是个普通人。是啊，我们都只是个平凡的人，做着平凡的事。
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/view/subject/s/public/s6340977.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/4242172/"> 天才在左 疯子在右</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  高铭 / 武汉大学出版社 / 2010-2 / 29.80元
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  经典 心理学 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      什么是天才，什么是疯子。天才不被人理解，疯子也被人理解。天才都有很多被人认为是疯子的想法，二者没有绝对的界限
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s29523176.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/27120470/"> 斗罗大陆</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  唐家三少 / 湖南少年儿童出版社 / 2016-6-1 / CNY 34.80
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  唐家三少 小说 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      我也不知道为什么就看完了，我不喜欢看小说的，不过写的不错，剧情挺好
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/view/subject/s/public/s3053779.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/3056892/"> 幻城</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  郭敬明 / 长江文艺出版社 / 2008-4 / 23.00元
-
-      </div>
-        <div class="hexo-douban-meta">2019-04-01
-      读过 /  玄幻 / ★★★☆☆ 还行</div>
-        <div class="hexo-douban-comments">
-      还是高中的时候看过的小说，总得来说还不错
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/view/subject/s/public/s1114142.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/1150503/"> 资本论（第一卷）</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  中共中央马克思恩格斯列宁斯大林著作编译局 / 中共中央马克思恩格斯列宁斯大林著作编译局 / 人民出版社 / 2004-1 / 45.00元
-
-      </div>
-        <div class="hexo-douban-meta">2019-01-31
-      读过 /  资本论 经济学 经济 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      以前课本上总说马克思，恩格斯是很厉害的人物，但我一直不知道他们厉害在哪里。看了这本书，才找的答案
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s27458236.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/24722612/"> 深入理解Java虚拟机（第2版）</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  周志明 / 机械工业出版社 / 2013-9-1 / 79.00元
-
-      </div>
-        <div class="hexo-douban-meta">2019-01-16
-      读过 /  JVM Java 虚拟机 程序设计 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      jvm经典书籍，讲的非常透彻，赞
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
-
-</script>
-
+                <p>继续一天一个算法题，额….这个要求真的有点高 o(╥﹏╥)o ，今天这个算法题在LeetCode上是一个困难级别的题，我在看完这个题后基本上有了个大概的思路，然而理想很丰满，现实很骨感，用代码实现算法却用了一天多。这里记录一下我的解题思路</p>
+<p><img src="/2020/04/22/leetcode-qiu-liang-shu-zu-de-zhong-wei-shu/1.jpg" alt></p>
+<h2 id="寻找两个有序数组的中位数"><a href="#寻找两个有序数组的中位数" class="headerlink" title="寻找两个有序数组的中位数"></a>寻找两个有序数组的中位数</h2><p>给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。你可以假设 nums1 和 nums2 不会同时为空。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>nums1 = [1, 3]
+nums2 = [2]
+
+则中位数是 2.0</code></pre><p><strong>示例 2:</strong></p>
+<pre><code>nums1 = [1, 2]
+nums2 = [3, 4]
+
+则中位数是 (2 + 3)/2 = 2.5</code></pre><p><strong>备注：</strong></p>
+<ul>
+<li><code>中位数</code>：中位数的概念是初中的内容，简单来说，就是一个有序数组的中间那个数（如果数组长度是奇数，中位数是中间那个数；如果长度是偶数，中位数是中间两个数的平均数）</li>
+<li><code>有序数组</code>：题干中有一点没讲清楚，就是只说了是两个有序数组，而没有说是两个升序数组，或者是两个降序数组，又或者一个升序一个降序。但我提交通过的代码，默认是处理两个数组是升序的，所以LeetCode这道题默认是针对两个升序数组的，我本地又测了一下两个降序和一个升序一个降序的情况，发现不能得到正确结果（后来我想了想，其实如果代码能正确得到两个升序数组的中位数，那么两个降序和一个升序一个降序的情况，只要稍加处理一下了，哈哈）</li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>所谓一千个人眼中有一千个哈姆雷特，不同的人对同一个题目有不同的算法思路，这里只记录我个人的解题思路。这道题要求算法复杂度是O(log(m + n))，这意味着只能遍历一次数组才能满足这个要求。而这道题最有用的价值就是两个数组已经是有序数组，要很好的利用这个特点。而不是首先想着把两个数组合成一个数组，然后再排好序，再求中位数。因此看完这道题时，我的想法是，想像有一个小人从数组的左边走到右边，他每次只能走一个数字，而且每走一步只能选择这两个数组中比较小的数走，然后走第二大的数，然后走第三大的数。当小人走的步数是两个数组长度的一半数，他脚下的数字就是中位数了。这个思路的算法复杂度很小，没有任何多余的算法步骤，我的思路虽然是这样想的，但实际写代码时却总想着去遍历两个数组（因为发现如果不遍历，该怎么往右走呢），以至于花费了大半天时间还是得不到正确的结果，后来我再去仔细想了想这个思路过程，发现重要的不是遍历，而得需要知道下一步该怎么走（即是应该继续在这个数组上右移一步，还是应该跳到另一个数组）。也就是说我每走一步都需要规划下一步该怎么走。按这个思路这道题需要解决的问题点有三个：</p>
+<ol>
+<li><code>动态规划</code>：每右移一步时，要分别获取数组1和数组2的下一个元素，比较大小，然后选择较小的数组继续右移</li>
+<li><code>临界判断</code>：存在一种情况，就是数组1的值比数组2的值全都小时，数组1跑完后，到数组2时就不需要再获取数组1的元素做动态规划了</li>
+<li><code>长度判断</code>：当两数组长度和为奇数时比较好处理，当长度和为偶数时，跑到中间后，需把中间的数值先记下来，然后继续右移一位，这时再和刚刚记下的数值求和算中位数</li>
+</ol>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="Java版本"><a href="#Java版本" class="headerlink" title="Java版本"></a>Java版本</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">getMiddleByTwoNumbers</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums1 <span class="token punctuation">,</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> value1<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>value2<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 声明两个游标,两个数组谁小，谁右移</span>
+        <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> half <span class="token operator">=</span> <span class="token punctuation">(</span>nums1<span class="token punctuation">.</span>length<span class="token operator">+</span>nums2<span class="token punctuation">.</span>length<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">>></span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span> lengthFlag <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nums1<span class="token punctuation">.</span>length<span class="token operator">+</span>nums2<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">;</span>
+        Integer temp1<span class="token punctuation">,</span>temp0<span class="token operator">=</span>null<span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span> flag1<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">,</span>flag2<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">&lt;</span>nums1<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
+                value1 <span class="token operator">=</span> nums1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>j<span class="token operator">&lt;</span>nums2<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
+                value2 <span class="token operator">=</span> nums2<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//(如果 num1当前值小于num2当前值，且游标未到达num1的最右边) 或者 (num2右标已到达最右边，此时只移动num1)</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>value1<span class="token operator">&lt;</span>value2  <span class="token operator">&amp;&amp;</span> flag1<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span>flag2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">>=</span> nums1<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    flag1 <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                temp1 <span class="token operator">=</span> value1<span class="token punctuation">;</span>
+                i<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>j <span class="token operator">>=</span> nums2<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    flag2 <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                temp1 <span class="token operator">=</span> value2<span class="token punctuation">;</span>
+                j<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 如果已经到了中位数的位置</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token operator">+</span>j<span class="token punctuation">)</span> <span class="token operator">==</span> half<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 两数组长为偶数时，需找两个值</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>lengthFlag<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span>temp0 <span class="token operator">==</span> null<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        half<span class="token operator">++</span><span class="token punctuation">;</span>
+                        temp0 <span class="token operator">=</span> temp1<span class="token punctuation">;</span>
+                        <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>temp1<span class="token operator">+</span>temp0<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2d</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> temp1<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="Python版本"><a href="#Python版本" class="headerlink" title="Python版本"></a>Python版本</h3><pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> typing <span class="token keyword">import</span> List
+
+
+<span class="token keyword">def</span> <span class="token function">getMiddleByTwoNumbers</span><span class="token punctuation">(</span>nums1<span class="token punctuation">:</span> List<span class="token punctuation">[</span>int<span class="token punctuation">]</span><span class="token punctuation">,</span> nums2<span class="token punctuation">:</span> List<span class="token punctuation">[</span>int<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> float<span class="token punctuation">:</span>
+     value1<span class="token operator">=</span><span class="token number">0</span>
+     value2<span class="token operator">=</span><span class="token number">0</span>
+     i<span class="token operator">=</span><span class="token number">0</span>
+     j <span class="token operator">=</span> <span class="token number">0</span>
+     half <span class="token operator">=</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>nums1<span class="token punctuation">)</span> <span class="token operator">+</span> len<span class="token punctuation">(</span>nums2<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">//</span> <span class="token number">2</span>
+     lengthFlag <span class="token operator">=</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>nums1<span class="token punctuation">)</span> <span class="token operator">+</span> len<span class="token punctuation">(</span>nums2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span>
+     tempFlag <span class="token operator">=</span> <span class="token boolean">False</span>
+     temp1<span class="token operator">=</span><span class="token number">0</span>
+     temp0<span class="token operator">=</span><span class="token number">0</span>
+     flag1 <span class="token operator">=</span> <span class="token boolean">True</span>
+     flag2 <span class="token operator">=</span> <span class="token boolean">True</span>
+     <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+         <span class="token keyword">if</span> i<span class="token operator">&lt;</span>len<span class="token punctuation">(</span>nums1<span class="token punctuation">)</span><span class="token punctuation">:</span>
+             value1<span class="token operator">=</span>nums1<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+         <span class="token keyword">if</span> j<span class="token operator">&lt;</span>len<span class="token punctuation">(</span>nums2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+             value2<span class="token operator">=</span>nums2<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+
+         <span class="token keyword">if</span> <span class="token punctuation">(</span>value1<span class="token operator">&lt;</span>value2 <span class="token operator">and</span> flag1<span class="token punctuation">)</span> <span class="token operator">or</span> <span class="token operator">not</span> flag2<span class="token punctuation">:</span>
+             <span class="token keyword">if</span> i<span class="token operator">>=</span> len<span class="token punctuation">(</span>nums1<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                 flag1 <span class="token operator">=</span> <span class="token boolean">False</span>
+                 <span class="token keyword">continue</span>
+             temp1 <span class="token operator">=</span> value1
+             i <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span>
+         <span class="token keyword">else</span><span class="token punctuation">:</span>
+             <span class="token keyword">if</span> j<span class="token operator">>=</span> len<span class="token punctuation">(</span>nums2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                 flag2 <span class="token operator">=</span> <span class="token boolean">False</span>
+                 <span class="token keyword">continue</span>
+             temp1 <span class="token operator">=</span> value2
+             j <span class="token operator">=</span> j<span class="token operator">+</span><span class="token number">1</span>
+         <span class="token keyword">if</span> <span class="token punctuation">(</span>i<span class="token operator">+</span>j<span class="token punctuation">)</span> <span class="token operator">==</span> half<span class="token punctuation">:</span>
+             <span class="token keyword">if</span> lengthFlag<span class="token punctuation">:</span>
+                 <span class="token keyword">if</span> <span class="token operator">not</span> tempFlag<span class="token punctuation">:</span>
+                     tempFlag <span class="token operator">=</span> <span class="token boolean">True</span>
+                     half <span class="token operator">=</span> half<span class="token operator">+</span><span class="token number">1</span>
+                     temp0 <span class="token operator">=</span> temp1
+                     <span class="token keyword">continue</span>
+                 <span class="token keyword">return</span> <span class="token punctuation">(</span>temp0<span class="token operator">+</span>temp1<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span>
+             <span class="token keyword">else</span><span class="token punctuation">:</span>
+                 <span class="token keyword">return</span> temp1</code></pre>
+<h3 id="Go版本"><a href="#Go版本" class="headerlink" title="Go版本"></a>Go版本</h3><pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">getMiddleByTwoNumbers</span><span class="token punctuation">(</span> num1 <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token punctuation">,</span>num2 <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">float64</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> value1 <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">var</span> value2 <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token comment" spellcheck="true">// 声明两个游标</span>
+    <span class="token keyword">var</span> i <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">var</span> j <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">var</span> half <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>num1<span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">len</span><span class="token punctuation">(</span>num2<span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span>
+    <span class="token keyword">var</span> lengthFlag <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>num1<span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">len</span><span class="token punctuation">(</span>num2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">2</span><span class="token operator">==</span><span class="token number">0</span>
+    <span class="token comment" spellcheck="true">// 两数组长度为偶数时，额外处理的开关</span>
+    <span class="token keyword">var</span> even <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">false</span>
+    <span class="token keyword">var</span> temp0 <span class="token builtin">int</span>
+    <span class="token keyword">var</span> temp1 <span class="token builtin">int</span>
+    <span class="token keyword">var</span> flag1 <span class="token builtin">bool</span> <span class="token operator">=</span><span class="token boolean">true</span>
+    <span class="token keyword">var</span> flag2 <span class="token builtin">bool</span> <span class="token operator">=</span><span class="token boolean">true</span>
+    <span class="token keyword">for</span> <span class="token boolean">true</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span> i<span class="token operator">&lt;</span><span class="token function">len</span><span class="token punctuation">(</span>num1<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            value1 <span class="token operator">=</span> num1<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> j<span class="token operator">&lt;</span><span class="token function">len</span><span class="token punctuation">(</span>num2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            value2 <span class="token operator">=</span> num2<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value1<span class="token operator">&lt;</span>value2 <span class="token operator">&amp;&amp;</span> flag1<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span>flag2 <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> i<span class="token operator">>=</span> <span class="token function">len</span><span class="token punctuation">(</span>num1<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                flag1<span class="token operator">=</span><span class="token boolean">false</span>
+                <span class="token keyword">continue</span>
+            <span class="token punctuation">}</span>
+            temp1 <span class="token operator">=</span> value1
+            i<span class="token operator">++</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> j<span class="token operator">>=</span> <span class="token function">len</span><span class="token punctuation">(</span>num2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                flag2<span class="token operator">=</span><span class="token boolean">false</span>
+                <span class="token keyword">continue</span>
+            <span class="token punctuation">}</span>
+            temp1 <span class="token operator">=</span> value2
+            j<span class="token operator">++</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i<span class="token operator">+</span>j<span class="token punctuation">)</span> <span class="token operator">==</span> half<span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果两数组长度和为偶数</span>
+            <span class="token keyword">if</span> lengthFlag <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 如果是false，说明中位数还需要拿一位</span>
+                <span class="token keyword">if</span> <span class="token operator">!</span>even <span class="token punctuation">{</span>
+                    half<span class="token operator">++</span>
+                    temp0 <span class="token operator">=</span> temp1
+                    even <span class="token operator">=</span> <span class="token boolean">true</span>
+                    <span class="token keyword">continue</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">return</span> <span class="token function">float64</span><span class="token punctuation">(</span>temp0<span class="token operator">+</span>temp1<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2.0</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token function">float64</span><span class="token punctuation">(</span>temp1<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token function">float64</span><span class="token punctuation">(</span>temp1<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="LeetCode运行结果"><a href="#LeetCode运行结果" class="headerlink" title="LeetCode运行结果"></a>LeetCode运行结果</h2><p>Java的优化确实已经登峰造极了，三种语言代码是一样的思路写的，Java还是跑的最快的，只不过内存用的有点多，比较Java有个JVM在那</p>
 
             </div>
             <hr/>
@@ -1074,7 +767,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/books/index.html">https://lushunjian.gitee.io/books/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2020/04/22/leetcode-qiu-liang-shu-zu-de-zhong-wei-shu/">https://lushunjian.gitee.io/2020/04/22/leetcode-qiu-liang-shu-zu-de-zhong-wei-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1111,7 +804,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/leetcode/">
+                                    <span class="chip bg-color">leetcode</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1568,45 +1265,47 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/books/index.html">
+                <a href="/2020/04/22/leetcode-qiu-liang-shu-zu-de-zhong-wei-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="我的图书">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="LeetCode-求两数组的中位数">
                         
-                        <span class="card-title">我的图书</span>
+                        <span class="card-title">LeetCode-求两数组的中位数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    身体和心灵必须有一个在路上
+                            继续一天一个算法题，额….这个要求真的有点高 o(╥﹏╥)o ，今天这个算法题在LeetCode上是一个困难级别的题，我在看完这个题后基本上有了个大概的思路，然而理想很丰满，现实很骨感，用代码实现算法却用了一天多。这里记录一下我的解题思路
 
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-22
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1614,48 +1313,48 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/books/index.html">
+                <a href="/2020/04/19/leetcode-liang-shu-xiang-jia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="我的图书">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="LeetCode-两数相加">
                         
-                        <span class="card-title">我的图书</span>
+                        <span class="card-title">LeetCode-两数相加</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    身体和心灵必须有一个在路上
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban
+                            在代码的世界中有一句名言，即程序=数据结构+算法。工作中大部分开发其实都用不到多高深的算法，因为前辈们已经造好了各种高级轮子，我们要做的仅仅只需要调用他们封装好的API就行了。这样就算不懂这些知识，只要Java API、开发框架用得熟练，照
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-19
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
