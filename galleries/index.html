@@ -425,11 +425,19 @@
     <div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
         <div class="brand">
-            <div class="title center-align">
+			<!-- 原签名效果 -->
+            <!-- <div class="title center-align">
                 
-                真正的大师永远怀着一颗学徒的心
+                Hi，乐天派 ！
                 
-            </div>
+            </div> -->
+			
+				  <canvas id="my-canvas" style="position: fixed;top: 0px;left: 0;"></canvas>
+				  <div id="headline" my-font-size="5" style="display:none">
+					
+					Hi，乐天派 ！
+					
+				  </div> 
 
             <div class="description center-align">
                 
@@ -443,6 +451,7 @@
 </div>
 
 <script src="/js/sakura.js"></script>
+<script src="/js/home-font.js"></script>
 
 <script>
     // 每天切换 banner 图.  Switch banner image every day.

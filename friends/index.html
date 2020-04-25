@@ -411,11 +411,19 @@
     <div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
         <div class="brand">
-            <div class="title center-align">
+			<!-- 原签名效果 -->
+            <!-- <div class="title center-align">
                 
-                真正的大师永远怀着一颗学徒的心
+                Hi，乐天派 ！
                 
-            </div>
+            </div> -->
+			
+				  <canvas id="my-canvas" style="position: fixed;top: 0px;left: 0;"></canvas>
+				  <div id="headline" my-font-size="5" style="display:none">
+					
+					Hi，乐天派 ！
+					
+				  </div> 
 
             <div class="description center-align">
                 
@@ -429,6 +437,7 @@
 </div>
 
 <script src="/js/sakura.js"></script>
+<script src="/js/home-font.js"></script>
 
 <script>
     // 每天切换 banner 图.  Switch banner image every day.
@@ -469,12 +478,12 @@
 
     .frind-ship .title div {
         color: #fff;
-        padding-left: 10px;
+        padding-left: 15px;
     }
 
     .frind-ship .title img {
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
         flex-shrink: 0;
     }
 
@@ -512,8 +521,8 @@
         font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
         text-decoration: none;
         text-align: center;
-        line-height: 40px;
-        height: 40px;
+        line-height: 35px;
+        height: 35px;
         padding: 0 40px;
         margin: 0;
         display: inline-block;
@@ -660,14 +669,14 @@
 								
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card1">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/vue.png" alt="img">
 													<div>
-														<h1 class="friend-name">Vue.js</h1>
-														<p style="position: relative;top: -35px;">vue官方网站</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">Vue.js</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">vue官方网站</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -681,14 +690,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card2">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/react.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">React.js</h1>
-														<p style="position: relative;top: -35px;">React官网</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">React.js</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">React官网</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -702,14 +711,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card3">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/spring.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">Spring Boot</h1>
-														<p style="position: relative;top: -35px;">Spring Boot官网</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">Spring Boot</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">Spring Boot官网</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -723,14 +732,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card4">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/spring-cloud.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">SpringCloud</h1>
-														<p style="position: relative;top: -35px;">微服务架构集大成者，云计算最佳业务实践</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">SpringCloud</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">微服务架构集大成者，云计算最佳业务实践</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -744,14 +753,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card5">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/docker.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">Docker</h1>
-														<p style="position: relative;top: -35px;">轻量的进程级别的虚拟化技术</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">Docker</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">轻量的进程级别的虚拟化技术</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -765,14 +774,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card6">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/echarts.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">Echarts</h1>
-														<p style="position: relative;top: -35px;">百度开源的数据可视化图表框架</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">Echarts</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">百度开源的数据可视化图表框架</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -786,14 +795,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card7">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/ant.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">Ant Design</h1>
-														<p style="position: relative;top: -35px;">基于React的UI框架，快速搭建后台管理系统</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">Ant Design</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">基于React的UI框架，快速搭建后台管理系统</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -807,14 +816,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card8">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/li-kou.png" alt="img">
 													<div>
-														<h1 class="friend-name">力扣</h1>
-														<p style="position: relative;top: -35px;">海量数据结构，算法题。包含top企业面试算法题</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">力扣</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">海量数据结构，算法题。包含top企业面试算法题</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -828,14 +837,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card9">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="../medias/friends/daoVoice.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">DaoVoice</h1>
-														<p style="position: relative;top: -35px;">免费为网页端快速接入在线实时通讯</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">DaoVoice</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">免费为网页端快速接入在线实时通讯</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -858,14 +867,14 @@
 								
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card1">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="http://image.luokangyuan.com/1_qq_27922023.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">码酱</h1>
-														<p style="position: relative;top: -35px;">我不是大佬，只是在追寻大佬的脚步</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">码酱</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">我不是大佬，只是在追寻大佬的脚步</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -879,14 +888,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card2">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="http://image.luokangyuan.com/4027734.jpeg" alt="img">
 													<div>
-														<h1 class="friend-name">闪烁之狐</h1>
-														<p style="position: relative;top: -35px;">编程界大佬，技术牛，人还特别好</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">闪烁之狐</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">编程界大佬，技术牛，人还特别好</p>
 													</div>
 												</div>
 												<div class="friend-button">
@@ -900,14 +909,14 @@
 									</div>
 								
 									
-									<div data-aos="zoom-in-up" style="display: inline-block;width: 30%;margin: 0 5px">
+									<div data-aos="zoom-in-up" style="display: inline-block;width: 27%;margin: 5px 3%">
 										<div class="card frind-card3">
 											<div class="frind-ship">
-												<div class="title">
+												<div class="title" style="height:120px">
 													<img src="http://image.luokangyuan.com/avatar.jpg" alt="img">
 													<div>
-														<h1 class="friend-name">ja_rome</h1>
-														<p style="position: relative;top: -35px;">平凡的脚步也可以走出伟大的行程</p>
+														<h1 class="friend-name" style="font-size: 1.4rem">ja_rome</h1>
+														<p style="position: relative;top: -35px;font-size: 12px;height: 50px">平凡的脚步也可以走出伟大的行程</p>
 													</div>
 												</div>
 												<div class="friend-button">
