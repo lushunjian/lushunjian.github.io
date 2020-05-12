@@ -635,14 +635,15 @@
 <p><img src="/2020/05/11/hong-hei-shu-yuan-li/10.png" alt="2-3数构建过程"></p>
 <p>图中最后构建出了一个有6个数据的2-3树，可以看出最后2-3树包含两个2-节点，最完美的地方在于，从根节点到每个叶子节点的路径长度是一样的。可以说是一颗完美的树。因此2-3树的设计完全可以保证二叉树保持矮矮胖胖的状态，保持其性能良好。但是，将这种直白的表述写成代码实现起来并不方便，因为要处理的情况太多。这样需要维护两种不同类型的节点，将链接和其他信息从一个节点复制到另一个节点，将节点从一种类型转换为另一种类型等等，因此红黑树登场了。</p>
 <h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树的背后逻辑就是2-3树的逻辑，<code>红黑树使用了红色来标记2-节点（包含两个元素的节点）中左边的那个元素，黑色用于标记普通节点（包含一个元素的节点）和2-节点中右边的那个元素，总而言之，可以大致理解为用红色标记2-节点，用黑色标记普通节点</code>。如果要直接从红黑树的代码去理解它是如何工作的以及背后的道理，就比较困难了。所以你一定要理解它的演化过程，才能真正的理解红黑树。基于这个结论，我们可以非常简单的把刚刚得到的2-3树，转换成一颗红黑树</p>
-<p><img src="/2020/05/11/hong-hei-shu-yuan-li/11.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/11.png" alt="2-3树转换成红黑树"></p>
 <p>只需三步就可以把一颗2-3树变为红黑树，实际上2-3树已经是一颗红黑树了</p>
 <ol>
 <li>把2-3树中所有3-节点的两个元素分开</li>
 <li>把3-节点中的左元素标记为红色，右元素标记为黑色，普通节点标记为黑色</li>
-<li>把3-节点展开，注意3-节点展开时，两个左边的子节点要划给红节点</li>
+<li>把3-节点展开，注意3-节点展开时，两个左边的子节点要划给红元素。此外，展开时3-节点中的红元素总是向左下方倾斜，3-节点中的黑元素总是向右上方倾斜</li>
 </ol>
-<p>至此红黑树的构造过程就结束了，红色树的构造，插入就是2-3树的插入逻辑，至于左旋，右旋其实就对应于2-3树出现4-时分解重组成2-节点的过程</p>
+<p>至此红黑树的构造过程就结束了，红色树的构造，插入就是2-3树的插入逻辑，至于左旋，右旋其实就对应于2-3树出现4-时分解重组成2-节点的过程。我再把刚刚得到的红黑树中的红节点摆平，又可以还原成一颗2-3树了，如下图</p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/12.png" alt="红黑树还原成2-3树"></p>
 <h2 id="Java实现红黑树"><a href="#Java实现红黑树" class="headerlink" title="Java实现红黑树"></a>Java实现红黑树</h2><p>如果能很好的理解2-3树，基本红黑树也就不是问题了，最后可以按照2-3树的思路，尝试去实现一下红黑树的插入，查找删除逻辑。这里我贴一份红黑树的Java实现，代码中有比较多的注释，方便理解查阅</p>
 <h3 id="NodeColor-java"><a href="#NodeColor-java" class="headerlink" title="NodeColor.java"></a>NodeColor.java</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">NodeColor</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> String Red <span class="token operator">=</span> <span class="token string">"red"</span><span class="token punctuation">;</span>
