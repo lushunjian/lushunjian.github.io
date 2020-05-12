@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="深入浅出红黑树, 木子李">
+    <meta name="keywords" content="红黑树原理, 木子李">
     <meta name="description" content="说到红黑树，让人又爱又恨啊，真是一种令人头大的数据结构。我也没少被他折磨过，尽管在工作中，在网文中多次看到过关于它的原理解释，但大多都是一上来就是五条定义，然后紧跟着就是红黑树插入的代码实现，翻转代码实现，让人难以理解消化，搞的人云里雾里的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>深入浅出红黑树 | 木子李</title>
+    <title>红黑树原理 | 木子李</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/29.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">深入浅出红黑树</h1>
+                    <h1 class="description center-align post-title">红黑树原理</h1>
                 </div>
             </div>
         </div>
@@ -549,12 +549,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                                <span class="chip bg-color">数据结构</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                数据结构
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -581,7 +594,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>说到红黑树，让人又爱又恨啊，真是一种令人头大的数据结构。我也没少被他折磨过，尽管在工作中，在网文中多次看到过关于它的原理解释，但大多都是一上来就是五条定义，然后紧跟着就是红黑树插入的代码实现，翻转代码实现，让人难以理解消化，搞的人云里雾里的。这是因为五条定义以及代码实现都是红黑树定义和实现的精炼结果了，如果连红黑树的设计思想，它的推演过程都不知道，就直接把一个研究成果丢过来，搁谁也难以通过结果反向去理解它的实现原理吧。本文介绍对红黑树推演过程，看完此文保证对红黑树的定义，翻转可以轻松理解了。网上也有很多类似的文章，不过我决定对红黑树这个老大难做一次全面彻底的总结。</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/1.jpg" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/1.jpg" alt></p>
 <h2 id="红黑树的定义"><a href="#红黑树的定义" class="headerlink" title="红黑树的定义"></a>红黑树的定义</h2><p>先摆一下红黑树的官方定义吧，红黑树是每个节点都带有颜色属性的二叉查找树，颜色或红色或黑色。在二叉树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求，也叫红黑树的五大定义</p>
 <ol>
 <li>节点是红色或黑色。 </li>
@@ -597,16 +610,16 @@
 <h3 id="Linux虚拟内存"><a href="#Linux虚拟内存" class="headerlink" title="Linux虚拟内存"></a>Linux虚拟内存</h3><p>32 位 Linux 内核虚拟地址空间划分 0－3G 为用户空间，3－4G 为内核空间，因此每个进程可以使用 4GB的虚拟空间。同时，Linux 定义了虚拟存储区域( VMA) 以便于更好表示进程所使用的虚拟空间，每个 VMA是某个进程的一段连续虚拟空间，其中的单元具有相同的特征，所有的虚拟区域按照地址排序由指针链接为一个链表。当发生缺页中断时搜索 VMA 到指定区域时，则需要频繁操作，因此选用了红黑树以减少查找时间。</p>
 <h2 id="红黑树的推演过程"><a href="#红黑树的推演过程" class="headerlink" title="红黑树的推演过程"></a>红黑树的推演过程</h2><p>来到这里，就请耐心看完吧，因为真正精彩的才刚刚开始。红黑树的起源，自然是二叉查找树了，对于二叉树的概念就不说了非常简单。</p>
 <h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p>这种树结构从根节点开始，左子节点小于它，右子节点大于它。每个节点都符合这个特性，所以易于查找，是一种很好的数据结构。但是它有一个问题，就是容易偏向某一侧，这样就像一个链表结构了，失去了树结构的优点，查找时间会变坏。所以我们都希望树结构都是矮矮胖胖的，就像左边这样，而右边的就是极端情况的二叉树，已经退化成一个链表了</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/2.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/2.png" alt></p>
 <p>基于这种需求，平衡树的概念就应运而生了。平衡树简单的意思就是当二叉树出现右边这种极端情况时，把这颗树重新构造成一颗新的有左右子树的二叉树，这样所有节点的数据查找效率就会相对均衡。例如把上图中右边极端情况下的二叉树重新构造成如下结构</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/4.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/4.png" alt></p>
 <p>红黑树就是一种平衡树，它可以保证二叉树基本符合矮矮胖胖的结构，但是在理解红黑树之前，必须先了解另一种树，叫2-3树，红黑树背后的实现原理就是它。</p>
 <h3 id="2-3树的概念"><a href="#2-3树的概念" class="headerlink" title="2-3树的概念"></a>2-3树的概念</h3><p>2-3树是二叉树的变种，它存在两种类型的节点，把这两种节点分别叫做2-节点和3-节点，树中的2和3分别代表节点有几个子节点。</p>
 <ul>
 <li><code>2-节点</code>：也叫普通节点，包含一个元素，拥有两个子节点</li>
 <li><code>3-节点</code>：它是2-节点的扩充版，包含两个元素，拥有三个子节点。对于3-节点有这样一个排列约束，如下图中最左边的子节点3小于父节点5，中间的子节点7大小介于父节点5和10之间，最右边的11大于父节点10</li>
 </ul>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/5.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/5.png" alt></p>
 <p>在这两种节点的配合下，2-3树可以保证在插入值过程中，任意叶子节点到根节点的距离都是相同的。完美实现了矮胖矮胖的目标。怎么配合的呢，下面来看2-3树的构造过程。</p>
 <h3 id="2-3树的构造"><a href="#2-3树的构造" class="headerlink" title="2-3树的构造"></a>2-3树的构造</h3><p>我们从零开始构造一颗2-3树，如果你的想象力足够强大，你可以边读边在脑海中形成一个构造树的动画过程，如果不行的话可以用笔在纸上画一画。我们知道在二叉查找树中，插入过程从根节点开始比较，小于节点值往右继续与左子节点比，大于则继续与右子节点比，直到某节点左或右子节点为空，把值插入进去。但在2-3树中，情况稍微有些变化，因为2-3树中存在两种不同的节点类型，插入思路大致如下：</p>
 <ol>
@@ -614,15 +627,15 @@
 <li>如果将值插入一个3-节点，分为以下几种情况。下面会分别讨论这几种情况</li>
 </ol>
 <h4 id="3-节点没有父节点"><a href="#3-节点没有父节点" class="headerlink" title="3-节点没有父节点"></a>3-节点没有父节点</h4><p>即整棵树就只有它一个3-节点。此时，将3-节点扩充为一个4-节点，即包含三个元素的节点，这违背了2-3树的定义，因此将其分解重组，变成一棵二叉树。</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/6.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/6.png" alt></p>
 <p>此时二叉树依然保持平衡。</p>
 <h4 id="3-节点有一个2-节点的父节点"><a href="#3-节点有一个2-节点的父节点" class="headerlink" title="3-节点有一个2-节点的父节点"></a>3-节点有一个2-节点的父节点</h4><p>此时的操作是，3-节点扩充为4-节点，然后分解重组4-节点，然后将分解后的新树的父节点融入到原来2-节点的父节点中去，形成一个3-节点。这个过程稍微有点复杂，直接上图，跟着图中箭头走一遍。</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/8.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/8.png" alt></p>
 <h4 id="3-节点有一个3-节点的父节点"><a href="#3-节点有一个3-节点的父节点" class="headerlink" title="3-节点有一个3-节点的父节点"></a>3-节点有一个3-节点的父节点</h4><p>3-节点有一个3-节点要插入时，就有点复杂了，因此3-节点插入一个节点后会变成4-节点，此时违背了2-3树的定义，3-节点会分解重组成2-节点，生成的新树的父节点会融入到原本的父级，而原本的父级也是一个3-节点，融入一个新节点后会变成4-节点，又违背了2-3树的定义，于是继续分解重组，整个树增加一层，仍然保持平衡。为了便于直观理解，直接上图吧，下图从零构建一颗2-3树</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/10.png" alt="2-3数构建过程"></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/10.png" alt="2-3数构建过程"></p>
 <p>图中最后构建出了一个有6个数据的2-3树，可以看出最后2-3树包含两个2-节点，最完美的地方在于，从根节点到每个叶子节点的路径长度是一样的。可以说是一颗完美的树。因此2-3树的设计完全可以保证二叉树保持矮矮胖胖的状态，保持其性能良好。但是，将这种直白的表述写成代码实现起来并不方便，因为要处理的情况太多。这样需要维护两种不同类型的节点，将链接和其他信息从一个节点复制到另一个节点，将节点从一种类型转换为另一种类型等等，因此红黑树登场了。</p>
 <h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树的背后逻辑就是2-3树的逻辑，<code>红黑树使用了红色来标记2-节点（包含两个元素的节点）中左边的那个元素，黑色用于标记普通节点（包含一个元素的节点）和2-节点中右边的那个元素，总而言之，可以大致理解为用红色标记2-节点，用黑色标记普通节点</code>。如果要直接从红黑树的代码去理解它是如何工作的以及背后的道理，就比较困难了。所以你一定要理解它的演化过程，才能真正的理解红黑树。基于这个结论，我们可以非常简单的把刚刚得到的2-3树，转换成一颗红黑树</p>
-<p><img src="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/11.png" alt></p>
+<p><img src="/2020/05/11/hong-hei-shu-yuan-li/11.png" alt></p>
 <p>只需三步就可以把一颗2-3树变为红黑树，实际上2-3树已经是一颗红黑树了</p>
 <ol>
 <li>把2-3树中所有3-节点的两个元素分开</li>
@@ -1076,7 +1089,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/05/11/shen-ru-qian-chu-hong-hei-shu/">https://lushunjian.gitee.io/2020/05/11/shen-ru-qian-chu-hong-hei-shu/</a>
+                    <a href="https://lushunjian.gitee.io/2020/05/11/hong-hei-shu-yuan-li/">https://lushunjian.gitee.io/2020/05/11/hong-hei-shu-yuan-li/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1113,7 +1126,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                                    <span class="chip bg-color">数据结构</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1565,10 +1582,9 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
                 <a href="/2020/05/11/shen-ru-qian-chu-hong-hei-shu/">
                     <div class="card-image">
@@ -1586,9 +1602,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-11
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-11
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1597,7 +1613,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1608,31 +1623,31 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/11/hong-hei-shu-yuan-li/">
+                <a href="/2020/05/10/h5-bo-fang-shi-pin-liu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/29.jpg" class="responsive-img" alt="红黑树原理">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="H5播放视频流">
                         
-                        <span class="card-title">红黑树原理</span>
+                        <span class="card-title">H5播放视频流</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            说到红黑树，让人又爱又恨啊，真是一种令人头大的数据结构。我也没少被他折磨过，尽管在工作中，在网文中多次看到过关于它的原理解释，但大多都是一上来就是五条定义，然后紧跟着就是红黑树插入的代码实现，翻转代码实现，让人难以理解消化，搞的人云里雾里的
+                            由于项目需求，在公司系统中需要播放录音。前端我就采用了H5的 &lt;audio&gt; 标签，而后端就是常规 的输出流操作，即通过response的outPutStream输出文件，对于前端来说就是文件下载。开始测试的时候因为使用的都是一
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                    数据结构
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1642,8 +1657,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/H5/">
+                        <span class="chip bg-color">H5</span>
                     </a>
                     
                 </div>
