@@ -576,7 +576,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-05-10
+                    2020-05-08
                 </div>
                 
 
@@ -594,7 +594,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>由于项目需求，在公司系统中需要播放录音。前端我就采用了H5的 <code>&lt;audio&gt;</code> 标签，而后端就是常规 的输出流操作，即通过response的outPutStream输出文件，对于前端来说就是文件下载。开始测试的时候因为使用的都是一些小文件音频（每个音频文件大概就几M吧）都很正常，但是当测到一些较大的音频文件时，就出现了问题，七分钟的音频（十多M的文件）只能播放出三四分钟，通过F12发现，那些小音频文件，一次请求就加载完成了，而对于七分钟的大音频，audio标签没有一次加载完，而且在播放一段时间后，会再次请求服务加载后面的音频。也就是说它是分段加载的，刚开始分段的请求正常，在播放了一半后，后面的分段请求会失败，导致后面的音频不能完整播放。也是由于没有流媒体经验，解决这个问题费了些周折，故在此记录一下。</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/1.jpg" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/1.jpg" alt></p>
 <h2 id="文件输出流"><a href="#文件输出流" class="headerlink" title="文件输出流"></a>文件输出流</h2><p>我先说一下，常规的输出流方式会出现的问题。在公司时我使用的是<code>&lt;audio&gt;</code> 播放音频，于是回家后，我又用<code>&lt;video&gt;</code> 标签测试了一下，同样会出现视频卡主的现象，F12后同样是伴随分段视频流下载失败的异常。前端代码如下</p>
 <pre class=" language-html"><code class="language-html">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>video</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://127.0.0.1:8090/video/player<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> 
@@ -646,11 +646,11 @@
         os<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span></code></pre>
 <p>这里我播放的电影有1.4G，肯定会出现分段请求。在开始的时候，一切看起来很正常，视频可以正常播放，在播放一段时间后，在分段请求时就会出现如下异常</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/4.png" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/4.png" alt></p>
 <p>可以看到，有几个请求出现了failed，视频也卡主了，一直在转圈加载。查看控制台异常信息如下</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/5.png" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/5.png" alt></p>
 <p>而我在公司播放音频时碰到异常如下</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/6.jpg" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/6.jpg" alt></p>
 <p>两个异常不太相同，分别是 <code>ERR_CONTENT_LENGTH_MISMATCH</code> 和 <code>ERR_CONNECTION_RESET 200</code> 。但其实都是由于前端播放流文件时，响应头不对的原因，对于前端的分段请求，后端必须要支持断点续传才行。下面就来看一下这种方式后端应该怎么写代码</p>
 <h2 id="断点续传流"><a href="#断点续传流" class="headerlink" title="断点续传流"></a>断点续传流</h2><p>同样拿刚刚的H5视频做实验，前端代码不变，后端我新加了一个接口用于支持断点续传的方式，前端代码如下</p>
 <pre class=" language-html"><code class="language-html">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
@@ -805,11 +805,11 @@
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span></code></pre>
 <p>前端请求 player2 就可以正常播放了，快进快退也很顺畅丝滑。通过F12观察一段时间后，也没有出现请求 failed 的情况</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/7.png" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/7.png" alt></p>
 <p>查看每个请求的响应头可以发现，每个请求是只请求了视频的一部分内容，不是像第一种方式那样把整个文件都输出给前端了，从后端代码也可以看出这点，因为后端文件读取使用了<code>RandomAccessFile</code>，这个是用于文件随机读取的类。前端每次请求头中会带有 Range 属性，告诉后端要读取哪部分文件内容。</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/9.png" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/9.png" alt></p>
 <p>每次请求到的文件长度不一样</p>
-<p><img src="/2020/05/10/h5-bo-fang-shi-pin-liu/10.png" alt></p>
+<p><img src="/2020/05/08/h5-bo-fang-shi-pin-liu/10.png" alt></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>第一种方式其实也是可以的，只不过接口不支持流媒体，前端还是需要等待整个资源下载下来之后，才能做进度拖拽，播放等功能。因此在对于大文件来说肯定不合适。第二种方式是流媒体方式，即边下载边播放。需要HTTP支持断点续传。</p>
 <h3 id="HTTP的断点续传"><a href="#HTTP的断点续传" class="headerlink" title="HTTP的断点续传"></a>HTTP的断点续传</h3><p>文件上传下载时，记录上一次上传下载的位置，再从标记位置继续传输，或者多线程下载，根据标记可按需获取。在以前版本的 HTTP 协议是不支持断点的，HTTP/1.1 开始就支持了。断点下载时需要用到 Range 和 Content-Range 实体头。</p>
 <h5 id="请求头-Range"><a href="#请求头-Range" class="headerlink" title="请求头 Range"></a>请求头 Range</h5><p>请求资源的部分内容（不包括响应头的大小），单位是byte，即字节，从0开始，如果服务器能够正常响应的话，服务器会返回 206 Partial Content 的状态码及说明，如果不能处理这种Range的话，就会返回整个资源以及响应状态码为 200 OK，（这个要注意，要分段下载时，后端代码要先判断这个）用于请求头中，指定第一个字节的位置和最后一个字节的位置，一般格式：Range: bytes=start-end</p>
@@ -846,7 +846,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/05/10/h5-bo-fang-shi-pin-liu/">https://lushunjian.gitee.io/2020/05/10/h5-bo-fang-shi-pin-liu/</a>
+                    <a href="https://lushunjian.gitee.io/2020/05/08/h5-bo-fang-shi-pin-liu/">https://lushunjian.gitee.io/2020/05/08/h5-bo-fang-shi-pin-liu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1343,31 +1343,31 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/05/11/hong-hei-shu-yuan-li/">
+                <a href="/2020/05/10/h5-shi-pin-liu-jia-mi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/29.jpg" class="responsive-img" alt="红黑树原理">
+                        <img src="/medias/featureimages/41.jpg" class="responsive-img" alt="H5视频流加密">
                         
-                        <span class="card-title">红黑树原理</span>
+                        <span class="card-title">H5视频流加密</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            说到红黑树，让人又爱又恨啊，真是一种令人头大的数据结构。我也没少被他折磨过，尽管在工作中，在网文中多次看到过关于它的原理解释，但大多都是一上来就是五条定义，然后紧跟着就是红黑树插入的代码实现，翻转代码实现，让人难以理解消化，搞的人云里雾里的
+                            之前做过在页面上实现音频播放功能，但是业务又提出一个需求，就是音频只能在线播放，不允许下载。经过一番研究发现前端页面屏蔽下载功能只是个障眼法，用户可以直接请求后端接口下载得到原音频文件，因此要实现禁止下载功能还是得在后端接口上做文章，一开始
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-11
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                    数据结构
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1377,8 +1377,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/H5/">
+                        <span class="chip bg-color">H5</span>
                     </a>
                     
                 </div>
