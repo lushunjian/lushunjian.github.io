@@ -836,8 +836,8 @@
     <span class="token punctuation">}</span><span class="token punctuation">}</span>
   <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
 <span class="token punctuation">;</span></code></pre>
-<h3 id="JSX中使用循环"><a href="#JSX中使用循环" class="headerlink" title="JSX中使用循环"></a>JSX中使用循环</h3><p>JSX中使用循环生成标签，比如列表数据，自定义卡片等，循环有两种方式。需要注意的是，主流循环写法是 map，jsx里面不能用for循环，因为for循环不是表达式。</p>
-<h5 id="forEach-for方式"><a href="#forEach-for方式" class="headerlink" title="forEach / for方式"></a>forEach / for方式</h5><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React<span class="token punctuation">,</span><span class="token punctuation">{</span>Component<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<h3 id="JSX中使用循环"><a href="#JSX中使用循环" class="headerlink" title="JSX中使用循环"></a>JSX中使用循环</h3><p>JSX中使用循环生成标签，比如列表数据，自定义卡片等，循环有两种方式。需要注意的是，主流循环写法是 map，<code>JSX里面不能用for循环，因为for循环不是表达式</code>。</p>
+<h4 id="forEach-for方式"><a href="#forEach-for方式" class="headerlink" title="forEach / for方式"></a>forEach / for方式</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React<span class="token punctuation">,</span><span class="token punctuation">{</span>Component<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> list<span class="token operator">=</span><span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span><span class="token string">"百度"</span><span class="token punctuation">,</span>
