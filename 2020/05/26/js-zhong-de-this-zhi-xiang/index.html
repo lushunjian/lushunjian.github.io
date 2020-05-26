@@ -607,22 +607,39 @@
 
 <span class="token comment" spellcheck="true">// 结果</span>
 undefined</code></pre>
-<p><code>foo()</code>的这个写法熟悉吗，就是我们刚刚写的默认绑定,等价于打印<code>window.a</code>，而代码中没有定义全局变量a，故输出<code>undefined</code>，如果写成下面这样。就会输出全局变量5</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">var</span> a<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">;</span>
-
+<p><code>foo()</code>的这个写法熟悉吗，就是我们刚刚写的默认绑定，代码中直接调用了<code>foo()</code>其等价于 <code>window.foo()</code>调用，因此foo方法中的this指向的是window对象，等价于打印<code>window.a</code>，而代码中没有定义全局变量a，故输出<code>undefined</code>，如果写成下面这样。就会输出全局变量5</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> 
 <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
-    a <span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
-    foo <span class="token punctuation">:</span> foo
-<span class="token punctuation">}</span>
-<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    a<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    foo<span class="token punctuation">:</span> foo
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> bar <span class="token operator">=</span> obj<span class="token punctuation">.</span>foo<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 函数别名！</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// a是全局对象的属性</span>
 
-<span class="token comment" spellcheck="true">// 结果</span>
-<span class="token number">5</span></code></pre>
-<p>总结：对于普通的函数调用，实际上等价于window.foo()。在浏览器中最外层的对象就只能是window，因此可以简写成foo()调用。</p>
+
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 5</span>
+obj<span class="token punctuation">.</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// 10</span>
+
+<span class="token comment" spellcheck="true">//等价的两个函数，输出不一样的结果。为什么？</span>
+<span class="token comment" spellcheck="true">//其实var bar === window.bar; 它隐式绑定了window 对象，所以它访问到的自然是 window.a</span></code></pre>
+<p>对于普通调用有一种情况会存在this指向丢失，那就是回调，看下面这个例子</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">doFoo</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// fn其实引用的是foo</span>
+    <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// &lt;-- 调用位置！</span>
+<span class="token punctuation">}</span> 
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    foo<span class="token punctuation">:</span> foo
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">"oops, global"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// a是全局对象的属性</span>
+<span class="token function">doFoo</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>foo <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// "oops, global"</span></code></pre>
+<p>注意function有自己的函数作用域，function默认绑定的父级作用域，而在这个例子中传入的是<code>foo()方法</code>，foo()此时属于window作用域的方法，因此调用它的是window对象</p>
+<p>总结：对于普通的函数调用，实际上等价于window.foo()。在浏览器中最外层的对象就只能是window，因此可以简写成foo()调用。对于回调函数则要注意找到回调函数的父级作用域</p>
 <h3 id="对象函数调用"><a href="#对象函数调用" class="headerlink" title="对象函数调用"></a>对象函数调用</h3><p><em>情况一</em>：如果一个函数中有this，这个函数有被上一级的对象所调用，那么this指向的就是上一级的对象。如下情况，o.fn()调用时，fn()指向对象o。因此输出对象o中的user变量值</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> o <span class="token operator">=</span> <span class="token punctuation">{</span>
     user<span class="token punctuation">:</span><span class="token string">"追梦子"</span><span class="token punctuation">,</span>
@@ -737,7 +754,7 @@ foo<span class="token punctuation">.</span><span class="token function">apply</s
 foo <span class="token operator">=</span> foo<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">// 10</span></code></pre>
 <p><strong>总结：</strong> call和apply都是改变上下文中的this并立即执行这个函数，bind方法可以让对应的函数想什么时候调就什么时候调用，并且可以将参数在执行的时候添加，这是它们的区别</p>
-<h2 id="箭头函数绑定"><a href="#箭头函数绑定" class="headerlink" title="箭头函数绑定"></a>箭头函数绑定</h2><p>ES6 提供了箭头函数，增加了我们的开发效率，但是在箭头函数里面，没有 <code>this</code> ，箭头函数里面的 <code>this</code> 是继承外面的环境。举个例子</p>
+<h2 id="箭头函数绑定"><a href="#箭头函数绑定" class="headerlink" title="箭头函数绑定"></a>箭头函数绑定</h2><p>ES6 提供了箭头函数，增加了我们的开发效率，但是在箭头函数里面，没有 <code>this</code> ，箭头函数里面的 <code>this</code> 是继承外面的环境，即<strong>箭头函数绑定规则不是上面介绍的规则，而是完全根据外部作用域来决定this，且绑定无法被修改</strong>。因此箭头函数的this对象判断比较简单也比较特殊，举个例子</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> obj<span class="token operator">=</span><span class="token punctuation">{</span>
     a<span class="token punctuation">:</span><span class="token number">222</span><span class="token punctuation">,</span>
     fn<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>    
@@ -753,8 +770,50 @@ obj<span class="token punctuation">.</span><span class="token function">fn</span
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 obj<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//222</span></code></pre>
-<p>这次输出 222 是因为，传给 setTimeout 的是箭头函数，然后箭头函数里面没有 this ，所以要向上层作用域查找，在这个例子上， setTimeout 的上层作用域是 fn。而 fn 里面的 this 指向 obj ，所以 setTimeout 里面的箭头函数的 this ，指向 obj 。所以输出 222</p>
-<h2 id="最终总结"><a href="#最终总结" class="headerlink" title="最终总结"></a>最终总结</h2><p>对于this的指向问题，大部分情况可以用文章开头那句话适用<strong>this指向的是最后调用它的那个对象</strong>。对于少部分几种情况，就是使用new调用方法时，方法存在返回值需特别注意一下，还有就是箭头函数中不存在this对象，需要继续向外面的上下文寻找this指向</p>
+<p>这次输出 222 是因为，传给 setTimeout 的是箭头函数，然后箭头函数里面没有 this ，所以要向上一层作用域查找，在这个例子上， setTimeout 的上层作用域是 fn。而 fn 里面的 this 指向 obj ，所以 setTimeout 里面的箭头函数的 this ，指向 obj 。所以输出 222</p>
+<p>再举个例子，使用普通调用函数和箭头函数对比一下。下面是普通调用</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> people <span class="token operator">=</span> <span class="token punctuation">{</span>
+    Name<span class="token punctuation">:</span> <span class="token string">"海洋饼干"</span><span class="token punctuation">,</span>
+    getName <span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> bar <span class="token operator">=</span> people<span class="token punctuation">.</span>getName<span class="token punctuation">;</span>
+
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// undefined</span></code></pre>
+<p>很明显调用bar的是window，而window中没有Name变量，故输出undefined，如果改成箭头函数，如下</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> people <span class="token operator">=</span> <span class="token punctuation">{</span>
+    Name<span class="token punctuation">:</span> <span class="token string">"海洋饼干"</span><span class="token punctuation">,</span>
+    getName <span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> bar <span class="token operator">=</span> people<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//获得一个永远指向people的函数，不用想this了,岂不是美滋滋？</span>
+
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// 海洋饼干 </span></code></pre>
+<p><code>getName()</code>方法永远指向外一层对象<code>people</code>（箭头函数比较特殊，并不需要在运行时判断是谁调用它，而是在代码阶段就能判断出this指向一定是外一层调用对象），可能会有人不解为什么在箭头函数外面再套一层，直接写不就行了吗，搞这么麻烦干嘛，其实这<strong>也是箭头函数很多人用不好的地方</strong>。改成如下</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> obj<span class="token operator">=</span> <span class="token punctuation">{</span>
+    bar <span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    baz <span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+obj<span class="token punctuation">.</span><span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">// obj</span>
+obj<span class="token punctuation">.</span><span class="token function">baz</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment" spellcheck="true">// window</span></code></pre>
+<p>为什么<code>obj.baz()</code>方法输出的是window</p>
+<ol>
+<li>我们先要搞清楚一点，obj的当前作用域是window</li>
+<li>如果不用function（function有自己的函数作用域）将其包裹起来，那么<code>baz()</code>是箭头函数，寻找外一层调用对象，那就只能是window了。（箭头函数不会绑定函数所在的作用对象，而是向上找一层调用对象）</li>
+<li>用function包裹的目的就是将箭头函数绑定到当前的对象上。函数的作用域是当前这个对象，然后箭头函数会自动绑定函数所在作用域的this，即obj。</li>
+</ol>
+<h2 id="最终总结"><a href="#最终总结" class="headerlink" title="最终总结"></a>最终总结</h2><p>对于this的指向问题，大部分情况可以用文章开头那句话适用<strong>this指向的是最后调用它的那个对象</strong>。对于少部分几种情况，就是使用new调用方法时，方法存在返回值需特别注意一下，还有就是箭头函数中不存在this对象，需要继续向外面一层的上下文寻找this指向，最后一点就是函数的回调会改变this的执行</p>
 
             </div>
             <hr/>
