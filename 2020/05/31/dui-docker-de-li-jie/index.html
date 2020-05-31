@@ -722,6 +722,7 @@
 <li><code>Docker Container</code> : 俗称Docker的容器，这个是最关键的东西了。Docker Container是真正跑项目程序、消耗机器资源、提供服务的地方，Docker Container通过Docker Images启动，在Docker Images的基础上运行你需要的代码。你可以认为Docker Container提供了系统硬件环境，然后使用了Docker Images这些制作好的系统盘，再加上你的项目代码，跑起来就可以提供服务了。 听到这里，可能你会觉得是不是有点像一个VM利用保存的备份或者快照跑起来环境一样，其实是挺像的，但是实际上是有本质的区别，后面我会细说。</li>
 </ul>
 <h2 id="Docker发展历史"><a href="#Docker发展历史" class="headerlink" title="Docker发展历史"></a>Docker发展历史</h2><p>2010年，几个搞IT的年轻人，在美国旧金山成立了一家名叫“dotCloud”的公司。这家公司主要提供基于PaaS的云计算技术服务。具体来说，是和LXC有关的容器技术。后来，dotCloud公司将自己的容器技术进行了简化和标准化，并命名为——<strong>Docker</strong>。Docker技术诞生之后，并没有引起行业的关注。而dotCloud公司，作为一家小型创业企业，在激烈的竞争之下，也步履维艰。正当他们快要坚持不下去的时候，脑子里蹦出了“开源”的想法。2013年3月，dotCloud公司的创始人之一，Docker之父，28岁的<strong>Solomon Hykes</strong>正式决定，将Docker项目开源。不开则已，一开惊人。越来越多的IT工程师发现了Docker的优点，然后蜂拥而至，加入Docker开源社区。Docker的人气迅速攀升，速度之快，令人瞠目结舌。开源当月，Docker 0.1 版本发布。此后的每一个月，Docker都会发布一个版本。到2014年6月9日，Docker 1.0 版本正式发布。这也意味着Docker的稳定性和可靠性已经基本满足了生产环境的运行需求。会议上同时发布Docker Image的镜像仓库Docker Hub，并指出已经有超过14,000个Docker化的应用存储在他们的publc registry中。此时的Docker，已经成为行业里人气最火爆的开源技术，没有之一。甚至像Google、微软、Amazon、VMware这样的巨头，都对它青睐有加，表示将全力支持。也是同样的2014年6月，基于谷歌内部强大的Borg系统而开发出来的kubernetes横空处世，刷新了人们对容器的理解。</p>
+<p><img src="/2020/05/31/dui-docker-de-li-jie/10.jpg" alt="Docker创始人 Solomon Hykes"></p>
 <h2 id="其他容器技术"><a href="#其他容器技术" class="headerlink" title="其他容器技术"></a>其他容器技术</h2><p>虽然 docker 把容器技术推向了巅峰，但容器技术却不是从 docker 诞生的。实际上，容器技术连新技术都算不上，因为它的诞生和使用确实有些年头了。下面的一串名称肯能有的你都没有听说过，但它们的确都是容器技术的应用。</p>
 <ul>
 <li><strong>Chroot Jail</strong>：就是我们常见的 chroot 命令的用法。它在 1979 年的时候就出现了，被认为是最早的容器化技术之一。它可以把一个进程的文件系统隔离起来。</li>
