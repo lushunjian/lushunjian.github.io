@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>ReactNative对比Cordova</title>
+      <link href="/2020/06/13/reactnative-dui-bi-cordova/"/>
+      <url>/2020/06/13/reactnative-dui-bi-cordova/</url>
+      
+        <content type="html"><![CDATA[<p>事实上对于移动端，支持HTML，JS和Css的框架并不只有ReactNative，还有诸如Cordova，Fultter等。Cordova 是 Apache 旗下的。 React-Native 是 Facebook 旗下的在2013年发布的一个前端框架，两者皆开源。Cordova的基础是html和js运行在webview容器里面，通过Cordova提供的接口与硬件通讯；所以它的效率天生收到限制，而且也受到了各个厂商对webkit内核的好坏；比如之前基于国产某Cloud的程序,在华为手机上显示就不正常,花费了不少精力修改；RN的效率由于是将View编译成了原生View，所以效率上要比基于Cordova的HTML5高很多，但是它也有效率问题，RN的渲染机制是基于前端框架的考虑,复杂的UI渲染是需要依赖多个view叠加</p><table><thead><tr><th></th><th>React Native</th><th>Cordova</th></tr></thead><tbody><tr><td><strong>跨平台特性</strong></td><td>一次学习，随处开发</td><td>一次开发，随处运行</td></tr><tr><td><strong>功能支持</strong></td><td>完全支持。 Android 端不是很完善</td><td>基本功能完全具备，对于底层，如摄像头之类的，需要插件</td></tr><tr><td><strong>运行速度</strong></td><td>跟 Native 基本相当</td><td>相对较慢</td></tr></tbody></table><p><strong>Cordova</strong> 是用于使用HTML，CSS和JS构建移动应用的平台。我们可以认为Cordova是一个容器，用于将我们的网络应用程序与本机移动功能连接。默认情况下，Web应用程序不能使用本机移动功能。这就是Cordova进来的地方。它为网络应用和移动设备之间的连接提供了桥梁。 通过使用cordova，我们可以使混合移动应用程序，可以使用摄像头，地理位置，文件系统和其他本地移动功能。</p><h2 id="译-React-Native-vs-Cordova-PhoneGap"><a href="#译-React-Native-vs-Cordova-PhoneGap" class="headerlink" title="[译]React Native vs. Cordova, PhoneGap"></a>[译]React Native vs. Cordova, PhoneGap</h2><p>在上一篇文章中，我告诉过你React Native非常棒，因为它允许我们使用Native UI构建应用程序。React本机应用程序的用户体验比使用WebView UI的应用程序要好得多。但“native”到底是什么意思？什么是WebView UI？为什么本地UI比WebView UI好？React Native与其他移动框架（如PhoneGap、Cordova和Ionic）相比如何？现在让我们来深入研究这些问题。坐好！<a href="https://learnreact.design/2018/02/14/react-native-vs-cordova-phone-gap-ionic-etc#fnref-3" target="_blank" rel="noopener">原文地址</a></p><h3 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h3><p>读完这篇文章，希望你能轻松地回答这些问题</p><ul><li>什么是Native App?</li><li>什么是WebView UI?</li><li>一个更接近原生的框架有哪些优点和缺点？一个不那么原生的框架呢？</li><li>React Native与Cordova对比怎么样</li></ul><h3 id="什么是原生应用？"><a href="#什么是原生应用？" class="headerlink" title="什么是原生应用？"></a>什么是原生应用？</h3><p>为了理解“原生性”的真正含义，让我向你们介绍一下这个：</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/1.jpg" alt></p><p>我是《黑客帝国》的忠实粉丝。你知道，我们所知道的现实世界实际上是模拟的。有迹象表明，即使是锡安，人类曾经认为自己自由的最后一个城市，也是一个模拟的。多层模拟现实的想法一直吸引着我 —— 一个虚拟世界在另一个虚拟世界里运行，它在第三世界里运行，这很像我们电脑（或手机）中的软件结构。</p><p>软件是用来说明大规模晶体管和电路是如何工作运行的，统称为硬件。直接在硬件上运行的原始指令对我们人类来说几乎是不可理解的，特别是考虑到当今计算机的复杂性和规模。为了使软件易于理解和操作，计算机科学家把它分成多个层次，由运行在另一个框架之上的框架组成。在所有这些框架中，框架离硬件越近，我们说它更“原生”。</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/2.png" alt></p><p>因此，应用程序的“原生性”实际上是一个相对的术语。严格地说，我们不能说一个应用程序是原生的还是非原生的。我们只能说，与其他应用程序相比，此应用程序更为原生。例如，你可以在C++、java（或KOTLIN）或Cordova中构建Android应用程序。C++应用程序是最原生的，Cordova应用程序是最不原生的。Java/Kotlin应用程序介于两者之间。</p><h3 id="原生App有哪些好处"><a href="#原生App有哪些好处" class="headerlink" title="原生App有哪些好处"></a>原生App有哪些好处</h3><p>更接近原生或更远离原生二者都有好处。更接近原生意味有着更多的自由，而更远离原生的模拟得到更多的舒适。</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/3.png" alt></p><p>在一个更原生的框架中的程序通常有更多的硬件功能，以及更多使用它们的自由。由于不同语言之间的模拟和翻译开销较低，因此它通常运行得更高效。但基本现实中的生活可能会很艰苦——代码通常很难编写和理解。</p><p>另一方面，我们人类通常更容易在一个不太原生的框架中编写代码。编码语言更容易理解和更简洁（需要更少的类型）。它的语言更接近我们的自然语言。它不需要了解硬件是由什么组成的，以及如何在引擎盖下工作。作为一个附加的好处，一个不太原生的框架中的程序通常更容易移植——该程序可以在完全不同的硬件平台上运行，而无需修改，因为它的语法和底层概念不包含任何特定于原始硬件的指令。然而，所有这些便利的代价是你通常会牺牲一些效率和自由。</p><h3 id="移动端框架"><a href="#移动端框架" class="headerlink" title="移动端框架"></a>移动端框架</h3><p>在React Native之前，移动框架通常分为两个阵营。</p><p>第一个是原生阵营，例如用于Android的Java/Kotlin和用于iOS的Objective-C/Swift。在原生阵营中，应用程序速度很快，可以访问丰富的硬件功能。用户界面是为目标平台（Android或iOS）定制的，因此很流畅，使用起来很愉快。然而，所有这些都被限制在一个平台上。要构建应用程序运行于不同平台，必须学习两种不同的框架，这使得学习曲线变陡了一倍。这尤其让数百万的web开发人员落在了后面。</p><p>接着又出现了另一个移动框架阵营，例如Cordova/PhoneGap和Ionic。这些框架允许web开发人员使用他们现有的HTML、CSS和JavaScript技能构建移动应用程序。这些应用程序可以在Android和iOS上运行。然而，它们的速度更慢，对硬件功能的访问也有限。最重要的是，这些应用的用户界面太差了！由于这些框架使用一个名为WebView的关键组件来呈现UI，我们称它们为WebView框架。</p><p>WebView框架构建在原生框架之上。我们可以将前者视为在后者内部运行的模拟世界。这就是为什么他们有上述的好处和局限性。</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/4.png" alt></p><p>为什么我们不能将二者的优点兼顾呢？这就是React Native要做的。React Native代表了移动框架的第三个阵营。它的UI层比WebView框架更为原生，而其余的则处于相同的模拟级别，以实现其易用性。</p><h3 id="React-Native-UI-比-WebView-UI-更原生"><a href="#React-Native-UI-比-WebView-UI-更原生" class="headerlink" title="React Native UI 比 WebView UI 更原生"></a>React Native UI 比 WebView UI 更原生</h3><p>Cordova等框架使得使用web技术构建移动UI成为可能。他们是怎么做到的？他们在每一个应用程序中嵌入了一个网络浏览器，称之为WebView！在用户界面中看到的所有东西，按钮、菜单和动画，都在浏览器的网页中运行。在模拟方面，Cordova应用程序的UI是在web浏览器中运行的模拟世界，它是在原生框架中运行的模拟世界。相比之下，React Native的UI比WebView框架多一层，它直接在原生框架中运行</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/7.png" alt></p><p>这种结构决定了React原生UI的优势。React Native直接使用原生UI小部件，而WebView框架试图用HTML/CSS中的web UI模拟本机UI的外观。原生和模拟，你喜欢哪一个？</p><p>从经验上讲，要识别一个使用WebView框架构建的应用并不困难。有一些控件，比如滚动加速、键盘行为、导航和用户界面的总体平滑度。如果他们的行为不完全是原生的，模拟的副作用会累积起来，给用户带来令人沮丧的体验。</p><h3 id="React-Native使用JavaScript简化操作"><a href="#React-Native使用JavaScript简化操作" class="headerlink" title="React Native使用JavaScript简化操作"></a>React Native使用JavaScript简化操作</h3><p>另一方面，React Native仍然允许我们用JavaScript编写应用程序，并使用类似于HTML和CSS的语法来构建UI。这无疑降低了网页设计师和开发人员的进入门槛。必要时，React Native提供了一种渗透到原生框架的方法，以实现我们希望在应用程序中实现的任何本机功能。这有点像在黑客帝国母体中打电话。</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/5.png" alt></p><h3 id="那WebView框架是否一文不值呢"><a href="#那WebView框架是否一文不值呢" class="headerlink" title="那WebView框架是否一文不值呢"></a>那WebView框架是否一文不值呢</h3><p>不，绝对不是。例如，如果您已经有一个web应用程序，并且希望尽快将其发布到应用程序商店。您愿意牺牲用户体验，以最短的上市时间。另一种情况是，如果应用程序中呈现的内容大多是交互性不强的内容，那么将其放在WebView中也不会太糟。但是，如果你的应用程序的用户体验很重要，如果应用程序中有一些交互性，比如接受用户输入、拖放、滑动屏幕等，一定要考虑React Native。因为您最不想做的就是用WebView UI模拟本机原生UI。</p><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>我们已经了解了“原生”的真正含义，什么是WebView UI，为什么React native UI更好，React native与其他WebView框架（如Cordova/PhoneGap和Ionic）相比如何。你怎么认为？您将使用哪个框架来构建下一代应用程序？</p><p><img src="/2020/06/13/reactnative-dui-bi-cordova/6.png" alt></p><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>在《黑客帝国》重装上阵的最后，尼欧展示了控制和击落哨兵的能力，即使是在锡安。尽管这在随后的《黑客帝国革命》中没有得到明确的解释，但当时许多粉丝甚至认为锡安是模拟的。毕竟，正如埃隆·马斯克所说，我们有几十亿分之一的机会处于基本现实中。我们在这篇文章中使用术语“框架”来指代具有某种结构的软件</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> react native </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>图解ReactNative</title>
       <link href="/2020/06/13/tu-jie-reactnative/"/>
       <url>/2020/06/13/tu-jie-reactnative/</url>
@@ -1547,9 +1572,9 @@
       
         <tags>
             
-            <tag> 实践 </tag>
-            
             <tag> Spark </tag>
+            
+            <tag> 实践 </tag>
             
         </tags>
       
@@ -1574,9 +1599,9 @@
       
         <tags>
             
-            <tag> hadoop </tag>
-            
             <tag> 实践 </tag>
+            
+            <tag> hadoop </tag>
             
         </tags>
       
