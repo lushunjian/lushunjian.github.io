@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="React的设计理念, 木子李">
-    <meta name="description" content="React是一个强大的前端视图层框架，并以其强大的设计理念获得了众多前端工程师的喜爱。本文主要阐述React的心智模型，即为什么我们会这样设计 React，站在更高的角度审视React，汲取它的优秀的设计理念。设计 React 的核心前提是">
+    <meta name="keywords" content="图解ReactNative, 木子李">
+    <meta name="description" content="随着React的火热，FaceBook又再推出ReactNative，与React不同的是ReactNative是一个专注于移动端的框架，React Native使你只使用JavaScript也能编写原生移动应用。 它在设计原理上和Reac">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>React的设计理念 | 木子李</title>
+    <title>图解ReactNative | 木子李</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/29.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/45.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">React的设计理念</h1>
+                    <h1 class="description center-align post-title">图解ReactNative</h1>
                 </div>
             </div>
         </div>
@@ -551,8 +551,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/react/">
-                                <span class="chip bg-color">react</span>
+                            <a href="/tags/react-native/">
+                                <span class="chip bg-color">react-native</span>
                             </a>
                         
                     </div>
@@ -593,77 +593,90 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>React是一个强大的前端视图层框架，并以其强大的设计理念获得了众多前端工程师的喜爱。本文主要阐述React的心智模型，即为什么我们会这样设计 React，站在更高的角度审视React，汲取它的优秀的设计理念。设计 React 的核心前提是认为 UI 只是把数据通过映射关系变换成另一种形式的数据。大白话说就是UI只是数据的另一种表现形式，它本质上还是数据。我理解的React核心理念是通过数据改变驱动视图改变，并且这个改变是单向的。React和Vue都是通过数据驱动视图改变的框架，也叫VMMV模型。但两者在实现和使用上有一定的区别。</p>
-<h2 id="React的函数式编程"><a href="#React的函数式编程" class="headerlink" title="React的函数式编程"></a>React的函数式编程</h2><p>React是比较遵循函数式编程设计模式的框架，从函数式编程的特性，我们可以从很多方面想到React中具有的函数式编程的特征</p>
-<ol>
-<li>React的组件就是一个函数生成，React中的高阶组件就是函数中的高阶函数，如redux中的connect和react-router其实就是放在App外层的高阶函数。原理是相同的，就是将子组件传入父组件中，然后返回一个新的组件，可以复用夫父组件逻辑，这本身也是一种解耦。React页面的渲染过程本质就是函数的嵌套调用过程</li>
-<li>React中子组件受父组件传入的props控制，但是子组件不能直接修改props，也就是单项数据流，这样就有点类似于纯函数的特性，不改变外部状态。所以我们在开发组件是，应当尽量将具有副作用的操作交给外部控制，这样的组件才是独立的，也具有高度的适应性。</li>
-<li>在Redux中这种函数是编程的思想更为明显，Reducer命名来源就是来组员方法reduce，两者都是将一些固定的运算抽象出来，每次都执行相同的任务。所以Reducer内部必须是一个纯函数，而一些请求异步等具有副作用effect的操作都交给中间件来完成。且每次调用完成都返回一个新的对象，不直接修改状态。这样的数据的操作更为清楚，你不需要考虑运行的结果因为其他的原因产生影响</li>
-</ol>
-<p>国外有一篇关于React的设计将的比较好，形象生动，它阐述了在开发者与浏览器之间，React扮演了怎么样的角色，起到了什么作用。下面是译文内容</p>
-<h2 id="译文-图解React"><a href="#译文-图解React" class="headerlink" title="[译文] 图解React"></a>[译文] 图解React</h2><p>在React、ReactJS、React.js、React Native… 这些有些相似的名词你最近听过多少遍了？对于它们究竟是什么你是否感到困惑？如果你是一名设计师，你所在的团队使用(或正在考虑使用)的技术是 React ，或者你只是单纯对 “React” 比较好奇的话，那么本文就是为你而准备的。在文本中，我只使用朴实的语言和插图来解释 React 家族中的各种术语，并深入探索究竟是什么使得 React 如此特别。本文中并不需要任何代码知识便可阅读。我希望你先熟悉一些概念，从而不至于在后面的学习过程中感到绝望。如果后面需要温故而知新的话，欢迎随时回来阅读。准备好了吗？我们开始了！</p>
+                <p>随着React的火热，FaceBook又再推出ReactNative，与React不同的是ReactNative是一个专注于移动端的框架，React Native使你只使用JavaScript也能编写原生移动应用。 它在设计原理上和React一致，通过声明式的组件机制来搭建丰富多彩的用户界面。React Native产出的并不是“网页应用”， 或者说“HTML5应用”，又或者“混合应用”。 最终产品是一个真正的移动应用，从使用感受上和用Objective-C或Java编写的应用相比几乎是无法区分的。 React Native所使用的基础UI组件和原生应用完全一致。 你要做的就是把这些基础组件使用JavaScript和React的方式组合起来。那么React Native是如何做到兼容安卓和IOS平台的呢，看完本文会有所有答案，以下内容来自国外博客翻译</p>
+<h2 id="译-图解ReactNative"><a href="#译-图解ReactNative" class="headerlink" title="[译]图解ReactNative"></a>[译]图解ReactNative</h2><p>在上一篇文章中，我们介绍了什么是 React 以及是什么使得它如此特别。今天我们将介绍 React Native: 它是做什么的，它出自何处，它和 React 有哪些不同之处，以及它为何如此令人振奋。<a href="https://learnreact.design/2017/06/20/what-is-react-native" target="_blank" rel="noopener">原文地址</a></p>
 <p><strong>学习目标</strong></p>
 <ul>
-<li>什么是 DOM ？</li>
-<li>什么是 React ？它的哪些方面比较适合应用开发？</li>
-<li>React 与 jQuery 的不同之处？</li>
-<li>React 的核心概念是什么？</li>
-<li>什么是响应式 UI ？</li>
-<li>组件有哪些好处？</li>
+<li>什么是 React Native ？为什么它的名字中有 “Native” 字样？</li>
+<li>为什么 React Native 如此之酷？</li>
+<li>我们可以分别使用 React Native 和 React 来开发什么？</li>
+<li>为什么会出现 ReactDOM ？它是做什么的？</li>
+<li>React 渲染器 ( renderer )是用来做什么的？</li>
+<li>React Sketch.app 工作原理是什么？</li>
+<li>ReactVR 的工作原理是什么？</li>
+<li>什么是 ReactJS ？React.js 又是什么？</li>
 </ul>
-<h3 id="关于-Web-你需要了解的"><a href="#关于-Web-你需要了解的" class="headerlink" title="关于 Web 你需要了解的"></a>关于 Web 你需要了解的</h3><p>我们先来介绍一些你可能听过很多年的术语。首先是 DOM 。</p>
-<p><strong>DOM</strong></p>
-<p>DOM 的全称是 Document Object Model (文档对象模型)。很简单吧？它就是文档对应的对象模型。先暂时忘掉它的概念。我们先来看看大名鼎鼎的 “Web Browser” 工作室！你能在下面的插图中找到 DOM 吗？</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/2.jpg" alt></p>
-<p>难道 DOM 是……一棵树？对，就是一棵树！奇怪的是，计算机相关的很多东西其实都像是一棵树。我们来给 DOM 起个昵称……就叫 Domo 如何？Domo 是 “Web Browser” 工作室的御用模特，他的工作就是在肖像画家(也可能是数百万个画家)面前摆 pose 。肖像就是在浏览器中浏览网站时所看见的内容。开发者的职责就好比是导演，他来告诉 Domo 该穿什么衣服，摆什么 pose 。这将决定肖像最终画出来的样子。jQuery 和 React 都是库，开发者使用它们作为与 Domo 交流的工具。</p>
-<p><strong>JQuery</strong></p>
-<p>JQuery 是一个 JavaScript 库，它可以使开发者操纵 DOM 变得简单得多。那他在 Domo 的故事中又扮演什么角色呢？它是一个工具，可以简化开发者与 Domo 沟通的过程，就像是一部手机。无论何时何地都可以轻松呼叫 Domo 。相比于之前(使用原生 JavaScript)，它要方便得多，还记得在电话发明出来之前人跟人连简单交流都要走得足够近才行。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/3.jpg" alt></p>
-<p>多年以来，我们一直都在使用 jQuery 来直接与 Domo 沟通。是很方便，但并非没有问题。</p>
-<h3 id="React"><a href="#React" class="headerlink" title="React"></a>React</h3><p>下面请允许我来为你介绍一个全新的超级英雄: React 。使用 React 的话，开发者不再需要直接跟 Domo 沟通。React 扮演在开发者和 Domo 之间的中间人角色。他降低了两者之间的沟通成本，同时简化了肖像创建的过程。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/4.jpg" alt></p>
-<p>React 使用了一些技术来解决 jQuery 和其他工具中所存在的问题。下面是它的三项核心技术:</p>
+<h3 id="不仅仅是-Web"><a href="#不仅仅是-Web" class="headerlink" title="不仅仅是 Web"></a>不仅仅是 Web</h3><p>学完上一篇文章的你现在脑海中的画面应该是这样的:</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/1.jpg" alt></p>
+<p>你也知道，React 是在 Web 上开发用户界面的利器。使用 React 来开发 UI 的话，就能够描述你想要什么，而不是告诉 UI 如何更新 (响应式 UI)，还可以在可重用组件中组织代码，并创建高性能用户界面，而无需担心 DOM 超慢的速度 (虚拟 DOM)。越来越多的开发者选择 React 是因为它可以使得开发者更专注于上层业务，而不是底层 DOM 更新的细节。我们将这种开发 UI 的方式称之为 React 范式。范式基本上就是你思考一个问题的方式，以及这个问题的描述方式和解决方案。</p>
+<p>对于 Web 应用来说这无疑很棒。那对于其他平台呢，比如 iOS 和 安卓？如果能将 React 范式应用于原生应用的开发，岂不是很棒？</p>
+<p>在某种程度上来说，移动端的工作方式与 Web 端是相同的。比方说，有一个模特(树人)，还有一个根据模特来创建视觉元素的艺术家。没什么可惊讶的，构建原生应用 UI 的传统方式就是直接操纵树人并告诉他如何更新(直接跟树人交谈)。这与在 Web 浏览器中直接操纵 DOM 有类似的缺点。React 绝对有助于解决此类问题。除了相似之处外，移动端还有与 Web 端不同的地方，不同系统之间都是完全不同的。在过去，要开发原生应用的话，开发者需要学习特定的语言和平台工具链。这有点像在国外的工作室上班，员工需要说不同的语言。你需要精通所有语言才能跟所有模特进行交流。这听上去就很麻烦，你说是吧？</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/2.jpg" alt></p>
+<p>所以，如果想要你开发出的原生应用能运行在 iOS 和安卓两个平台上的话，你需要创建两套完全分离的代码库，同样的业务逻辑需要写两遍。开发应用既困难、成本又高，从长期的维护来看的话更是如此。这正是 React Native 诞生的原因。我们来一起看看它是如何将开发过程大大简化的。</p>
+<h2 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h2><h3 id="渲染器-renderer-和全新的-React"><a href="#渲染器-renderer-和全新的-React" class="headerlink" title="渲染器 ( renderer ) 和全新的 React"></a>渲染器 ( renderer ) 和全新的 React</h3><p>对于 Web 应用来说，React 负责启用 React 范式 (管理响应式 UI、组件和虚拟 DOM)，以及实际更新浏览器中的 DOM (与 Domo 交流)。当 DOM 是唯一需要交互的对象时，React 可以轻松处理好这两项任务。但是，对于原生应用的话，当需要管理不同平台上的各种“树人”时，事情就变得有挑战了。如果我们将更多的重担压在 React 肩上的话，那我们可怜的超级英雄将会为此抓狂。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/3.jpg" alt></p>
+<p>为了解决此问题，React 创建者们将原来的 React 拆分成两部分。第一部分是全新的 React ，它只负责启用 React 范式。第二部分叫做 ReactDOM ，它唯一的任务就是与浏览器中的 DOM 进行交互。因为 ReactDOM 负责更新 DOM ，而 DOM 又决定了浏览器渲染的内容，所以我们将 ReactDOM 称之为渲染器。想象一下，我们的超级英雄脱下了他的斗篷，并在上面洒了一些魔法之尘。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/4.jpg" alt></p>
+<p>斗篷立刻就有了生命，并成为了超级英雄的小助手。从负责与 Domo 沟通的枷锁中释放后，React 现在可以专注于做他最擅长的事。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/5.jpg" alt></p>
+<p>这种角色分离的理念非常之强大。现在我们只需要维护一个共享的核心库，同时编写全新的渲染器来适应新平台。这种方式要比之前简单多了。由于有了 iOS 和安卓渲染器的强力支撑，现在你可以<strong>只使用一种语言和相同的 React 范式</strong>来同时为两个平台开发应用。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/6.png" alt="React 只需要专注于他擅长的领域即可。渲染器来负责沟通"></p>
+<h3 id="一个完整的平台"><a href="#一个完整的平台" class="headerlink" title="一个完整的平台"></a>一个完整的平台</h3><p>React 的官网定义是: 用来开发用户界面的 JavaScript 库。它的含义有两层: 首先它是 UI 开发的利器，其次它不涉及除 UI 开发以外的任何其他领域。实际上，<strong>你无法单独使用 React 开发出一个完整的应用</strong>。例如，你需要 CSS 来写外观样式，你需要 webpack 来打包，你需要 Firebase 来做数据持久化，等等。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/8.png" alt="&quot;网络浏览器&quot; 工作室里的实际景象要你比之前所见到的要忙碌得多"></p>
+<p>这在 Web 开发环境下还好，因为 React 是一个 JavaScript 库，所以它能自然地适应 Web 环境下的其他部件。这些部件要么本身就是 JavaScript 库，要么能很容易地与 JavaScript 适配。毕竟 JavaScript 是 Web 上的标准语言。</p>
+<p>但是，对于移动端来说就比较困难了，因为那里需要支持多种语言和技术。这个时候，我们就需要包含一整套部件，而且这些部件的使用方法要跟 React 类似，至少是能用 JavaScript 来调用。这样，React Native 诞生了。</p>
+<p>相比于 Web 上的 React ，React Native 包括更多东西:</p>
 <ul>
-<li>响应式 UI</li>
-<li>虚拟 DOM</li>
-<li>组件</li>
+<li>全新的 React 作为核心库 (我们的超级英雄，只不过没穿斗篷)</li>
+<li>iOS 和安卓的渲染器</li>
+<li>将代码转换成可安装应用的工具</li>
+<li>原生 UI 组件 (状态栏、列表等等)和动画</li>
+<li>UI 的样式和布局工具箱 (flexbox)</li>
+<li>构建大多数应用的基础部分 (比如网络)</li>
+<li>提供原生功能的部分，比如粘贴板、加速计和存储</li>
+<li>…</li>
 </ul>
-<p><strong>响应式 UI</strong></p>
-<p>使用 jQuery 来更新 DOM 的话，你需要在适当的时机以正确的顺序来指定要更改的元素。这等同于给 Domo 一步步讲述头怎么摆、胳膊放在哪、腿什么姿势，等等，并且每张肖像都是如此。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/5.jpg" alt></p>
-<p>我靠，这听起来太乏味了，并且容易出错！为什么不直接告诉 Domo 你想要的效果，而不是现在这样一步步地告诉他怎么摆 pose ?</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/6.jpg" alt></p>
-<p>还有更酷的，想象一下如果可以在要求过程中保留一个占位符来表示相同姿势的不同变体。React 就能做到！这种方式的话，当画家要求 Domo 穿戴不用的帽子作画时，你不需要每次都告诉 Domo 戴哪顶帽子。你尽管坐在一旁让他自己换帽子即可。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/7.jpg" alt></p>
-<p>这项技术正是 React 名字的由来。使用 React 构建的 UI 是<strong>响应式</strong>的。作为开发者，你只需编写你想要的是<strong>什么</strong>，React 自己会弄清楚该<strong>怎么</strong>做。当数据变化时，UI 会相应地发生改变。你无需再关心 DOM 的更新，React 会自动帮你完成。响应式 UI 的理念大大地简化了 UI 开发。</p>
-<p>我知道我说过你不需要任何编码知识，但只是为了帮助你正确地看待问题，我还是用代码把它写了出来。请查看下面的示例(尝试更换 Domo 的帽子，Codepen 在线 Demo: <a href="https://link.zhihu.com/?target=https%3A//codepen.io/focuser/pen/gROrXx">Domo 的帽子</a> 。在后面的文章中我会来讲解完整的代码，但此时你只需简单看一眼关键代码即可:</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> ThinkerWithHat <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> hat <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>
-  <span class="token operator">&lt;</span>div<span class="token operator">></span>
-    <span class="token operator">&lt;</span>Hat type<span class="token operator">=</span><span class="token punctuation">{</span>hat<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+<p>我们说 React Native 本身是一个完整的平台是因为<strong>它包含开发完整应用所需的一切</strong>。相比之下，原本的 React 只负责 Web UI ，你需要去自己引用其他部分才能创建出一个 Web 应用。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/9.png" alt="React Native 的组成"></p>
+<h2 id="原生-UI"><a href="#原生-UI" class="headerlink" title="原生 UI"></a>原生 UI</h2><p>为什么 React Native 的名字里有 Native 字样？这实际上是它的标志性特征: React Native 的内置 UI 是由<strong>原生 UI 组件</strong>组成的，这些组件表现良好，外观/感觉一致，并非 WebView 中所包含的一些垃圾模拟。用 React Native 开发的应用与用像 Swift 和 Java 开发的原生应用放在一起，通常是难以区分的。你也知道，像滚动加速、动画、键盘行为和阴影这些细节，实际上在应用程序的用户体验中扮演了非常重要的角色。如果这些东西不能与你手机中其他应用保持统一的话，那么用户很快就会觉得不爽。</p>
+<p>我原本的目的就是想在这里解释清楚 “native” 的真正含义以及为何 React Native 的性能更好。但我发现在几次头脑风暴之后，我的一整页笔记很快就写满了。还是在后面的文章中再来单独讲它吧。到目前为止，我只需要你记住原生 UI 是让 React Native 大放异彩的原因之一。看到这里，你应该了解到 React Native 是一个完整的平台，它可以让你使用 JavaScript 来开发真正的原生应用，而且还是用 React 的路子来写（React 范式）。</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/10.png" alt></p>
+<h3 id="React-Sketch-app、ReactVR、React-XYZ…"><a href="#React-Sketch-app、ReactVR、React-XYZ…" class="headerlink" title="React Sketch.app、ReactVR、React XYZ…"></a>React Sketch.app、ReactVR、React XYZ…</h3><p>Airbnb 最近发布了一款十分有趣的工具，叫做 <a href="https://link.zhihu.com/?target=https%3A//airbnb.design/painting-with-code/">React Sketch.app</a> ，它可以将 React 代码转换成 Sketch 里的图层。你能猜出它的工作原理吗？没错！从本质上来说，它就是使用了特殊渲染器的 React Native ，这个渲染器能与 Sketch 中的树人进行交流！</p>
+<p><img src="/2020/06/13/tu-jie-reactnative/11.png" alt></p>
+<p>因为 React Sketch.app 是基于 React Native 的，它也是一个完整的平台，所以可以直接使用它来从远程 API 来获取数据并在 Sketch 中进行渲染。与此同时，许多 React Native 的其他变种纷纷问世，用来支持在 <a href="https://link.zhihu.com/?target=https%3A//github.com/Microsoft/react-native-windows">Windows</a>、 <a href="https://link.zhihu.com/?target=https%3A//github.com/ptmt/react-native-macos">macOS</a>、<a href="https://link.zhihu.com/?target=https%3A//github.com/facebook/react-360">VR</a> 等平台上创建应用。</p>
+<p>这意味着只要你掌握了 React ，就可以在大量的平台上使用 JavaScript 来创建应用，而且对新平台的支持还在不断涌现。不同的平台，同样的思维模式。正如 React Native 的创建者们所倡导的: “<strong>一次学习，随处编写</strong>”。</p>
+<h3 id="动手时刻！"><a href="#动手时刻！" class="headerlink" title="动手时刻！"></a>动手时刻！</h3><p>说了这么多！你是否想在自己的手机上也尝试一番？我也很兴奋！拿起你的手机跟我一起动起来！</p>
+<ol>
+<li>在手机上下载 Expo 应用。你可以点击这里下载: <a href="https://link.zhihu.com/?target=https%3A//itunes.apple.com/app/apple-store/id982107779%3Fmt%3D8">iOS</a>、<a href="https://link.zhihu.com/?target=https%3A//play.google.com/store/apps/details%3Fid%3Dhost.exp.exponent">安卓</a>，或者在 App Store 中搜索 “Expo” 。</li>
+<li>在电脑上打开网页: <a href="https://link.zhihu.com/?target=https%3A//snack.expo.io/">https://snack.expo.io/</a> 。</li>
+<li>在手机上启动 Expo 应用并点击 “Scan QR Code” 。</li>
+<li>扫描电脑上显示的二维码。如果一些正常，你应该可以看见一条绿色的信息 “Device connected” 。</li>
+<li>如果二维码无法自动消失的话，可以点击页面右上角的小叉关闭。关闭后应该可以看见代码编辑器。</li>
+<li>删除编辑器中的所有代码，然后将<a href="https://link.zhihu.com/?target=https%3A//gist.githubusercontent.com/lintonye/5cb3c11349591bf475b91573682fe688/raw/4ea0d4562ce45c1ba3867a1759359e1f86bb590a/domohat.jsx">此代码</a>粘贴进去。</li>
+<li>你在手机上看到了什么？</li>
+<li>你可以随意更改编辑器中的代码，然后立即在手机中查看结果！</li>
+</ol>
+<p>在后面的文章中我会对开发环境进行详细地解释。你暂时只需记住它就是 React Native 的 Codepen (在上篇文章中我曾使用它来展示示例 Domo 的帽子)。如果你将 <a href="https://link.zhihu.com/?target=https%3A//gist.github.com/lintonye/5cb3c11349591bf475b91573682fe688">React Native 版本</a> 和 <a href="https://link.zhihu.com/?target=https%3A//codepen.io/focuser/pen/gROrXx">React (Web) 版本</a>进行对比的话，你会发现它们的代码十分相似，都是这样的:</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> Hat <span class="token operator">=</span> <span class="token operator">...</span>
+
+<span class="token keyword">const</span> Thinker <span class="token operator">=</span> <span class="token operator">...</span>
+
+<span class="token comment" spellcheck="true">// 下面的代码是 React Native 版本的</span>
+<span class="token comment" spellcheck="true">// Web 版本的话，只需将 “View” 替换成 “div”</span>
+<span class="token keyword">const</span> ThinkerWithHat <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>hat<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>View<span class="token operator">></span>
     <span class="token operator">&lt;</span>Thinker <span class="token operator">/</span><span class="token operator">></span>
-  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>注意，你只需定义你想要的 (戴帽子的思想者)，并“连接”上数据 (<code>“type = {hat}”</code>) 。当数据发生变化时 (用户选择一顶帽子)，UI 会自动更新。</p>
-<p><strong>虚拟 DOM</strong></p>
-<p>JQuery 的另一个问题就是它的运行速度。作为一个严苛的导演，你讨厌等待。你想要肖像画尽可能快地完成。但是，Domo 和画家都比较慢，并非是树濑那种慢，只是 Domo 需要时间来换装和摆 pose ，并且画家作画也需要时间。更糟糕的是，在画家完成一幅肖像画之前，你无法与 Domo 进行沟通。事实上，你什么也做不了，除了等待。真浪费时间！</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/8.jpg" alt></p>
-<p>React 采用了另一项技术来解决此问题。React 画草稿的速度超级快。是当你告诉他你的要求后，他几乎就能立即将草稿完成并准备画下一张。现在就无需等待了！你可以不停地告诉 React 你想的肖像。React 将会纪录草稿的所有细节，并在适当的时候展示给 Domo 看。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/9.jpg" alt></p>
-<p>更重要的一点是 React 十分聪明。他还会对所有草稿进行整理，拿掉重复的并确保 Domo 和画家的工作量维持在最低水平。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/10.jpg" alt></p>
-<p>这些草稿就是 “虚拟 DOM” 。虚拟 DOM 要比操纵 DOM 快得多得多。开发者绝大部分时间里其实都是在操纵虚拟 DOM ，而不是直接操纵真实的 DOM 。React 负责管理 DOM 的这部分脏活。</p>
-<p><strong>组件</strong></p>
-<p>React 中第三项技术就是组件的概念。组件应该很容易理解，因为我们所生活的现实世界就是由组件组成的。我们的车、房，甚至是身体都是由不同的组件所组合而成的。这些组件又是由一些更小的组件组合而成，以此类推，直至分解成原子。如果你熟悉 <a href="https://link.zhihu.com/?target=https%3A//www.sketchapp.com/">Sketch</a> (译者注: 著名的设计软件，与 PhotoShop 齐名) 的话，组件与 Sketch 中的 <a href="https://link.zhihu.com/?target=https%3A//www.sketchapp.com/docs/symbols/">symbols</a> 十分类似。构建 React 应用几乎都是在同组件打交道: 寻找最适合的组件、融合两个组件、在现有组件的基础上创建新组件，等等。</p>
-<p>回到 “Web Browser” 工作室，你将肖像的需求描述成一个个组件，React 将这些组件翻译成 Domo 所能理解的内容。这将为你节省大量时间，因为你无需再一次次地重复描述需求中的通用部分。</p>
-<p><img src="/2020/06/13/react-de-she-ji-li-nian/11.jpg" alt></p>
-<p>组件另外很酷的一点是如果你改变了某个组件，那么所有使用此组件的地方都将自动更新。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>好了。希望你能学会一些 React 的知识。本质上，它还是一个工具，用来帮助开发者操纵 DOM ，从而构建出页面。响应式 UI 、虚拟 DOM 和组件是 React 的三大核心概念，正是有了它们才使得 React 如此特别。当然，React 还有一些其他有趣的概念，比如单向数据流，我会在后面的文章中介绍。</p>
-<p>译文到此就结束了，不知看完此文的你能否回答出文章开头提出的问题。React的作用归根结底是为了简化前端的开发工作，那么与JQuery或者是EasyUI这类框架相比，React的优点是什么</p>
-<ul>
-<li>JQuery：与它相比，React屏蔽了真实的Dom节点操作，使得开发者从为了视图效果而需要编写繁杂的Dom操作逻辑中解脱出来，专注于数据逻辑的处理。</li>
-<li>EasyUI：我早些年使用过EasyUI，这个UI框架实际上也屏蔽了很多Dom操作的逻辑处理，只需从后端获取数据，然后把数据赋值到EasyUI的JS组件中，调用组件的刷新方法，视图也会跟着改变。React中的组件与EasyUI组件完全是两个概念，EasyUI不支持自定义组件，不支持虚拟Dom（注意，目前EasyUI也有基于React和Vue的，这里说的EasyUI是基于JS的EasyUI）</li>
-</ul>
-<p>总之一句话，React与Vue这类框架的核心理念是通过数据驱动视图改变，使得开发者更多关注于业务数据处理，而不是Dom操作。二者在实现上也有很多类似的地方，例如都使用了虚拟Dom，都支持组件化。</p>
+    <span class="token operator">&lt;</span>Hat type<span class="token operator">=</span><span class="token punctuation">{</span>hat<span class="token punctuation">}</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> HatSwitcher <span class="token operator">=</span> <span class="token operator">...</span>
+
+<span class="token operator">...</span></code></pre>
+<p>“一次学习，随处编写”！还记得吗？</p>
+<h3 id="什么是-ReactJS-？什么是-React-js-？"><a href="#什么是-ReactJS-？什么是-React-js-？" class="headerlink" title="什么是 ReactJS ？什么是 React.js ？"></a>什么是 ReactJS ？什么是 React.js ？</h3><p>你可能无数次地听到 ReactJS (或 React.js) ，我也是这么叫的。实际上这并非官方名称。自从<a href="https://link.zhihu.com/?target=https%3A//web.archive.org/web/20130529213355/https%3A//facebook.github.io/react/">诞生之日</a>起，官方名称一直都是 “React” ，从未改过。因为一般 JavaScript 库的名字都趋向于叫 “XyzJS” 或 “Xyz.js” ，React 也不例外，或许开发者们都已经习惯给库的名称加上 “JS” 或 “.js” 的后缀了。因为 React 最开始是作为 Web 库的身份出现的，所以很多开发者都习惯于实用 ReactJS 或 React.js 来泛指 Web 上的 React ，即 React 和 ReactDOM 的集合。</p>
+<p>按照惯例，当我提到 ReactJS 时，其实我想表达的也是 Web 上的 React 。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好了，到目前为止，我们已经介绍了不少内容。我们了解了一些 React 的历史以及 React Native 的组成。作为一个完整的平台，React Native 包含开发原生应用所需的一切，并且它使用的是 JavaScript 语言和 React 范式。React Native 现在支持多个平台，其中包括 iOS、Android、Windows、macOS、Sketch.app ，甚至还有 VR 。“一次学习，随处编写”！</p>
 
             </div>
             <hr/>
@@ -689,7 +702,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/06/13/react-de-she-ji-li-nian/">https://lushunjian.gitee.io/2020/06/13/react-de-she-ji-li-nian/</a>
+                    <a href="https://lushunjian.gitee.io/2020/06/13/tu-jie-reactnative/">https://lushunjian.gitee.io/2020/06/13/tu-jie-reactnative/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -727,8 +740,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/react/">
-                                    <span class="chip bg-color">react</span>
+                                <a href="/tags/react-native/">
+                                    <span class="chip bg-color">react-native</span>
                                 </a>
                             
                         </div>
@@ -1187,13 +1200,63 @@
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/06/13/react-de-she-ji-li-nian/">
+                <a href="/2020/06/13/tu-jie-reactnative/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/29.jpg" class="responsive-img" alt="React的设计理念">
+                        <img src="/medias/featureimages/45.jpg" class="responsive-img" alt="图解ReactNative">
                         
-                        <span class="card-title">React的设计理念</span>
+                        <span class="card-title">图解ReactNative</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            随着React的火热，FaceBook又再推出ReactNative，与React不同的是ReactNative是一个专注于移动端的框架，React Native使你只使用JavaScript也能编写原生移动应用。 它在设计原理上和Reac
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/react-native/">
+                        <span class="chip bg-color">react-native</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/06/13/tu-jie-react/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="图解React">
+                        
+                        <span class="card-title">图解React</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1218,61 +1281,11 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/react/">
                         <span class="chip bg-color">react</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/06/06/log4j2-ri-zhi-pei-zhi-xiang-jie/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Log4j2日志配置详解">
-                        
-                        <span class="card-title">Log4j2日志配置详解</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            在Java世界里， 日志框架通常有 logback 和 log4j 。它们两个的关系我也不多说了，通常一些老的项目使用的是log4j。Log4j是Apache的一个日志框架，且目前官方已经停止对它的维护。这些年 Log4j 发布了很多个版本
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-06
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/java/" class="post-category">
-                                    java
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/logger/">
-                        <span class="chip bg-color">logger</span>
                     </a>
                     
                 </div>
