@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的游戏, 木子李">
-    <meta name="description" content="我的游戏 | 木子李">
+    <meta name="keywords" content="Audio实现音频文本同步, 木子李">
+    <meta name="description" content="最近公司项目接到一个需求，要实现录音播放时和文本同步，类似于音乐播放器播放歌曲时，歌词和声音同步的效果。要实现这个功能需要监听audio标签的实时播放时间，然后在监听事件中处理文本，通过当前时间定位到对应的文本数据，并展示在页面。
+原生实现">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的游戏 | 木子李</title>
+    <title>Audio实现音频文本同步 | 木子李</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +430,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/24.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的游戏</h1>
+                    <h1 class="description center-align post-title">Audio实现音频文本同步</h1>
                 </div>
             </div>
         </div>
@@ -549,12 +550,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/H5/">
+                                <span class="chip bg-color">H5</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -580,328 +594,190 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>大部分男生都无法抗拒游戏的魅力</p>
-</blockquote>
+                <p>最近公司项目接到一个需求，要实现录音播放时和文本同步，类似于音乐播放器播放歌曲时，歌词和声音同步的效果。要实现这个功能需要监听<code>audio</code>标签的实时播放时间，然后在监听事件中处理文本，通过当前时间定位到对应的文本数据，并展示在页面。</p>
+<h2 id="原生实现"><a href="#原生实现" class="headerlink" title="原生实现"></a>原生实现</h2><p>使用原生的<code>audio</code>标签时，需要获取<code>audio</code>标签dom对象，并给它添加<code>timeupdate</code>事件，在事件中就可以实时处理文本了，代码步骤如下</p>
+<pre><code>// audio标签
+&lt;audio src=&quot;test.mp3&quot; id=&quot;myAudio&quot; /&gt;
 
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
+// 1.获取 aduio 对象
+var audio = document.querySelector(&quot;#myAudio&quot;);
 
-.hexo-douban-tab {
-    padding: 5px;
-}
+// 2.注册事件
+audio.addEventListener(&quot;timeupdate&quot;,function(){
+    // 当前播放时间,单位秒
+    var nowTime = audio.currentTime;
+    // ...其他处理
+});
 
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
+</code></pre><p>在事件中获取当前时间，然后定位到文本数据，再把文本颜色设置为红色，这样就实现了一个简单的播放器音频和文本同步的效果，最终效果图如下</p>
+<p><img src="/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/6.gif" alt></p>
+<h2 id="React中实现"><a href="#React中实现" class="headerlink" title="React中实现"></a>React中实现</h2><p>上面所说的是原生实现，但目前主流的一般会使用React或者Vue，当然也可以在React或Vue组件中操作Dom，但这个不符合框架的设计思想。另外还有一个问题，歌词很长的情况下，播放到滚动条下面时，文本会被遮住，这就要求当播放到滚动条下面，歌词被遮住时，滚动条需要自动往下滚动。</p>
+<h3 id="滚动条自动下滑"><a href="#滚动条自动下滑" class="headerlink" title="滚动条自动下滑"></a>滚动条自动下滑</h3><p>要实现滚动条自动下滑，有三个步骤</p>
+<ol>
+<li>获取当前文本标签的Dom对象，相对于父容器(有滚动条的容器)顶部的距离：<code>sTopHeight</code></li>
+<li>获取父容器上方被滚动条遮住的高度：<code>zHeight</code></li>
+<li>获取父容器的可视高度，这个高度一般设置是固定高度：<code>xHeight</code>。计算公式当 <code>sTopHeight &gt; zHeight + xHeight</code> 为真时，说明文本已经超出可视高度，被遮住了，这时就需要向下滑动滚动条了</li>
+</ol>
+<p>以下是实现代码，这时React中直接操作Dom方式的实现</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">{</span>
+      txtList<span class="token punctuation">:</span><span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">24</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:24"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"月色烙印在城墙"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">26</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:26"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"风声呼啸过苍莽"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">29</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:29"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"有双眸如炬般明亮"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">35</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:35"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"将生死握于手掌"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">38</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:38"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"待尘沙磨砺翅膀"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">41</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:41"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"褪变出崭新模样"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">46</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:46"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"那团火在何处绽放"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">49</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:49"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"开始侵袭六腑五脏"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">51</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:51"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"却使我全身的血脉都膨胀"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">57</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:57"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"有太多的相识背叛"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">60</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:00"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"不必谁原谅"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">63</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:03"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"只恨这英雄年少不轻狂"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">68</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"00:26"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"我乘风而下"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">70</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:10"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"要在破晓处羽化"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">73</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:13"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"要让满座的喧哗 屏息惊诧"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">80</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:20"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"凭誓约回答"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">82</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:26"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"两人的命运交叉"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">85</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:25"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"跃再多悬壁陡崖"</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+          start<span class="token punctuation">:</span><span class="token number">93</span><span class="token punctuation">,</span>
+          time<span class="token punctuation">:</span><span class="token string">"01:33"</span><span class="token punctuation">,</span>
+          txt<span class="token punctuation">:</span><span class="token string">"我不怕"</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
+<span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> audio <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".myAudio>audio"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>txtList<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> txtContain <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#txtContain'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
-    }
-}
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <a class="hexo-douban-tab" id="hexo-douban-tab1" href="javascript:;"
-       rel="external">
-        Playing
-        (0)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab2" href="javascript:;"
-       rel="external">
-        Wish
-        (0)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab3" href="javascript:;"
-       rel="external">
-        Played
-        (6)</a>
-
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28384635.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/25865152/">纪念碑谷 Monument Valley</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  手游 神作 独立游戏 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 惊叹作者的奇思构想，画风很美。里面的关卡是在真实三维世界不可能存在的，很赞</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s21863858.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/19956598/">逆战 AssaultFire</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  FPS 塔防 射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 大学时开始玩的设计游戏，最喜欢玩这个游戏的机甲模式，使用机甲打怪兽，简直不要太爽，燃爆了</div>
-    </div>
-</div>
+    audio<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"timeupdate"</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>list<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">let</span> item <span class="token operator">=</span> list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        item<span class="token punctuation">.</span>chose<span class="token operator">=</span><span class="token string">'N'</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>list<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">let</span> item <span class="token operator">=</span> list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>start <span class="token operator">===</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>audio<span class="token punctuation">.</span>currentTime<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+          item<span class="token punctuation">.</span>chose<span class="token operator">=</span><span class="token string">'Y'</span><span class="token punctuation">;</span>
+          <span class="token keyword">let</span> txtDiv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#txtContain > #txt'</span><span class="token operator">+</span>item<span class="token punctuation">.</span>start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">//可见窗体高度的一半(歌词正好在中间)+被覆盖的高度</span>
+          <span class="token keyword">let</span> zHeight<span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token operator">+</span>txtContain<span class="token punctuation">.</span>scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// 如果相对父容器偏移量大于(可见窗体高度+被覆盖的高度)，则滚动条下移100px</span>
+          <span class="token keyword">if</span><span class="token punctuation">(</span>txtDiv<span class="token punctuation">.</span>offsetTop<span class="token operator">></span>zHeight<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//this.myScrollTop(txtContain,22,220);</span>
+            txtContain<span class="token punctuation">.</span>scrollTop<span class="token operator">=</span>txtContain<span class="token punctuation">.</span>scrollTop<span class="token operator">+</span><span class="token number">22</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>txtList<span class="token punctuation">:</span>list<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> txtContains <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#txtContains'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>txtContains<span class="token punctuation">:</span>txtContains<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
 
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29342102.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10740751/">穿越火线 크로스파이어</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  射击 CF 第一人称射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 穿越火线当年火到不行，初中玩的第一个游戏。还记得当年网吧通宵打幽灵生化模式，好像就在昨天。当初最想要的就是一把军斧，没舍得买，哈哈</div>
-    </div>
-</div>
 
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29003601.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10829706/">QQ飞车</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  赛车 网游 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 初中就开始玩的游戏，以前网吧通宵总会跑几个小时，怀恋琳琅天上的飞车</div>
-    </div>
-</div>
+    <span class="token keyword">const</span> choseStyle<span class="token operator">=</span><span class="token punctuation">{</span>
+      color<span class="token punctuation">:</span><span class="token string">'red'</span><span class="token punctuation">,</span>
+      height<span class="token punctuation">:</span><span class="token string">'22px'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
+    <span class="token keyword">const</span> noStyle<span class="token operator">=</span><span class="token punctuation">{</span>
+      color<span class="token punctuation">:</span><span class="token string">'black'</span><span class="token punctuation">,</span>
+      height<span class="token punctuation">:</span><span class="token string">'22px'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28783216.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/26775340/">英雄联盟 League of Legends</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  策略 塔防 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 策略塔防，和好兄弟开黑必玩，直到现在依旧很火的游戏</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s10321409.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10793961/">剑灵 블레이드&amp;소울</a>
-        </div>
-        <div class="hexo-douban-meta">2019-01-15 /  角色扮演 剑灵 腾讯 /  </div>
-        <div class="hexo-douban-comments"> 游戏不管是画面，剧情，副本，时装都是我玩过的最好的一款游戏，相当不错。不过腾讯游戏你知道的，变着法子圈钱，导致玩家流失严重。只能怀念怀念了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
-
-</script>
-
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>PageHeaderWrapper<span class="token operator">></span>
+        <span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>marginTop<span class="token punctuation">:</span><span class="token string">'30px'</span><span class="token punctuation">,</span>width<span class="token punctuation">:</span><span class="token string">'600px'</span><span class="token punctuation">,</span>display<span class="token punctuation">:</span><span class="token string">'inline-block'</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"site-card-border-less-wrapper"</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>Card title<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>fieldId<span class="token punctuation">}</span> bordered<span class="token operator">=</span><span class="token punctuation">{</span><span class="token boolean">false</span><span class="token punctuation">}</span> style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> width<span class="token punctuation">:</span> <span class="token number">500</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">></span>
+              <span class="token operator">&lt;</span>div<span class="token operator">></span> <span class="token operator">&lt;</span>AudioPlayer src<span class="token operator">=</span><span class="token punctuation">{</span>url<span class="token punctuation">}</span> className<span class="token operator">=</span><span class="token string">"myAudio"</span><span class="token operator">/</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>Card<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+          <span class="token operator">&lt;</span>Card size<span class="token operator">=</span><span class="token string">"small"</span> title<span class="token operator">=</span><span class="token string">"歌词"</span> style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>width<span class="token punctuation">:</span><span class="token string">'500px'</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>height<span class="token punctuation">:</span><span class="token string">'250px'</span><span class="token punctuation">,</span>overflow<span class="token punctuation">:</span><span class="token string">'auto'</span><span class="token punctuation">}</span><span class="token punctuation">}</span> id<span class="token operator">=</span><span class="token string">"txtContain"</span><span class="token operator">></span>
+              <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>txtList<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+                  <span class="token operator">&lt;</span>div key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>start<span class="token punctuation">}</span> style<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>chose <span class="token operator">===</span> <span class="token string">'Y'</span> <span class="token operator">?</span> choseStyle<span class="token punctuation">:</span>noStyle<span class="token punctuation">}</span> 
+                    id<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'txt'</span><span class="token operator">+</span>item<span class="token punctuation">.</span>start<span class="token punctuation">}</span><span class="token operator">></span>
+                    <span class="token punctuation">[</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>time<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>txt<span class="token punctuation">}</span>
+                  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+              <span class="token punctuation">)</span><span class="token punctuation">}</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>Card<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>PageHeaderWrapper<span class="token operator">></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>最终效果如下</p>
+<p><img src="/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/7.gif" alt></p>
+<h3 id="效果美化"><a href="#效果美化" class="headerlink" title="效果美化"></a>效果美化</h3><p>在React中直接操作Dom虽然可以实现效果，但看起来都不怎么优雅。由于我使用了React的组件<code>react-h5-audio-player</code>，这个组件提供了timeupdate事件，所以优化以下代码，顺便把效果美化以下，播放行时加粗文本字体和行的阴影效果，哈哈。</p>
+<pre class=" language-javascript"><code class="language-javascript"></code></pre>
+<p>最终效果如下</p>
+<p><img src="/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/8.gif" alt></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在开发过程中遇到的问题，当我通过元素的<code>offsetTop</code>属性获取元素相对于父容器的距离时，会出现距离不符合预期的情况，这实际上是<code>offsetTop</code>定位机制的问题，与它类似的属性还有<code>offsetLeft</code>，需要注意的是<code>offsetTop</code>和<code>offsetLeft</code>定位机制是相对于最近的祖先定位元素（即父元素的 position 属性被设置为 <code>relative</code>、<code>absolute</code>或 <code>fixed</code>的元素）的向上或向左偏移值。如果父元素的 position 属性非 <code>relative</code>、<code>absolute</code>或 <code>fixed</code>，则都是相对于body定位。</p>
 
             </div>
             <hr/>
@@ -927,7 +803,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/games/index.html">https://lushunjian.gitee.io/games/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/">https://lushunjian.gitee.io/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -964,7 +840,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/H5/">
+                                    <span class="chip bg-color">H5</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1421,30 +1301,20 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="Audio实现音频文本同步">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">Audio实现音频文本同步</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            最近公司项目接到一个需求，要实现录音播放时和文本同步，类似于音乐播放器播放歌曲时，歌词和声音同步的效果。要实现这个功能需要监听audio标签的实时播放时间，然后在监听事件中处理文本，通过当前时间定位到对应的文本数据，并展示在页面。
+原生实现
                         
                     </div>
                     <div class="publish-info">
@@ -1453,13 +1323,25 @@ for (var i = 0; i < firstpages.length; i++) {
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/H5/">
+                        <span class="chip bg-color">H5</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1467,48 +1349,48 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/06/14/react-zhong-shi-yong-dva/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="React中使用Dva">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">React中使用Dva</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            在公司使用Antd时接触到了dva，它是由阿里架构师 sorrycc 带领 team 完成的一套前端框架，在作者的 github 里是这么描述它的：“dva 是 react 和 redux 的最佳实践”。dva 是一个基于 redux 和 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-14
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/react/">
+                        <span class="chip bg-color">react</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
