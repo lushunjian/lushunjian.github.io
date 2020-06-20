@@ -427,10 +427,8 @@
 
     
 
-<link rel="stylesheet" href="/libs/galleries/main.css">
-<link rel="stylesheet" href="/libs/galleries/photos.css">
-<link rel="stylesheet" href="/libs/galleries/sortable.min.css">
-<script type="text/javascript" src="/libs/galleries/sortable.min.js"></script>
+<link rel="stylesheet" href="/libs/galleries/demo.css">
+<link rel="stylesheet" href="/libs/galleries/magnific-popup.css">
 
 <style>
     .galleries-container {
@@ -470,7 +468,7 @@
 </div>
 
 <script src="/js/sakura.js"></script>
-<script src="/js/home-font.js"></script>
+<!-- <script src="/js/home-font.js"></script> -->
 
 <script>
     // 每天切换 banner 图.  Switch banner image every day.
@@ -487,431 +485,626 @@
 	<div id="galleries" class="container galleries-container">
 		<div class="card" id="galleries-card">
 			<div class="card-content">
-				<div class="tag-title center-align" style="padding-bottom: 25px;font-size:30px">
-                    <i class="fas fa-address-book"></i>&nbsp;&nbsp;相册
+				<div class="tag-title center-align" style="padding-bottom: 80px;font-size:35px">
+                    <i class="fas fa-address-book"></i><span style="padding-left:10px">相册</span>
                 </div>
 			   <div class="wrapper">
-		  
-				<div id="sortable" class="sjs-default">
-				
+			</div>
+			
+			<div class="content content--center">
+				<div class="grid" style="opacity:0">
+					<div class="grid__sizer"></div>
 					
 					
 						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/huangshan7.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山云谷寺-2020/05/03</h2>
-									<p class="card__text">
-									  从南大门进黄山的第一站，这里可以选择乘坐缆车或者步行上山
-									</p>
-								  </div>
-								</div>
-							</div>
 						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/huangshan8.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山西海大峡谷-2020/05/03</h2>
-									<p class="card__text">
-									  去西海大峡谷坐网红小火车的路上，曲曲折折的小道下山
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hushang1.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山两循环-2020/05/03</h2>
-									<p class="card__text">
-									  黄山的一循环，二循环必须去，窄窄的山道，风景很美，还有网红小火车
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hushang2.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山莲花峰-2020/05/03</h2>
-									<p class="card__text">
-									  莲花峰是黄山最高峰，这是快到莲花峰的山腰上
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hushang3.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山迎客松-2020/05/03</h2>
-									<p class="card__text">
-									  本以为迎客松会是一颗参天大树，结果是长在山腰上的一颗并不是很大的树
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hushang4.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山始信峰-2020/05/03</h2>
-									<p class="card__text">
-									  在去始信峰的路上拍的，很壮观，整座山都是石头山
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hushang5.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">黄山光明顶-2020/05/03</h2>
-									<p class="card__text">
-									  爬了好一会才到光明顶，上面的风景真的很美，天气也很好
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hongcun1.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">宏村-2020/05/02</h2>
-									<p class="card__text">
-									  晚上的宏村，两边灯笼亮了，别有一番风味
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hongcun2.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">宏村-2020/05/02</h2>
-									<p class="card__text">
-									  黄山市宏村，是一座徽派古建筑村落，村子正前方是一个荷塘
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/28.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">锦里-2019/11/11</h2>
-									<p class="card__text">
-									  锦里古街的主街道，两边挂满了大红灯笼
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/27.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">锦里-2019/11/11</h2>
-									<p class="card__text">
-									  这家小店要沿着这条窄窄的青石阶上去
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/26.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">锦里-2019/11/11</h2>
-									<p class="card__text">
-									  仿佛到了烟雨江南
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/25.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">宽窄巷子-2019/11/10</h2>
-									<p class="card__text">
-									  锦里古街上的一家小吃店
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/24.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">锦里-2019/11/11</h2>
-									<p class="card__text">
-									  小吃一条街，各种各样的小吃，晚上特别有感觉
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/21.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">锦里-2019/11/11</h2>
-									<p class="card__text">
-									  这里是武侯街，武侯是指关羽吧？
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/23.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">横店-2019/05/02</h2>
-									<p class="card__text">
-									  清明上河图，很多古装剧就是在这里取的景
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/22.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">横店-2019/05/02</h2>
-									<p class="card__text">
-									  到了大殿里面才感觉到他的气派，君临天下的感觉
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/20.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">横店-2019/05/02</h2>
-									<p class="card__text">
-									  秦王宫，仿佛回到了寻秦记
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/sh2.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">东方明珠塔-2019/01/25</h2>
-									<p class="card__text">
-									  公司年会，晚上在船上夜游黄浦江
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/sh5.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">外滩-2019/01/25</h2>
-									<p class="card__text">
-									  大上海不夜城，晚上的江风真的大，吹的人直哆嗦
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/sh1.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">外滩16号渡口-2019/01/25</h2>
-									<p class="card__text">
-									  外滩的夜景真美，漂亮的霓虹灯
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/sh6.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">上海11号线-2018/06/21</h2>
-									<p class="card__text">
-									  晚上下班回来的地铁上，对面这位女士看起来应该30岁左右了，手捧着一本java虚拟机。别人这么努力，你凭什么还在抱怨呢
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hz3.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">西湖断桥-2018/04/06</h2>
-									<p class="card__text">
-									  俗话说：上有天堂，下有苏杭。杭州西湖风景确实值得一游
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hz2.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">杭州河坊街-2018/04/06</h2>
-									<p class="card__text">
-									  据说是南宋皇城根外第一街，繁华热闹的河坊街经改造以后现在是一条明清仿古步行街。来的时候正好下雨，人不是很多
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hz1.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">杭州灵隐寺-2018/04/06</h2>
-									<p class="card__text">
-									  江南千年古刹灵隐寺，杭州的一片清净之地，据说求姻缘很准！
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/hz4.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">灵隐寺主院-2018/04/06</h2>
-									<p class="card__text">
-									  祈福许愿用的红丝带，挂了满满的一院子，是不是很美
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/xa1.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">西安钟楼-2019/01/25</h2>
-									<p class="card__text">
-									  这钟楼竟已经屹立着已有六百多年了，雄伟壮丽。只是排队上去的人太多了，遗憾最终没有上去看看
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/xa2.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">西安大明宫-2018/02/24</h2>
-									<p class="card__text">
-									  和我预期的差别有点大，基本毁于战乱，只剩地基了。这是后来重塑的
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/xa3.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">西安明城墙-2018/02/24</h2>
-									<p class="card__text">
-									  中国现存最完整的一座古代城垣建筑，从隋唐至今已有1400年历史。我一直以为古代的城墙只是一堵墙，上去后才发现，这墙厚的比马路还宽，并行三四辆小轿车不是问题。
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/gufeng1.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">古风</h2>
-									<p class="card__text">
-									  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/gufeng2.jpeg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">古风</h2>
-									<p class="card__text">
-									  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/gufeng3.jpeg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">古风</h2>
-									<p class="card__text">
-									  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
-									</p>
-								  </div>
-								</div>
-							</div>
-						
-							<div data-sjsel="flatty">
-								<div class="img-item card">
-								  <img class="card__picture" src="https://lushunjian.gitee.io/photo/img/akl.jpg" alt="">
-								  <div class="card-infos">
-									<h2 class="card__title">KDA阿卡丽</h2>
-									<p class="card__text">
-									  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
-									</p>
-								  </div>
-								</div>
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/huangshan7.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/huangshan7.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山云谷寺-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  从南大门进黄山的第一站，这里可以选择乘坐缆车或者步行上山
+										</p>
+									 </div>
 							</div>
 						
 					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/huangshan8.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/huangshan8.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山西海大峡谷-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  去西海大峡谷坐网红小火车的路上，曲曲折折的小道下山
+										</p>
+									 </div>
+							</div>
+						
 					
-				</div>
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hushang1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hushang1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山两循环-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  黄山的一循环，二循环必须去，窄窄的山道，风景很美，还有网红小火车
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hushang2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hushang2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山莲花峰-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  莲花峰是黄山最高峰，这是快到莲花峰的山腰上
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hushang3.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hushang3.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山迎客松-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  本以为迎客松会是一颗参天大树，结果是长在山腰上的一颗并不是很大的树
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hushang4.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hushang4.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山始信峰-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  在去始信峰的路上拍的，很壮观，整座山都是石头山
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hushang5.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hushang5.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">黄山光明顶-2020/05/03</div>
+										<p class="card__text" style="padding:10px">
+										  爬了好一会才到光明顶，上面的风景真的很美，天气也很好
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hongcun1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hongcun1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">宏村-2020/05/02</div>
+										<p class="card__text" style="padding:10px">
+										  晚上的宏村，两边灯笼亮了，别有一番风味
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hongcun2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hongcun2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">宏村-2020/05/02</div>
+										<p class="card__text" style="padding:10px">
+										  黄山市宏村，是一座徽派古建筑村落，村子正前方是一个荷塘
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/sh8.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/sh8.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">上海-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  从成都回来在飞机上看到的上海夜景，很漂亮
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/jl20.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/jl20.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">锦里-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  锦里美食一条街，这里有很多辣的特产，如兔头
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/28.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/28.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">锦里-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  锦里古街的主街道，两边挂满了大红灯笼
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/27.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/27.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">锦里-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  这家小店要沿着这条窄窄的青石阶上去
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/26.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/26.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">锦里-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  仿佛到了烟雨江南
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/25.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/25.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">宽窄巷子-2019/11/10</div>
+										<p class="card__text" style="padding:10px">
+										  锦里古街上的一家小吃店
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/24.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/24.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">锦里-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  小吃一条街，各种各样的小吃，晚上特别有感觉
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/21.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/21.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">锦里-2019/11/11</div>
+										<p class="card__text" style="padding:10px">
+										  这里是武侯街，武侯是指关羽吧？
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/lx1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/lx1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">阿坝藏里县-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  阿坝藏族羌族的一个小镇，团建第一站，里面有很多别具一格的房子
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/bpg5.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/bpg5.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">毕棚沟-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  这里是毕棚沟检票口坐车后上来到达的第一个山腰，山上很冷，穿上厚厚的羽绒服还是感觉有些冷..
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/bpg1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/bpg1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">毕棚沟-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  白皑皑的雪山近在眼前，真是太美了，可惜没有路可以再上去了，只能看看
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/bpg2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/bpg2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">毕棚沟-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  人还是挺多的，天气也挺好，阴天
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/bpg3.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/bpg3.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">毕棚沟-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  到正午了，山顶上远远看到有太阳照出来了
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/lx2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/lx2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">阿坝藏里县-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  里县的山上往下看还挺美的，山顶像是个祭祀的地方，插满了写有经文的彩旗
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/bpg4.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/bpg4.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">毕棚沟-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  毕棚沟山上活动区的一个湖，从这里看过去水天一线
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/bpg8.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/bpg8.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">毕棚沟-2019/11/09</div>
+										<p class="card__text" style="padding:10px">
+										  这个角度上看雪山，感觉很雄伟壮阔
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/23.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/23.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">横店-2019/05/02</div>
+										<p class="card__text" style="padding:10px">
+										  清明上河图，很多古装剧就是在这里取的景
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/22.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/22.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">横店-2019/05/02</div>
+										<p class="card__text" style="padding:10px">
+										  到了大殿里面才感觉到他的气派，君临天下的感觉
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/20.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/20.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">横店-2019/05/02</div>
+										<p class="card__text" style="padding:10px">
+										  秦王宫，仿佛回到了寻秦记
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/sh2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/sh2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">东方明珠塔-2019/01/25</div>
+										<p class="card__text" style="padding:10px">
+										  公司年会，晚上在船上夜游黄浦江
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/sh5.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/sh5.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">外滩-2019/01/25</div>
+										<p class="card__text" style="padding:10px">
+										  大上海不夜城，晚上的江风真的大，吹的人直哆嗦
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/sh1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/sh1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">外滩16号渡口-2019/01/25</div>
+										<p class="card__text" style="padding:10px">
+										  外滩的夜景真美，漂亮的霓虹灯
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/sh6.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/sh6.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">上海11号线-2018/06/21</div>
+										<p class="card__text" style="padding:10px">
+										  晚上下班回来的地铁上，对面这位女士看起来应该30岁左右了，手捧着一本java虚拟机。别人这么努力，你凭什么还在抱怨呢
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hz3.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hz3.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">西湖断桥-2018/04/06</div>
+										<p class="card__text" style="padding:10px">
+										  俗话说：上有天堂，下有苏杭。杭州西湖风景确实值得一游
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hz2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hz2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">杭州河坊街-2018/04/06</div>
+										<p class="card__text" style="padding:10px">
+										  据说是南宋皇城根外第一街，繁华热闹的河坊街经改造以后现在是一条明清仿古步行街。来的时候正好下雨，人不是很多
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hz1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hz1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">杭州灵隐寺-2018/04/06</div>
+										<p class="card__text" style="padding:10px">
+										  江南千年古刹灵隐寺，杭州的一片清净之地，据说求姻缘很准！
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/hz4.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/hz4.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">灵隐寺主院-2018/04/06</div>
+										<p class="card__text" style="padding:10px">
+										  祈福许愿用的红丝带，挂了满满的一院子，是不是很美
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/xa1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/xa1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">西安钟楼-2019/01/25</div>
+										<p class="card__text" style="padding:10px">
+										  这钟楼竟已经屹立着已有六百多年了，雄伟壮丽。只是排队上去的人太多了，遗憾最终没有上去看看
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/xa2.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/xa2.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">西安大明宫-2018/02/24</div>
+										<p class="card__text" style="padding:10px">
+										  和我预期的差别有点大，基本毁于战乱，只剩地基了。这是后来重塑的
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/xa3.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/xa3.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">西安明城墙-2018/02/24</div>
+										<p class="card__text" style="padding:10px">
+										  中国现存最完整的一座古代城垣建筑，从隋唐至今已有1400年历史。我一直以为古代的城墙只是一堵墙，上去后才发现，这墙厚的比马路还宽，并行三四辆小轿车不是问题。
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/gufeng1.jpg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/gufeng1.jpg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">古风</div>
+										<p class="card__text" style="padding:10px">
+										  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/gufeng2.jpeg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/gufeng2.jpeg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">古风</div>
+										<p class="card__text" style="padding:10px">
+										  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+						
+							<div class="grid__item" >
+								<a class="grid__link" href="https://lushunjian.gitee.io/photo/img/gufeng3.jpeg">
+									<img class="grid__img" src="https://lushunjian.gitee.io/photo/img/gufeng3.jpeg" alt="Some image" style="border-radius: 10px 10px 0 0;"/></a>
+									<div class="card-infos">
+										<div class="card__title" style="padding:10px 10px 0px 10px;font-size:16px;font-weight:600">古风</div>
+										<p class="card__text" style="padding:10px">
+										  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel voluptatibus, id, deserunt inventore...
+										</p>
+									 </div>
+							</div>
+						
+					
+						
+					
 				</div>
 			</div>
-	    </div>
+		</div>
+		</div>
+		
+		
 		
 		<div class="card">
 
-		
+			
 
-		
+			
 
-		
+			
 
-		
+			
 
-		
-		<style>
+			
+			<style>
     .valine-card {
         margin: 1.5rem auto;
     }
@@ -1173,17 +1366,18 @@
     });
 </script>
 
-		
+			
 
-	</div>
+		</div>
 	</div>
 	
 	
 </main>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-<script type="text/javascript">
-	document.querySelector('#sortable').sortablejs()
-</script>
+<script src="/libs/galleries/js/imagesloaded.pkgd.min.js"></script>
+<script src="/libs/galleries/js/masonry.pkgd.min.js"></script>
+<script src="/libs/galleries/js/anime.min.js"></script>
+<script src="/libs/galleries/js/magnific-popup.min.js"></script>
+<script src="/libs/galleries/js/main.js"></script>
 
     <footer class="page-footer bg-color">
     
