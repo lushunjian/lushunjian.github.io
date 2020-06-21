@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Android与Linux的区别</title>
+      <link href="/2020/06/21/android-yu-linux-de-qu-bie/"/>
+      <url>/2020/06/21/android-yu-linux-de-qu-bie/</url>
+      
+        <content type="html"><![CDATA[<p>Android这一词最先出现在法国作家利尔亚当在1886年发表的科幻小说《未来夏娃》中，作者将外表像人类的机器起名为Android，这也就是Android小人名字的由来。Android是基于Linux系统的开源操作系统，是由Andy Rubin于2003年10月在美国加州创建，2005年8月17日，Google低调收购了成立仅22个月的高科技企业Android及其团队。Andy Rubin成为Google公司工程部副总裁，继续负责Android项目。2007年11月，Google与84家硬件制造商、软件开发商及电信营运商组建开放手机联盟共同研发改良Android系统。随后Google以Apache开源许可证的授权方式，发布了Android的源代码。2008年的时候发布了第一部Android智能手机，随后Android不断发展更新，占据了全球大部分的手机市场。</p><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>既然Android是基于Linux开发的操作系统，那么是不是可以理解成Android是Linux一个发行版本，就像Centos，RedHat，Ubuntu一样是众多Linux发行版本中的一个。如果是这样，那么同为Linux发行版的Centos，Ubuntu等为什么没能成为移动端的操作系统，而Android却如此受人青睐。最后一个问题，Android是基于Linux的操作系统，为什么没有人用C/C++写应用运行于Android之上，而是写Java应用。要想得到这个问题的答案，我们要先弄清楚几个概念。</p><h3 id="Linux，Unix与GNU-渊源"><a href="#Linux，Unix与GNU-渊源" class="headerlink" title="Linux，Unix与GNU 渊源"></a>Linux，Unix与GNU 渊源</h3><ul><li><strong>Unix</strong>：Unix 操作系统是在1960年代末，由当时就职于美国贝尔实验室的肯·汤普逊（Kenneth Thompson） 和 丹尼斯·里奇（Dennis Ritchie）发明的。这两个人都是计算机领域的传奇。他们除了发明了Unix 系统之外，还一起发明了C语言。然后1973年他们用C语言对 Unix系统进行了重新编写。</li><li><strong>GNU计划</strong>：Unix系统只能运行在大型的计算机上，而且价格非常昂贵。小公司以及众多的软件爱好者根本用不起。为了抵制这些大厂，自由软件之父 理查德.斯托曼发起了自由软件运动，吹起了共产主义的号角（发起了GUN运动），并发布了软件界的共产主义宣言（GPL协议），并且这一运动得到了很多人的认同。GNU是“GNU is Not Unix”的递归缩写，它的目的就是作出Unix的替代品，让软件工程师、技术爱好者等个人都能开发和使用免费开源的系统和软件。到了1990年，GNU计划已经开发出的软件包括了一个功能强大的文字编辑器Emacs、C语言编译器GCC以及大部分UNIX系统的程序库和工具。唯一依然没有完成的重要组件，就是操作系统的内核.有意思的是,而那个时候Linux还没有诞生呢 ，所以斯托曼心里苦啊，就在大家逐渐失去信心的时候，1991年Linus Torvalds带着他的Linux闪亮登场了，也给GUN运动画了一个完美的句号。</li><li><strong>Linux的诞生</strong>：</li><li>芬兰人托瓦兹（Linus Torvalds）在学习计算机操作系统时，为了能在家里的PC机上使用与学校一样的操作系统，开始了编写类似UNIX内核的工作。其导师做了一个简单的Minix操作系统，但他觉得实在太难用了，于是也决定自己开发一个操作系统，1991 年 9 月他发布了第一版 Linux 操作系统的内核（大神一言不合就写操作系统。。）</li></ul><h3 id="Linux-与-Linux-内核"><a href="#Linux-与-Linux-内核" class="headerlink" title="Linux 与 Linux 内核"></a>Linux 与 Linux 内核</h3><p>Linux 与 Linux 内核其实不太一样的，Linux 的内核是操作系统的核心，包括设备驱动、文件系统、进程管理、网络通信等。但是操作系统光有内核，用户是没有办法操作的，所以很多厂商在Linux 社区就在内核之上开发了很多工具，比如我们常用的 GNome桌面，FireFox浏览器、GIMP 图片编辑器等等。Linux 内核和这些应用一起打包后就被称作 Linux 发行版本。Linux 有很多的发行版本，例如RedHat，CentOS等等。</p><p><img src="/2020/06/21/android-yu-linux-de-qu-bie/2.png" alt></p><p>所以我们常说的 Linux 有两个含义</p><ol><li><strong>Linux 内核</strong>：这个严格来说应该叫 GNU/Linux，因为它是 GNU 计划的一部分</li><li><strong>Linux 发行版</strong>：比如 Debian、Ubuntu、Mint、RedHat等等</li></ol><h2 id="Android与-Linux-的关系"><a href="#Android与-Linux-的关系" class="headerlink" title="Android与 Linux 的关系"></a>Android与 Linux 的关系</h2><p>Android实际上用到的是 Linux 的内核。因为 Linux 本身是开源的，所以谷歌的工程师们选择了在 Linux 内核基础之上做裁剪定制，这样他们就不需要从头开始来开发一个全新的系统。使用Linux内核、包含一套开发框架、各种运行库（Media、SQLite、 OpenGL ES等）、Dalvik虚拟机，提供了Android SDK，包含丰富的工具集（有调试器、库、手机仿真器、文档、示例代码和教程），还有Android Development Tools(ADT)</p><p><img src="/2020/06/21/android-yu-linux-de-qu-bie/5.jpg" alt="Android操作系统的架构"></p><p>从上图中可以清楚的看出</p><ol><li>最上层是面向用户的Application（应用程序），包括电话程序、联系人程序、浏览器、地图、Email等。</li><li>下面是Application Framework，为开发人员提供访问核心组件所使用的API，包含了丰富的View组件、Content Providers（内容提供器）用来访问另一个应用程序的数据（如联系人），或者共享它们自己的数据、Resource Manager（资源管理器）提供对资源的访问（如本地字符串，图形，布局文件等）、Notification Manager（通知管理器）、Activity Manager（活动管理器）等等。</li><li>第三层是系统运行库，包含程序库和Android运行库。<ol><li>核心类库中包含了一些C/C++库，通过应用框架为开发者提供服务，如：Libc（从BSD继承来的标准C系统函数库）、媒体库、SGL（2D图形引 擎）、3D libraries（基于OpenGL ES 1.0 APIs实现，可以使用硬件或软件3D加速）、SQLite（数据库引擎）等等</li><li>Android运行时库包括一个核心库，该核心库提供了JAVA编程语言核心库的大多数功能。每一个Android应用程序都在自己的进程中运行，都拥 有一个独立的Dalvik虚拟机实例。Dalivk被设计成一个设备可以同时高效地运行多个虚拟系统。Dalivk虚拟机执行.dex文件（Dalvik 的可执行文件），该格式文件针对小内存使用做了优化。同时虚拟机是基于寄存器的，所有类都经由Java编译器编译，然后通过SDK中的dx工具转化 成.dex格式，由虚拟机执行。Dalivik虚拟机依赖于linux内核的一些功能，比如线程机制和底层内存管理机制。</li></ol></li><li>接下来一层是Hardware Abstract Layer（硬件抽象层），你在早期的架构图中看不到这一层。2008年，Patrick Brady就提出了Android HAL架构，它是为了把Linux kernel与上层框架完全隔开，让Android不至于过度依赖Linux kernel，可以让Android Framework的开发能在不考虑驱动程序的前提下进行。HAL仍以*.so形式存在，Stub向HAL“提供”操作函数，Runtime则是向HAL 取得特定模块的操作（operations）。2010年2月3日，Linux内核的开发者，将Android的驱动程序从Linux内核Staging tree（状态树）上去除，从此，Android与Linux核心开发就分开了。</li><li>最下面一层是Linux核心，Android的核心系统依赖于Linux内核，如安全性、内存管理、进程管理、网络协议栈和驱动模型。Android的 Linux kernel也不是GNU/Linux。Android将驱动程序移到userspace，使得Linux driver与Linux kernel分开。</li></ol><p>说了这么多对安卓系统有了一定了解后，对于安卓和Linux的区别就好理解了，直接上图</p><p><img src="/2020/06/21/android-yu-linux-de-qu-bie/4.jpg" alt></p><p>Linux 内核是用 C语言开发的，安卓在 Linux 的内核之上用 C/C++ 开发了Dalvik ，后来改叫 Android Run Time，其实本身就是安卓的 Java 虚拟机。我们做的安卓应用都要用 Java开发，运行在 ART 上面。Linux 其他发行版本也可以用 Java 开发应用，只要运行在 Linux 的 Java 虚拟机上就可以了。除此之外我们也可以在 Linux 内核之上使用其他框架开发，比如 GTK 框架的 Gnome、QT 框架的 LXQT，这些跟 ART 都是一个层次的东西。所以我觉得安卓和其他 Linux 发行版本本质上没有太大区别，只不过安卓对 Linux 的内核做了一些裁减，并且在上面跑了一个 Dalvik / ART，而其他 Linux 发行版本跑了很多个 “Dalvik / ART”而已。</p><p><strong>安卓系统上可以直接运行C/C++写的App吗？</strong></p><p>可以的，实际上这个问题有点蠢，因为决定程序能不能运行不是由它的开发语言决定的，任何语言最终都会被编译成二进制代码，所以只要编译器能编译成相关CPU和操作系统支持的代码，那么就可以在安卓上直接跑C写的App。所以也可以用C/C++开发App。</p><p> <strong>既然安卓是Linux内核，那么可以在Linux 桌面上运行安卓的应用吗？</strong></p><p>因为其他 Linux 发行版本也没有 Dalvik / ART，所以安卓的应用在 Linux 桌面上不能直接运行。不过我们只需要将 Dalvik / ART 移植到 Linux 桌面环境就可以了，只不过有些功能硬件不支持，例如通话功能，照相机功能等。正是基于这个原理，市场上有很多安卓手机模拟器，不仅可以用在 Linux 桌面，还可以用在 Windows 以及 Mac 上。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>安卓的操作系统核心是在 Linux 内核上做了一些裁减和定制，并且在内核之上运行了一个 Dalvik / ART 虚拟机，所有的应用必须运行在这个虚拟机上，所以安卓的应用都是用 Java 来开发的。在 Linux 的发行版本中，我们可以使用 Java 虚拟机，也可以使用其他框架，比如 GTK, QT等等，它们编译出来的二进制代码可以直接运行在 Linux 内核上，它们和 Dalvik / ART 是一个层次上的东西，所以安卓和 Linux 的发行版本本质上是一样的。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Audio实现音频文本同步</title>
       <link href="/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/"/>
       <url>/2020/06/17/audio-shi-xian-yin-pin-wen-ben-tong-bu/</url>
