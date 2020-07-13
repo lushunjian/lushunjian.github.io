@@ -607,7 +607,7 @@
 解释: 最长有效括号子串为 &quot;()(())&quot;</code></pre><p><strong>示例4</strong></p>
 <pre><code>输入: &quot;)(())()()(.))&quot;
 输出: 8
-解释: 最长有效括号子串为 &quot;(())()()&quot;</code></pre><h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>对于这道题的解法，力扣上有很多思路，官方提供了三种解题思路，这里讲一下主要的两种算法思路，一种是用动态规划算法，第二种是用栈的方式解题</p>
+解释: 最长有效括号子串为 &quot;(())()()&quot;</code></pre><h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>对于这道题的解法，力扣上有很多思路，官方提供了三种解题思路，一种是用动态规划算法，第二种是用栈的方式解题，第三种是用两个指针计数遍历法。这里主要讲一下动态规划算法</p>
 <h3 id="动态规划实现"><a href="#动态规划实现" class="headerlink" title="动态规划实现"></a>动态规划实现</h3><p>结合题目，有<strong>最长</strong>这个字眼，可以考虑尝试使用 <strong>动态规划</strong> 进行分析。这是一个 <strong>最值型</strong> 动态规划的题目。动态规划三步走，这里先定义dp[i] 数组表示以下标 i 字符结尾的最长有效括号的长度，然后我们先找状态转移方程。根据题意，显然有效的子串一定以 ‘)’ 结尾，因此我们可以知道以 ‘(‘ 结尾的子串对应的 dp 值必定为 0 ，我们只需要求解 ‘)’ 在 dp数组中对应位置的值。即当 s[i] = ‘(‘ 时，s[i] 无法和其之前的元素组成有效的括号对，所以dp[i] = 0。我们来看当 s[i] = ‘)’ 的情况，又分为以下两种子情况</p>
 <p><strong>情况1</strong> </p>
 <p><code>当s[i−1]==′(′时</code>：此时 s[i] 和 s[i - 1] 组成一对有效括号，有效括号长度新增长度2，i 位置对最长有效括号长度为 其之前2个位置的最长括号长度加上2，即形如 “……()” 的情况，我们可以推出状态方程： <strong>dp[i]=dp[i−2]+2</strong></p>
@@ -635,9 +635,57 @@
 </li>
 </ul>
 <p>动态规划最难的就是求出状态关系方程，这个解决了，剩下写代码的事情也就容易了。</p>
-<h3 id="用栈实现"><a href="#用栈实现" class="headerlink" title="用栈实现"></a>用栈实现</h3><p>未完。。</p>
 <h2 id="我的实现"><a href="#我的实现" class="headerlink" title="我的实现"></a>我的实现</h2><p>我看了题目后我的第一感觉是把所有可能的有效括号找出来，然后再逐个求 length 继而求出最长的有效括号。虽然这样求出了最长括号但是却多占用了一些空间复杂度，因为我不仅仅求了长度，还把有效括号这个字符串本身也找出来了。</p>
-<p>未完。。</p>
+<h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>看到这个题时我想到的是从左往右遍历字符串，然后定义一个计数变量 index ，每当遇到 ( 左括号则 index+1，每当遇到 ) 右括号则 index-1 ，当index==0时，说明找了一个有效括号，这样只需要遍历完字符串，就可以找到所有的有效括号，然后比较找出最长的有效括号即可。大致思路是如此，但实际写代码要考虑很多边界问题，最后代码实现如下</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">longestValidParentheses</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        StringBuilder temp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        s<span class="token operator">=</span> s<span class="token operator">+</span>temp<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chars <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span> isContact <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        StringBuilder sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String target<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">char</span> kh1 <span class="token operator">=</span> <span class="token string">'('</span><span class="token punctuation">,</span>kh2<span class="token operator">=</span><span class="token string">')'</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>chars<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">==</span>chars<span class="token punctuation">.</span>length<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+                isContact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                kh1 <span class="token operator">=</span> <span class="token string">')'</span><span class="token punctuation">;</span>
+                kh2 <span class="token operator">=</span> <span class="token string">'('</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>kh1 <span class="token operator">==</span> chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                sb<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                isContact <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                index<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>kh2 <span class="token operator">==</span> chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> sb<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    sb<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    index<span class="token operator">--</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span>index<span class="token operator">==</span><span class="token number">0</span> <span class="token operator">&amp;&amp;</span> sb<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> target<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        <span class="token keyword">if</span><span class="token punctuation">(</span>isContact<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                            target <span class="token operator">=</span> sb<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">>=</span>chars<span class="token punctuation">.</span>length<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                                target <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                            sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>index <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                        isContact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                        sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+                    isContact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> target<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>入参 s 是待求解的字符串，例如传入 <code>())()(())</code>，则会返回 6 ，因为最长有效括号是 <code>()(())</code>。其中第47行的 target 就是目标字符串，即最长有效括号</p>
 
             </div>
             <hr/>
