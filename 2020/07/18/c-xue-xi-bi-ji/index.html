@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="LeetCode-最长有效括号, 颜如玉">
-    <meta name="description" content="在地铁上刷力扣时，无意中看到这个题。题目描述挺简单的，然后动脑想想感觉也挺简单的，但是实际动手写代码起来，却怎么运行怎么不对。最后花了两个下午才把它做出来，我的解题方式和官网提供的解题思路都不一样，自创解法，虽然能解题，但是思路不通用，感觉">
+    <meta name="keywords" content="C++学习笔记, 颜如玉">
+    <meta name="description" content="最近在学习MQL5，MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>LeetCode-最长有效括号 | 颜如玉</title>
+    <title>C++学习笔记 | 颜如玉</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">LeetCode-最长有效括号</h1>
+                    <h1 class="description center-align post-title">C++学习笔记</h1>
                 </div>
             </div>
         </div>
@@ -551,8 +551,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/leetcode/">
-                                <span class="chip bg-color">leetcode</span>
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C++</span>
                             </a>
                         
                     </div>
@@ -563,8 +563,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -576,7 +576,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-07-12
+                    2020-07-18
                 </div>
                 
 
@@ -593,99 +593,100 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在地铁上刷力扣时，无意中看到这个题。题目描述挺简单的，然后动脑想想感觉也挺简单的，但是实际动手写代码起来，却怎么运行怎么不对。最后花了两个下午才把它做出来，我的解题方式和官网提供的解题思路都不一样，自创解法，虽然能解题，但是思路不通用，感觉自己好菜，胆小可怜又无助 o(╥﹏╥)o 。话不多说，来看一下题目。</p>
-<h2 id="最长有效括号"><a href="#最长有效括号" class="headerlink" title="最长有效括号"></a>最长有效括号</h2><p>给定一个只包含 <code>&#39;(&#39;</code> 和 <code>&#39;)&#39;</code> 的字符串，找出最长的包含有效括号的子串的长度。左口号和右括号能成对出现就算有效口号，看例子</p>
-<p><strong>示例1</strong></p>
-<pre><code>输入: &quot;(()&quot;
-输出: 2
-解释: 最长有效括号子串为 &quot;()&quot;</code></pre><p><strong>示例2</strong></p>
-<pre><code>输入: &quot;)()())&quot;
-输出: 4
-解释: 最长有效括号子串为 &quot;()()&quot;</code></pre><p><strong>示例3</strong></p>
-<pre><code>输入: &quot;)()(())&quot;
-输出: 6
-解释: 最长有效括号子串为 &quot;()(())&quot;</code></pre><p><strong>示例4</strong></p>
-<pre><code>输入: &quot;)(())()()(.))&quot;
-输出: 8
-解释: 最长有效括号子串为 &quot;(())()()&quot;</code></pre><h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>对于这道题的解法，力扣上有很多思路，官方提供了三种解题思路，一种是用动态规划算法，第二种是用栈的方式解题，第三种是用两个指针计数遍历法。这里主要讲一下动态规划算法</p>
-<h3 id="动态规划实现"><a href="#动态规划实现" class="headerlink" title="动态规划实现"></a>动态规划实现</h3><p>结合题目，有<strong>最长</strong>这个字眼，可以考虑尝试使用 <strong>动态规划</strong> 进行分析。这是一个 <strong>最值型</strong> 动态规划的题目。动态规划三步走，这里先定义dp[i] 数组表示以下标 i 字符结尾的最长有效括号的长度，然后我们先找状态转移方程。根据题意，显然有效的子串一定以 ‘)’ 结尾，因此我们可以知道以 ‘(‘ 结尾的子串对应的 dp 值必定为 0 ，我们只需要求解 ‘)’ 在 dp数组中对应位置的值。即当 s[i] = ‘(‘ 时，s[i] 无法和其之前的元素组成有效的括号对，所以dp[i] = 0。我们来看当 s[i] = ‘)’ 的情况，又分为以下两种子情况</p>
-<p><strong>情况1</strong> </p>
-<p><code>当s[i−1]==′(′时</code>：此时 s[i] 和 s[i - 1] 组成一对有效括号，有效括号长度新增长度2，i 位置对最长有效括号长度为 其之前2个位置的最长括号长度加上2，即形如 “……()” 的情况，我们可以推出状态方程： <strong>dp[i]=dp[i−2]+2</strong></p>
-<p><strong>情况2</strong></p>
-<p><code>当s[i−1]==′)′时</code>：这种情况下，如果前面有和s[i]s[i]组成有效括号对的字符，即形如 “……(())”，这样的话，就要求s[i - 1]位置必然是有效的括号对。这时，我们只需要找到和s[i]s[i]配对对位置，并判断其是否是 ‘(‘ 即可。和 i 位置配对对位置为 <em>i- 1 - dp[i - 1]</em>，为什么是 <em>i - 1 - dp[i - 1]</em>，这个有些难以理解，首先我们得知道 dp[i - 1] 的值是什么意思，dp[i-1]是在位置i-1处的最长有效括号长度，那么为什么与 i 对称的位置会是 i 减1 再减去 i-1 处的最长有效括号长度呢，这个关系式是比较难找的地方，直接看例子吧，多举几个例子就能找到规律。数学归纳法嘛，本质也是找规律</p>
-<p><img src="/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/1.png" alt="两个有效括号例子"></p>
-<p>dp[i]保存的是在i处的最长有效括号长度，对于情况A很好理解，需要注意的是情况B，在i-1处保存的最长有效括号长度是2，而我之前的理解应该是4，因为4是最长的嘛。这种理解是错误的，长度4已经在前面保存过了，有效括号在i-4出中断了，然后会重新计数，因此在 i 处保存的是到 i 处有括号没有中断的最长长度。所以在 i-1 处有效括号长度是2。接下来就是重点了</p>
-<ul>
-<li>以图中情况B为例，可以得出于 i 对应的左括号位置是 i-3，</li>
-<li>而 i-3 = i-1-2 = i-1-dp[i-1] ，为什么能用 dp[i-2] 代替 i-1-2中的2，因为有效括号一定是对称的</li>
-<li>所以得出与 i 位置对称的左括号位置是 i-1-dp[i-1]</li>
-</ul>
-<p>现在我们来求状态转移方程，根据数学归纳法。为了便于理解，看下图</p>
-<p><img src="/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/2.png" alt></p>
-<p>可以得出  <code>dp[i]=dp[i-1]+dp[i-4]+2</code>，我来解释一下这个方程，在 i 处的最长有效括号长度是由三部分组成的，即在 i-1处的最长有效括号长度，在 i-4 处的最长有效括号长度以及在 i 处如果是 ) 右括号那么最长有效括号长度加2，即dp[i-1] 是在i-1处的最长有效括号，也就是图中红色的方格，dp[i-4] 是在i-4处的最长有效括号图中蓝色的方格。而 dp[i-4] 中 i-4 就是 i 对应的左括号位置的前一个位置，即 i-3 的前一个位置，由前面我们已经算出 i-3 =i-1-dp[i-1] ，所以 <strong>dp[i] = dp[i-1]+dp[i-2-dp[i-1]]+2</strong>。好了，根据前面的分析，我们终于得到了如下两个计算公式：</p>
+                <p>最近在学习MQL5，MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制定交易决策。MQL5是以最流行的程序C++语言为蓝本的，因此MQL5的语法与C++的语法相似，可以理解为MQL是C++的一个子集。我之前没有使用过C++，在看MQL开发文档时很多不懂的地方，在此记录一下学习笔记。实际上就是C++的一些基本语法</p>
+<h2 id="struct与class的区别"><a href="#struct与class的区别" class="headerlink" title="struct与class的区别"></a>struct与class的区别</h2><p>对于使用Java的人来说class好理解，struct是原本是C语言有的类型，即结构体。C++中的struct对C中的struct进行了扩充，它已经不再只是一个包含不同数据类型的数据结构了，它已经获取了太多的功能。，以至于C++中struct和class的作用相似度很高，来看一下他们的使用</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>struct</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>能包含成员函数吗？</td>
+<td>能</td>
+<td>能</td>
+</tr>
+<tr>
+<td>能继承吗？</td>
+<td>能</td>
+<td>能</td>
+</tr>
+<tr>
+<td>能实现多态吗？</td>
+<td>能</td>
+<td>能</td>
+</tr>
+</tbody></table>
+<p>既然struct都能实现，那它和class还能有什么区别？结构体和类的<strong>唯一</strong>区别就是：  最本质的一个区别就是默认的访问控制。主要体现在两点上</p>
+<h3 id="默认的继承访问权限"><a href="#默认的继承访问权限" class="headerlink" title="默认的继承访问权限"></a>默认的继承访问权限</h3><p>struct是public的，class是private的。如下例子</p>
+<pre class=" language-c++"><code class="language-c++">struct A
+{
+  char a;
+}；
+
+struct B : A
+{
+  char b;
+}；</code></pre>
+<p>这个时候B是public继承A的。如果都将上面的struct改成class，那么B是private继承A的。这就是默认的继承访问权限。</p>
+<pre class=" language-c++"><code class="language-c++">class A
+{
+  char a;
+}；
+
+class B : public A
+{
+  char b;
+}；</code></pre>
+<p>就是为了指明是public继承，而不是用默认的private继承。</p>
+<h3 id="默认的属性访问权限"><a href="#默认的属性访问权限" class="headerlink" title="默认的属性访问权限"></a>默认的属性访问权限</h3><p>struct作为数据结构的实现体，它默认的数据访问控制是public的，而class作为对象的实现体，它默认的成员变量访问控制是private的，举个例子看看</p>
+<pre class=" language-c++"><code class="language-c++"> //定义一个struct
+struct A
+{
+   char c1;
+   int n2;
+   double db3;
+};
+
+ //定义时直接赋值 
+A a={'p', 7, 3.1415926};</code></pre>
+<p>也就是说struct可以在使用的时候用{}赋初值。那么问题来了，class行不行呢？答案是不行，但需要注意的是这个区别有一定的特殊性，你试着向上面的struct中加入一个构造函数（或虚函数），你会发现什么？<br>对，struct也不能用{}赋初值了。是的，以{}的方式来赋初值，只是用一个初始化列表来对数据进行按顺序的初始化，如上面如果写成A a={‘p’,7};则c1,n2被初始化，而db3没有。这样简单的copy操作，只能发生在简单的数据结构上，而不应该放在对象上。加入一个构造函数或是一个虚函数会使struct更体现出一种对象的特性，而使此{}操作不再有效。 事实上，是因为加入这样的函数，使得类的内部结构发生了变化。而加入一个普通的成员函数呢？你会发现{}依旧可用。其实你可以将普通的函数理解成对数据结构的一种算法，这并不打破它数据结构的特性。 那么，看到这里，我们发现即使是struct想用{}来赋初值，它也必须满足很多的约束条件，这些条件实际上就是让struct更体现出一种数据机构而不是类的特性。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从上面的区别，我们可以看出，struct更适合看成是一个数据结构的实现体，class更适合看成是一个对象的实现体。</p>
+<h2 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h2><p>C++中函数的参数类型有一些独特的写法，如下</p>
+<pre class=" language-c++"><code class="language-c++">// 1
+void test(){}
+// 2
+void test(void){}
+// 3
+void test(void *){}</code></pre>
+<p>1和2是相同的，表示test函数不接受任何参数，但无论在c还是c++中如果函数不接受参数用2的方式书写是一种良好的习惯。3表示test函数接受一个指针类型的参数，无论是什么指针，只要是指针就可以传入。</p>
+<h2 id="类的实例化：new与不new的区别"><a href="#类的实例化：new与不new的区别" class="headerlink" title="类的实例化：new与不new的区别"></a>类的实例化：new与不new的区别</h2><p>在C++中，实例可以不通过new来创建，这一点与Java区别比较大，对于不熟悉C++但熟悉Java的人来说，确实一下适应不了，举个例子</p>
+<pre class=" language-c++"><code class="language-c++">A a;
+
+A *a = new a();</code></pre>
+<p>以上两种方式皆可实现类的实例化，new创建类对象，使用完后需使用delete删除，跟申请内存类似。而不用new创建则不需要回收内存，使用完后会自己释放，区别如下</p>
 <ol>
-<li><code>dp[i]=dp[i−2]+2</code></li>
-<li><code>dp[i] = dp[i-1]+dp[i-2-dp[i-1]]+2</code></li>
+<li>前者在堆栈中分配内存，后者为动态内存分配，在一般应用中是没有什么区别的，但动态内存分配会使对象的可控性增强。</li>
+<li>不加new在堆栈中分配内存</li>
+<li>大程序用new，小程序直接申请</li>
+<li>只是把对象分配在堆栈内存中</li>
+<li>new必须delete删除，不用new系统会自动回收内存</li>
 </ol>
-<p>那么，求 dp[i] 就变成了求dp[i - 1]、 dp[i - 2]、dp[i - dp[i - 1] - 2] 的子问题。 现在完成了动态规划的两步了，找出了状态转移方程，定义了dp数组，还剩下一步就是初始条件和边界情况</p>
-<ul>
-<li><p>初始条件： dp[i] = 0</p>
-</li>
-<li><p>边界情况：需要保证计算过程中：i - 2 &gt;= 0 和 i - 2 - dp[i - 1]  &gt;= 0</p>
-</li>
-</ul>
-<p>动态规划最难的就是求出状态关系方程，这个解决了，剩下写代码的事情也就容易了。</p>
-<h2 id="我的实现"><a href="#我的实现" class="headerlink" title="我的实现"></a>我的实现</h2><p>我看了题目后我的第一感觉是把所有可能的有效括号找出来，然后再逐个求 length 继而求出最长的有效括号。虽然这样求出了最长括号但是却多占用了一些空间复杂度，因为我不仅仅求了长度，还把有效括号这个字符串本身也找出来了。</p>
-<h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>看到这个题时我想到的是从左往右遍历字符串，然后定义一个计数变量 index ，每当遇到 ( 左括号则 index+1，每当遇到 ) 右括号则 index-1 ，当index==0时，说明找了一个有效括号，这样只需要遍历完字符串，就可以找到所有的有效括号，然后比较找出最长的有效括号即可。大致思路是如此，但实际写代码要考虑很多边界问题，最后代码实现如下</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">longestValidParentheses</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        StringBuilder temp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        s<span class="token operator">=</span> s<span class="token operator">+</span>temp<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chars <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">boolean</span> isContact <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-        StringBuilder sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String target<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">;</span>
-        <span class="token keyword">int</span> index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token keyword">char</span> kh1 <span class="token operator">=</span> <span class="token string">'('</span><span class="token punctuation">,</span>kh2<span class="token operator">=</span><span class="token string">')'</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>chars<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">==</span>chars<span class="token punctuation">.</span>length<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-                isContact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-                kh1 <span class="token operator">=</span> <span class="token string">')'</span><span class="token punctuation">;</span>
-                kh2 <span class="token operator">=</span> <span class="token string">'('</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>kh1 <span class="token operator">==</span> chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                sb<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                isContact <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-                index<span class="token operator">++</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
-                <span class="token keyword">if</span><span class="token punctuation">(</span>kh2 <span class="token operator">==</span> chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> sb<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                    sb<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>chars<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    index<span class="token operator">--</span><span class="token punctuation">;</span>
-                    <span class="token keyword">if</span><span class="token punctuation">(</span>index<span class="token operator">==</span><span class="token number">0</span> <span class="token operator">&amp;&amp;</span> sb<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> target<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                        <span class="token keyword">if</span><span class="token punctuation">(</span>isContact<span class="token punctuation">)</span><span class="token punctuation">{</span>
-                            target <span class="token operator">=</span> sb<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">>=</span>chars<span class="token punctuation">.</span>length<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                                target <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                            <span class="token punctuation">}</span>
-                        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
-                            sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                        <span class="token punctuation">}</span>
-                    <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>index <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                        index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-                        isContact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-                        sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    <span class="token punctuation">}</span>
-                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
-                    sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-                    isContact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-                <span class="token punctuation">}</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> target<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<p>入参 s 是待求解的字符串，例如传入 <code>())()(())</code>，则会返回 6 ，因为最长有效括号是 <code>()(())</code>。其中第47行的 target 就是目标字符串，即最长有效括号</p>
+<pre class=" language-c++"><code class="language-c++">CTest* pTest = new CTest();
+
+// 回收内存
+delete pTest;</code></pre>
+<h2 id="函数返回带括号"><a href="#函数返回带括号" class="headerlink" title="函数返回带括号"></a>函数返回带括号</h2><p>在C++经常会看到函数返回带括号，例如一个函数返回一个int类型，写法就有两种，刚开始看时有点懵，不知两种写法有什么区别</p>
+<pre class=" language-c++"><code class="language-c++">int test(){
+    return 1;
+}
+
+int test(){
+    return(1);
+}</code></pre>
+<p>实际上，这两种写法完全没有区别。不带只是简写</p>
 
             </div>
             <hr/>
@@ -711,7 +712,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/">https://lushunjian.gitee.io/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/</a>
+                    <a href="https://lushunjian.gitee.io/2020/07/18/c-xue-xi-bi-ji/">https://lushunjian.gitee.io/2020/07/18/c-xue-xi-bi-ji/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -749,8 +750,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/leetcode/">
-                                    <span class="chip bg-color">leetcode</span>
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C++</span>
                                 </a>
                             
                         </div>
@@ -1204,9 +1205,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/07/18/c-xue-xi-bi-ji/">
                     <div class="card-image">
@@ -1224,9 +1226,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-18
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1239,6 +1241,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1257,24 +1260,24 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/08/dong-tai-gui-hua-suan-fa/">
+                <a href="/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/29.jpg" class="responsive-img" alt="动态规划算法">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="LeetCode-最长有效括号">
                         
-                        <span class="card-title">动态规划算法</span>
+                        <span class="card-title">LeetCode-最长有效括号</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            乔治·桑塔亚纳说过，“那些遗忘过去的人注定要重蹈覆辙。”这句话放在问题求解过程中也同样适用。不懂动态规划的人会在解决过的问题上再次浪费时间，懂的人则会事半功倍。那么什么是动态规划？这种算法有何神奇之处？对于动态规划我虽然早有耳闻，但一直未曾
+                            在地铁上刷力扣时，无意中看到这个题。题目描述挺简单的，然后动脑想想感觉也挺简单的，但是实际动手写代码起来，却怎么运行怎么不对。最后花了两个下午才把它做出来，我的解题方式和官网提供的解题思路都不一样，自创解法，虽然能解题，但是思路不通用，感觉
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-12
                             </span>
                         <span class="publish-author">
                             
@@ -1291,8 +1294,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
                     </a>
                     
                 </div>
