@@ -693,6 +693,100 @@ void OnTick(){
         GlobalVariableSet("buyOk",1);
     }
 }</code></pre>
+<h2 id="MQL5的一些语法"><a href="#MQL5的一些语法" class="headerlink" title="MQL5的一些语法"></a>MQL5的一些语法</h2><p>MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制定交易决策。MQL5是以最流行的程序C++语言为蓝本的，因此MQL5的语法与C++的语法相似，可以理解为MQL是C++的一个子集。我之前没有使用过C++，在看MQL开发文档时很多不懂的地方，在此记录一下学习笔记。实际上就是C++的一些基本语法</p>
+<h3 id="struct与class的区别"><a href="#struct与class的区别" class="headerlink" title="struct与class的区别"></a>struct与class的区别</h3><p>对于使用Java的人来说class好理解，struct是原本是C语言有的类型，即结构体。C++中的struct对C中的struct进行了扩充，它已经不再只是一个包含不同数据类型的数据结构了，它已经获取了太多的功能。，以至于C++中struct和class的作用相似度很高，来看一下他们的使用</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>struct</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>能包含成员函数吗？</td>
+<td>能</td>
+<td>能</td>
+</tr>
+<tr>
+<td>能继承吗？</td>
+<td>能</td>
+<td>能</td>
+</tr>
+<tr>
+<td>能实现多态吗？</td>
+<td>能</td>
+<td>能</td>
+</tr>
+</tbody></table>
+<p>既然struct都能实现，那它和class还能有什么区别？结构体和类的<strong>唯一</strong>区别就是：  最本质的一个区别就是默认的访问控制。主要体现在两点上</p>
+<h4 id="默认的继承访问权限"><a href="#默认的继承访问权限" class="headerlink" title="默认的继承访问权限"></a>默认的继承访问权限</h4><p>struct是public的，class是private的。如下例子</p>
+<pre class=" language-c++"><code class="language-c++">struct A
+{
+  char a;
+}；
+
+struct B : A
+{
+  char b;
+}；</code></pre>
+<p>这个时候B是public继承A的。如果都将上面的struct改成class，那么B是private继承A的。这就是默认的继承访问权限。</p>
+<pre class=" language-c++"><code class="language-c++">class A
+{
+  char a;
+}；
+
+class B : public A
+{
+  char b;
+}；</code></pre>
+<p>就是为了指明是public继承，而不是用默认的private继承。</p>
+<h4 id="默认的属性访问权限"><a href="#默认的属性访问权限" class="headerlink" title="默认的属性访问权限"></a>默认的属性访问权限</h4><p>struct作为数据结构的实现体，它默认的数据访问控制是public的，而class作为对象的实现体，它默认的成员变量访问控制是private的，举个例子看看</p>
+<pre class=" language-c++"><code class="language-c++"> //定义一个struct
+struct A
+{
+   char c1;
+   int n2;
+   double db3;
+};
+
+ //定义时直接赋值 
+A a={'p', 7, 3.1415926};</code></pre>
+<p>也就是说struct可以在使用的时候用{}赋初值。那么问题来了，class行不行呢？答案是不行，但需要注意的是这个区别有一定的特殊性，你试着向上面的struct中加入一个构造函数（或虚函数），你会发现什么？<br>对，struct也不能用{}赋初值了。是的，以{}的方式来赋初值，只是用一个初始化列表来对数据进行按顺序的初始化，如上面如果写成A a={‘p’,7};则c1,n2被初始化，而db3没有。这样简单的copy操作，只能发生在简单的数据结构上，而不应该放在对象上。加入一个构造函数或是一个虚函数会使struct更体现出一种对象的特性，而使此{}操作不再有效。 事实上，是因为加入这样的函数，使得类的内部结构发生了变化。而加入一个普通的成员函数呢？你会发现{}依旧可用。其实你可以将普通的函数理解成对数据结构的一种算法，这并不打破它数据结构的特性。 那么，看到这里，我们发现即使是struct想用{}来赋初值，它也必须满足很多的约束条件，这些条件实际上就是让struct更体现出一种数据机构而不是类的特性。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从上面的区别，我们可以看出，struct更适合看成是一个数据结构的实现体，class更适合看成是一个对象的实现体。</p>
+<h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>C++中函数的参数类型有一些独特的写法，如下</p>
+<pre class=" language-c++"><code class="language-c++">// 1
+void test(){}
+// 2
+void test(void){}
+// 3
+void test(void *){}</code></pre>
+<p>1和2是相同的，表示test函数不接受任何参数，但无论在c还是c++中如果函数不接受参数用2的方式书写是一种良好的习惯。3表示test函数接受一个指针类型的参数，无论是什么指针，只要是指针就可以传入。</p>
+<h3 id="类的实例化：new与不new的区别"><a href="#类的实例化：new与不new的区别" class="headerlink" title="类的实例化：new与不new的区别"></a>类的实例化：new与不new的区别</h3><p>在C++中，实例可以不通过new来创建，这一点与Java区别比较大，对于不熟悉C++但熟悉Java的人来说，确实一下适应不了，举个例子</p>
+<pre class=" language-c++"><code class="language-c++">A a;
+
+A *a = new a();</code></pre>
+<p>以上两种方式皆可实现类的实例化，new创建类对象，使用完后需使用delete删除，跟申请内存类似。而不用new创建则不需要回收内存，使用完后会自己释放，区别如下</p>
+<ol>
+<li>前者在堆栈中分配内存，后者为动态内存分配，在一般应用中是没有什么区别的，但动态内存分配会使对象的可控性增强。</li>
+<li>不加new在堆栈中分配内存</li>
+<li>大程序用new，小程序直接申请</li>
+<li>只是把对象分配在堆栈内存中</li>
+<li>new必须delete删除，不用new系统会自动回收内存</li>
+</ol>
+<pre class=" language-c++"><code class="language-c++">CTest* pTest = new CTest();
+
+// 回收内存
+delete pTest;</code></pre>
+<h3 id="函数返回带括号"><a href="#函数返回带括号" class="headerlink" title="函数返回带括号"></a>函数返回带括号</h3><p>在C++经常会看到函数返回带括号，例如一个函数返回一个int类型，写法就有两种，刚开始看时有点懵，不知两种写法有什么区别</p>
+<pre class=" language-c++"><code class="language-c++">int test(){
+    return 1;
+}
+
+int test(){
+    return(1);
+}</code></pre>
+<p>实际上，这两种写法完全没有区别。不带只是简写</p>
 
             </div>
             <hr/>
@@ -1266,31 +1360,31 @@ void OnTick(){
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/18/mql5-xue-xi-bi-ji/">
+                <a href="/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/47.jpg" class="responsive-img" alt="MQL5学习笔记">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="LeetCode-最长有效括号">
                         
-                        <span class="card-title">MQL5学习笔记</span>
+                        <span class="card-title">LeetCode-最长有效括号</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            最近在学习MQL5，MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制
+                            在地铁上刷力扣时，无意中看到这个题。题目描述挺简单的，然后动脑想想感觉也挺简单的，但是实际动手写代码起来，却怎么运行怎么不对。最后花了两个下午才把它做出来，我的解题方式和官网提供的解题思路都不一样，自创解法，虽然能解题，但是思路不通用，感觉
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-18
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-12
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/MQL5/" class="post-category">
-                                    MQL5
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1300,8 +1394,8 @@ void OnTick(){
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MQL5/">
-                        <span class="chip bg-color">MQL5</span>
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
                     </a>
                     
                 </div>
