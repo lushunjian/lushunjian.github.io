@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="MT5学习笔记, 颜如玉">
-    <meta name="description" content="MT5是MetaTrade 5的英文缩写。它是由MetaQuotes platform(迈达克)公司编写的一款金融交易软件，旨在向金融中介机构对他们的客户提供在外汇、差价合约、股票和期货等金融产品交易的交易平台，包括各种交易执行功能、无限量">
+    <meta name="keywords" content="MQL5学习笔记, 颜如玉">
+    <meta name="description" content="最近在学习MQL5，MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>MT5学习笔记 | 颜如玉</title>
+    <title>MQL5学习笔记 | 颜如玉</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/47.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">MT5学习笔记</h1>
+                    <h1 class="description center-align post-title">MQL5学习笔记</h1>
                 </div>
             </div>
         </div>
@@ -576,7 +576,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-07-19
+                    2020-07-18
                 </div>
                 
 
@@ -593,108 +593,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>MT5是MetaTrade 5的英文缩写。它是由MetaQuotes platform(迈达克)公司编写的一款金融交易软件，旨在向金融中介机构对他们的客户提供在外汇、差价合约、股票和期货等金融产品交易的交易平台，包括各种交易执行功能、无限量图表、大量技术指标和曲线、自定义指标及脚本，并且MT5平台提供内置的自动交易市场、自由职业者的策略开发人员数据库、复制交易和虚拟主机服务。编程语言是MQL5</p>
-<p><img src="/2020/07/19/mt5-xue-xi-bi-ji/1.jpg" alt></p>
-<h2 id="外汇交易"><a href="#外汇交易" class="headerlink" title="外汇交易"></a>外汇交易</h2><p>MT5主要是用于外汇交易的，首先弄清楚外汇交易市场整体是个什么结构。这样才能明白为什么外汇市场的货币价格主要是由什么机构控制。我们作为散户在外汇市场中扮演的角色。</p>
-<h3 id="什么是外汇交易"><a href="#什么是外汇交易" class="headerlink" title="什么是外汇交易"></a>什么是外汇交易</h3><p>世界上有许多不同的国家，流通着不同的货币。例如，在日本是日元，在美国是美元，在英国是英镑，在德国和法国则是欧元，等等。这些不同货币之间的交换行为就是[外汇交易]。比如你去银行把100块人民币兑换成美元，这就可用理解为一次外汇交易。外汇交易就是一国货币与另一国货币进行交换。这其实和买卖商品差不多，用100块人民币买价值100块的西瓜，和用100块人民币买价值100块的美元。相当于把美元当做商品来交易，同样的站在美元的角度，也可以把人民币当做商品来交易。</p>
-<h3 id="外汇市场的层级结构"><a href="#外汇市场的层级结构" class="headerlink" title="外汇市场的层级结构"></a>外汇市场的层级结构</h3><p>于外汇交易本身的性质，所以外汇市场是没有一个集中的交易所，尽管一些国家有一些外汇的场内交易，但是整个全球范围来说，外汇交易仍然是OTC市场为主的交易。现以触股票交易市场为例，股票交易的市场结构</p>
-<p><img src="/2020/07/19/mt5-xue-xi-bi-ji/2.png" alt="股票市场结构"></p>
-<p>我们可以看出，股票市场具有非常强的垄断性。在集中交易市场，买方和卖方是需要通过证券交易所专营经纪人进行交易的。股票市场的结构比较简一，这里只有一个控制价格的证券专营经纪人，所有的交易者必须通过这一经纪人进行交易。外汇与交易股票、期货这类单一报价的集中型市场不同，外汇市场没有一个固定的交易场所，它是分散的，意思就是你可以在任何地方进行外汇交易。</p>
-<p>外汇市场中某一货币在任何时间都没有单一的价格，货币的报价会因货币交易者不同。打个比方，外汇市场就像是一个庞大的买卖货币的“集市” —市场中有许多买卖货币的摊主，对每种货币，这些摊主提供不同的报价。外汇交易者大可货比三家，轻而易举地 “淘” 到自己想到的货币。虽然外汇没有全球统一的交易所，但也不是我们想象中的那样混乱无序的。事实上，通过外汇市场的不同层级结构，各级市场参与者都能被合理组织起来。</p>
-<p><img src="/2020/07/19/mt5-xue-xi-bi-ji/3.png" alt="外汇市场层级结构图"></p>
-<h4 id="第1层级：顶级做市商"><a href="#第1层级：顶级做市商" class="headerlink" title="第1层级：顶级做市商"></a>第1层级：顶级做市商</h4><p><strong>顶级做市商主要是各大大型银行、央行和一些非银行做市商</strong>，根据2016年的Euromoney调查外汇显示：外汇市场最顶端的无疑是各大银行做市商，比如说大家所熟知的：花旗、摩根大通、瑞银集团、德意志银行、美银美林、巴克莱银行、高盛集团、汇丰银行、摩根士丹利。顶级的做市商，是外汇市场的主力，资本雄厚、客户众多、系统成熟、关系网强大、技术高明等等一系列的优势、因而有实力成为顶级的做市商，这些做市商交易的价格，就形成了一个货币对的市场价格，通过当下先进的网络，传播到全世界。举个例子：现在这个时刻，汇丰银行正在以一个价格卖出5千万EUR/USD给花旗银行，手机端在这一刻显示的当前价格就是这个价格。做市商是没有什么硬性的加入条件的，但是外汇市场的交易模式决定了你没有实力的话根本混不下去。</p>
-<p>比如说，你是一家零售的经纪商，你也可以做市的MM模式，但是你的量决定了你的高度，别人给你的单子你根本就吃不下去，拿你就没有办法成为这做市商。比如说一家小银行，有一天对全世界说，要开始当是世界级的做市商，2秒后，JP摩根打电话过来“JP纽约分行想买3个亿欧元，给开价吧，便宜点”。第3秒，“你好，我是花旗银行伦敦分布，我卖出8亿加元，请问最新价格是？”所以，你根本就玩不下去，基本上会自动滚出这个圈子。</p>
-<h4 id="第2层级：多交易商平台"><a href="#第2层级：多交易商平台" class="headerlink" title="第2层级：多交易商平台"></a>第2层级：多交易商平台</h4><p>这个市场的第二个层级是多交易平台：汤森路透、彭博FXGO、EBS、规模小一点的有：FXConnect、HotspotFXi、还有一些小的Currenex、Hotspot、Lmax等。要注意的是，这些多交易商平台，并不会自己去提供交易的价格，就好像阿里巴巴并不会自己去生产淘宝的产品，所以这些平台上交易，最终还是具体到一个交易对手身上，可能是花旗也可能是摩根，和你打电话过去没有任何区别。</p>
-<h4 id="第3层级：大中小型银行、金融机构、大客户"><a href="#第3层级：大中小型银行、金融机构、大客户" class="headerlink" title="第3层级：大中小型银行、金融机构、大客户"></a>第3层级：大中小型银行、金融机构、大客户</h4><p>这些大中小银行、金融机构、大客户处于这个生态圈的第三层，并不是小，只是与上面的相比没有什么话语权。这一层直接对接个人和公司客户，比如大公司要投资海外资产，需要买美元，一般都会找到银行，跟银行说我要买1亿美元，银行内部走流程从支行到分行，最终汇总到总行外汇交易台，交易台再去市场上看价格，看的价格基本就是成本价，全球最好的价格了，交易台会加一点或者不加点报给分行，之后分行再加点给客户，赚的是这个价差。</p>
-<h4 id="第4层级：外汇交易平台"><a href="#第4层级：外汇交易平台" class="headerlink" title="第4层级：外汇交易平台"></a>第4层级：外汇交易平台</h4><p>外汇交易平台，也就是我们通常说的经纪商，像福汇、嘉盛等等，处于这个生态圈的4层。一般会接散户、机构投资者的单子，单子的处理模式有两种，一种是B-Book处理，还有一种则是A-Book处理，A-Book的处理也有两种：一种是进入到第二层多交易商平台，还有一种则是直接进入第一层级银行。外汇平台他们的角色很单纯，就是充当半中介，半赌场的角色或者完全中介角色。  </p>
-<p>一些时候他们是开赌场：他们提供平台，你来炒外汇，他们并不对外平出去，你在他们那里属于B-Book。比如你1.1买入欧元，欧元跌到1.05，你止损，他们就赚了，因为你在1.1买入欧元的时候，他们并没有找大银行等机构平盘，他们完全跟你对赌了。你换个角度想想，刚才那2笔交易在他们眼里是啥样的，是不是等于他们1.1卖空欧元，1.05买回来，获利了结。你技术烂，亏给谁都是亏，平台干嘛不和你做对手？</p>
-<p>另一些时候则是当中介：如果你的交易水平真的很高，我和你B-Book，岂不是我要亏到报警，那我怎么办？你每做一笔交易，我都抛出去，我收点差就可以了，你越厉害，交易量越多，我通过点差赚的也就越多。</p>
-<h4 id="第5层级：散户，机构投资者"><a href="#第5层级：散户，机构投资者" class="headerlink" title="第5层级：散户，机构投资者"></a>第5层级：散户，机构投资者</h4><p>第四层，大家都明白，就不多介绍了。个人可能有购汇的需求、企业的对外贸易需要外汇、散户和机构投资者进行外汇的投资和投机活动。散户是外汇市场的最底层是零售交易者。过去普通人很难进行外汇交易，不过，由于互联网、电子交易和零售经纪人的出现，外汇的高门槛都被取消了，这也让我们这样的零售交易者有了“入场资格”。</p>
-<p>整个生态圈是一个典型的层级市场，个人可能只有5万美元的换汇、到了再上一层企业可能就要几百万，到了高盛可能就要几个亿。全中国每天就可能有数十亿换汇，全世界每天就会有数千亿数万亿，整个外汇市场就有5万多亿的外汇交易，整个外汇生态体系就是这样形成的。</p>
-<h2 id="专业名词"><a href="#专业名词" class="headerlink" title="专业名词"></a>专业名词</h2><p><strong>对赌</strong>：对赌实质上可以理解为经纪商把所有的客户作为交易对手，利益上是完全相冲突的。特征是没有进行风险转移的系统。多半是不受监管的的小经纪商</p>
-<p><strong>对冲</strong>：对冲是任意一对货币间的双向操作，例如你下一手空单，别人下一手多单，放到市场上之后这两个单子就成交对冲啦！扩大之后就是无数的多单和空单对冲，当然要银码一样，才算是真正的对冲盘</p>
-<p><strong>投机</strong>：两种货币之间的汇率会随着这两种货币之间的供需的变化而变化。交易员在一个汇率上买进一种货币，而在另一个更有利的汇率上抛出该货币，他就可以盈利。投机大约占了外汇市场交易的绝大部分。</p>
-<p><strong>空单</strong>：空单＝卖出  ，也叫做空，例如 1.2700卖出欧元，持有空单</p>
-<p><strong>多单</strong>：多单＝买入  ，也叫做多，例如 1.2700买入欧元，持有多单</p>
-<p><strong>Bid</strong>：bid是指卖出外汇的价格，bai即我要卖出外汇，标一个价格为bid。</p>
-<p><strong>Ask</strong>：ask是指买入外汇的价格，即我要买入外汇，询问得价格为ask。</p>
-<p><strong>STP（正经平台）</strong>：通过bai银行的报价，直接将客du户的单子抛给银行，zhi点差是浮动的，流dao通式报价。客户有需要可以提供银行交割单。</p>
-<p><strong>MM（对赌平台）</strong>：也就是人们常说的做市商，市场内有交易员，可以看到客户单子，客户在发单时，交易员可以选择是否抛向市场（客户时不知道的）。交易员通常会把盈利性强的单子抛向市场，一些可能会亏损的单子留在自己市场，挣客户亏损的钱。</p>
-<p><strong>ECN</strong>：其实这是属于STP平台里的，也是银行报价，只不过这个模式比STP更“高端”一点，不必经过平台，可以直接接受银行的报价，点差极低。但是这个模式门槛也高，至少要几万美金的入金才能做。</p>
-<h2 id="MQL5常用函数"><a href="#MQL5常用函数" class="headerlink" title="MQL5常用函数"></a>MQL5常用函数</h2><p>MQL5中获取K线的交易数据方式和MQL4区别比较大，也可以查阅官方文档，不过除非对自动交易编程非常熟悉，否则那些方法的参数函数，怎么使用短时间也难以上手，下面是我总结的一些常用的交易数据函数</p>
-<p><img src="/2020/07/19/mt5-xue-xi-bi-ji/5.png" alt="欧美货币对"></p>
-<h3 id="获取Ask价格"><a href="#获取Ask价格" class="headerlink" title="获取Ask价格"></a>获取Ask价格</h3><pre class=" language-c++"><code class="language-c++">MqlTick A[];
-ArraySetAsSeries(A,true);
-CopyTicks(NULL,A)
-// A[0]表示最右边的k线，即最新的买价
-Printf(DoubleToString(A[0].ask,Digits()));</code></pre>
-<h3 id="获取K线数据"><a href="#获取K线数据" class="headerlink" title="获取K线数据"></a>获取K线数据</h3><p>上图中每个k线的数据，0号k线始终在最右边，表示最新的交易数据。MQL5文档位置  -&gt; 时间序列和指标访问 -&gt; CopyRates</p>
-<pre class=" language-c++"><code class="language-c++">MqlRates rates[];
-ArraySetAsSeries(rates,true);
-// 第3个参数0表示从0号k线开始取
-// 第4个参数10表示取10条k线数据
-CopyRates(NULL,0,0,10,rates);
-// rates[0]表示最右边的k线
-// 0号k线开盘价
-Printf(DoubleToString(rates[0].open,Digits()));
-// 0号k线收盘价
-Printf(DoubleToString(rates[0].close,Digits()));
-// 0号k线最高价
-Printf(DoubleToString(rates[0].high,Digits()));
-// 0号k线最低价
-Printf(DoubleToString(rates[0].low,Digits()));</code></pre>
-<h3 id="获取指标数据（均线）"><a href="#获取指标数据（均线）" class="headerlink" title="获取指标数据（均线）"></a>获取指标数据（均线）</h3><p>上图红线表示k线的均价线，通过函数获取k线的均价。MQL5文档位置  -&gt; 时间序列和指标访问 -&gt; CopyBuffer</p>
-<pre class=" language-c++"><code class="language-c++">double buffer[];
-ArraySetAsSeries(buffer,true);
-int ma_h=iMA(NULL,0,12,0,0,0);
-// 第3个参数0表示从0号k线开始取
-// 第4个参数10表示取10条k线指标
-CopyBuffer(ma_h,0,0,10,buffer);
-Printf(DoubleToString(buffer[0],Digits()));</code></pre>
-<h3 id="获取指标数据-Adx线价格，有3条线"><a href="#获取指标数据-Adx线价格，有3条线" class="headerlink" title="获取指标数据(Adx线价格，有3条线)"></a>获取指标数据(Adx线价格，有3条线)</h3><p>平均线只有一条线，因此每个k线只对应一个值。但有些指标线不只一条线，而是三条线，例如Adx，对于这种指标数据该怎么获取</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">double</span> adx1<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">double</span> adx2<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">double</span> adx3<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token function">ArraySetAsSeries</span><span class="token punctuation">(</span>adx1<span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">ArraySetAsSeries</span><span class="token punctuation">(</span>adx2<span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">ArraySetAsSeries</span><span class="token punctuation">(</span>adx3<span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> adx_h<span class="token operator">=</span><span class="token function">iADX</span><span class="token punctuation">(</span>NULL<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 第二个参数,0,1,2表示ADX三条线的下标</span>
-<span class="token function">CopyBuffer</span><span class="token punctuation">(</span>adx_h<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span>adx1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">CopyBuffer</span><span class="token punctuation">(</span>adx_h<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span>adx2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">CopyBuffer</span><span class="token punctuation">(</span>adx_h<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span>adx3<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">double</span> adx1_0<span class="token operator">=</span>adx1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">double</span> adx2_0<span class="token operator">=</span>adx2<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
-<h3 id="开单"><a href="#开单" class="headerlink" title="开单"></a>开单</h3><p>开单即买入货币对，当 symbol=Symbol() 是表示当前EA程序作用于哪个货币对，就获取这个货币对的交易编码。当然我们可以指定货币对编码，例如欧美货币对是 EURUSD ，就可用指定 symbol=”EURUSD “。</p>
-<pre class=" language-java"><code class="language-java">MqlTradeRequest request<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-MqlTradeResult result<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-request<span class="token punctuation">.</span>action   <span class="token operator">=</span>TRADE_ACTION_DEAL<span class="token punctuation">;</span>                     <span class="token comment" spellcheck="true">// 交易操作类型</span>
-request<span class="token punctuation">.</span>symbol   <span class="token operator">=</span><span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                              <span class="token comment" spellcheck="true">// 交易品种</span>
-request<span class="token punctuation">.</span>volume   <span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">;</span>                                   <span class="token comment" spellcheck="true">// 0.2 手交易量</span>
-request<span class="token punctuation">.</span>type     <span class="token operator">=</span>ORDER_TYPE_SELL<span class="token punctuation">;</span>                       <span class="token comment" spellcheck="true">// 订单类型</span>
-request<span class="token punctuation">.</span>price    <span class="token operator">=</span><span class="token function">SymbolInfoDouble</span><span class="token punctuation">(</span><span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>SYMBOL_BID<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 持仓价格</span>
-request<span class="token punctuation">.</span>deviation<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">;</span>                                     <span class="token comment" spellcheck="true">// 允许价格偏差</span>
-request<span class="token punctuation">.</span>magic    <span class="token operator">=</span>EXPERT_MAGIC<span class="token punctuation">;</span>                          <span class="token comment" spellcheck="true">// 订单幻数</span>
-<span class="token comment" spellcheck="true">// 下单</span>
-<span class="token function">OrderSend</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> ticket<span class="token operator">=</span>result<span class="token punctuation">.</span>deal<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//获取下单成功后的订单号码</span></code></pre>
-<h3 id="防止重复开单"><a href="#防止重复开单" class="headerlink" title="防止重复开单"></a>防止重复开单</h3><p>我们在开单的时候，通常只想开一次单。这时可以使用客户端全局变量，这种变量是保存在客户端本地的，可以理解为客户端内嵌的一个简易数据库</p>
-<pre class=" language-c++"><code class="language-c++">int OnInit(){
-    // 客户端全局变量中查找buyOk的值,找到返回true,没有找到返回false
-    if(GlobalVariableCheck("buyOk")==false){
-        GlobalVariableSet("buyOk",0);
-    }
-    return INIT_SUEECSS;
-}
-
-void OnTick(){
-    if(GlobalVariableGet("buyOk")==0){
-        // SendOrder 开一个buy单
-        GlobalVariableSet("buyOk",1);
-    }
-}</code></pre>
-<h2 id="MQL5的一些语法"><a href="#MQL5的一些语法" class="headerlink" title="MQL5的一些语法"></a>MQL5的一些语法</h2><p>MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制定交易决策。MQL5是以最流行的程序C++语言为蓝本的，因此MQL5的语法与C++的语法相似，可以理解为MQL是C++的一个子集。我之前没有使用过C++，在看MQL开发文档时很多不懂的地方，在此记录一下学习笔记。实际上就是C++的一些基本语法</p>
-<h3 id="struct与class的区别"><a href="#struct与class的区别" class="headerlink" title="struct与class的区别"></a>struct与class的区别</h3><p>对于使用Java的人来说class好理解，struct是原本是C语言有的类型，即结构体。C++中的struct对C中的struct进行了扩充，它已经不再只是一个包含不同数据类型的数据结构了，它已经获取了太多的功能。，以至于C++中struct和class的作用相似度很高，来看一下他们的使用</p>
+                <p>最近在学习MQL5，MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制定交易决策。MQL5是以最流行的程序C++语言为蓝本的，因此MQL5的语法与C++的语法相似，可以理解为MQL是C++的一个子集。我之前没有使用过C++，在看MQL开发文档时很多不懂的地方，在此记录一下学习笔记。实际上就是C++的一些基本语法</p>
+<h2 id="struct与class的区别"><a href="#struct与class的区别" class="headerlink" title="struct与class的区别"></a>struct与class的区别</h2><p>对于使用Java的人来说class好理解，struct是原本是C语言有的类型，即结构体。C++中的struct对C中的struct进行了扩充，它已经不再只是一个包含不同数据类型的数据结构了，它已经获取了太多的功能。，以至于C++中struct和class的作用相似度很高，来看一下他们的使用</p>
 <table>
 <thead>
 <tr>
@@ -720,7 +620,7 @@ void OnTick(){
 </tr>
 </tbody></table>
 <p>既然struct都能实现，那它和class还能有什么区别？结构体和类的<strong>唯一</strong>区别就是：  最本质的一个区别就是默认的访问控制。主要体现在两点上</p>
-<h4 id="默认的继承访问权限"><a href="#默认的继承访问权限" class="headerlink" title="默认的继承访问权限"></a>默认的继承访问权限</h4><p>struct是public的，class是private的。如下例子</p>
+<h3 id="默认的继承访问权限"><a href="#默认的继承访问权限" class="headerlink" title="默认的继承访问权限"></a>默认的继承访问权限</h3><p>struct是public的，class是private的。如下例子</p>
 <pre class=" language-c++"><code class="language-c++">struct A
 {
   char a;
@@ -741,7 +641,7 @@ class B : public A
   char b;
 }；</code></pre>
 <p>就是为了指明是public继承，而不是用默认的private继承。</p>
-<h4 id="默认的属性访问权限"><a href="#默认的属性访问权限" class="headerlink" title="默认的属性访问权限"></a>默认的属性访问权限</h4><p>struct作为数据结构的实现体，它默认的数据访问控制是public的，而class作为对象的实现体，它默认的成员变量访问控制是private的，举个例子看看</p>
+<h3 id="默认的属性访问权限"><a href="#默认的属性访问权限" class="headerlink" title="默认的属性访问权限"></a>默认的属性访问权限</h3><p>struct作为数据结构的实现体，它默认的数据访问控制是public的，而class作为对象的实现体，它默认的成员变量访问控制是private的，举个例子看看</p>
 <pre class=" language-c++"><code class="language-c++"> //定义一个struct
 struct A
 {
@@ -754,7 +654,7 @@ struct A
 A a={'p', 7, 3.1415926};</code></pre>
 <p>也就是说struct可以在使用的时候用{}赋初值。那么问题来了，class行不行呢？答案是不行，但需要注意的是这个区别有一定的特殊性，你试着向上面的struct中加入一个构造函数（或虚函数），你会发现什么？<br>对，struct也不能用{}赋初值了。是的，以{}的方式来赋初值，只是用一个初始化列表来对数据进行按顺序的初始化，如上面如果写成A a={‘p’,7};则c1,n2被初始化，而db3没有。这样简单的copy操作，只能发生在简单的数据结构上，而不应该放在对象上。加入一个构造函数或是一个虚函数会使struct更体现出一种对象的特性，而使此{}操作不再有效。 事实上，是因为加入这样的函数，使得类的内部结构发生了变化。而加入一个普通的成员函数呢？你会发现{}依旧可用。其实你可以将普通的函数理解成对数据结构的一种算法，这并不打破它数据结构的特性。 那么，看到这里，我们发现即使是struct想用{}来赋初值，它也必须满足很多的约束条件，这些条件实际上就是让struct更体现出一种数据机构而不是类的特性。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从上面的区别，我们可以看出，struct更适合看成是一个数据结构的实现体，class更适合看成是一个对象的实现体。</p>
-<h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>C++中函数的参数类型有一些独特的写法，如下</p>
+<h2 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h2><p>C++中函数的参数类型有一些独特的写法，如下</p>
 <pre class=" language-c++"><code class="language-c++">// 1
 void test(){}
 // 2
@@ -762,7 +662,7 @@ void test(void){}
 // 3
 void test(void *){}</code></pre>
 <p>1和2是相同的，表示test函数不接受任何参数，但无论在c还是c++中如果函数不接受参数用2的方式书写是一种良好的习惯。3表示test函数接受一个指针类型的参数，无论是什么指针，只要是指针就可以传入。</p>
-<h3 id="类的实例化：new与不new的区别"><a href="#类的实例化：new与不new的区别" class="headerlink" title="类的实例化：new与不new的区别"></a>类的实例化：new与不new的区别</h3><p>在C++中，实例可以不通过new来创建，这一点与Java区别比较大，对于不熟悉C++但熟悉Java的人来说，确实一下适应不了，举个例子</p>
+<h2 id="类的实例化：new与不new的区别"><a href="#类的实例化：new与不new的区别" class="headerlink" title="类的实例化：new与不new的区别"></a>类的实例化：new与不new的区别</h2><p>在C++中，实例可以不通过new来创建，这一点与Java区别比较大，对于不熟悉C++但熟悉Java的人来说，确实一下适应不了，举个例子</p>
 <pre class=" language-c++"><code class="language-c++">A a;
 
 A *a = new a();</code></pre>
@@ -778,7 +678,7 @@ A *a = new a();</code></pre>
 
 // 回收内存
 delete pTest;</code></pre>
-<h3 id="函数返回带括号"><a href="#函数返回带括号" class="headerlink" title="函数返回带括号"></a>函数返回带括号</h3><p>在C++经常会看到函数返回带括号，例如一个函数返回一个int类型，写法就有两种，刚开始看时有点懵，不知两种写法有什么区别</p>
+<h2 id="函数返回带括号"><a href="#函数返回带括号" class="headerlink" title="函数返回带括号"></a>函数返回带括号</h2><p>在C++经常会看到函数返回带括号，例如一个函数返回一个int类型，写法就有两种，刚开始看时有点懵，不知两种写法有什么区别</p>
 <pre class=" language-c++"><code class="language-c++">int test(){
     return 1;
 }
@@ -812,7 +712,7 @@ int test(){
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/07/19/mt5-xue-xi-bi-ji/">https://lushunjian.gitee.io/2020/07/19/mt5-xue-xi-bi-ji/</a>
+                    <a href="https://lushunjian.gitee.io/2020/07/18/mql5-xue-xi-bi-ji/">https://lushunjian.gitee.io/2020/07/18/mql5-xue-xi-bi-ji/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1305,10 +1205,9 @@ int test(){
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
                 <a href="/2020/07/19/mt5-xue-xi-bi-ji/">
                     <div class="card-image">
@@ -1326,9 +1225,9 @@ int test(){
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-19
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-19
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1341,7 +1240,6 @@ int test(){
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1360,31 +1258,31 @@ int test(){
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/18/mql5-xue-xi-bi-ji/">
+                <a href="/2020/07/12/leetcode-zui-chang-you-xiao-gua-hao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/47.jpg" class="responsive-img" alt="MQL5学习笔记">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="LeetCode-最长有效括号">
                         
-                        <span class="card-title">MQL5学习笔记</span>
+                        <span class="card-title">LeetCode-最长有效括号</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            最近在学习MQL5，MetaQuotes Language 5(MQL5)是一种面向对象的高水平的程序语言，它用来自动录入交易战略，为金融市场的各种分析定制智能指标。它不仅允许录入各种智能系统，更致力于实践操作，还能建立专属的图表工具帮您制
+                            在地铁上刷力扣时，无意中看到这个题。题目描述挺简单的，然后动脑想想感觉也挺简单的，但是实际动手写代码起来，却怎么运行怎么不对。最后花了两个下午才把它做出来，我的解题方式和官网提供的解题思路都不一样，自创解法，虽然能解题，但是思路不通用，感觉
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-18
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-12
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/MQL5/" class="post-category">
-                                    MQL5
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1394,8 +1292,8 @@ int test(){
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MQL5/">
-                        <span class="chip bg-color">MQL5</span>
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
                     </a>
                     
                 </div>
