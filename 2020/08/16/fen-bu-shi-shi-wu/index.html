@@ -649,7 +649,139 @@
 <li><strong>同步阻塞</strong>：两阶段提交执行过程中，所有的参与者都需要听从协调者的统一调度，期间处于阻塞状态而不能从事其他操作，这样效率极其低下。</li>
 <li><strong>数据不一致性</strong>：两阶段提交协议虽然是分布式数据强一致性所设计，但仍然存在数据不一致性的可能性。比如在第二阶段中，假设协调者发出了事务 commit 通知，但是因为网络问题该通知仅被一部分参与者所收到并执行了commit 操作，其余的参与者则因为没有收到通知一直处于阻塞状态，这时候就产生了数据的不一致性。</li>
 </ul>
+<h2 id="补偿型事务（TCC）"><a href="#补偿型事务（TCC）" class="headerlink" title="补偿型事务（TCC）"></a>补偿型事务（TCC）</h2><p>TCC (Try、Commit、Cancel) 是一种补偿型事务，该模型要求应用的每个服务提供 try、confirm、cancel 三个接口，它的核心思想是通过对资源的预留（提供中间态），尽早释放对资源的加锁，如果事务可以提交，则完成对预留资源的确认，如果事务要回滚，则释放预留的资源。我们以一个简单的电商系统为例，小明账号余额为1000元，在淘宝上花 100 元买了一本书，获赠 10 个积分，产品上有如下几个操作：</p>
+<ul>
+<li>订单系统创建商品订单</li>
+<li>支付系统接受小明的支付</li>
+<li>库存系统扣减产品库存</li>
+<li>会员系统给小明账户增加会员积分</li>
+</ul>
+<p>这几个动作需要作为一个事务执行，要么都成功要么都失败。举个异常例子，订单的状态都修改为“已支付”了，结果库存服务扣减库存失败。那个商品的库存原来是 100 件，现在卖掉了 2 件，本来应该是 98 件了。结果呢？由于库存服务操作数据库异常，导致库存数量还是 100。这不是在坑人么，当然不能允许这种情况发生了！但是如果你不用 TCC 分布式事务方案的话，就用个 Spring Cloud 开发这么一个微服务系统，很有可能会干出这种事儿来。所以说，我们有必要使用 TCC 分布式事务机制来保证各个服务形成一个整体性的事务。</p>
+<p><img src="/2020/08/16/fen-bu-shi-shi-wu/1.png" alt></p>
+<h3 id="落地实现-TCC-分布式事务"><a href="#落地实现-TCC-分布式事务" class="headerlink" title="落地实现 TCC 分布式事务"></a>落地实现 TCC 分布式事务</h3><p>那么现在到底要如何来实现一个 TCC 分布式事务，使得各个服务，要么一起成功？要么一起失败呢？首先，订单服务那儿，它的代码大致来说应该是这样子的：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
 
+    <span class="token comment" spellcheck="true">// 库存服务</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> InventoryService inventoryService<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 积分服务</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> CreditService creditService<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 支付服务</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> WmsService payService<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 对这个订单</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">pay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//对本地的的订单数据库修改订单状态为"已支付"</span>
+        orderDAO<span class="token punctuation">.</span><span class="token function">updateStatus</span><span class="token punctuation">(</span>OrderStatus<span class="token punctuation">.</span>PAYED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//调用支付服务支付金额</span>
+        payService<span class="token punctuation">.</span><span class="token function">payMoney</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//调用库存服务扣减库存</span>
+        inventoryService<span class="token punctuation">.</span><span class="token function">reduceStock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//调用会员服务增加积分</span>
+        creditService<span class="token punctuation">.</span><span class="token function">addCredit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>光是凭借这段代码，是不足以实现 TCC 分布式事务的啊？！别着急，我们对这个订单服务修改点儿代码。首先，上面那个订单服务先把自己的状态修改为：OrderStatus.UPDATING。这是啥意思呢？也就是说，在 pay() 那个方法里，你别直接把订单状态修改为已支付啊！你先把订单状态修改为 UPDATING，也就是修改中的意思。这个状态是个没有任何含义的这么一个状态，代表有人正在修改这个状态罢了。然后呢，库存服务直接提供的那个 reduceStock() 接口里，也别直接扣减库存啊，你可以是冻结掉库存。举个例子，本来你的库存数量是 100，你别直接 100 - 2 = 98，扣减这个库存！你可以把可销售的库存：100 - 2 = 98，设置为 98 没问题，然后在一个单独的冻结库存的字段里，设置一个 2。也就是说，有 2 个库存是给冻结了。积分服务同理。上面这套改造接口的过程，其实就是所谓的 TCC 分布式事务中的第一个 T 字母代表的阶段，也就是 Try 阶段。至于Commit阶段，Cancel阶段基本上和Try阶段 改造过程雷同。只不过Commit阶段和Cancel阶段会修改真实的库存或者金额。</p>
+<p>根据刚刚的例子，我们先来捋一捋TCC的每个阶段各个服务需要做什么事情，如果采用 TCC 事务模式，那么各个系统需要改造为如下状态</p>
+<h4 id="订单服务"><a href="#订单服务" class="headerlink" title="订单服务"></a>订单服务</h4><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>try</td>
+<td>创建一个订单，状态显示为 “待支付”</td>
+</tr>
+<tr>
+<td>confirm</td>
+<td>更新订单的状态为“已完成”</td>
+</tr>
+<tr>
+<td>cancel</td>
+<td>更新订单的状态为“已取消”</td>
+</tr>
+</tbody></table>
+<h4 id="支付服务"><a href="#支付服务" class="headerlink" title="支付服务"></a>支付服务</h4><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>try</td>
+<td>冻结小明账户中的 100 元，此时小明看到的余额依然是 1000 元</td>
+</tr>
+<tr>
+<td>confirm</td>
+<td>将账户余额变为 900 元，并清除刚刚的冻结记录。</td>
+</tr>
+<tr>
+<td>cancel</td>
+<td>清除刚刚的冻结记录。</td>
+</tr>
+</tbody></table>
+<h4 id="库存服务"><a href="#库存服务" class="headerlink" title="库存服务"></a>库存服务</h4><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>try</td>
+<td>假设库存中还有 10 本书，冻结其中的一本书，现实库存依然有 10 本书。</td>
+</tr>
+<tr>
+<td>confirm</td>
+<td>将剩余库存更新为 9 本书，并清除冻结记录。</td>
+</tr>
+<tr>
+<td>cancel</td>
+<td>清除刚刚的冻结记录。</td>
+</tr>
+</tbody></table>
+<h4 id="会员服务"><a href="#会员服务" class="headerlink" title="会员服务"></a>会员服务</h4><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>try</td>
+<td>假设小明原积分 3000 分，给小明账户预增加 10 积分，账户显示的积分依然是 3000 分。</td>
+</tr>
+<tr>
+<td>confirm</td>
+<td>将账户积分更新为 3010，并清除预增加记录。</td>
+</tr>
+<tr>
+<td>cancel</td>
+<td>清除预增加积分记录。</td>
+</tr>
+</tbody></table>
+<p>聊到这儿，基本上大家应该都知道 TCC 分布式事务具体是怎么回事了！大概原理就是如此，其中感知各个阶段的执行情况以及推进执行下一个阶段的这件事情（比如各个服务的Try阶段是否都执行成功），就需要依靠 TCC 分布式事务框架来推动后续的执行，自己手写实现，太复杂容易出错，我们可以使用现成的轮子。比如国内开源的 ByteTCC、Himly、TCC-Transaction。看起来我们刚刚分析的过程好像顺利成章，但仍有一些极端情况没有考虑到，比如事务要取消，所有的服务都要执行Cancel，但这时库存服务突然宕机了，然后再次重启，TCC 分布式事务框架是如何保证之前没执行完的分布式事务继续执行的呢？所以，TCC 事务框架都是要记录一些分布式事务的活动日志的，可以在磁盘上的日志文件里记录，也可以在数据库里记录。保存下来分布式事务运行的各个阶段和状态。那万一某个服务的 Cancel 或者 Confirm 逻辑执行一直失败怎么办呢？那也很简单，TCC 事务框架会通过活动日志记录各个服务的状态。举个例子，比如发现某个服务的 Cancel 或者 Confirm 一直没成功，会不停的重试调用它的 Cancel 或者 Confirm 逻辑，务必要它成功！当然了，如果你的代码没有写什么 Bug，有充足的测试，而且 Try 阶段都基本尝试了一下，那么其实一般 Confirm、Cancel 都是可以成功的！</p>
+<h3 id="TCC补偿事务的缺点"><a href="#TCC补偿事务的缺点" class="headerlink" title="TCC补偿事务的缺点"></a>TCC补偿事务的缺点</h3><p>补偿事务逻辑清晰，很好理解，TCC 事务将分布式事务从资源层提到业务层来实现，可以让业务灵活选择资源的锁定粒度，并且全局事务执行过程中不会一直持有锁，所以系统的吞吐量比 2PC 模式要高很多。但缺点同样明显：</p>
+<ul>
+<li><strong>增加编码难度</strong>：原来一个接口可以做的事情，需要拆分为三个接口</li>
+<li><strong>接口支持幂等</strong>：在Confirm 和Cancel 执行异常情况下，TCC 会一直重试，直到它们都执行成功，这就要求接口需要支持重复调用的操作，即支持幂等，尤其是支付接口。</li>
+<li><strong>业务侵入性强</strong>：基本上与业务耦合在一起，使用并不灵活。例如刚刚的例子，业务流程是：订单 -&gt; 支付 -&gt; 库存 -&gt; 会员。各个服务本身是不知道这个业务的调用链路的，需要在TCC上配置。如果后期增加了物流服务，链路变为：订单 -&gt; 支付 -&gt; 库存 -&gt; 会员 -&gt; 物流。需要额外的人力维护TCC</li>
+<li><strong>接口允许空回滚</strong>：原因是异常发生在Try时，部分服务没有收到 Try 请求从而触发整个事务的 cancel 操作，try 失败或者没有执行 try 操作的参与方收到 cancel 请求时，要进行空回滚操作。</li>
+<li><strong>防止资源悬挂</strong>：原因网络异常导致两个阶段无法保证严格的顺序执行，出现参与方侧 try 请求比 cancel 请求更晚到达的情况，cancel 会执行空回滚而确保事务的正确性，但是此时 try 方法也不可以再被执行。</li>
+</ul>
+<h2 id="补偿型事务（Saga）"><a href="#补偿型事务（Saga）" class="headerlink" title="补偿型事务（Saga）"></a>补偿型事务（Saga）</h2><p>Saga 并不是一个新概念，其相关论文在 1987 年就发布了。Saga 和 TCC 一样，也是一种补偿事务，但是它没有 try 阶段，而是把分布式事务看作一组本地事务构成的事务链。事务链中的每一个正向事务操作，都对应一个可逆的事务操作。Saga 事务协调器负责按照顺序执行事务链中的分支事务，分支事务执行完毕，即释放资源。如果某个分支事务失败了，则按照反方向执行事务补偿操作。</p>
+<h2 id="最终一致性分布式事务"><a href="#最终一致性分布式事务" class="headerlink" title="最终一致性分布式事务"></a>最终一致性分布式事务</h2>
             </div>
             <hr/>
 
