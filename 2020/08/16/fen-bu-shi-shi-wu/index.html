@@ -854,7 +854,48 @@
 <td>不存在上述脏数据的问题</td>
 </tr>
 </tbody></table>
-<h2 id="最终一致性分布式事务"><a href="#最终一致性分布式事务" class="headerlink" title="最终一致性分布式事务"></a>最终一致性分布式事务</h2>
+<h2 id="最终一致性分布式事务"><a href="#最终一致性分布式事务" class="headerlink" title="最终一致性分布式事务"></a>最终一致性分布式事务</h2><p>前面说到的2PC，3PC等事务需要资源的全局锁定，导致性能极差，因而衍生出TCC，Saga等柔性事务的分布式事务方案。<code>TCC</code> 属于强一致性事务的方案，适用资金流转业务相关业务，比如：支付、交易等场景。根据 <code>CAP</code> 理论，这种实现需要牺牲可用性。而如果是一般的分布式事务场景，比如：订单插入之后要调用库存服务更新库存，库存数据没有资金那么的敏感，为了用户体验可以使用可靠消息最终一致性方案。下面是一种可靠消息最终一致性事务方案的详细实现流程：</p>
+<p><img src="/2020/08/16/fen-bu-shi-shi-wu/eventually-consistency.png" alt></p>
+<p>正常流程按照图中的数字顺序依次执行：</p>
+<ol>
+<li><strong>A 系统</strong>发送<code>预发送</code>消息给<strong>消息服务系统</strong>。</li>
+<li><strong>消息服务系统</strong>存储预发送的消息到消息数据库。</li>
+<li><strong>消息服务系统</strong>返回存储预发送消息的结果到 <strong>A 系统</strong>。</li>
+<li>如果第 3 步返回的结果是成功的， <strong>A 系统</strong>则执行业务操作，否则不执行。</li>
+<li><strong>A 系统</strong>业务操作成功后，通知<strong>消息服务系统</strong> 。</li>
+<li><strong>消息服务系统</strong>发送消息到 <strong>MQ</strong> ，并且更新<code>预发送</code>消息状态为<code>已发送</code>（但不是<code>已消费</code>）。</li>
+<li><strong>MQ</strong> 发送消息到 <strong>B 系统</strong>。</li>
+<li><strong>B 系统</strong>执行业务操作，保证幂等性，防止同一个消息重复执行。</li>
+<li><strong>B 系统</strong>向 <strong>MQ</strong> 返回 ack ，<strong>消息服务系统</strong>进行确认成功消费消息，让<strong>消息服务系统</strong>将消息状态置为<code>已消费</code>。</li>
+<li><strong>消息回复系统</strong>定时去<strong>消息服务系统</strong>查一下消息数据，查看有没有状态为<strong>非已消费</strong>（<code>预发送</code>和<code>已发送</code>）状态的<strong>超时</strong>（比如 2 分钟以上还未消费的）消息。</li>
+<li>如果第 <strong>10</strong> 步发现有<strong>非已消费</strong>状态的超时消息，调用 <strong>A 系统</strong>提供的查询接口，查询次条消息对应的业务数据是否为处理成功。</li>
+<li>如果业务数据是处理成功的状态，那么就再次调用确认并发送消息，即进入第 <strong>6</strong> 步。如果业务数据是处理失败的，那么就调用<strong>消息服务系统</strong>进行删除该条消息数据。</li>
+</ol>
+<p>来看看这个流程出现异常情况的时候，这个系统是怎么保证一致性的：</p>
+<ul>
+<li>第 <strong>1</strong> 步失败，相当于什么都没做。</li>
+<li>第 <strong>2</strong> 步失败，第 <strong>3</strong> 步会返回失败结果，<strong>A 系统</strong>不执行业务操作。</li>
+<li>第 <strong>3</strong> 步失败，<strong>A 系统</strong>不执行业务操作，<strong>消息恢复系统</strong>在第 <strong>12</strong> 步判断业务处理失败。</li>
+<li>第 <strong>4</strong> 步失败，<strong>A 系统</strong>回滚业务，同样<strong>消息恢复系统</strong>在第 <strong>12</strong> 步判断业务处理失败。</li>
+<li>第 <strong>5、6、7、8、9</strong> 步失败，<strong>消息恢复系统</strong>在第 <strong>12</strong> 步判断业务处理成功，重试第 <strong>6</strong> 步直到成功为止。如果在第 <strong>9</strong> 步失败了，<strong>B 系统</strong>会重复消费某条消息，所以 <strong>B 系统</strong>要设计成幂等操作，对于同一操作发起的一次请求或者多次请求的结果是一致的，不会因为多次调用而产生了副作用。</li>
+</ul>
+<p>最终一致性的思想就是只要消息数据持久化了，我就假设后面一定会被消费，就算后面挂了一堆东西，但是我们把挂掉的服务再全部启动，这条消息还是会被消费，不会丢失，可以保证最终一致性。刚刚的实现流程已经具体到生产方和消费方的每个步骤，看起来比较复杂，这里我简化一下，只关注生产方对消息的处理情况，消费方和生产方处理方式是雷同的。</p>
+<p><img src="/2020/08/16/fen-bu-shi-shi-wu/5.png" alt></p>
+<p>概括来说生产方A系统需要处理4步操作：</p>
+<ol>
+<li>发送方将半事务消息发送至消息队列 MQ 服务端。</li>
+<li>消息队列 MQ 服务端将消息持久化成功之后，向发送方返回 Ack 确认消息已经发送成功，此时消息为半事务消息。</li>
+<li>发送方开始执行本地事务逻辑。</li>
+<li>发送方根据本地事务执行结果向服务端提交二次确认（Commit 或是 Rollback），服务端收到 Commit 状态则将半事务消息标记为可投递，订阅方最终将收到该消息；服务端收到 Rollback 状态则删除半事务消息，订阅方将不会接受该消息。</li>
+</ol>
+<p>事务消息回查步骤如下：</p>
+<ol>
+<li>在断网或者是应用重启的特殊情况下，上述步骤 4 提交的二次确认最终未到达服务端，经过固定时间后服务端将对该消息发起消息回查。</li>
+<li>发送方收到消息回查后，需要检查对应消息的本地事务执行的最终结果。</li>
+<li>发送方根据检查得到的本地事务的最终状态再次提交二次确认，服务端仍按照步骤 4 对半事务消息进行操作。</li>
+</ol>
+<p>到这里保证了生产方A系统的事务一定是执行成功了，而且消息已经到了MQ中。剩下的就是无论如何要使得消费方B系统，把生成方A系统的消息给成功消费掉。消息最终一致性只保证最终数据一致性，在事务执行过程中两个系统仍然可用，但会出现数据不一致。此方案对消息中间件MQ要求要高一点，使用支持消息事物的 <code>RocketMQ</code> 可以简化消息恢复系统和消息服务系统。</p>
+
             </div>
             <hr/>
 
