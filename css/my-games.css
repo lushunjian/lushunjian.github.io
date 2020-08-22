@@ -1,9 +1,10 @@
 
 .my-games-container{margin: 0 auto; max-width: 1000px;}
-.row{width: 103%; float: left; margin: 110px -1.5%;}
+.row{width: 103%; margin: 110px -1.5%;}
 
 /*= common css to all effects =*/
-.single-member{width: 280px; float: left; margin: 30px 2.5%; background-color: #fff; text-align: center; position: relative;}
+.single-member{width: 280px; float: left; margin: 30px 2.5%; background-color: #fff; text-align: center; position: relative;box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07);
+    border-radius: 5px;}
 .member-image img{max-width: 100%; vertical-align: middle;}
 h3 {font-size: 24px; font-weight: normal; margin: 10px 0 0; text-transform: uppercase;}
 h5 {font-size: 16px; font-weight: 300; margin: 0 0 15px; line-height: 22px;}
