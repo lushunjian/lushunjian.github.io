@@ -606,10 +606,10 @@
 <p>下面我用图来表示LRU算法具体过程：</p>
 <ol>
 <li><p>链表没有满的情况，新数据A来访问，直接把A插入到队列的头部</p>
-<p><img src="/2020/08/22/tao-tai-suan-fa-hui-zong/1.png" alt></p>
+<p><img src="/2020/08/22/lru-tao-tai-suan-fa/1.png" alt></p>
 </li>
 <li><p>链表已满，新数据来访问时，把链表尾部的数据淘汰，新数据插入到链表头部</p>
-<p><img src="/2020/08/22/tao-tai-suan-fa-hui-zong/2.png" alt></p>
+<p><img src="/2020/08/22/lru-tao-tai-suan-fa/2.png" alt></p>
 </li>
 </ol>
 <p>具体LRU实现代码如下</p>
@@ -649,18 +649,18 @@
 <p>缺点跟LRU-K一致，其实2Q算法就是LRU-2，并且历史队列采用了FIFO的淘汰策略。下面用图表示2Q算法的执行过程。</p>
 <h4 id="新数据来访情况"><a href="#新数据来访情况" class="headerlink" title="新数据来访情况"></a>新数据来访情况</h4><ul>
 <li><p>初始状态如下，此时新数据E来访</p>
-<p><img src="/2020/08/22/tao-tai-suan-fa-hui-zong/5.png" alt></p>
+<p><img src="/2020/08/22/lru-tao-tai-suan-fa/5.png" alt></p>
 </li>
 <li><p>先查询LRU队列，发现没有E数据，然后查询FIFO队列，也没有找到E数据，于是把E数据插入到FIFO队列头部</p>
-<p><img src="/2020/08/22/tao-tai-suan-fa-hui-zong/6.png" alt></p>
+<p><img src="/2020/08/22/lru-tao-tai-suan-fa/6.png" alt></p>
 </li>
 </ul>
 <h4 id="历史数据来访"><a href="#历史数据来访" class="headerlink" title="历史数据来访"></a>历史数据来访</h4><ul>
 <li><p>接着上图的结果，此时历史数据A来访，如下</p>
-<p><img src="/2020/08/22/tao-tai-suan-fa-hui-zong/7.png" alt></p>
+<p><img src="/2020/08/22/lru-tao-tai-suan-fa/7.png" alt></p>
 </li>
 <li><p>先查询LRU队列，发现没有E数据，然后查询FIFO队列，此时A再FIFO队列中有数据，说明A数据这是第二次被访问，所以把A数据移到LRU队列（注意FIFO队列不需要删除A数据，因为A数据是按先进先出去删除数据的），所以结果如下</p>
-<p><img src="/2020/08/22/tao-tai-suan-fa-hui-zong/8.png" alt></p>
+<p><img src="/2020/08/22/lru-tao-tai-suan-fa/8.png" alt></p>
 </li>
 </ul>
 <p>2Q算法命中率要高于LRU，需要两个队列，但两个队列本身都比较简单。代码实现并不麻烦。当然我们在使用缓存的时候也不需要自己去实现缓存算法，Java中有现成的框架可以直接拿来使用，Redis就不用说了，它是一个单独的服务，是个中间件。在本地使用的Java框架有<code>cache4j</code>，<code>EhCache</code>；其中cache4j是一款轻量级java内存缓存框架，实现FIFO、LRU、TwoQueues缓存模型，使用非常方便，它的特点是支持并发，使用简单，命中率稳定。使用示例：</p>
@@ -701,7 +701,7 @@ tqc<span class="token punctuation">.</span><span class="token function">get</spa
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/08/22/tao-tai-suan-fa-hui-zong/">https://lushunjian.gitee.io/2020/08/22/tao-tai-suan-fa-hui-zong/</a>
+                    <a href="https://lushunjian.gitee.io/2020/08/22/lru-tao-tai-suan-fa/">https://lushunjian.gitee.io/2020/08/22/lru-tao-tai-suan-fa/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1194,9 +1194,10 @@ tqc<span class="token punctuation">.</span><span class="token function">get</spa
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/08/22/lru-tao-tai-suan-fa/">
                     <div class="card-image">
@@ -1214,9 +1215,9 @@ tqc<span class="token punctuation">.</span><span class="token function">get</spa
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1229,6 +1230,7 @@ tqc<span class="token punctuation">.</span><span class="token function">get</spa
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1247,31 +1249,31 @@ tqc<span class="token punctuation">.</span><span class="token function">get</spa
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/16/fen-bu-shi-shi-wu/">
+                <a href="/2020/08/22/tao-tai-suan-fa-hui-zong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="分布式事务">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="LRU淘汰算法">
                         
-                        <span class="card-title">分布式事务</span>
+                        <span class="card-title">LRU淘汰算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在分布式、微服务大行其道的今天，分布式系统成为了标配。而说到使用分布式，或者拆分微服务的好处，你肯定能想到一大堆。既然有了分布式系统，那不可避免的就会用到分布式事务，这也是面试过程中经常会问的。暂不说你有没有真正使用过分布式事务，起码得对分
+                            在应用系统中，常需要把热点数据存储到缓存中，减少磁盘的交互，为了节约内存，我们通常只存储热点数据，而动态的淘汰访问量较少的数据。这里就需要用到淘汰算法，redis的缓存数据失效机制就是一个很好的淘汰算法例子，我们知道redis数据默认有效时
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" class="post-category">
-                                    分布式
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1281,8 +1283,8 @@ tqc<span class="token punctuation">.</span><span class="token function">get</spa
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
-                        <span class="chip bg-color">分布式</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
                 </div>
