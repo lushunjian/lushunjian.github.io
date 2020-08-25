@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>批量造测试数据</title>
+      <link href="/2020/08/25/pi-liang-zao-ce-shi-shu-ju/"/>
+      <url>/2020/08/25/pi-liang-zao-ce-shi-shu-ju/</url>
+      
+        <content type="html"><![CDATA[<p>最近项目在做一个统计功能，本地开发完后需要造大量数据进行自测，一来测试统计功能是否正确，二来这个表在生产环境上数据量较大，需要测一下单表数据很多时的性能情况。因此在本地测试时首先要给表造十多万条数据，这么多的数据量一条一条的新增显然是不现实的。我想到的一种方式是通过代码批量插入实现，不过这样太麻烦了，需要去额外写代码，于是想通过sql或是存储过程直接去做。故此在这里总结一下各数据库批量造数据的脚步</p><h2 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h2><p>pgsql批量造数据主要通过generate_series方法，下面这个例子中generate_series有个1000的参数，这样就可以造1000条数据。有一点不好的是，只能单表</p><pre class=" language-plsql"><code class="language-plsql">DROP TABLE  IF EXISTS student_info;CREATE TABLE student_info(    user_id VARCHAR(20),    user_name VARCHAR(20),    remark VARCHAR(20));insert into student_info     select         round(random()*100),        '张三',        '测试数据'    from generate_series(1,1000);</code></pre><h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><p>oracle主要通过一个循环实现，以刚刚创建的student_info表为例，如果plsql不自动提交事务，可以把commit代码放开，sql脚本如下</p><pre class=" language-plsql"><code class="language-plsql">beginfor i in 1..5 loop    insert into student_info values('00'||i,'张三','测试数据');end loop;-- commit; --循环执行完后进行提交end/select * from student_info;</code></pre><h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><p>这里数据量在100W级别，如果想要千万级不要使用rand() 或者uuid() 会导致性能下降。在循环中可以实现多个表的批量插入，脚本如下</p><pre class=" language-plsql"><code class="language-plsql">delimiter $$  --结束符为 $$DROP PROCEDURE IF EXISTS mytest; --判断进程是否存在，存在则删除CREATE PROCEDURE mytest()  --新建进程BEGINdeclare i int;DECLARE j varchar(200);　　set i = 2;　　while i < 1000 do  --循环体　　　　SET j=CONCAT('00',i);  --拼接字符串　　　　INSERT INTO student_info(`user_id`, `user_name`, `remark`)　　　　    VALUES (j, '张三','e10adc3949ba59abbe56e057f20f883e');　　　　INSERT INTO pub_user_post (`POST_CODE`, `USER_CODE`)　　　　    VALUES (i, 'A685187D29AF4AD793F2753DC17C1435');　　　　set i=i+1;　　end while;end $$  --结束定义语句delimiter ;  --先把结束符恢复为 ；call mytest();  --调用进程</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> sql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> sql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>布隆过滤器</title>
       <link href="/2020/08/23/bu-long-guo-lu-qi/"/>
       <url>/2020/08/23/bu-long-guo-lu-qi/</url>
