@@ -636,6 +636,17 @@
         <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>
     <span class="token keyword">end</span> loop<span class="token punctuation">;</span>
 <span class="token keyword">end</span><span class="token punctuation">;</span></code></pre>
+<p>关于时间函数使用</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--当前时间</span>
+<span class="token keyword">select</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--两年后时间</span>
+<span class="token keyword">select</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> interval <span class="token string">'2 years'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--两个月后</span>
+<span class="token keyword">select</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> interval <span class="token string">'2 month'</span><span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true">--三个月前</span>
+<span class="token keyword">select</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> interval <span class="token string">'3 week'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--十分钟后</span>
+<span class="token keyword">select</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'10 min'</span><span class="token punctuation">;</span></code></pre>
 <h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><p>oracle主要通过一个循环实现，以刚刚创建的student_info表为例，如果plsql不自动提交事务，可以把commit代码放开，sql脚本如下</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">begin</span>
 <span class="token keyword">for</span> i <span class="token operator">in</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">5</span> loop
