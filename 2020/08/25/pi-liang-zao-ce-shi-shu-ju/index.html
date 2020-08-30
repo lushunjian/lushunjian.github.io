@@ -612,7 +612,7 @@
 <blockquote>
 <p><strong>使用存储过程</strong></p>
 </blockquote>
-<p>使用存储过程可以一次性造多表的数据，并且可以自由设置不同的参数。例如由于数据量大把student_info做了10个分表，在造数据时需要把每个分表都插入一部分测试数据，并且插入时间递增。</p>
+<p>使用存储过程可以一次性造多表的数据，并且可以自由设置不同的参数。有时候业务数据量过大而需要分表，于是把student_info做了10个分表，在造数据时需要把每个分表都插入一部分测试数据，并且插入时间递增。</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">do</span> $$
 <span class="token keyword">declare</span>
 i <span class="token keyword">integer</span> :<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
@@ -658,7 +658,7 @@ i <span class="token keyword">integer</span> :<span class="token operator">=</sp
 <p>有时候我们需要造了很多重复数据，便想删除重复数据，但要保留其中的一条。假设student_info表的数据如下。</p>
 <p><img src="/2020/08/25/pi-liang-zao-ce-shi-shu-ju/1.png" alt></p>
 <p>表中张三和李四的stu_id都有重复的，张三重复了两条，而李四重复了三条。我们想删除stu_id重复的并保留id最小的数据，在pgsql中可以这么写</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">delete</span> <span class="token keyword">from</span> student <span class="token keyword">where</span> id <span class="token operator">not</span> <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token keyword">SELECT</span> <span class="token function">min</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token keyword">FROM</span> student <span class="token keyword">GROUP</span> <span class="token keyword">BY</span> stu_id <span class="token keyword">HAVING</span> <span class="token function">COUNT</span><span class="token punctuation">(</span>stu_id<span class="token punctuation">)</span><span class="token operator">></span><span class="token number">1</span><span class="token punctuation">)</span></code></pre>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">delete</span> <span class="token keyword">from</span> student <span class="token keyword">where</span> id <span class="token operator">not</span> <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token keyword">SELECT</span> <span class="token function">min</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token keyword">FROM</span> student <span class="token keyword">GROUP</span> <span class="token keyword">BY</span> stu_id <span class="token keyword">HAVING</span> <span class="token function">COUNT</span><span class="token punctuation">(</span>stu_id<span class="token punctuation">)</span><span class="token operator">>=</span><span class="token number">1</span><span class="token punctuation">)</span></code></pre>
 <h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><p>oracle主要通过一个循环实现，以刚刚创建的student_info表为例，如果plsql不自动提交事务，可以把commit代码放开，sql脚本如下</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">begin</span>
 <span class="token keyword">for</span> i <span class="token operator">in</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">5</span> loop
@@ -1207,48 +1207,46 @@ i <span class="token keyword">integer</span> :<span class="token operator">=</sp
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/08/25/pi-liang-zao-ce-shi-shu-ju/">
+                <a href="/2020/08/29/mmu-nei-cun-di-zhi-ying-she/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="批量造测试数据">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="MMU内存地址映射">
                         
-                        <span class="card-title">批量造测试数据</span>
+                        <span class="card-title">MMU内存地址映射</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            最近项目在做一个统计功能，本地开发完后需要造大量数据进行自测，一来测试统计功能是否正确，二来这个表在生产环境上数据量较大，需要测一下单表数据很多时的性能情况。因此在本地测试时首先要给表造十多万条数据，这么多的数据量一条一条的新增显然是不现实
+                            曾经我在刚开始学习编程时，有个非常疑惑的地方。一般的家用电脑是8G内存，而应用程序如游戏英雄联盟或者穿越火线安装之后远大于8G内存，那么它们是如何运行起来的，这也是理解进程线程切换时为什么有上下文切换的关键，如果内存足够大，足以把所有的应用
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/sql/" class="post-category">
-                                    sql
+                            <a href="/categories/linux/" class="post-category">
+                                    linux
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/sql/">
-                        <span class="chip bg-color">sql</span>
+                    <a href="/tags/linux/">
+                        <span class="chip bg-color">linux</span>
                     </a>
                     
                 </div>

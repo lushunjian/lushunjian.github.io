@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的游戏, 三秋">
-    <meta name="description" content="我的游戏 | 三秋">
+    <meta name="keywords" content="MMU内存地址映射, 三秋">
+    <meta name="description" content="曾经我在刚开始学习编程时，有个非常疑惑的地方。一般的家用电脑是8G内存，而应用程序如游戏英雄联盟或者穿越火线安装之后远大于8G内存，那么它们是如何运行起来的，这也是理解进程线程切换时为什么有上下文切换的关键，如果内存足够大，足以把所有的应用">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的游戏 | 三秋</title>
+    <title>MMU内存地址映射 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的游戏</h1>
+                    <h1 class="description center-align post-title">MMU内存地址映射</h1>
                 </div>
             </div>
         </div>
@@ -549,12 +549,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/linux/">
+                                <span class="chip bg-color">linux</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/linux/" class="post-category">
+                                linux
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -563,7 +576,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-30
+                    2020-08-29
                 </div>
                 
 
@@ -580,328 +593,41 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>大部分男生都无法抗拒游戏的魅力</p>
+                <p>曾经我在刚开始学习编程时，有个非常疑惑的地方。一般的家用电脑是8G内存，而应用程序如游戏英雄联盟或者穿越火线安装之后远大于8G内存，那么它们是如何运行起来的，这也是理解进程线程切换时为什么有上下文切换的关键，如果内存足够大，足以把所有的应用程序全部完整的加载到内存中，那其实也就不存在上下文切换。对于这些问题，虽然当时也查了许多资料，不过无奈不懂的东西太多，看的不明所以，最近终于对这个问题终于有了一些理解，故在此记录一下。最主要的是要理解内存管理单元MMU，然后MMU是Memory Management Unit的缩写，中文名是内存管理单元。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。它的功能包括虚拟地址到物理地址的转换（即虚拟内存管理）、内存保护、中央处理器高速缓存的控制，在较为简单的计算机体系结构中，负责总线的仲裁以及存储体切换（bank switching，尤其是在8位的系统上）。</p>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>许多年以前，当人们还在使用DOS或是更古老的操作系统的时候，计算机的内存还非常小，一般都是以K为单位进行计算，相应的，当时的程序规模也不大，所以内存容量虽然小，但还是可以容纳当时的程序。但随着图形界面的兴起还有用户需求的不断增大，应用程序的规模也随之膨胀起来，终于一个难题在程序员的面前，那就是应用程序太大以至于内存容纳不下该程序，通常解决的办法是把程序分割成许多称为覆盖块（overlay）的片段。<br>覆盖块0首先运行，结束时他将调用另一个覆盖块。虽然覆盖块的交换是由OS完成的，但是必须先由程序员把程序先进行分割，这是一个费时费力的工作，而且相当枯燥。人们必须找到更好的办法从根本上解决这个问题。不久人们找到了一个办法，这就是虚拟存储器(virtual memory)。虚拟存储器的基本思想是程序，数据，堆栈的总的大小可以超过物理存储器的大小，操作系统把当前使用的部分保留在内存中，而把其他未被使用的部分保存在磁盘上。比如对一个16MB的程序和一个内存只有4MB的机器，操作系统通过选择，可以决定各个时刻将哪4M的内容保留在内存中，并在需要时在内存和磁盘间交换程序片段，这样就可以把这个16M的程序运行在一个只具有4M内存机器上了。而这个16M的程序在运行前不必由程序员进行分割。</p>
+<h2 id="MMU-作用"><a href="#MMU-作用" class="headerlink" title="MMU 作用"></a>MMU 作用</h2><p>内存管理单元通常应用在桌面型计算机或者服务器，通过虚拟存储器使得计算机可以使用比实际的物理内存更多的存储空间。同时，内存管理单元还对实际的物理内存进行分割和保护，使得每个软件任务只能访问其分配到的内存空间。简而言之，MMU的作用有两个</p>
+<ol>
+<li>将虚拟地址翻译成为物理地址，然后访问实际的物理地址</li>
+<li>访问权限控制</li>
+</ol>
+<p>现代的多用户多进程操作系统, 需要MMU, 才能达到每个用户进程都拥有自己的独立的地址空间的目标. 使用MMU, OS划分出一段地址区域,在这块地址区域中, 每个进程看到的内容都不一定一样. 例如MICROSOFT WINDOWS操作系统, 地址4M-2G处划分为用户地址空间. 进程A在地址 0X400000映射了可执行文件. 进程B同样在地址 0X400000映射了可执行文件. 如果A进程读地址0X400000, 读到的是A的可执行文件映射到RAM的内容. 而进程B读取地址0X400000时则读到的是B的可执行文件映射到RAM的内容</p>
+<h2 id="MMU的工作原理"><a href="#MMU的工作原理" class="headerlink" title="MMU的工作原理"></a>MMU的工作原理</h2><p> 如果处理器没有MMU，CPU内部执行单元产生的内存地址信号将直接通过地址总线发送到芯片引脚，被内存芯片接收，这就是物理地址(physical address)，简称PA。英文physical代表物理的接触，所以PA就是与内存芯片physically connected的总线上的信号。</p>
+<p>如果启用MMU，CPU执行单元产生的地址信号在发送到内存芯片之前将被MMU截获，这个地址信号称为虚拟地址（virtual address），简称VA，MMU会负责把VA翻译成另一个地址，然后发到内存芯片地址引脚上，即VA映射成PA，如下图: </p>
+<p><img src="/2020/08/29/mmu-nei-cun-di-zhi-ying-she/1.png" alt="图1:MMU"></p>
+<p>所以物理地址①是通过CPU对外地址总线②传给Memory③使用的地址，而虚拟地址④是CPU内部执行单元⑤产生的，发送给MMU⑥的地址。硬件上MMU⑥一般封装于CPU芯片⑦内部，所以虚拟地址④一般只存在于CPU⑦内部，到了CPU外部地址总线引脚上②的信号就是MMU转换过的物理地址①</p>
+<p> 软件上MMU对用户程序不可见，在启用MMU的平台上（没有MMU不必说，只有物理地址，不存在虚拟地址），用户C程序中变量和函数背后的数据/指令地址等都是虚拟地址，这些虚拟内存地址从CPU执行单元⑤发出后，都会首先被MMU拦截并转换成物理地址，然后再发送给内存。也就是说用户程序运行 int pA =100；这条赋值语句时，假设debugger显示指针pA的值为0x30004000（虚拟地址），但此时通过硬件工具（如逻辑分析仪）侦测到的CPU与外存芯片间总线信号很可能是另外一个值,如0x8000（物理地址）。当然对一般程序员来说，只要上述语句运行后debugger显示0x30004000位置处的内存值为100就行了，根本无需关心pA的物理地址是多少。但进行OS移植或驱动开发的系统程序员不同，他们必须清楚软件如何在幕后辅助硬件MMU完成地址转换。</p>
+<blockquote>
+<p>MMU的地址映射</p>
 </blockquote>
-
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban-tab {
-    padding: 5px;
-}
-
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
-
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
-    }
-}
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <a class="hexo-douban-tab" id="hexo-douban-tab1" href="javascript:;"
-       rel="external">
-        Playing
-        (0)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab2" href="javascript:;"
-       rel="external">
-        Wish
-        (0)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab3" href="javascript:;"
-       rel="external">
-        Played
-        (6)</a>
-
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28384635.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/25865152/">纪念碑谷 Monument Valley</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  手游 神作 独立游戏 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 惊叹作者的奇思构想，画风很美。里面的关卡是在真实三维世界不可能存在的，很赞</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s21863858.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/19956598/">逆战 AssaultFire</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  FPS 塔防 射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 大学时开始玩的设计游戏，最喜欢玩这个游戏的机甲模式，使用机甲打怪兽，简直不要太爽，燃爆了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29342102.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10740751/">穿越火线 크로스파이어</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  射击 CF 第一人称射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 穿越火线当年火到不行，初中玩的第一个游戏。还记得当年网吧通宵打幽灵生化模式，好像就在昨天。当初最想要的就是一把军斧，没舍得买，哈哈</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/lpic/s29003601.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10829706/">QQ飞车</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  赛车 网游 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 初中就开始玩的游戏，以前网吧通宵总会跑几个小时，怀恋琳琅天上的飞车</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28783216.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/26775340/">英雄联盟 League of Legends</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  策略 塔防 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 策略塔防，和好兄弟开黑必玩，直到现在依旧很火的游戏</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s10321409.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10793961/">剑灵 블레이드&amp;소울</a>
-        </div>
-        <div class="hexo-douban-meta">2019-01-15 /  角色扮演 剑灵 腾讯 /  </div>
-        <div class="hexo-douban-comments"> 游戏不管是画面，剧情，副本，时装都是我玩过的最好的一款游戏，相当不错。不过腾讯游戏你知道的，变着法子圈钱，导致玩家流失严重。只能怀念怀念了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
-
-</script>
-
+<p>根据图1，我们大致知道MMU在底层中扮演的角色，那么MMU具体是如何映射的地址的。在计算机上我们会运行一个操作系统，如linux,windows等，用户编写的源程序，需要经过编译，链接，生成可执行程序，然后源程序被操作系统加载执行。在链接的时候通常我们要指定一个链接脚本，链接脚本的作用有很多，其中一个的作用是控制可执行文件的section的符号的内存布局，也就是控制可执行程序将来要在内存中哪里放置。操作系统会按照可执行程序的要求将其加载到内存的对应地址执行。假如用户A编写的应用程序的链接地址范围是0x100-0x200，用户B编写的应用程序的链接地址范围是0x100-0x200，这是很有可能的。因为给操作系统提供应用程序的开发者很多，不可能为每个开发者限定使用那些内存。这样，执行程序A的时候就不能执行程序B，执行程序B的时候就不能执行程序A，因为它们执行时会覆盖对方内存中的程序。为了解决这个问题，必须引入虚拟地址，为此操作系统和处理器都做了处理，添加了MMU，让其进行地址翻译。在程序载入内存的时候，操作系统会为其建立地址翻译表，处理器执行不同应用程序的时候，使用不同的地址翻译表。如下图所示。</p>
+<p><img src="/2020/08/29/mmu-nei-cun-di-zhi-ying-she/2.png" alt="图2:MMU地址映射"></p>
+<p> ProgramA被加载到物理地址地址0x500-0x600处，ProgramB被加载到物理地址0x700-0x800处，同时建立了各自的地址翻译表，当处理器要执行ProgramB时，会使用ProgramB对应的地址翻译表，比如读取ProgramB地址0x100处的指令，那么经过地址翻译表可知0x100对应实际内存的0x700处，所以实际读取的就是0x700处的指令。同样的，当处理器要执行ProgramA时，会使用ProgramA对应的地址翻译表，这样就避免了之前提到的内存冲突问题，有了MMU的支持，操作系统就可以轻松实现多任务了。</p>
+<p> MMU的地址翻译功能还可以为用户提供比实际大得多的内存空间。用户在编写程序的时候并不知道运行该程序的计算机内存大小，如果在链接的时候指定程序被加载到地址Addr处，而运行该程序的计算机内存小于Addr，那么程序就无法执行，有了MMU后，程序员就不用关心实际内存大小，可以认为内存大小就是“2^指令地址宽度”。MMU会将超过实际内存的虚拟地址翻译为物理地址进行访问。 地址翻译表存储在内存中，如果采用图2中的方式：地址翻译表的表项是<strong>一个虚拟地址</strong>对应<strong>一个物理地址</strong>，那么会占用太多的内存空间，为此，需要修改翻译方式，常用的有三种：页式、段式、段页式，这也是三种不同的内存管理方式。</p>
+<blockquote>
+<p>内存保护</p>
+</blockquote>
+<p>   内存保护也叫权限管理，除了具有地址翻译的功能外，还提供了内存保护功能。采用页式内存管理时可以提供页粒度级别的保护，允许对单一内存页设置某一类用户的读、写、执行权限，比如：一个页中存储代码，并且该代码不允许在用户模式下执行，那么可以设置该页的保护属性，这样当处理器在用户模式下要求执行该页的代码时，MMU会检测到并触发异常，从而实现对代码的保护。特别是在处理应用程序时，如果一个应用程序写的比较烂，出现了指针越界或栈溢出，程序跑飞等情况，因为不能访问别的程序的地址，所以不会影响到别的应用程序的运行。比如在操作系统下，应用程序不能访问寄存器，而操作系统可以。比如应用程序的只读数据段不能被写，否则会发生段错误。</p>
+<blockquote>
+<p>大体积app在小资源系统运行</p>
+</blockquote>
+<p>在嵌入式系统中，假如内存容量只有256M大，而应用程序却有1G大时，通常一个程序中，程序执行的比较多的是顺序指令，所以在运行1G的程序时，操作系统会先加载一小部分到内存中，当执行完这一部分或发生跳转发现内存中没有要跳转地址的指令时，操作系统再加载需要跳转部分的程序到其链接地址（虚拟地址），加载完后再继续执行。内次加载程序，都需要建立一个动态的地址映射表。当物理内存加载满后，操作系统会选择性的将最早之前加载入物理内存的程序置换到外部flash等存储器中，再加载需要用到的一块程序。因为置换需要时间，所以当使用存储容量较小内存的嵌入式系统后，让其运行大程序，使用可能会有一定的卡顿现象。</p>
+<h2 id="操作系统和MMU"><a href="#操作系统和MMU" class="headerlink" title="操作系统和MMU"></a>操作系统和MMU</h2><p>现代的多用户多进程操作系统，需要MMU，才能达到每个用户进程都拥有自己独立的地址空间的目标。使用MMU,操作系统划分出一段地址区域，在这块地址区域中，每个进程看到的内容都不一定一样。所以实际上MMU是为满足操作系统越来越复杂的内存管理而产生的。OS和MMU的关系简单说：</p>
+<ol>
+<li>系统初始化代码会在内存中生成页表，然后把页表地址设置给MMU对应寄存器，使MMU知道页表在物理内存中的什么位置，以便在需要时进行查找。之后通过专用指令启动MMU，以此为分界，之后程序中所有内存地址都变成虚地址，MMU硬件开始自动完成查表和虚实地址转换。</li>
+<li>OS初始化后期，创建第一个用户进程，这个过程中也需要创建页表，把其地址赋给进程结构体中某指针成员变量。即每个进程都要有独立的页表。</li>
+<li>用户创建新进程时，子进程拷贝一份父进程的页表，之后随着程序运行，页表内容逐渐更新变化。比较复杂了，几句讲不清楚，不多说了哈，有时间讲linux的话再说吧</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总而言之MMU的作用就两点：<code>地址翻译</code>和<code>内存保护</code>。对于上层应用的开发者来说，其实不必要了解太多的MMU实现细节，但是了解其工作过程和原理，有助于我们理解程序的执行过程和操作系统的工作原理等，毕竟我们开发的应用程序都运行在它们之上。在一些性能要求比较高的应用场景，虚拟内存的使用情况也是必须要关注的一个指标</p>
 
             </div>
             <hr/>
@@ -927,7 +653,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/games/index.html">https://lushunjian.gitee.io/games/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2020/08/29/mmu-nei-cun-di-zhi-ying-she/">https://lushunjian.gitee.io/2020/08/29/mmu-nei-cun-di-zhi-ying-she/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -964,7 +690,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/linux/">
+                                    <span class="chip bg-color">linux</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1421,45 +1151,46 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/08/29/mmu-nei-cun-di-zhi-ying-she/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="MMU内存地址映射">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">MMU内存地址映射</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            曾经我在刚开始学习编程时，有个非常疑惑的地方。一般的家用电脑是8G内存，而应用程序如游戏英雄联盟或者穿越火线安装之后远大于8G内存，那么它们是如何运行起来的，这也是理解进程线程切换时为什么有上下文切换的关键，如果内存足够大，足以把所有的应用
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-29
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/linux/" class="post-category">
+                                    linux
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux/">
+                        <span class="chip bg-color">linux</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1467,48 +1198,48 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2020/08/25/pi-liang-zao-ce-shi-shu-ju/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="批量造测试数据">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">批量造测试数据</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            最近项目在做一个统计功能，本地开发完后需要造大量数据进行自测，一来测试统计功能是否正确，二来这个表在生产环境上数据量较大，需要测一下单表数据很多时的性能情况。因此在本地测试时首先要给表造十多万条数据，这么多的数据量一条一条的新增显然是不现实
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-25
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/sql/" class="post-category">
+                                    sql
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/sql/">
+                        <span class="chip bg-color">sql</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
