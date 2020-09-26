@@ -809,7 +809,25 @@
 <p>测试结果</p>
 <p><img src="/2020/09/26/spring-de-qie-mian-bian-cheng/1.png" alt></p>
 <p>这样我就用一个注解实现了通用代码的抽离</p>
+<h3 id="关于切点的配置"><a href="#关于切点的配置" class="headerlink" title="关于切点的配置"></a>关于切点的配置</h3><p>切入点方法不用写代码，返回类型为void，有两种方式可以用于表达切点的位置 execution和@annotation，execution：用于匹配表达式，@annotation：用于匹配注解的全路径</p>
+<pre class=" language-java"><code class="language-java"><span class="token function">execution</span><span class="token punctuation">(</span>modifiers<span class="token operator">-</span>pattern<span class="token operator">?</span> ret<span class="token operator">-</span>type<span class="token operator">-</span>pattern declaring<span class="token operator">-</span>type<span class="token operator">-</span>pattern<span class="token operator">?</span> name<span class="token operator">-</span><span class="token function">pattern</span><span class="token punctuation">(</span>param<span class="token operator">-</span>pattern<span class="token punctuation">)</span><span class="token keyword">throws</span><span class="token operator">-</span>pattern<span class="token operator">?</span><span class="token punctuation">)</span> </code></pre>
+<ul>
+<li>修饰符匹配（modifier-pattern?）</li>
+<li>返回值匹配（ret-type-pattern）可以为*表示任何返回值,全路径的类名等</li>
+<li>类路径匹配（declaring-type-pattern?）</li>
+<li>方法名匹配（name-pattern）可以指定方法名 或者 <em>代表所有, set</em> 代表以set开头的所有方法</li>
+<li>参数匹配（(param-pattern)）可以指定具体的参数类型，多个参数间用“,”隔开，各个参数也可以用“<em>”来表示匹配任意类型的参数，如(String)表示匹配一个String参数的方法；(</em>,String) 表示匹配有两个参数的方法，第一个参数可以是任意类型，而第二个参数是String类型；可以用(..)表示零个或多个任意参数</li>
+<li>异常类型匹配（throws-pattern?） 其中后面跟  着“?”的是可选项</li>
+</ul>
+<pre><code>//表示匹配所有方法  
+1）execution(* *(..)) 
 
+//表示匹配com. example.controller中所有的public方法  
+2）execution(public * com. example.controller.*(..))  
+
+//表示匹配com. example.controller包及其子包下的所有方法 
+3）execution(* com. example.controller..*.*(..))  
+</code></pre>
             </div>
             <hr/>
 
