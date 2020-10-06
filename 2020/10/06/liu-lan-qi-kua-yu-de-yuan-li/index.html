@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="浏览器的跨域原理, 三秋">
+    <meta name="keywords" content="浏览器跨域的原理, 三秋">
     <meta name="description" content="跨域问题是前后端开发过程中经常会碰到的问题，那么什么是跨域，为什么前端会出现跨域问题。要了解跨域，先要说说同源策略。同源策略/SOP（Same origin policy）是一种约定，是由 Netscape 公司提出的一个著名的安全策略。它">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>浏览器的跨域原理 | 三秋</title>
+    <title>浏览器跨域的原理 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/37.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/41.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">浏览器的跨域原理</h1>
+                    <h1 class="description center-align post-title">浏览器跨域的原理</h1>
                 </div>
             </div>
         </div>
@@ -654,9 +654,9 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>需要注意的是服务端返回的数据需要特别的处理一下，上面代码中obj是需要返回的数据，而callback是前端传给我们的前端需要回调的函数名，接口返回给前端的结果如下结构，其中 callback 对应前端的一个可执行函数</p>
-<p><img src="/2020/10/06/liu-lan-qi-de-kua-yu-yuan-li/2.png" alt></p>
+<p><img src="/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/2.png" alt></p>
 <p>最终前端控制台打印结果如下</p>
-<p><img src="/2020/10/06/liu-lan-qi-de-kua-yu-yuan-li/1.png" alt></p>
+<p><img src="/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/1.png" alt></p>
 </li>
 </ol>
 <p>刚才的例子是原始的方式去实现后端支持JSONP返回，这样可以让我们只观的知道前端需要什么样的数据以及它的原理。当然对于Spring Boot来说，有更好的实现方式，通过 @ControllerAdvice 增强注解即可</p>
@@ -766,7 +766,7 @@
    long maxAge() default -1;</code></pre><p>   }</p>
 <p>   ```</p>
 <p>对于允许跨域的响应报文主要是 Access-Control-Allow-Origin 起作用，通过刚刚的代码，可以看到请求的响应报文如下</p>
-<p><img src="/2020/10/06/liu-lan-qi-de-kua-yu-yuan-li/3.png" alt></p>
+<p><img src="/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/3.png" alt></p>
 <p>Access-Control-Allow-Origin是标识允许哪个域的请求。如果服务器不通过，响应报文中根本没有这个字段，接着会触发同源策略，再接着你就看到浏览器的提示xxx的服务器没有响应Access-Control-Allow-Origin字段</p>
 
             </div>
@@ -793,7 +793,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/10/06/liu-lan-qi-de-kua-yu-yuan-li/">https://lushunjian.gitee.io/2020/10/06/liu-lan-qi-de-kua-yu-yuan-li/</a>
+                    <a href="https://lushunjian.gitee.io/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/">https://lushunjian.gitee.io/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1291,13 +1291,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/10/06/liu-lan-qi-de-kua-yu-yuan-li/">
+                <a href="/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/37.jpg" class="responsive-img" alt="浏览器的跨域原理">
+                        <img src="/medias/featureimages/41.jpg" class="responsive-img" alt="浏览器跨域的原理">
                         
-                        <span class="card-title">浏览器的跨域原理</span>
+                        <span class="card-title">浏览器跨域的原理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
