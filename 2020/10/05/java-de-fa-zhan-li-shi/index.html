@@ -743,6 +743,105 @@
 <script src="/libs/timeline/modernizr.custom.js"></script>
 
 <h2 id="Java虚拟机发展史"><a href="#Java虚拟机发展史" class="headerlink" title="Java虚拟机发展史"></a>Java虚拟机发展史</h2><p>前文我们以整个Java技术的角度观察了Java技术的发展，许多开发者都会潜意识的把它与Sun公司的HotSpot虚拟机等同看待，也许会注意到BEA JRockit和IBM J9，但对JVM的认识不仅仅只有这些。从1996年初Sun公司发布的JDK 1.0中所包含的Sun Classic VM到今天，曾经涌现，湮灭过许多或经典或优秀或有特色的虚拟机实现，在这，我们暂且把代码技术放下，回顾一下Java虚拟机家族的发展轨迹和历史变迁</p>
+<div class="java-time-line-container">
+            <header class="clearfix">
+                <div id="my-timeline-title">虚拟机发展时间线</div>
+            </header>    
+            <div class="java-time-main">
+                <ul class="cbp_tmtimeline">
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Sun Classic VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">初代版虚拟机 Classic VM</div>
+                            <p>从今天的视角来看，Sun Classic VM的技术可能很原始，这款虚拟机的使命也早已终结。但仅凭它“世界第一款商用Java虚拟机”的头衔，就足够有让历史记住它的理由</p>
+                            <p>1996年1月23日，Sun公司发布JDK 1.0，Java首次拥有了商用的正式运行环境，这个JDK中所带的虚拟机就是Classic VM。这款虚拟机只能使用纯解释器方式来执行Java代码，如果使用JIT编译器，就必须使用外挂，但是假如外挂了JIT编译器，JIT编译器就完全接管了虚拟机的执行系统，解释器便不再工作了。由于这时的虚拟机需要解释执行代码，因此这个阶段即使使用了JIT编译器输出本地代码，执行效率也和传统的C/C++程序有很大差距，“Java很慢”的形象就在此时树立了</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Exact VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">昙花一现的 Exact VM</div>
+                            <p>为了解决Classic VM所面临的各种问题，提升运行效率。在JDK 1.2时，曾在Solaris平台上发布过一款名为 Exact VM的虚拟机，它的执行系统已经具备现代高性能虚拟机的雏形：如两级即时编译器，编译器与解释器混合工作模式。Exact VM因它使用准确式内存管理（Exact Memory Management）而得名，即虚拟机可以知道内存中某个位置的数据具体是什么类型</p>
+                            <p>虽然Exact VM的技术相对Classic VM来说先进很多，但是在商业应用上只存在了很短暂的时间就被更优秀的HotSpot VM所取代，甚至还没来得及发布Windows和Linux平台下的商用版本，而Classic VM的生命周期相对长了许多，它在JDK 1.2之前是Sun JDK中唯一的虚拟机，在JDK 1.2时，它与HotSpot VM并存</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Sun HotSpot VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">现在的主流 HotSpot VM</div>
+                            <p>提起HotSpot VM，相信所有Java开发者都知道，它是Sun JDK和OpenJDK中所带的虚拟机，是现在JDK默认使用的虚拟机，也是目前使用范围最广的Java虚拟机。但不一定所有人都知道的是，这个目前看来“血统纯正”的虚拟机在最初并非由Sun公司开发，而是由一家名为“Longview Technologies”的小公司设计的。甚至最初这个虚拟机并非是为Java语言而开发的。它源于Strongtalk VM，而这款虚拟机中相当多的技术又是来源于一款支持Self语言实现“达到C语言50%以上执行效率”的目标而设计的虚拟机</p>
+                            <p>Sun公司注意到了这款虚拟机在JIT编译上有许多优秀的理念和实际效果，在1997年收购了Longview Technologies公司，从而获得了HotSpot VM。HotSpot VM既继承了Sun之前两款商用虚拟机的优点（如Exact VM的准确式内存管理），也有许多自己新的技术优势，如它名称中的HotSpot指的就是它的热点代码探测技术</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">JRockit VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">高性能的 JRockit VM</div>
+                            <p>除了Sun公司以外，其他组织和公司也研发过不少虚拟机实现，其中就有BEA公司和IBM公司了，JRockit VM曾经号称“世界上速度最快的Java虚拟机”，它是BEA公司在2002年从Appeal Virtual Machines公司收购的虚拟机，由于专注于服务器端应用，它可以不太关注程序启动速度，因此JRockit内部不包含解析器实现，全部代码靠即时编译器编译后执行。除此之外JRockit的垃圾收集器和MissionControl服务套件等部分的实现，在众多Java虚拟机中也一直处于领先水平</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">J9 VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">IBM J9 VM</div>
+                            <p>IBM J9 VM并不是IBM公司唯一的Java虚拟机，不过是其主力发展的Java虚拟机，IBM J9 VM原本的内部开发代号，正式名称是“IBM Technology for Java Virtual Machine”，简称IT4J，只是这个名字太拗口了一点，普及程度不如J9。J9 VM最初由IBM Ottawa实验室一个名为SmallTalk的虚拟机扩展而来的，当时这个虚拟机有一个bug是由8k值定义错误引起的，工市场花了很长时间终于发现并解决了这个错误，此后这个版本的虚拟机就称为K8了，后来扩展出支持Java的虚拟机就被称为J9了</p>
+                            <p>与BEA JRockit专注于服务器端应用不同，IBM J9的市场定位与Sun HotSpot比较接近，它是一款设计上从服务器端到桌面应用再到嵌入式都全面考虑的多用途虚拟机</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Azul VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">特定硬件平台的 Azul VM</div>
+                            <p>我们平时所提及的“高性能Java虚拟机”一般指 HotSpot，JRockit，J9这类在通用平台上运行的商用虚拟机，但其实Azul VM这类特定硬件平台专有的虚拟机才是“高性能”的武器</p>
+                            <p>Azul VM是Azul Systems公司在HotSpot基础上进行了大量改进，运行于Azul Systems公司的专有硬件Vega系统上的Java虚拟机，每个Azul VM实例都可以管理至少数十个CPU和数百GB内存硬件资源，并提供在巨大内存范围内实行可控的GC时间的垃圾收集器，为专有硬件优化的线程调度等优秀特性。在2010年，Azul Systems公司开始从硬件转向软件，发布了自己的Zing JVM，可以在通用的x86平台上提供接近于Vega系统的特性</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">EBA Liquid VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">可访问硬件的 EBA Liquid VM</div>
+                            <p>Liquid VM即是现在的JRockit VE（Virtual Edition），它是EBA公司开发的，可以直接运行在自家Hypervisor系统上的JRockit VM的虚拟化版本，Liquid VM不需要操作系统的支持，或者说他自己本身实现了一个专用操作系统的必要功能，如文件系统，网络支持等，由虚拟机越过通用操作系统直接控制硬件可以获得很多好处，如在线程调度时，不需要再进行内核态/用户态的切换等，这样可以最大限度的发挥硬件能力，提升Java程序的执行性能</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Harmony VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">Apache Harmony VM</div>
+                            <p>Apache Harmony VM是一个Apache软件基金会旗下以Apache License协议开源的实际兼容于JDK 1.5和JDK 1.6的Java程序运行平台，这个介绍相当拗口，它包含自己的虚拟机和Java库，用户就可以在上面运行Eclipse，Tomcat，Maven等常见的Java程序，但它没有通过TCK认证。如果一个公司要宣布自己的运行平台“兼容于Java语言”，那么就必须要通过TCK认证的兼容性测试。Apache基金会曾要求Sun公司提供TCK的使用授权，但是一直遭到拒绝，直到Oracle公司收购了Sun公司之后，双方关系越闹越僵，最终导致Apache愤然退出JCP（Java Community Process）组织，这是目前为止Java社区最严重的一次“分裂”</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Dalvik VM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">移动端虚拟机Google Android Dalvik VM</div>
+                            <p>在Sun将JDK开源形成OpenJDK之后，Apache Harmony开源的优势被极大的削弱，甚至连Harmony项目的最大参与者IBM公司也宣布辞去Harmony项目管理主席的职位，并参与OpenJDK项目的开发。虽然Harmony没有真正大规模的商业运用，但它的许多代码被吸纳进IBM的JDK 7实现和Google Android SDK之中，尤其对Android的发展起到了很大的推动作用</p>
+                            <p>如今Android已牢牢占据移动端的统治地位，Android让Java语言真正走进了移动数码设备的领域，只是走的并非Sun公司原本想象的那一条路，其成果已经远远超越了Java ME在过去十多年所获得的成果</p>
+                            <p>Dalvik VM是Android平台的核心组件之一，它的名字源于冰岛一个名为Dalvik的小渔村。Dalvik VM并不是一个Java虚拟机，它没有遵循Java虚拟机规范，不能直接执行Java的Class文件，使用的是寄存器架构而不是JVM常见的栈架构。但它又与Java有着千丝万缕的关系，它指向的dex（Dalvik Executable）文件可以通过Class文件转化而来，使用Java语法编写应用程序，可以直接使用大部分的Java API等。目前Dalvik VM随着Android一起处于迅猛发展阶段</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime"> <span style="font-size: 16px;">Microsoft JVM</span></time>
+                        <div class="cbp_tmicon cbp_tmicon-phone"></div>
+                        <div class="cbp_tmlabel">
+                            <div class="time-title">支持在浏览器运行Java的 Microsoft JVM</div>
+                            <p>也许Java开发者听起来可能会觉得惊讶，微软公司曾经是Java技术的铁杆支持者（也必须承认，与Sun公司争夺Java的控制权，令Java从跨平台技术变为绑定在Windows上的技术是微软公司的主要目的）。在Java语言诞生的初期（1996到1998年，以JDK 1.2发布为分界），它的主要应用之一是浏览器中运行Java Applets程序，微软公司为了再IE3中支持Java Applets应用而开发了自己的Java虚拟机，虽然这款虚拟机只有在Windows平台的版本，却是当时Windows下性能最好的Java虚拟机，它在1997年和1998年连续两年获得了《PC Magazine》杂志的“编辑选择奖”</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+<p>关于Microsoft JVM还发生了一次影响Java发展的事件，当时Microsoft JVM发展正好，但在1997年10月，Sun公司正式以侵犯商标，不正当竞争等罪名控告微软公司，在随后对微软公司的垄断调查之中吗，这款虚拟机也曾作为证据之一被呈送法庭。这场官司的结果是微软公司赔偿2000万美金给Sun公司（最终微软公司因垄断赔偿Sun公司的总金额高达10亿美元），并承诺终止其Java虚拟机的发展，并逐渐在产品中移除Java虚拟机的相关功能。具有讽刺意味的是，到最后在Windows XP SP3中Java虚拟机被完全抹去的时候，Sun公司却又到处登报希望微软公司不要这样做。Windows XP高级产品经理 Jim Cullinan称：“我们花费了3年的实际和Sun打官司，当时他们试图阻止我们在Windows中支持Java，现在我们这样做了，可他们又在抱怨，这太具有讽刺意味了”</p>
+<p>我们试想一下，当时的微软想在Windows系统上绑定Java，以Windows操作系统的迅猛发展程度，对于Java的推广有很大的帮助。如果当年Sun公司没有起诉微软公司，微软公司继续保持着对Java技术的热情，那Java的世界会变成什么样呢？</p>
 
             </div>
             <hr/>
