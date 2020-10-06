@@ -719,52 +719,51 @@
     <span class="token keyword">boolean</span> DEFAULT_ALLOW_CREDENTIALS <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
 
     <span class="token keyword">long</span> DEFAULT_MAX_AGE <span class="token operator">=</span> <span class="token number">1800</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/**
+     * 同origins属性一样
+     */</span>
+    <span class="token annotation punctuation">@AliasFor</span><span class="token punctuation">(</span><span class="token string">"origins"</span><span class="token punctuation">)</span>
+    String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-</code></pre>
+    <span class="token comment" spellcheck="true">/**
+     * 所有支持域的集合，例如"http://domain1.com"。
+     * &lt;p>这些值都显示在请求头中的Access-Control-Allow-Origin
+     * "*"代表所有域的请求都支持
+     * &lt;p>如果没有定义，所有请求的域都支持
+     * @see #value
+     */</span>
+    <span class="token annotation punctuation">@AliasFor</span><span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">)</span>
+    String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">origins</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 允许请求头重的header，默认都支持
+     */</span>
+    String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">allowedHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 响应头中允许访问的header，默认为空
+     */</span>
+    String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">exposedHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 请求支持的方法，例如"{RequestMethod.GET, RequestMethod.POST}"}。
+     * 默认支持RequestMapping中设置的方法
+     */</span>
+    RequestMethod<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">methods</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 是否允许cookie随请求发送，使用时必须指定具体的域
+     */</span>
+    String <span class="token function">allowCredentials</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token string">""</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 预请求的结果的有效期，默认30分钟
+     */</span>
+    <span class="token keyword">long</span> <span class="token function">maxAge</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span></code></pre>
 </li>
 </ol>
-<pre><code>   /**
-    * 同origins属性一样
-    */
-   @AliasFor(&quot;origins&quot;)
-   String[] value() default {};
-
-   /**
-    * 所有支持域的集合，例如&quot;http://domain1.com&quot;。
-    * &lt;p&gt;这些值都显示在请求头中的Access-Control-Allow-Origin
-    * &quot;*&quot;代表所有域的请求都支持
-    * &lt;p&gt;如果没有定义，所有请求的域都支持
-    * @see #value
-    */
-   @AliasFor(&quot;value&quot;)
-   String[] origins() default {};
-
-   /**
-    * 允许请求头重的header，默认都支持
-    */
-   String[] allowedHeaders() default {};
-
-   /**
-    * 响应头中允许访问的header，默认为空
-    */
-   String[] exposedHeaders() default {};
-
-   /**
-    * 请求支持的方法，例如&quot;{RequestMethod.GET, RequestMethod.POST}&quot;}。
-    * 默认支持RequestMapping中设置的方法
-    */
-   RequestMethod[] methods() default {};
-
-   /**
-    * 是否允许cookie随请求发送，使用时必须指定具体的域
-    */
-   String allowCredentials() default &quot;&quot;;
-
-   /**
-    * 预请求的结果的有效期，默认30分钟
-    */
-   long maxAge() default -1;</code></pre><p>   }</p>
-<p>   ```</p>
 <p>对于允许跨域的响应报文主要是 Access-Control-Allow-Origin 起作用，通过刚刚的代码，可以看到请求的响应报文如下</p>
 <p><img src="/2020/10/06/liu-lan-qi-kua-yu-de-yuan-li/3.png" alt></p>
 <p>Access-Control-Allow-Origin是标识允许哪个域的请求。如果服务器不通过，响应报文中根本没有这个字段，接着会触发同源策略，再接着你就看到浏览器的提示xxx的服务器没有响应Access-Control-Allow-Origin字段</p>
