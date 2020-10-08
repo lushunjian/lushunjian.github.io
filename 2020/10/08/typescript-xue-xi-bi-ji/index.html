@@ -595,43 +595,46 @@
             <div id="articleContent">
                 <p>TypeScript是一种由微软开发的开源 、跨平台的编程语言。它是JavaScript的超集，TypeScript的作者是安德斯·海尔斯伯格，C#的首席架构师。它是开源和跨平台的编程语言，而且本质上向这个语言添加了可选的静态类型和基于类的面向对象编程。TypeScript最终会被编译为JavaScript代码。TypeScript添加了可选的静态类型系统、很多尚未正式发布的ECMAScript新特性（如装饰器  ）。2012年10月，微软发布了首个公开版本的TypeScript，2013年6月19日，在经历了一个预览版之后微软正式发布了正式版TypeScript。当前最新版本为TypeScript4.0。TypeScript扩展了JavaScript的语法，所以任何现有的JavaScript程序可以运行在TypeScript环境中。TypeScript 起源于使用JavaScript开发的大型项目 。由于JavaScript语言本身的局限性，难以胜任和维护大型项目开发。因此微软开发了TypeScript ，使得其能够胜任开发大型项目。由于TypeScript起源于JavaScript，使得TypeScript既具备函数式编程特性又具备面向对象编程的特性。在工作中常会使用React做前端页面开发，React是支持TypeScript和ES6的，社区文档和官方资料基本都是基于TypeScript，因此学习记录一下TypeScript的心得笔记</p>
 <h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>接口的作用：在面向对象的编程中，接口是一种规范的定义，它定义了行为和动作的规范，在程序设计里面，接口起到一种限制和规范的作用。接口定义了某一批类所需要遵守的规范，接口不关心这些类的内部状态数据，也不关心这些类里方法的实现细节，它只规定这批类里必须提供某些方法，提供这些方法的类就可以满足实际需要。 typescrip中增加了更灵活的接口类型，包括属性、函数、可索引和类等。</p>
-<h3 id="属性接口"><a href="#属性接口" class="headerlink" title="属性接口"></a>属性接口</h3><pre><code>interface FullName{
-    firstName:string;   //注意;结束
-    secondName:string;
-}
-function printName(name:FullName){
-    // 必须传入对象  firstName  secondName
-    console.log(name.firstName+&#39;--&#39;+name.secondName);
-}
-// printName(&#39;1213&#39;);  //错误
+<h3 id="属性接口"><a href="#属性接口" class="headerlink" title="属性接口"></a>属性接口</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">FullName</span><span class="token punctuation">{</span>
+    firstName<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//注意;结束</span>
+    secondName<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">printName</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span>FullName<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 必须传入对象  firstName  secondName</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>firstName<span class="token operator">+</span><span class="token string">'--'</span><span class="token operator">+</span>name<span class="token punctuation">.</span>secondName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// printName('1213');  //错误</span>
 
-var obj={   /*传入的参数必须包含 firstName  secondName*/
-    firstName:&#39;张&#39;,
-    secondName:&#39;三&#39;
-};
-printName(obj)
-123456789101112131415</code></pre><h3 id="可选接口"><a href="#可选接口" class="headerlink" title="可选接口"></a>可选接口</h3><pre><code>interface FullName{
-    firstName:string;
-    secondName?:string; // 属性可选(可传可不传)
-}
-function getName(name:FullName){
-    console.log(name)
-}  
-getName({               
-    firstName:&#39;firstName&#39;
-})
+<span class="token keyword">var</span> obj<span class="token operator">=</span><span class="token punctuation">{</span>   <span class="token comment" spellcheck="true">/*传入的参数必须包含 firstName  secondName*/</span>
+    firstName<span class="token punctuation">:</span><span class="token string">'张'</span><span class="token punctuation">,</span>
+    secondName<span class="token punctuation">:</span><span class="token string">'三'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">printName</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span>
+<span class="token number">123456789101112131415</span></code></pre>
+<h3 id="可选接口"><a href="#可选接口" class="headerlink" title="可选接口"></a>可选接口</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">FullName</span><span class="token punctuation">{</span>
+    firstName<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>
+    secondName<span class="token operator">?</span><span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 属性可选(可传可不传)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">getName</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span>FullName<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>  
+<span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">{</span>               
+    firstName<span class="token punctuation">:</span><span class="token string">'firstName'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
 
-1234567891011</code></pre><h3 id="函数类型接口：对方法传入的参数-以及返回值进行约束"><a href="#函数类型接口：对方法传入的参数-以及返回值进行约束" class="headerlink" title="函数类型接口：对方法传入的参数 以及返回值进行约束"></a>函数类型接口：对方法传入的参数 以及返回值进行约束</h3><pre><code>// 加密的函数类型接口
-interface encrypt{
-    (key:string,value:string):string;
-}
-var md5:encrypt=function(key:string,value:string):string{
-    //模拟操作
-    return key+value;
-}
-console.log(md5(&#39;name&#39;,&#39;zhangsan&#39;));
+<span class="token number">1234567891011</span></code></pre>
+<h3 id="函数类型接口：对方法传入的参数-以及返回值进行约束"><a href="#函数类型接口：对方法传入的参数-以及返回值进行约束" class="headerlink" title="函数类型接口：对方法传入的参数 以及返回值进行约束"></a>函数类型接口：对方法传入的参数 以及返回值进行约束</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 加密的函数类型接口</span>
+<span class="token keyword">interface</span> <span class="token class-name">encrypt</span><span class="token punctuation">{</span>
+    <span class="token punctuation">(</span>key<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">,</span>value<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> md5<span class="token punctuation">:</span>encrypt<span class="token operator">=</span><span class="token keyword">function</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">,</span>value<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//模拟操作</span>
+    <span class="token keyword">return</span> key<span class="token operator">+</span>value<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">md5</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">,</span><span class="token string">'zhangsan'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-12345678910</code></pre><h3 id="可索引接口-数组、对象的约束-不常用"><a href="#可索引接口-数组、对象的约束-不常用" class="headerlink" title="可索引接口: 数组、对象的约束(不常用)"></a>可索引接口: 数组、对象的约束(不常用)</h3><ol>
+<span class="token number">12345678910</span></code></pre>
+<h3 id="可索引接口-数组、对象的约束-不常用"><a href="#可索引接口-数组、对象的约束-不常用" class="headerlink" title="可索引接口: 数组、对象的约束(不常用)"></a>可索引接口: 数组、对象的约束(不常用)</h3><ol>
 <li>可索引接口对数组约束</li>
 </ol>
 <pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">UserArr</span><span class="token punctuation">{</span>
