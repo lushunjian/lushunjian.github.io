@@ -609,8 +609,7 @@
     firstName<span class="token punctuation">:</span><span class="token string">'张'</span><span class="token punctuation">,</span>
     secondName<span class="token punctuation">:</span><span class="token string">'三'</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token function">printName</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span>
-<span class="token number">123456789101112131415</span></code></pre>
+<span class="token function">printName</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span></code></pre>
 <h3 id="可选接口"><a href="#可选接口" class="headerlink" title="可选接口"></a>可选接口</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">FullName</span><span class="token punctuation">{</span>
     firstName<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>
     secondName<span class="token operator">?</span><span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 属性可选(可传可不传)</span>
@@ -621,8 +620,7 @@
 <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">{</span>               
     firstName<span class="token punctuation">:</span><span class="token string">'firstName'</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-
-<span class="token number">1234567891011</span></code></pre>
+</code></pre>
 <h3 id="函数类型接口：对方法传入的参数-以及返回值进行约束"><a href="#函数类型接口：对方法传入的参数-以及返回值进行约束" class="headerlink" title="函数类型接口：对方法传入的参数 以及返回值进行约束"></a>函数类型接口：对方法传入的参数 以及返回值进行约束</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 加密的函数类型接口</span>
 <span class="token keyword">interface</span> <span class="token class-name">encrypt</span><span class="token punctuation">{</span>
     <span class="token punctuation">(</span>key<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">,</span>value<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>
@@ -632,8 +630,7 @@
     <span class="token keyword">return</span> key<span class="token operator">+</span>value<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">md5</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">,</span><span class="token string">'zhangsan'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token number">12345678910</span></code></pre>
+</code></pre>
 <h3 id="可索引接口-数组、对象的约束-不常用"><a href="#可索引接口-数组、对象的约束-不常用" class="headerlink" title="可索引接口: 数组、对象的约束(不常用)"></a>可索引接口: 数组、对象的约束(不常用)</h3><ol>
 <li>可索引接口对数组约束</li>
 </ol>
@@ -641,8 +638,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">[</span>index<span class="token punctuation">:</span><span class="token keyword">number</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token keyword">string</span> <span class="token comment" spellcheck="true">// 数组索引为number类型，值为string类型</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> arr<span class="token punctuation">:</span>UserArr<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'aaa'</span><span class="token punctuation">,</span><span class="token string">'bbb'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// var arr:UserArr=[123,'bbb'];  </span><span class="token comment" spellcheck="true">/*错误*/</span>
-<span class="token number">12345</span></code></pre>
+<span class="token comment" spellcheck="true">// var arr:UserArr=[123,'bbb'];  </span><span class="token comment" spellcheck="true">/*错误*/</span></code></pre>
 <ol>
 <li>可索引接口对对象约束</li>
 </ol>
@@ -650,8 +646,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">[</span>index<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token keyword">string</span> <span class="token comment" spellcheck="true">// 对象key为string类型，value为string类型</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> arr<span class="token punctuation">:</span>UserObj<span class="token operator">=</span><span class="token punctuation">{</span>name<span class="token punctuation">:</span><span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-<span class="token number">12345</span></code></pre>
+</code></pre>
 <h3 id="类类型接口-对类的约束和抽象类抽象有点相似"><a href="#类类型接口-对类的约束和抽象类抽象有点相似" class="headerlink" title="类类型接口:对类的约束和抽象类抽象有点相似"></a>类类型接口:对类的约束和抽象类抽象有点相似</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">Animal</span><span class="token punctuation">{</span>
     name<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">;</span>
     <span class="token function">eat</span><span class="token punctuation">(</span>str<span class="token punctuation">:</span><span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token keyword">void</span><span class="token punctuation">;</span>
@@ -666,8 +661,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> d<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Dog</span><span class="token punctuation">(</span><span class="token string">'小黑'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-d<span class="token punctuation">.</span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token number">123456789101112131415</span></code></pre>
+d<span class="token punctuation">.</span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h3 id="接口扩展：接口可以继承接口"><a href="#接口扩展：接口可以继承接口" class="headerlink" title="接口扩展：接口可以继承接口"></a>接口扩展：接口可以继承接口</h3><pre class=" language-typescript"><code class="language-typescript"> <span class="token keyword">interface</span> <span class="token class-name">Animal</span><span class="token punctuation">{</span>
         <span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
