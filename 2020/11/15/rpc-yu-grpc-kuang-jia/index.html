@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="RPC与gRPC, 三秋">
+    <meta name="keywords" content="RPC与gRPC框架, 三秋">
     <meta name="description" content="RPC的语义是远程过程调用，在一般的印象中，就是将一个服务调用封装在一个本地方法中，让调用者像使用本地方法一样调用服务，对其屏蔽实现细节。而具体的实现是通过调用方和服务方的一套约定，基于TCP长连接进行数据交互达成。上面的解释似云里雾里，仅">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>RPC与gRPC | 三秋</title>
+    <title>RPC与gRPC框架 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/41.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">RPC与gRPC</h1>
+                    <h1 class="description center-align post-title">RPC与gRPC框架</h1>
                 </div>
             </div>
         </div>
@@ -607,7 +607,7 @@
 <li>底层库会约定数据如何进行编解码，如何标识命令和参数，如何表示结果，如何表示数据的结尾等等</li>
 </ul>
 <p>这三个特点都是因为<code>调用不在本地</code>而不得不衍生出来的问题，也因此决定了RPC的形态。所有的RPC解决方案都是在解决这三个问题，不断地在提出更加优良的解决方案，试图达到更好的性能，更低的使用成本。 本文也将围绕这三个特点来展开内容。常规的RPC一般都是基于一个大的内部服务，进行分布式拆分，由于其语义上以本地方法的作为入口，那么天然的就更倾向于具备高性能、支持复杂参数和返回值、跨语言等特性。下图是RPC调用的过程示意图：</p>
-<p><img src="/2020/11/15/rpc-yu-grpc/1.jpg" alt></p>
+<p><img src="/2020/11/15/rpc-yu-grpc-kuang-jia/1.jpg" alt></p>
 <h2 id="内容组织约定"><a href="#内容组织约定" class="headerlink" title="内容组织约定"></a>内容组织约定</h2><p>Stub会负责封装命令和参数，并以特定的数据格式进行打包。其中命令、参数和返回值的需要客户端和服务端的Stub事先进行协商，双方都需要维护一份完全一样的方法及参数列表。更进一步需要知道对方如何进行压缩打包，如何压缩结构体，如何压缩Class等等，并严格按照标准进行解压缩，中途有任何一丝的差错都会的导致调用失败。所以一般情况下可能会对数据进行一定的校验，同时要协商方法、参数等错误时如何返回。 这是一个比较繁杂的过程，混合了<code>调用语法</code>和 <code>内容解压缩</code>两部分内容，可被理解为<code>如何组织内容</code>的问题。</p>
 <h2 id="网络传输"><a href="#网络传输" class="headerlink" title="网络传输"></a>网络传输</h2><p>搞定了协议约定问题后，接下来就是要通过Runtime进行内容传输了，这又是一大难题，一般是需要通过Socket编程来实现，使用TCP或UDP来进行传输，如果是UDP可以用数据报来区分每一次请求和回复。但如果是字节流的TCP，就需要用特殊的方式来标示请求或回复的末尾，用来区分不同的请求。同时当对调用性能有要求时，可能会使用Socket的异步编程模型，消除等待中的消耗，这会引入事件机制，通过状态机来解析处理或回复请求。当出现超时、丢包等情况时还进行做重试、重传、报错等等。</p>
 <p>拆解到协议约定和网络传输时，就会发现实现RPC调用是一件非常复杂的事情，自己实现千难万难，接下来就了解一番已有的，针对协议约定和网络传输的解决方案。当然，在技术高度成熟的今天，已经有很多先烈将传输问题解决掉了，接下来就了解一下已有的，针对协议约定和网络传输的解决方案。</p>
@@ -647,7 +647,7 @@ service UniqueIdService <span class="token punctuation">{</span><span class="tok
 <li>对于定长的int，如果对应值是1，那用4个字节表达是不是有些浪费，该如何节省？</li>
 </ul>
 <p>对于此，protobuf将数据类型做了<strong>分类(Wire Type)</strong>，并提供不同的编解码方式：</p>
-<p><img src="/2020/11/15/rpc-yu-grpc/2.jpg" alt></p>
+<p><img src="/2020/11/15/rpc-yu-grpc-kuang-jia/2.jpg" alt></p>
 <p>值得关注的有两种：</p>
 <ul>
 <li>Varint，解决定长类型的空间浪费，例如值为1的int32只用1字节，避免用四字节，达到压缩的效果。 T - V</li>
@@ -660,7 +660,7 @@ service UniqueIdService <span class="token punctuation">{</span><span class="tok
 <li>V： value, 对应字段的值，解析了T，就知道value表达的是哪个字段、什么类型、如何解析了</li>
 </ul>
 <p>protobuf编码的结果就是一组组 <code>T-V</code>对依次紧凑排列，message有几个字段，就有几对。对于特定的RPC请求，proto中是有明确的请求、回复 message定义的，将T-V对去套对应的message，即可解析出对象。</p>
-<p><img src="/2020/11/15/rpc-yu-grpc/3.jpg" alt></p>
+<p><img src="/2020/11/15/rpc-yu-grpc-kuang-jia/3.jpg" alt></p>
 <p>紧接着上文预留的一个问题不可跳过，紧凑排列的T-V对，是如何进行分隔的？：</p>
 <ul>
 <li>如何分隔 T 和 V，该从哪个解析V ？</li>
@@ -735,7 +735,7 @@ data的第一个字节最高位为1，说明下一个字节还要继续读</code
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2020/11/15/rpc-yu-grpc/">https://lushunjian.gitee.io/2020/11/15/rpc-yu-grpc/</a>
+                    <a href="https://lushunjian.gitee.io/2020/11/15/rpc-yu-grpc-kuang-jia/">https://lushunjian.gitee.io/2020/11/15/rpc-yu-grpc-kuang-jia/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1233,13 +1233,13 @@ data的第一个字节最高位为1，说明下一个字节还要继续读</code
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/11/15/rpc-yu-grpc/">
+                <a href="/2020/11/15/rpc-yu-grpc-kuang-jia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/41.jpg" class="responsive-img" alt="RPC与gRPC">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="RPC与gRPC框架">
                         
-                        <span class="card-title">RPC与gRPC</span>
+                        <span class="card-title">RPC与gRPC框架</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
