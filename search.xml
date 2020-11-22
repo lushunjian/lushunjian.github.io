@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Go语言项目笔记</title>
+      <link href="/2020/11/22/go-yu-yan-xiang-mu-bi-ji/"/>
+      <url>/2020/11/22/go-yu-yan-xiang-mu-bi-ji/</url>
+      
+        <content type="html"><![CDATA[<p>Go语言是一门较新生的语言，对于项目管理并没有像Java那样有 <code>maven</code> ，<code>gradle</code>，<code>ant</code>之类的工具，早期的Go语言通过 GoPath 来管理项目的代码，不过gopath的方式管理代码带来许多不便。在Go1.11版本以后GoModule成为了Go官方的依赖管理方式。这两个概念非常容易弄错，第一个是GoPath，第二个则是GoModule，很多初学者不清楚这两者之间的关系，也就难以清晰地了解项目的整体结构。</p><h2 id="GoPath"><a href="#GoPath" class="headerlink" title="GoPath"></a>GoPath</h2><p>GoPath的概念类似于Go项目的工作空间，它是配置在Go的环境变量中的。在安装好Go的开发环境后，通过 <code>go env</code> 命令可以查看环境信息</p><p><img src="/2020/11/22/go-yu-yan-xiang-mu-bi-ji/1.png" alt></p><p>其中GOPATH就是工作空间，我这里配的是<code>F:\go-lib</code>，GOROOT是安装的GO语言开发环境目录。在使用GOPATH做为开发工作空间的模式下，一般会在GOPATH目录下创建三个文件夹</p><p><img src="/2020/11/22/go-yu-yan-xiang-mu-bi-ji/2.png" alt></p><p>我们把开发的源代码都放在<code>GOPATH</code>的<code>src</code>目录下（源代码包括自己写的代码和依赖的第三方的包），那么可以按照下图来组织我们的代码</p><p><img src="/2020/11/22/go-yu-yan-xiang-mu-bi-ji/3.png" alt></p><p>我们在项目中使用第三方类库的时候，使用<code>go get</code>命令从网下直接拉去第三方类库的包，而使用<code>GOPATH</code>管理项目，拉取下来的包就会直接下载到我们的GoPath目录下的src包下。这样就导致了一个问题，我们自己的Golang代码，和第三方的Golang文件混在了一起，这对于我们管理Golang项目的包显然是非常麻烦的，而且每个如果项目都需要同样的依赖，那么我们就会在不同的GoPath的src中下载大量重复的第三方依赖包，这同样会占用大量的磁盘空间。</p><blockquote><p>在Go语言v1.5开始引入<code>vendor</code>模式，如果项目目录下有<code>vendor</code>目录那么go工具链会优先使用<code>vendor</code>内的包进行编译，测试等。而后又出现了<code>godep</code>，它是通过<code>vendor</code>模式实现的Go语言第三方依赖管理工具。但这样并不能解决不同项目下载重复依赖包的问题，也不像 <code>maven</code>，<code>gradle</code> 那样优雅</p></blockquote><p>为了便于管理项目，可以为每个项目都是不同的GoPath，这对于我们管理多个Golang项目而言，能够清晰的处理项目结构。但在切换不同项目时，就需要频繁更改GOPATH设置</p><h2 id="GoModule"><a href="#GoModule" class="headerlink" title="GoModule"></a>GoModule</h2><p>GoModule是Golang在1.11版本初步引入的概念，在1.12版本中正是开始使用，所以如果需要使用GoModule，那么需要保证你的Golang的版本在1.12或以上。另外需要说一下，Golang1.11和1.12版本虽然已经引入了GoModule的概念，但是GoModule是默认不开启的，如果需要开启，那么需要配置一个环境变量：<code>GO111MODULE=on</code>，默认是<code>off</code>。而Golang1.13及以上的版本中，GoModule的默认配置为auto，即GoModule会通过你的目录下是否有go.mod文件来判断是否开启GoModule。所以Golang1.13+的版本中我们就不需要配置GO111MODULE属性了。所以如果你使用GoModule，那么就直接使用Golang1.13+的版本好了！</p><p><strong>GoModule是来取代GoPath 的吗？</strong></p><p>不是的！GoModule就是一个用来取代GoPath的Golang的工作空间，我们知道所有的Golang的文件，都需要放在GoPath目录下才能进行正确的编译和运行，而有了GoModule之后，那么我们就可以把文件放在GoModule目录下，而放在GoModule目录下的Golang文件，也可以正确地编译运行。那么有了GoModule后GoPath 的作用是什么呢？那就是管理第三方依赖包。GoPath和GoModule就分别负责不同的职责，共同为我们的Golang项目服务。</p><ol><li><strong>GoPath：</strong> 负责管理项目依赖的第三方不同版本的依赖库，下载的依赖包放在GOPATH目录下</li><li><strong>GoModule：</strong>负责管理项目中所有的依赖库清单，版本等信息</li></ol><p>使用GoModule管理依赖后会在项目路径下生成两个文件 <code>go.mod</code> 和 <code>go.sum</code></p><blockquote><p>总而言之，在引入GoModule之后，我们不会直接在GoPath目录进行编程，而是把GoPath作为一个第三方依赖包的仓库，我们真正的工作空间在GoModule目录下。</p></blockquote><h3 id="go-mod命令"><a href="#go-mod命令" class="headerlink" title="go mod命令"></a>go mod命令</h3><p>常用的go mod命令如下</p><pre class=" language-powershell"><code class="language-powershell">go mod download      下载依赖的module到本地cache （默认为 GOPATH<span class="token operator">/</span>pkg<span class="token operator">/</span>mod 目录）go mod edit          编辑go<span class="token punctuation">.</span>mod文件go mod graph         打印模块依赖图go mod init          初始化当前文件夹，创建go<span class="token punctuation">.</span>mod文件go mod tidy          增加缺少的module，删除无用的modulego mod vendor        将依赖复制到vendor下go mod verify        校验依赖go mod why           解释为什么需要依</code></pre><h3 id="go-mod"><a href="#go-mod" class="headerlink" title="go.mod"></a>go.mod</h3><p>go.mod记录了所有依赖信息，其大致结构如下</p><pre class=" language-xml-dtd"><code class="language-xml-dtd">module my_go_testgo 1.14require (    github.com/gin-gonic/gin v1.6.2    github.com/go-sql-driver/mysql v1.5.0)</code></pre><h3 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h3><p>在国内访问golang.org/x的各个包都需要翻墙，可以在go.mod中使用replace替换成github上对应的库。一般我们也不会直接去依赖谷歌的仓库，但是不保证依赖的第三方库中依赖了谷歌仓库里的包，这时候如果包下载不下来，这个就派上用场了</p><pre class=" language-xml-dtd"><code class="language-xml-dtd">replace (    golang.org/x/text v0.3.0 => github.com/golang/text v0.3.0)</code></pre><p>在使用GoModule管理的项目工程目录如下</p><p><img src="/2020/11/22/go-yu-yan-xiang-mu-bi-ji/5.png" alt></p><h3 id="GOPROXY"><a href="#GOPROXY" class="headerlink" title="GOPROXY"></a>GOPROXY</h3><p>对于国外的依赖包无法直接通过网络进行下载，这显然会让开发者非常难受，所以Golang也引入了另一个属性：GOPROXY，我们只需要在环境变量中配置GOPROXY=<code>https://goproxy.io</code>即可解决GoModule无法下载国外的依赖包问题。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Golang的项目依赖管理，经历了三个阶段。</p><p><strong>第一阶段</strong>：最初是使用GOPATH，这也是大部分教程会让你配置GOPATH的原因。当时官方建议只有一个GOPATH，大家把项目都放到GOPATH下，而且GOPATH下需要src，bin，pkg三个文件夹，src用来放源码，bin目录用来放编译好好的可执行文件，pkg用来放编译过后引用的第三方包。如果你用go get命令下载第三方包，那么会下载到src目录下，引用的时候，golang解释器会去GOROOT和GOPATH的src下找。但这样做显然有问题，如果项目A和项目B都在GOPATH下，同时都引用了第三方包C，但一个引用C1.0版本，一个引用了C2.0版本，按照这种情况，ABC都在src目录下，如何区分C的版本呢？为了解决这个问题，Golang的依赖管理出现了第二个阶段</p><p><strong>第二阶段</strong>：使用vendor目录。在各自的项目下创建一个vendor目录，将第三方依赖放到vendor目录下，解释器也会优先去找vendor目录下的第三方包，这样就可以解决问题。常用的一些第三方依赖包，也就是用来管理vendor的。这个关系就很像pip之于python，maven之于java。但这仍然无法解决很难用GOPATH。好在官方意识到了这个问题，于是有了第三阶段</p><p><strong>第三阶段</strong>：使用go module。使用go module已经完全不依赖于GOPATH了，可以说完美解决了解决第三方依赖的问题，而且很多Golang的项目也在往go module迁移。当然最大的网络问题，也有GOPROXY帮我们解决，google可算为Golang操碎了心，希望Golang以后可以越来越火。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> golang </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>数据库行列转换</title>
       <link href="/2020/11/21/shu-ju-ku-xing-lie-zhuan-huan/"/>
       <url>/2020/11/21/shu-ju-ku-xing-lie-zhuan-huan/</url>
