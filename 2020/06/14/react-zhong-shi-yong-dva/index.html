@@ -630,15 +630,17 @@ dva new dva-test
 └── proxy.config.js    <span class="token comment" spellcheck="true"># 数据mock配置  </span></code></pre>
 <h2 id="Dva-概念"><a href="#Dva-概念" class="headerlink" title="Dva 概念"></a>Dva 概念</h2><h3 id="数据流向"><a href="#数据流向" class="headerlink" title="数据流向"></a>数据流向</h3><p>数据的改变发生通常是通过用户交互行为或者浏览器行为（如路由跳转等）触发的，当此类行为会改变数据的时候可以通过 <code>dispatch</code> 发起一个 action，如果是同步行为会直接通过 <code>Reducers</code> 改变 <code>State</code> ，如果是异步行为（副作用）会先触发 <code>Effects</code> 然后流向 <code>Reducers</code> 最终改变 <code>State</code>，所以在 dva 中，数据流向非常清晰简明，并且思路基本跟开源社区保持一致（也是来自于开源社区）。</p>
 <p><img src="/2020/06/14/react-zhong-shi-yong-dva/1.png" alt></p>
-<p>从图中可以看出dva是设计理念是把数据层和组件层剥离开来，实现完全解耦</p>
+<p>从图中可以看出dva是设计理念是把数据层和组件层剥离开来，实现完全解耦。简单的分析一下这个图：</p>
+<p>首先我们根据 <code>url</code> 访问相关的 <code>Route-Component</code>，在组件中我们通过 <code>dispatch</code> 发送 <code>action</code> 到 <code>model</code> 里面的 <code>effect</code> 或者直接 <code>Reducer</code>当我们将<code>action</code>发送给<code>Effect</code>，基本上是取服务器上面请求数据的，服务器返回数据之后，<code>effect</code> 会发送相应的 <code>action</code> 给 <code>reducer</code>，由<strong>唯一能改变</strong> <code>state</code> 的 <code>reducer</code> 改变 <code>state</code> ，然后通过<code>connect</code>重新渲染组件。当我们将<code>action</code>发送给<code>reducer</code>，那直接由 <code>reducer</code> 改变 <code>state</code>，然后通过 <code>connect</code> 重新渲染组件。这样我们就能走完一个流程了。</p>
 <h2 id="Models"><a href="#Models" class="headerlink" title="Models"></a>Models</h2><h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>State 表示 Model 的状态数据，通常表现为一个 javascript 对象（当然它可以是任何值）；操作的时候每次都要当作不可变数据（immutable data）来对待，保证每次都是全新对象，没有引用关系，这样才能保证 State 的独立性，便于测试和追踪变化。在 dva 中你可以通过 dva 的实例属性 <code>_store</code> 看到顶部的 state 数据，但是通常你很少会用到:</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">dva</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>_store<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 顶部的 state 数据</span></code></pre>
-<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p>Action 是一个普通 javascript 对象，它是改变 State 的唯一途径。无论是从 UI 事件、网络回调，还是 WebSocket 等数据源所获得的数据，最终都会通过 dispatch 函数调用一个 action，从而改变对应的数据。action 必须带有 <code>type</code> 属性指明具体的行为，其它字段可以自定义，如果要发起一个 action 需要使用 <code>dispatch</code> 函数；需要注意的是 <code>dispatch</code> 是在组件 connect Models以后，通过 props 传入的。</p>
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p><code>action</code> 的格式如下，它需要有一个 <code>type</code> ，表示这个 <code>action</code> 要触发什么操作；<code>payload</code> 则表示这个 <code>action</code> 将要传递的数。action 必须带有 <code>type</code> 属性指明具体的行为，其它字段可以自定义，如果要发起一个 action 需要使用 <code>dispatch</code> 函数；需要注意的是 <code>dispatch</code> 是在组件 connect Models以后，通过 props 传入的。</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   type<span class="token punctuation">:</span> <span class="token string">'add'</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="dispatch-函数"><a href="#dispatch-函数" class="headerlink" title="dispatch 函数"></a>dispatch 函数</h3><p>dispatching function 是一个用于触发 action 的函数，action 是改变 State 的唯一途径，但是它只描述了一个行为，而 dipatch 可以看作是触发这个行为的方式，而 Reducer 则是描述如何改变数据的。在 dva 中，connect Model 的组件通过 props 可以访问到 dispatch，可以调用 Model 中的 Reducer 或者 Effects，常见的形式如：</p>
+<p>具体可以查看文档：<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fwww.redux.org.cn%2Fdocs%2Fbasics%2FActions.html" target="_blank" rel="noopener">redux——action</a></p>
+<h3 id="Dispatch-函数"><a href="#Dispatch-函数" class="headerlink" title="Dispatch 函数"></a>Dispatch 函数</h3><p>dispatching function 是一个用于触发 action 的函数，action 是改变 State 的唯一途径，但是它只描述了一个行为，而 dipatch 可以看作是触发这个行为的方式，而 Reducer 则是描述如何改变数据的。在 dva 中，connect Model 的组件通过 props 可以访问到 dispatch，可以调用 Model 中的 Reducer 或者 Effects，常见的形式如：</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   type<span class="token punctuation">:</span> <span class="token string">'user/add'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 如果在 model 外调用，需要添加 namespace</span>
   payload<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 需要传递的信息</span>
@@ -649,8 +651,23 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">//return {x:1, y:2, z:3}</span></code></pre>
 <p>在 dva 中，reducers 聚合积累的结果是当前 model 的 state 对象。通过 actions 中传入的值，与当前 reducers 中的值进行运算获得新的值（也就是新的 state）。需要注意的是 Reducer 必须是<a href="https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md" target="_blank" rel="noopener">纯函数</a>，所以同样的输入必然得到同样的输出，它们不应该产生任何副作用。并且，每一次的计算都应该使用<a href="https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md#reasonable" target="_blank" rel="noopener">immutable data</a>，这种特性简单理解就是每次操作都是返回一个全新的数据（独立，纯净），所以热重载和时间旅行这些功能才能够使用。</p>
-<h3 id="Effect"><a href="#Effect" class="headerlink" title="#Effect"></a><a href="https://dvajs.com/guide/concepts.html#effect" target="_blank" rel="noopener">#</a>Effect</h3><h3 id="Effect-1"><a href="#Effect-1" class="headerlink" title="Effect"></a>Effect</h3><p>Effect 被称为副作用，在我们的应用中，最常见的就是异步操作。它来自于函数编程的概念，之所以叫副作用是因为它使得我们的函数变得不纯，同样的输入不一定获得同样的输出。</p>
-<p>dva 为了控制副作用的操作，底层引入了<a href="http://superraytin.github.io/redux-saga-in-chinese" target="_blank" rel="noopener">redux-sagas</a>做异步流程控制，由于采用了<a href="http://www.ruanyifeng.com/blog/2015/04/generator.html" target="_blank" rel="noopener">generator的相关概念</a>，所以将异步转成同步写法，从而将effects转为纯函数。至于为什么我们这么纠结于 <strong>纯函数</strong>，如果你想了解更多可以阅读<a href="https://github.com/MostlyAdequate/mostly-adequate-guide" target="_blank" rel="noopener">Mostly adequate guide to FP</a>，或者它的中文译本<a href="https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details" target="_blank" rel="noopener">JS函数式编程指南</a>。</p>
+<h3 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h3><p>Effect 被称为副作用，在我们的应用中，最常见的就是异步操作。它来自于函数编程的概念，之所以叫副作用是因为它使得我们的函数变得不纯，同样的输入不一定获得同样的输出。</p>
+<p>dva 为了控制副作用的操作，底层引入了<a href="http://superraytin.github.io/redux-saga-in-chinese" target="_blank" rel="noopener">redux-sagas</a>做异步流程控制，由于采用了<a href="http://www.ruanyifeng.com/blog/2015/04/generator.html" target="_blank" rel="noopener">generator的相关概念</a>，所以将异步转成同步写法，从而将effects转为纯函数。至于为什么我们这么纠结于 <strong>纯函数</strong>，如果你想了解更多可以阅读<a href="https://github.com/MostlyAdequate/mostly-adequate-guide" target="_blank" rel="noopener">Mostly adequate guide to FP</a>，或者它的中文译本<a href="https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details" target="_blank" rel="noopener">JS函数式编程指南</a>。其中它用到了redux-saga，里面有几个常用的函数。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token operator">*</span><span class="token function">add</span><span class="token punctuation">(</span>action<span class="token punctuation">,</span> <span class="token punctuation">{</span> call<span class="token punctuation">,</span> put <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">yield</span> <span class="token function">call</span><span class="token punctuation">(</span>delay<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'minus'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<ol>
+<li><p><strong>put</strong></p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'minus'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p><strong>call</strong> 用于异步调用逻辑，支持Prommise</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">call</span><span class="token punctuation">(</span>fetch<span class="token punctuation">,</span> <span class="token string">'/todos'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p><strong>select</strong> 用于从 state 中获取数据</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> todos <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">call</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> state<span class="token punctuation">.</span>todos<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+</ol>
 <h2 id="简单使用例子"><a href="#简单使用例子" class="headerlink" title="简单使用例子"></a>简单使用例子</h2><h3 id="构建service"><a href="#构建service" class="headerlink" title="构建service"></a>构建service</h3><p>新增文件 <code>src/services/users.js</code>，内容如下，这里写了用户的api接口列表，即用户增删改查</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> request <span class="token keyword">from</span> <span class="token string">'../utils/request'</span><span class="token punctuation">;</span>
 
@@ -684,150 +701,123 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token punctuation">}</span>
 
 </code></pre>
-<h3 id="构建model"><a href="#构建model" class="headerlink" title="构建model"></a>构建model</h3><p>可在终端通过命令 <code>dva g model users</code>生成文件，然后修改 <code>src/models/users.js</code></p>
+<h3 id="构建model"><a href="#构建model" class="headerlink" title="构建model"></a>构建model</h3><p>可在终端通过命令 <code>dva g model users</code>生成文件，也可手动创建，然后修改 <code>src/models/users.js</code></p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> usersService <span class="token keyword">from</span> <span class="token string">'../services/users'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-  namespace<span class="token punctuation">:</span> <span class="token string">'users'</span><span class="token punctuation">,</span>
-  state<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    list<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-    total<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token comment" spellcheck="true">// state中的状态修改只能在reducers中</span>
-  reducers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token function">save</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> <span class="token punctuation">{</span> payload<span class="token punctuation">:</span> <span class="token punctuation">{</span> data<span class="token punctuation">:</span> list<span class="token punctuation">,</span> total <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token operator">...</span>state<span class="token punctuation">,</span> list<span class="token punctuation">,</span> total <span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token comment" spellcheck="true">// 副作用域，一般与后端的交互都放在effects中，每个方法前面带 * 号</span>
-  <span class="token comment" spellcheck="true">// 副作用是与函数式编程对应的概念，函数式编程中纯函数没有副作用，而涉及到后端交互的肯定有副作用</span>
-  effects<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token operator">*</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> payload<span class="token punctuation">:</span> <span class="token punctuation">{</span> page <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> call<span class="token punctuation">,</span> put <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">const</span> <span class="token punctuation">{</span> data<span class="token punctuation">,</span> headers <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">call</span><span class="token punctuation">(</span>usersService<span class="token punctuation">.</span>fetch<span class="token punctuation">,</span> <span class="token punctuation">{</span> page <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'save'</span><span class="token punctuation">,</span> payload<span class="token punctuation">:</span> <span class="token punctuation">{</span> data<span class="token punctuation">,</span> total<span class="token punctuation">:</span> headers<span class="token punctuation">[</span><span class="token string">'x-total-count'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  namespace<span class="token punctuation">:</span> <span class="token string">'example'</span><span class="token punctuation">,</span>   <span class="token comment" spellcheck="true">//表示对于整个应用不同的命名空间,以便通过this.props.example访问，和当前model文件名相同就好之前的reducer名字相同，是全局state的属性，只能为字符串，不支持.的方式建立多重</span>
+
+  state<span class="token punctuation">:</span> <span class="token punctuation">{</span>initText<span class="token punctuation">:</span><span class="token string">"hello"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>     <span class="token comment" spellcheck="true">//表示当前的example中的state状态，这里可以给初始值</span>
+
   subscriptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">{</span> dispatch<span class="token punctuation">,</span> history <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> history<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">{</span> pathname<span class="token punctuation">,</span> query <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname <span class="token operator">===</span> <span class="token string">'/users'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'fetch'</span><span class="token punctuation">,</span> payload<span class="token punctuation">:</span> query <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">{</span> dispatch<span class="token punctuation">,</span> history <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// 订阅，可以监听服务器连接，键盘输入，路由，状态等的变化</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  effects<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token operator">*</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> payload <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> call<span class="token punctuation">,</span> put <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+     <span class="token comment" spellcheck="true">//payload是从组件router传递过来的参数,</span>
+     <span class="token comment" spellcheck="true">//这里的call方法可以使用payload参数传递给后台程序进行处理这里可以调用service层的方法进行调用后端程序，</span>
+     <span class="token comment" spellcheck="true">//这里的put表示存储在当前命名空间example中，通过save方法存在当前state中</span>
+      <span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'save'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">//用来保存更新state值 上面的put方法调用这里的方法</span>
+  reducers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">save</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token operator">...</span>state<span class="token punctuation">,</span> <span class="token operator">...</span>action<span class="token punctuation">.</span>payload <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<h3 id="构建components"><a href="#构建components" class="headerlink" title="构建components"></a>构建components</h3><p>修改 src/components/Users/Users.js</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'dva'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> Table<span class="token punctuation">,</span> Pagination<span class="token punctuation">,</span> Popconfirm<span class="token punctuation">,</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> routerRedux <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'dva/router'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> styles <span class="token keyword">from</span> <span class="token string">'./Users.css'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> UserModal <span class="token keyword">from</span> <span class="token string">'./UserModal'</span><span class="token punctuation">;</span>
+<p>上面的model是<strong>需要注册到src/index.js中的app.router(require(‘./router’).default);否则后面和route组件无法用connect传递数据</strong>，如果定义了多个model,那么需要使用多个app.model()来传递model数据;</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> dva <span class="token keyword">from</span> <span class="token string">'dva'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">'./index.css'</span><span class="token punctuation">;</span>
 
-<span class="token keyword">function</span> <span class="token function">Users</span><span class="token punctuation">(</span><span class="token punctuation">{</span> dispatch<span class="token punctuation">,</span> list<span class="token punctuation">:</span> dataSource<span class="token punctuation">,</span> loading<span class="token punctuation">,</span> total<span class="token punctuation">,</span> page<span class="token punctuation">:</span> current <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token comment" spellcheck="true">//删除</span>
-  <span class="token keyword">function</span> <span class="token function">deleteHandler</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      type<span class="token punctuation">:</span> <span class="token string">'users/remove'</span><span class="token punctuation">,</span>
-      payload<span class="token punctuation">:</span> id<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//修改</span>
-  <span class="token keyword">function</span> <span class="token function">editHandler</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> values<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            type<span class="token punctuation">:</span> <span class="token string">'users/patch'</span><span class="token punctuation">,</span>
-            payload<span class="token punctuation">:</span> <span class="token punctuation">{</span> id<span class="token punctuation">,</span> values <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//分页</span>
-  <span class="token keyword">function</span> <span class="token function">pageChangeHandler</span><span class="token punctuation">(</span>page<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">dispatch</span><span class="token punctuation">(</span>routerRedux<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    pathname<span class="token punctuation">:</span> <span class="token string">'/users'</span><span class="token punctuation">,</span>
-    query<span class="token punctuation">:</span> <span class="token punctuation">{</span> page <span class="token punctuation">}</span><span class="token punctuation">,</span>
-     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//新增</span>
-  <span class="token keyword">function</span> <span class="token function">createHandler</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            type<span class="token punctuation">:</span> <span class="token string">'users/create'</span><span class="token punctuation">,</span>
-            payload<span class="token punctuation">:</span> values<span class="token punctuation">,</span>
-          <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 1. Initialize</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">dva</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> columns <span class="token operator">=</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span>
-      title<span class="token punctuation">:</span> <span class="token string">'姓名'</span><span class="token punctuation">,</span>
-      dataIndex<span class="token punctuation">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
-      key<span class="token punctuation">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
-      render<span class="token punctuation">:</span> text <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token string">""</span><span class="token operator">></span><span class="token punctuation">{</span>text<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span>
-      title<span class="token punctuation">:</span> <span class="token string">'邮箱'</span><span class="token punctuation">,</span>
-      dataIndex<span class="token punctuation">:</span> <span class="token string">'email'</span><span class="token punctuation">,</span>
-      key<span class="token punctuation">:</span> <span class="token string">'email'</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span>
-      title<span class="token punctuation">:</span> <span class="token string">'地址'</span><span class="token punctuation">,</span>
-      dataIndex<span class="token punctuation">:</span> <span class="token string">'website'</span><span class="token punctuation">,</span>
-      key<span class="token punctuation">:</span> <span class="token string">'website'</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span>
-      title<span class="token punctuation">:</span> <span class="token string">'操作'</span><span class="token punctuation">,</span>
-      key<span class="token punctuation">:</span> <span class="token string">'operation'</span><span class="token punctuation">,</span>
-      render<span class="token punctuation">:</span> <span class="token punctuation">(</span>text<span class="token punctuation">,</span> record<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>
-        <span class="token operator">&lt;</span>span className<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>operation<span class="token punctuation">}</span><span class="token operator">></span>
-            <span class="token operator">&lt;</span>UserModal record<span class="token operator">=</span><span class="token punctuation">{</span>record<span class="token punctuation">}</span> onOk<span class="token operator">=</span><span class="token punctuation">{</span>editHandler<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> record<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span>
-            <span class="token operator">&lt;</span>a<span class="token operator">></span>修改<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
-              <span class="token operator">&lt;</span><span class="token operator">/</span>UserModal<span class="token operator">></span>
-            <span class="token operator">&lt;</span>Popconfirm title<span class="token operator">=</span><span class="token string">"Confirm to delete?"</span> onConfirm<span class="token operator">=</span><span class="token punctuation">{</span>deleteHandler<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> record<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span>
-            <span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token string">""</span><span class="token operator">></span>删除<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
-          <span class="token operator">&lt;</span><span class="token operator">/</span>Popconfirm<span class="token operator">></span>
-        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
-      <span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 2. Plugins</span>
+<span class="token comment" spellcheck="true">// app.use({});</span>
 
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>normal<span class="token punctuation">}</span><span class="token operator">></span>
-      <span class="token operator">&lt;</span>div<span class="token operator">></span>
-          <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>create<span class="token punctuation">}</span><span class="token operator">></span>
-            <span class="token operator">&lt;</span>UserModal record<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span> onOk<span class="token operator">=</span><span class="token punctuation">{</span>createHandler<span class="token punctuation">}</span><span class="token operator">></span>
-                <span class="token operator">&lt;</span>Button type<span class="token operator">=</span><span class="token string">"primary"</span><span class="token operator">></span>增加用户<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
-            <span class="token operator">&lt;</span><span class="token operator">/</span>UserModal<span class="token operator">></span>
-          <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-        <span class="token operator">&lt;</span>Table
-          columns<span class="token operator">=</span><span class="token punctuation">{</span>columns<span class="token punctuation">}</span>
-          dataSource<span class="token operator">=</span><span class="token punctuation">{</span>dataSource<span class="token punctuation">}</span>
-          loading<span class="token operator">=</span><span class="token punctuation">{</span>loading<span class="token punctuation">}</span>
-          rowKey<span class="token operator">=</span><span class="token punctuation">{</span>record <span class="token operator">=</span><span class="token operator">></span> record<span class="token punctuation">.</span>id<span class="token punctuation">}</span>
-          pagination<span class="token operator">=</span><span class="token punctuation">{</span><span class="token boolean">false</span><span class="token punctuation">}</span>
-        <span class="token operator">/</span><span class="token operator">></span>
-        <span class="token operator">&lt;</span>Pagination
-          className<span class="token operator">=</span><span class="token string">"ant-table-pagination"</span>
-          total<span class="token operator">=</span><span class="token punctuation">{</span>total<span class="token punctuation">}</span>
-          current<span class="token operator">=</span><span class="token punctuation">{</span>current<span class="token punctuation">}</span>
-          pageSize<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">10</span><span class="token punctuation">}</span>
-          onChange<span class="token operator">=</span><span class="token punctuation">{</span>pageChangeHandler<span class="token punctuation">}</span>
-        <span class="token operator">/</span><span class="token operator">></span>
-      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 3. Model</span>
+app<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./models/example'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 4. Router</span>
+app<span class="token punctuation">.</span><span class="token function">router</span><span class="token punctuation">(</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./router'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 5. Start</span>
+app<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">'#root'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="构建components"><a href="#构建components" class="headerlink" title="构建components"></a>构建components</h3><p> <strong>前面的model的demo中定义的example.js中定义了state数据，那么在route的路由组件中怎么获取到这个数据呢？</strong>通过connect可以传递过来，然后通过this.props就可以访问了，同样也会把dispatch（可以发送请求到model去），history方法传递过来，这样就可以通过组件获取到model保存的值了。这里有三种写法</p>
+<ol>
+<li><p>方式一</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>Component<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"dva"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//从dva中导入connect</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>  
+    render <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>div<span class="token operator">></span>
+                 <span class="token operator">&lt;</span>p<span class="token operator">></span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>example<span class="token punctuation">.</span>initText<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span> <span class="token comment" spellcheck="true">//如这里就获取到了上面定义的initText数据了</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> mapStateToProps <span class="token operator">=</span> <span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        example：state<span class="token punctuation">.</span>example<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//这里的example表示后面用this.props.example获取state（根节点）中exmpale命名空间（model的example.js中的state所有数据）的数据</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> connect <span class="token punctuation">(</span>mapStateToProps<span class="token punctuation">)</span><span class="token punctuation">(</span>Counter<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//通过这种方式来把model层的数据传递到当前组件了</span></code></pre>
+</li>
+<li><p>方式二</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>Component<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"dva"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//从dva中导入connect</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>  
+    render <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>div<span class="token operator">></span>
+                 <span class="token operator">&lt;</span>p<span class="token operator">></span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>example<span class="token punctuation">.</span>initText<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span> <span class="token comment" spellcheck="true">//如这里就获取到了上面定义的initText数据了</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">function</span> <span class="token function">mapStateToProps</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> list<span class="token punctuation">,</span> total<span class="token punctuation">,</span> page <span class="token punctuation">}</span> <span class="token operator">=</span> state<span class="token punctuation">.</span>users<span class="token punctuation">;</span>
-  <span class="token keyword">return</span> <span class="token punctuation">{</span>
-    loading<span class="token punctuation">:</span> state<span class="token punctuation">.</span>loading<span class="token punctuation">.</span>models<span class="token punctuation">.</span>users<span class="token punctuation">,</span>
-    list<span class="token punctuation">,</span>
-    total<span class="token punctuation">,</span>
-    page<span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> connect <span class="token punctuation">(</span><span class="token punctuation">{</span>example<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>Counter<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//通过这种方式来把model层的数据传递到当前组件了，默认这面的也是example属性，通过this.props.example可以获取到model（example.js）中state的数据了</span></code></pre>
+</li>
+<li><p>方式三</p>
+<p>采用ES6注解的形式传递值，效果也是一样的</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>Component<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"dva"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//从dva中导入connect</span>
 
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>mapStateToProps<span class="token punctuation">)</span><span class="token punctuation">(</span>Users<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
+@<span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>example<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>  
+    render <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>div<span class="token operator">></span>
+                 <span class="token operator">&lt;</span>p<span class="token operator">></span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>example<span class="token punctuation">.</span>initText<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span> <span class="token comment" spellcheck="true">//如这里就获取到了上面定义的initText数据了</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ol>
 
             </div>
             <hr/>
