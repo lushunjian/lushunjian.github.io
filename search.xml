@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Go语言的设计哲学</title>
+      <link href="/2021/02/01/go-yu-yan-de-she-ji-zhe-xue/"/>
+      <url>/2021/02/01/go-yu-yan-de-she-ji-zhe-xue/</url>
+      
+        <content type="html"><![CDATA[<p>学习任何一门新语言都需要了解它的设计哲学，这样在写代码时才能理解为什么它要这么做，也不会因为被其他语言的语法干扰到新语言的学习。实际上很多语言的设计思想都来源于现实生活的启发，只不过它们侧重点不一样，例如Java的面向对象编程思想，JavaScript的函数式编程思想。Go 语言是一门开源的语言，由 Google 的 Robert Griesemer，Rob Pike 以及 Ken Thompson 创建。开源意味着任何人都能够依照开源协定来打造 Go 语言，为其增加新功能，修复 Bug 等等。其源码可以在 Github 上获得 <a href="https://github.com/golang/go" target="_blank" rel="noopener">golang/go</a>，关于如何参与贡献的文档在<a href="https://golang.org/doc/contribute.html" target="_blank" rel="noopener">这里</a>。</p><h2 id="为什么使用Go"><a href="#为什么使用Go" class="headerlink" title="为什么使用Go"></a>为什么使用Go</h2><p>Go 是一个开源的编程语言，它能让构造简单、可靠且高效的软件变得容易。Go 语言被设计成一门应用于搭载 Web 服务器，存储集群或类似用途的巨型中央服务器的系统编程语言。对于高性能分布式系统领域而言，Go语言无疑比大多数其它语言有着更高的开发效率。它提供了海量并行的支持，这对于游戏服务端的开发而言是再好不过了</p><p>Go语言的主要目标是将静态语言的安全性和高效性与动态语言的易开发性进行有机结合，达到完美平衡，从而使编程变得更加有乐趣，而不是在艰难抉择中痛苦前行。Google公司不可能无缘无故地设计一个新语言（一些特性相比于其他语言也没有新到哪里去），这一切肯定是有原因的。设计Go语言是为了解决当时Google开发遇到的一些问题</p><ul><li>C++编译慢、没有现代化（入门级友好的）的内存管理</li><li>数以万计行的代码，难以维护</li><li>部署的平台各式各样，交叉编译困难</li><li>……</li></ul><p>找不到什么合适的语言，想着反正都是弄来自己用，Google选择造个轮子试试。国内的互联网公司还没强到这一步…</p><blockquote><p>Go 语言起源 2007 年，并于 2009 年正式对外发布。它从 2009 年 9 月 21 日开始作为谷歌公司 20%兼职项目，即相关员工利用 20% 的空余时间来参与 Go 语言的研发工作。该项目的三位领导者均是著名的 IT 工程师：Robert Griesemer，参与开发 Java HotSpot 虚拟机；Rob Pike，Go 语言项目总负责人，贝尔实验室 Unix 团队成员，参与的项目包括 Plan 9，Inferno 操作系统和 Limbo 编程语言；Ken Thompson，贝尔实验室 Unix 团队成员，C 语言、Unix 和 Plan 9 的创始人之一，与 Rob Pike 共同开发了 UTF-8 字符集规范。自 2008 年 1 月起，Ken Thompson 就开始研发一款以 C 语言为目标结果的编译器来拓展 Go 语言的设计思想</p></blockquote><p>在经过这些大佬的努力下，Go带着光环诞生了，Go的并发之所以比较受欢迎，网络上的很多内容集中在几个方面：</p><ul><li><strong>天生并发的设计</strong></li><li><strong>轻量化的并发编程方式</strong></li><li><strong>较高的并发性能</strong></li><li><strong>轻量级线程Goroutines、并发通信Channels以及其他便捷的并发同步控制工具</strong></li></ul><p>由于Go在设计的时候就考虑到了并发的支持，<strong>或者说很多特性都是为了并发而设计</strong>，这和一些后期库支持并发和第三方库支持并发的语言不同。<strong>所以Go的并发到底有多方便？</strong>在Go中使用并发，只需要在普通的函数执行前加上一个go关键字，就可以新建一个线程让函数在其中执行：</p><pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token keyword">go</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 启动一个goroutine</span>    <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></code></pre><p>对比于Java中创建线程的麻烦程度，你会感觉这里简直是天堂。更多的是Java 创建的线程它代码执行逻辑和你直观看到的代码是不一样的，这实际上提高了学习难度，而Go中只需要 go 关键字就能开启一个协程。这样带来的好处<strong>不仅仅是让并发编程更方便了</strong>，在一些特定情况下，比如Go引用一些使用了并发的库时，这些库所使用的并发也是基于Go本身的并发设计，不会存在库使用另一套并发实现的情况，这样Go调度器在处理程序中的各种并发线程时，可以有更加统一化的管理方式。</p><h2 id="Go的设计哲学"><a href="#Go的设计哲学" class="headerlink" title="Go的设计哲学"></a>Go的设计哲学</h2><p>关于 Go 语言的设计哲学，Go 语言之父们以及 Go 核心团队的开发者们并没有给出明确的官方说法。以下几点是根据Go社区主流观点整理的几点，理解这些设计哲学将对读者形成 Go 原生编程思维、编写高质量 Go 代码起到积极的影响。</p><ol><li><strong>世界观 - 组合</strong>：如果说万物皆对象是Java的世界观，那么Go的设计选择的是组合。在微观世界：由小的粒子组合成大的粒子；宏观世界：由小的物体组合成大的物体；因此继承只能描述现实世界的一小部分，使用继承是不全面的，而组合和现实世界比较吻合的设计，具有更强的表现力。缺点是如果没有良好的规范，相比于OOP组合不能很好的组织维护代码</li><li><strong>静态类型</strong>：Go 是静态类型语言。这意味着，在编写的过程中，你需要为你所有的变量以及函数的参数和其返回值指定具体的类型。尽管这听起来不太方便，但是这极大地避免了错误的发生，很多错误都能够在编译的时候被发现。随着你团队的增大，这个特性将会愈来愈重要，因为静态类型能让你的函数或者库更易读也更容易被理解。我个人觉得动态类型语言只是在写代码的时候舒服了，运行效率没有提升，而且增加了代码的易读的难度</li><li><strong>天生并发</strong>：Go语言在设计时就是为并发而生的，因此 Go 最优先地支持了并发，并发也是 Go 语言主要的卖点之一。它的设计者根据 <strong>Tony Hoare</strong> 的论文 <a href="http://www.cs.cmu.edu/~crary/819-f09/Hoare78.pdf" target="_blank" rel="noopener">Communicating Sequential Processes</a> 设计了 Go 的并发模型。<br>Go 的协程允许你在单台机器上拥有成千上万的 <code>goroutine</code>。一个 <code>goroutine</code> 是一个极其轻量的可执行线程，Go 能够在系统线程之上调度这些协程运行，这意味着，大量的 <code>goroutine</code> 可以并发的在单个系统线程中运行。<br>这个方式有两个好处：<ul><li>一个 <code>goroutine</code> 在被创建的时候只有 4KB 的栈大小，这比起系统线程的 4MB 来说真的很小。这在你有成千上万 <code>goroutine</code> 的时候变得至关重要。如果你想运 行成千个系统线程，那里的 RAM 将会成为瓶颈。</li><li>Go 可以遵循和 Java 一样的模型，支持和系统线程一样的上下文环境。但是，在不同系统线程上下文之间切换的开销比在不同 <code>goroutine</code> 上下文切换的开销大多了。</li></ul></li><li><strong>没有异常处理</strong>：对于这一点我其实比较遗憾，Go语言中没有类似Java中的 try…catch 语法，在Java中我们有时候处理异常会比较容易犯错误，就是任何可能有问题的代码 try…catch 就完事了，但在Go语言中它要求强制开发者去思考每个错误后应该怎样去处理</li><li><strong>少即是多</strong>：没有万能的语言，换句话说一门语言不可能包含所有的特性；想囊括所有特性的语言一定是非常的复杂例如C++;保持简单性的方法就是：每种特性仅提供一种方法，减少重复、冗余，试想一下，如果汽车有多个刹车板，你会感觉更安全，更便利吗？只提供一种方法做事情，把事情做到极致，这就是Go的原则，解放程序员，不要给他提供很多雷同的功能和语句，这不会使问题简单，只会加重程序员的心智负担</li><li><strong>二八定律</strong>：在编程语言中描述就：百分之八十的代码仅仅使用到百分之二十的语言特性，增加语言特性，并不能保证开发效率的提升，原因是它会增加复杂性，导致更容易犯错。Java中有一些语言特性我在开发中就很少用到 ，例如 do…while，case…when 等。有些复杂的编程问题其实大部分可以通过库的形式来辅助支持。</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> golang </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SpringBoot之spi思想</title>
       <link href="/2021/01/17/springboot-zhi-spi-si-xiang/"/>
       <url>/2021/01/17/springboot-zhi-spi-si-xiang/</url>
@@ -438,14 +463,14 @@
       
       <categories>
           
-          <category> java </category>
+          <category> golang </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> java </tag>
+            <tag> golang </tag>
             
         </tags>
       
@@ -2422,9 +2447,9 @@
       
         <tags>
             
-            <tag> Spark </tag>
-            
             <tag> 实践 </tag>
+            
+            <tag> Spark </tag>
             
         </tags>
       
@@ -2449,9 +2474,9 @@
       
         <tags>
             
-            <tag> 实践 </tag>
-            
             <tag> hadoop </tag>
+            
+            <tag> 实践 </tag>
             
         </tags>
       
