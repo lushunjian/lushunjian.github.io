@@ -687,6 +687,31 @@
       nums1<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> e
    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h3 id="数组中的第K个最大元素"><a href="#数组中的第K个最大元素" class="headerlink" title="数组中的第K个最大元素"></a><a href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/" target="_blank" rel="noopener">数组中的第K个最大元素</a></h3><blockquote>
+<p>在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。</p>
+<p>示例 1:</p>
+<p>输入: [3,2,1,5,6,4] 和 k = 2<br>输出: 5</p>
+<p>示例 2:</p>
+<p>输入: [3,2,3,1,2,4,5,5,6] 和 k = 4<br>输出: 4</p>
+</blockquote>
+<p><strong>解题思路：</strong> 用冒泡排序的思想，把大的元素向右冒泡，当冒泡到第k个元素时跳出循环，并返回这个元素</p>
+<p><strong>代码实现：</strong></p>
+<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 第k大元素</span>
+<span class="token keyword">func</span> <span class="token function">numsK</span><span class="token punctuation">(</span>array <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span> k <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">for</span> i<span class="token operator">:=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token function">len</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">{</span>
+      <span class="token keyword">for</span> j<span class="token operator">:=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token function">len</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token operator">-</span>i<span class="token number">-1</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">{</span>
+         <span class="token keyword">if</span> array<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">></span> array<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            temp <span class="token operator">:=</span> array<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+            array<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> array<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>
+            array<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> temp
+         <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> k<span class="token operator">==</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">{</span>
+         <span class="token function">println</span><span class="token punctuation">(</span>array<span class="token punctuation">[</span><span class="token function">len</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token operator">-</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span>
+         <span class="token keyword">break</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
