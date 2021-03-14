@@ -638,7 +638,7 @@
     <span class="token punctuation">}</span>
 
 <span class="token punctuation">}</span></code></pre>
-<h3 id="颜色分类"><a href="#颜色分类" class="headerlink" title="颜色分类"></a>颜色分类</h3><blockquote>
+<h3 id="颜色分类"><a href="#颜色分类" class="headerlink" title="颜色分类"></a><a href="https://leetcode-cn.com/problems/sort-colors/" target="_blank" rel="noopener">颜色分类</a></h3><blockquote>
 <p>给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。</p>
 <p>示例 1：</p>
 <p>​     输入：nums = [2,0,2,1,1,0]<br>​     输出：[0,0,1,1,2,2]<br>示例 2：</p>
@@ -666,6 +666,26 @@
             right<span class="token operator">--</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="合并两个有序数组"><a href="#合并两个有序数组" class="headerlink" title="合并两个有序数组"></a><a href="https://leetcode-cn.com/problems/merge-sorted-array/" target="_blank" rel="noopener">合并两个有序数组</a></h3><blockquote>
+<p>给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。你可以假设 nums1 的空间大小等于 m + n，这样它就有足够的空间保存来自 nums2 的元素。</p>
+<p>示例 1：</p>
+<p>输入：nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3<br>输出：[1,2,2,3,5,6]</p>
+<p>示例 2：</p>
+<p>输入：nums1 = [1], m = 1, nums2 = [], n = 0<br>输出：[1]</p>
+</blockquote>
+<p><strong>解题思路</strong>：刚看到这个题目时，我的第一想法的插入，因为给出的两个数组已经是有序的了，所以只需要遍历第一个数组，逐个插入第二个数组中的元素即可，参考插入排序的思路即可解题</p>
+<p><strong>代码实现：</strong></p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">mergeNums</span><span class="token punctuation">(</span>nums1 <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span>nums2 <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span>m <span class="token builtin">int</span><span class="token punctuation">,</span>n <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token keyword">for</span> i<span class="token operator">:=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">{</span>
+      e <span class="token operator">:=</span> nums2<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+      <span class="token keyword">var</span> index <span class="token operator">=</span> <span class="token number">0</span>
+      <span class="token keyword">for</span> j <span class="token operator">:=</span> m<span class="token number">-1</span><span class="token operator">+</span>i<span class="token punctuation">;</span>j<span class="token operator">></span><span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums1<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">></span>e<span class="token punctuation">;</span>j<span class="token operator">--</span><span class="token punctuation">{</span>
+         nums1<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> nums1<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+         index <span class="token operator">=</span> j
+      <span class="token punctuation">}</span>
+      nums1<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> e
+   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 
             </div>
