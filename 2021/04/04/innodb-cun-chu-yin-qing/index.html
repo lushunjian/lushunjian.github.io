@@ -620,7 +620,7 @@ Master Thread：主要负责将缓存池中的数据异步刷新到磁盘，">
 <li>随着数据库的持续运行，新的page页被不断的插入到LRU链表的Mid Point，Old 链表里的page页会逐渐的被移动Old链表的尾部。同时，当经常被访问的page页移动到LRU链表头部的时候，那些没有被访问的page页会逐渐的被移动到链表的尾部。最终，位于Old 链表尾部的page页将从链表中移除。</li>
 </ol>
 <p>毫无疑问，对于读请求，<code>Buffer Pool</code> 能够减少磁盘IO，提升性能。问题来了，<strong>那写请求呢？</strong> 这时就该<code>Change Buffer</code>登场了 ！</p>
-<h3 id="Change-Buffer"><a href="#Change-Buffer" class="headerlink" title="Change Buffer"></a>Change Buffer</h3><p>Change Buffer是一种特殊的缓存结构，用来缓存不在Buffer Pool中的辅助索引页（或者叫二级索引）加快数据库的写请求。我们一步一步来思考<code>Change Buffer</code>到底做了什么？如下例子</p>
+<h3 id="Change-Buffer"><a href="#Change-Buffer" class="headerlink" title="Change Buffer"></a>Change Buffer</h3><p>在进行DML操作时，如果Buffer Pool没有其相应的Page数据，并不会立刻将磁盘页加载到缓冲池，而是在Change Buffer记录缓冲变更，等未来数据被读取时，再将数据合并（称为merge操作）恢复到Buffer Pool中。Change Buffer占用Buffer Pool空间，默认占25%，最大允许占50%，可以根据读写业务量来进行调整。我们一步一步来思考<code>Change Buffer</code>到底做了什么？如下例子</p>
 <ul>
 <li><p><strong>情况一：</strong>假如要修改页号为4的索引页，而这个页正好<strong>在</strong>缓冲池内。</p>
 <p><img src="/2021/04/04/innodb-cun-chu-yin-qing/4.jpg" alt></p>
@@ -662,7 +662,11 @@ Master Thread：主要负责将缓存池中的数据异步刷新到磁盘，">
 <li>从<code>change buffer</code>读取相关信息</li>
 <li>对比得到新数据页，同时把新数据刷新到磁盘（这个过程叫merge）</li>
 </ol>
-<p><strong>这又引出一个新问题，哪些情况会触发merge操作？</strong></p>
+<blockquote>
+<p><strong>写缓冲区，仅适用于非唯一普通索引页，为什么？</strong></p>
+<p>如果在索引设置唯一性，在进行修改时，InnoDB必须要做唯一性校验，因此必须查询磁盘，做一次IO操作。会直接将记录查询到BufferPool中，然后在缓冲池修改，不会在ChangeBuffer操作。</p>
+</blockquote>
+<p><strong>这又引出另一个问题，哪些情况会触发merge操作？</strong></p>
 <ul>
 <li>正如刚刚所说，有其他查询请求，访问到了当前页的数据，就会merge</li>
 <li>系统后台定时触发 merge 操作。</li>
@@ -672,11 +676,109 @@ Master Thread：主要负责将缓存池中的数据异步刷新到磁盘，">
 <h3 id="Adaptive-Hash-Index"><a href="#Adaptive-Hash-Index" class="headerlink" title="Adaptive Hash Index"></a>Adaptive Hash Index</h3><p>Adaptive Hash Index（以下简称 AHI）估计是 MySQL 的各大特性中，大家都知道名字但最说不清原理的一个特性。根据InnoDB的官方文档显示，启用自适应哈希索引后，读取和写入速度可以提高2倍；对于辅助索引的连接操作，性能可以提高5倍。我们思考一下 AHI 是为了解决什么问题：</p>
 <ul>
 <li>随着 MySQL 单表数据量增大，（尽管 B+ 树算法极好地控制了树的层数）索引 B+ 树的层数会逐渐增多；</li>
-<li>随着索引树层数增多，检索某一个数据页需要沿着 B+ 树从上往下逐层定位，时间成本就会上升，因为需要搜索更多的枝节点。；</li>
+<li>随着索引树层数增多，检索某一个数据页需要沿着 B+ 树从上往下逐层定位，时间成本就会上升，因为需要搜索更多的枝节点。</li>
 <li>为解决检索成本问题，MySQL 就想到使用某一种缓存结构：根据某个检索条件，直接查询到对应的数据页，跳过逐层定位的步骤。这种缓存结构就是 AHI。</li>
 </ul>
 <p>AHI 在实现上就是一个哈希表：从某个检索条件到某个数据页的哈希表，仿佛并不复杂，但其中的关窍在于哈希表<strong>不能太大</strong>（哈希表维护本身就有成本，哈希表太大则成本会高于收益），<strong>又不能太小</strong>（太小则缓存命中率太低，没有任何收益）。</p>
-<h3 id="Log-Buffer"><a href="#Log-Buffer" class="headerlink" title="Log Buffer"></a>Log Buffer</h3>
+<h3 id="Log-Buffer"><a href="#Log-Buffer" class="headerlink" title="Log Buffer"></a>Log Buffer</h3><p>Log Buffer 用于加速<code>redo log</code>写的，redo log是磁盘顺序写所以很快。innodb 通过<code>innodb_flush_log_at_trx_commit</code>变量控制如何将日志缓冲区的内容写入并刷新到磁盘，通过事务提交操作的严格遵从ACID在重新排列和成批执行提交相关I/O操作时可能实现的更高性能之间的平衡。您可以通过更改默认值来获得更好的性能，但是在崩溃时可能会丢失事务。它有几个值可以设置，默认是 1</p>
+<table>
+<thead>
+<tr>
+<th>innodb_flush_log_at_trx_commit</th>
+<th>枚举值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Default Value</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>Valid Values</td>
+<td><code>0</code> <code>1</code> <code>2</code></td>
+</tr>
+</tbody></table>
+<ol>
+<li>完全符合ACID要求的需要默认设置为1。每次事务提交时，日志都会写入并刷新到磁盘</li>
+<li>设置为0时，日志每秒写入并刷新到磁盘一次。未刷新日志的事务可能会在崩溃中丢失。</li>
+<li>设置为2时，日志在每个事务提交后写入，并每秒刷新一次到磁盘。未刷新日志的事务可能会在崩溃中丢失。</li>
+</ol>
+<blockquote>
+<p><strong>内存结构总结</strong></p>
+<ol>
+<li><code>Buffer Pool</code> 用于加速读</li>
+<li><code>Change Buffer</code> 用于没有非唯一索引的加速写</li>
+<li><code>Adaptive Hash Index</code>要用于加快查询页</li>
+<li><code>Log Buffer</code> 用于加速redo log写</li>
+</ol>
+</blockquote>
+<h2 id="On-Disk-Structures"><a href="#On-Disk-Structures" class="headerlink" title="On-Disk Structures"></a>On-Disk Structures</h2><p>用于存储表结构和数据。表空间又分为系统表空间、独立表空间、通用表空间、临时表空间、Undo表空间等多种类型；</p>
+<ol>
+<li><p><strong>系统表空间（The System Tablespace）</strong></p>
+<p>包含InnoDB数据字典，Doublewrite Buffer，Change Buffer，Undo Logs的存储区域。系统表空间也默认包含任何用户在系统表空间创建的表数据和索引数据。系统表空间是一个共享的表空间因为它是被多个表共享的。该空间的数据文件通过参数<code>innodb_data_file_path</code>控制，默认值是ibdata1:12M:autoextend(文件名为ibdata1、12MB、自动扩展)</p>
+</li>
+<li><p><strong>独立表空间（File-Per-Table Tablespaces）</strong></p>
+<p>默认开启，独立表空间是一个单表表空间，该表创建于自己的数据文件中，而非创建于系统表空间中。当<code>innodb_file_per_table</code>选项开启时，表将被创建于表空间中。否则，innodb将被创建于系统表空间中。每个表文件表空间由一个.ibd数据文件代表，该文件默认被创建于数据库目录中。表空间的表文件支持动态（dynamic）和压缩（commpressed）行格式。</p>
+</li>
+<li><p><strong>通用表空间（General Tablespaces）</strong></p>
+<p>通用表空间为通过create tablespace语法创建的共享表空间。通用表空间可以创建于mysql数据目录外的其他表空间，其可以容纳多张表，且其支持所有的行格式。</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLESPACE</span> ts1 <span class="token keyword">ADD</span> DATAFILE ts1<span class="token punctuation">.</span>ibd <span class="token keyword">Engine</span><span class="token operator">=</span><span class="token keyword">InnoDB</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//创建表空间ts1 </span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> t1 <span class="token punctuation">(</span><span class="token number">c1</span> <span class="token keyword">INT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">)</span> <span class="token keyword">TABLESPACE</span> ts1<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//将表添加到ts1表空</span></code></pre>
+</li>
+<li><p><strong>临时表空间（Temporary Tablespaces）</strong></p>
+<p>分为session temporary tablespaces 和global temporary tablespace两种。session temporary tablespaces 存储的是用户创建的临时表和磁盘内部的临时表。 global temporary tablespace 存储用户临时表的回滚段（rollback segments ）。 mysql服务器正常关闭或异常终止时，临时表空间将被移除，每次启动时会被重新创建。</p>
+</li>
+<li><p><strong>撤销表空间（Undo Tablespaces）</strong></p>
+<p>撤销表空间由一个或多个包含Undo日志文件组成。在MySQL 5.7版本之前Undo占用的是System Tablespace共享区，从5.7开始将Undo从System Tablespace分离了出来。InnoDB使用的undo表空间由<code>innodb_undo_tablespaces</code>配置选项控制，默认为0。参数值为0表示使用系统表空间ibdata1;大于0表示使用undo表空间undo_001、undo_002等。</p>
+</li>
+</ol>
+<p>Undo Tablespaces提供修改操作的 原子性，即当修改到一半，出现异常，可以通过Undo 日志回滚。它存储了，事务开始前的原始数据与这次的修改操作。Undo log 存在于回滚段（rollback segment）中，回滚段又存在<code>系统表空间</code>，<code>撤销表空间</code>，<code>临时表空间</code>中</p>
+<blockquote>
+<p><strong>总结一下，我们执行一句update SQL 会发生什么</strong></p>
+<ol>
+<li>查询到我们要修改的那条数据，我们这里称做 origin，返给执行器。在执行器中，修改数据，称为 modification</li>
+<li>将modification刷入内存，Buffer Pool的 Change Buffer</li>
+<li>引擎层：记录undo log （实现事务原子性）</li>
+<li>引擎层：记录redo log （崩溃恢复使用）</li>
+<li>服务层：记录bin log（记录DDL）</li>
+<li>返回更新成功结果</li>
+</ol>
+</blockquote>
+<h2 id="索引篇"><a href="#索引篇" class="headerlink" title="索引篇"></a>索引篇</h2><p>要想彻底弄明白InnoDB中的索引是个什么东西，就必须要了解它的文件存储级别Innodb中将文件存储分为了四个级别<br><code>Pages</code>, <code>Extents</code>, <code>Segments</code>,  <code>Tablespaces</code>  </p>
+<p><img src="/2021/04/04/innodb-cun-chu-yin-qing/innodb_tablespace.jpg" alt></p>
+<p>默认的 extent 大小为 <code>1M</code> 即 64个 <code>16KB</code>的Page。平常我们文件系统所说的页大小是 <code>4KB</code>，包含 8 个 <code>512Byte</code>的扇区。存储结构 B+树</p>
+<p><img src="/2021/04/04/innodb-cun-chu-yin-qing/7.png" alt="B+树"></p>
+<p><strong>几种不同的索引组织形式：</strong></p>
+<ol>
+<li><code>聚簇索引</code>：如上面B+树图所示，子节点上存储行数据，并且索引的排列的顺序和索引键值顺序一致的话就是 聚簇索引。主键索引就是聚簇索引，除了主键索引，其他所以都是辅助索引</li>
+<li><code>辅助索引</code>：如果我们创建了一个辅助索引，它的叶子节点上只存储<code>自己的值</code>和<code>主键索引</code>的值。这就意味着，如果我们通过辅助索引查询所有数据，就会先去查找辅助索引中的主键键值，然后再去主键索引里面，查到相关数据。这个过程称为<code>回表</code></li>
+</ol>
+<p><code>rowid</code> 如果没有主键索引怎么办呢？没有主键，但是有一个 Unique key 而且都不是 null的，则会根据这个 key来创建聚簇索引。那上面两种都没有呢，别担心，innodb自己维护了一个叫 rowid 的东西，根据这个id来创建 聚簇索引</p>
+<blockquote>
+<p> 有时候我们被要求主键为什么要是有序的原因就是，如果我们在一个有序的字段上，建立索引，然后插入数据。 在存储的时候，innodb就会按着顺序一个个存储到 页 上，存满一个页再去申请新的页，然后接着存。但如果我们的字段是无序的，存储的位置就会在不同的页上。当我们的数据存储到一个已经被 存满的页上时，就会造成页分裂，从而形成碎片。  </p>
+</blockquote>
+<p>搞清楚什么是索引，结构是什么之后。 我们来看看，什么时候我们要用到索引，理解了这些能更好的帮助我们创建正确高效的索引，离散度低不建索引，也就是数据之间相差不大的就没必要建立索引。（因为建立索引，在查询的时候，innodb大多数据都是相同的，我走索引 和全表没什么差别就会直接全表查询）。比如 性别字段。这样反而浪费了大量的存储空间。  </p>
+<h3 id="联合字段索引"><a href="#联合字段索引" class="headerlink" title="联合字段索引"></a>联合字段索引</h3><p>假设有这样一个联合索引比如 idx(name, class_name)，那么在查询时会有两种情况</p>
+<ol>
+<li>当执行 <code>select * from stu where class_name = xx and name = lzw</code> 查询时，也能走 idx 这个索引的，因为优化器将SQL优化为了 <code>name = lzw and class_name = xx</code></li>
+<li>当需要有 <code>select ··· where name = lzw</code> 的时候，不需要创建一个单独的 name索引，会直接走 idx这个索引<br>覆盖索引。如果我们此次查询的所有数据全都包含在索引里面了，就不需要再 回表去查询了。比如：<code>select class_name from stu where name =lzw</code>（如果 where 条件的列和 select 的列都在一个索引中，通过这个索引就可以完成查询，这就叫就叫<code>覆盖索引</code>）</li>
+</ol>
+<h3 id="索引条件下推"><a href="#索引条件下推" class="headerlink" title="索引条件下推"></a>索引条件下推</h3><p>索引条件下推（Index Condition Pushdown）简称ICP，是MySQL 5.6 中引入的一种优化策略。where 条件会被提取成 3 部分： <code>Index Key</code>，<code>Index Filter</code>，<code>Table Filter</code> ，在 MySQL 5.6 之前，并不区分 Index Filter 与 Table Filter，统统将 Index First Key 与 Index Last Key 范围内的索引记录，回表读取完整记录，然后返回给 MySQL Server 层进行过滤，而在 MySQL 5.6 之后，Index Filter 与 Table Filter 分离，Index Filter 下降到引擎层（InnoDB和MyISAM）的索引层面进行过滤，减少了回表与返回 MySQL Server 层的记录交互开销，提高了 SQL 的执行效率。</p>
+<p>假设有这样一条SQL，<code>select * from stu where name = lzw and class_name like &#39;%xx&#39;</code>，在有索引下推和没有索引下推的执行过程如下</p>
+<ol>
+<li>如果没有索引条件下推，因为后面是 like ‘%xx’的查询条件，所以这里首先根据 name 走 idx联合索引 查询到几条数据后，再回表查询到全量row数据，然后在server层进行 like 过滤找到数据</li>
+<li>如果有索引条件下推，则直接在innodb引擎层对like也进行过滤了，相当于把server层这个过滤操作下推到引擎层了。</li>
+</ol>
+<h3 id="建立索引注意事项"><a href="#建立索引注意事项" class="headerlink" title="建立索引注意事项"></a>建立索引注意事项</h3><ul>
+<li>在where、order、join的on 使用次数多的时候，加上索引</li>
+<li>离散度高的字段才能建立索引</li>
+<li>联合索引把离散度高的放前面（因为首先根据第一个字段匹配，能迅速定位数据位置。）</li>
+<li>频繁更新的字段不能建索引（造成页分裂，索引按顺序存储，如果存储页满了，再去插入就会造成页分裂）</li>
+<li>使用比如replace、sum、count等函数的时候不会使用索引，所以没必要额外建</li>
+<li>出现隐式转化的时候，比如字符串转int，也用不到索引</li>
+<li>特别长的字段，可以截取前面几位创建索引（可以通过 select count(distinct left(name, 10))/count(*) 来看离散度，决定到底提取前几位）</li>
+</ul>
+<p>弄懂了索引，我们就有能力打开 锁篇 的副本了</p>
+<h2 id="锁篇"><a href="#锁篇" class="headerlink" title="锁篇"></a>锁篇</h2>
             </div>
             <hr/>
 
