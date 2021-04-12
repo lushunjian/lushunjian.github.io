@@ -732,6 +732,31 @@ Master Thread：主要负责将缓存池中的数据异步刷新到磁盘，">
 </li>
 </ol>
 <p>Undo Tablespaces提供修改操作的 原子性，即当修改到一半，出现异常，可以通过Undo 日志回滚。它存储了，事务开始前的原始数据与这次的修改操作。Undo log 存在于回滚段（rollback segment）中，回滚段又存在<code>系统表空间</code>，<code>撤销表空间</code>，<code>临时表空间</code>中</p>
+<h3 id="Double-Write"><a href="#Double-Write" class="headerlink" title="Double Write"></a>Double Write</h3><p>Innodb的<code>double write</code>是保证数据库持久性的重要操作，在理解<code>double write</code>之前我们需要了解一些数据存储的知识吗，数据库，OS文件系统和磁盘读写IO的基本单位是块，也可以称之为 (page size) block size。数据库的块最小单位是16K（MySQL默认，oracle是8K），文件系统IO的最小单位是4K（也有1K的），磁盘IO的则更小，linux内核要求IO block size&lt;=OS block size，磁盘IO除了IO block size，还有一个概念是扇区(IO sector)，扇区是磁盘物理操作的基本单位，而IO 块是磁盘操作的逻辑单位，一个IO块对应一个或多个扇区，扇区大小一般为512个字节。</p>
+<blockquote>
+<p>各个数据块大小的关系可以梳理如下：</p>
+<p>DB block &gt; OS block &gt;= IO block &gt; 磁盘 sector，而且他们之间保持了整数倍的关系。<strong>DB page=4<em>OS page=16</em>IO page=32*sector size</strong></p>
+</blockquote>
+<p>任何DB page的写入，最终都会转为sector的写入，如果在写磁盘的过程中，出现异常重启，就可能会发生一个DB页只写了部分sector到磁盘，进而出现页断裂的情况。InnoDB 的Page Size一般是16KB，其数据校验也是针对这16KB来计算的，将数据写入到磁盘是以Page为单位进行操作的。<strong>而计算机硬件和操作系统，在极端情况下 （比如断电）往往并不能保证这一操作的原子性</strong>，16K的数据，写入4K 时，发生了系统断电/os crash ，只有一部分写是成功的，这种情况下就是 partial page write 问题。为了解决这个问题于是引入了<strong>Double Write</strong></p>
+<p>在InnoDB将Buffer Pool中的Dirty Page刷（flush）到磁盘上时，首先会将（memcpy函数）Page刷到InnoDB tablespace的一个区域中，我们称该区域为Double write Buffer（大小为2MB，每次写入1MB，128个页）。在向Double write Buffer写入成功后，第二步、再将数据拷贝到数据文件对应的位置。当第二步过程中发生故障，也就是发生partial page write的问题。恢复的时候先检查页内的checksum是否相同，不一致，则直接从doublewrite中恢复</p>
+<ol>
+<li>如果写dw buffer失败，那么这些数据不会写到磁盘，innodb会载入磁盘原始数据和redo日志比较，并重新刷到dw buffer。</li>
+<li>如果写dw buffer成功，但是刷新到磁盘失败，那么innodb就不会通过事务日志来恢复了，而是直接刷新dw buffer中的数据。</li>
+</ol>
+<h3 id="脏页刷新"><a href="#脏页刷新" class="headerlink" title="脏页刷新"></a>脏页刷新</h3><p>Double Write通常是在刷新脏页时发生宕机保证数据持久性的机制，那什么是刷脏，到这里我们知道InnoDB采用Write Ahead Log策略来防止宕机数据丢失，即事务提交时，先写重做日志，再修改内存数据页，这样就产生了脏页。既然有重做日志保证数据持久性，查询时也可以直接从缓冲池页中取数据，那为什么还要刷新脏页到磁盘呢？如果重做日志可以无限增大，同时缓冲池足够大，能够缓存所有数据，那么是不需要将缓冲池中的脏页刷新到磁盘。但是，通常会有以下几个问题</p>
+<ul>
+<li>服务器内存有限，缓冲池不够用，无法缓存全部数据</li>
+<li>重做日志无限增大成本要求太高</li>
+<li>宕机时如果重做全部日志恢复时间过长</li>
+</ul>
+<p>事实上，当数据库宕机时，数据库不需要重做所有的日志，只需要执行上次刷入点之后的日志。这个点就叫做Checkpoint，它解决了以上的问题：</p>
+<ul>
+<li>缩短数据库恢复时间</li>
+<li>缓冲池不够用时，将脏页刷新到磁盘</li>
+<li>重做日志不可用时，刷新脏页</li>
+</ul>
+<p>重做日志被设计成可循环使用，当日志文件写满时，重做日志中对应数据已经被刷新到磁盘的那部分不再需要的日志可以被覆盖重用。</p>
+<p>InnoDB引擎通过LSN(Log Sequence Number)来标记版本，LSN是日志空间中每条日志的结束点，用字节偏移量来表示。每个page有LSN，redo log也有LSN，Checkpoint也有LSN。可以通过命令<code>show engine innodb status</code>来观察</p>
 <blockquote>
 <p><strong>总结一下，我们执行一句update SQL 会发生什么</strong></p>
 <ol>
