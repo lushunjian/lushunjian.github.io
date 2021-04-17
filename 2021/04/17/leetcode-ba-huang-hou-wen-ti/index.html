@@ -594,11 +594,11 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。计算机发明后，有多种计算机语言可以解决此问题。—-节选自百度百科</p>
-<p><img src="/2021/04/17/n-huang-hou-wen-ti/1.jpg" alt="八皇后"></p>
+<p><img src="/2021/04/17/leetcode-ba-huang-hou-wen-ti/1.jpg" alt="八皇后"></p>
 <p>在力扣与八皇后对应的题目是N皇后问题</p>
 <h2 id="N-皇后"><a href="#N-皇后" class="headerlink" title="N 皇后"></a><a href="https://leetcode-cn.com/problems/n-queens/" target="_blank" rel="noopener">N 皇后</a></h2><p>n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 ‘Q’ 和 ‘.’ 分别代表了皇后和空位。</p>
 <p><strong>示例 1：</strong></p>
-<p><img src="/2021/04/17/n-huang-hou-wen-ti/queens.jpg" alt="四皇后情况"></p>
+<p><img src="/2021/04/17/leetcode-ba-huang-hou-wen-ti/queens.jpg" alt="四皇后情况"></p>
 <p>输入：n = 4<br>输出：[ [“.Q..”,”…Q”,”Q…”,”..Q.”] , [“..Q.”,”Q…”,”…Q”,”.Q..”] ]<br>解释：如上图所示，4 皇后问题存在两个不同的解法。</p>
 <h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>对于八皇后问题我脑海第一想到的思路，就是自己维护一个 <code>8×8</code> 矩阵，每次找到一个空位摆下一个皇后就把对应行列对角线上的棋格做个标记，后面摆皇后的时候通过这个矩阵判断一下，没有标记的位置就可以摆，但这种方式时间复杂度比较高，每次摆皇后需要遍历一下矩阵，同时需要额外操作维护这个矩阵。虽然我第一想到的是通过矩阵维护状态，但是马上又舍弃了这种思路，因为对DFS有一定的了解，对于这个题肯定有更好的解法那就是回溯（虽然之前也看过回溯算法的思路和技巧，但八皇后问题算是我正儿八经的使用回溯算法解的第一道题了）。来看看回溯的思路，我们试想一下简单点的四皇后问题，如果有一个<code>4×4</code>的棋盘，直接去摆皇后的话，会怎么操作：</p>
 <ol>
@@ -772,7 +772,116 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>迭代法是按用迭代的套路来完成递归的思路的一个解法。当你写出迭代法后，可以按照迭代的思路把迭代转为递归实现。</p>
-<h3 id="手动维护堆栈法"><a href="#手动维护堆栈法" class="headerlink" title="手动维护堆栈法"></a>手动维护堆栈法</h3><p>手动维护堆栈对于我们理解递归本质是很有好处的，递归调用的本质是我们利用编程语言的特性，可以看做底层帮你维护的一个堆栈不断地push、pop，实际上我们也可以通过手动维护一个堆栈来模拟这个递归调用的过程。</p>
+<h3 id="堆栈法"><a href="#堆栈法" class="headerlink" title="堆栈法"></a>堆栈法</h3><p>手动维护堆栈对于我们理解递归本质是很有好处的，递归调用的本质是我们利用编程语言的特性，可以看做底层帮你维护的一个堆栈不断地push、pop，实际上我们也可以通过手动维护一个栈来模拟这个递归调用的过程。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 8皇后 堆栈法</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">>></span> <span class="token function">solveNQueens3</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>Integer<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Stack<span class="token operator">&lt;</span>Queen<span class="token operator">></span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 用数组来维护皇后的位置</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> ans <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 初始化为-1</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 从第0行第0列开始摆</span>
+        stack<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Queen</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            Queen queen <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 如果当前位置可以摆Q</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">canPutQueen3</span><span class="token punctuation">(</span>queen<span class="token punctuation">.</span>row<span class="token punctuation">,</span>queen<span class="token punctuation">.</span>col<span class="token punctuation">,</span>ans<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                ans<span class="token punctuation">[</span>queen<span class="token punctuation">.</span>row<span class="token punctuation">]</span><span class="token operator">=</span>queen<span class="token punctuation">.</span>col<span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 判断是否到达最后一行</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>queen<span class="token punctuation">.</span>row<span class="token operator">==</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 记录结果</span>
+                    Integer<span class="token punctuation">[</span><span class="token punctuation">]</span> ins <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Integer</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        ins<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>ins<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">// 弹出顶层皇后,回溯到上一行</span>
+                    stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">// 可能当前行是第0行,stack会为空</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        <span class="token keyword">break</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token comment" spellcheck="true">// 把上一行的Q移动到下一个col继续摆</span>
+                    Queen temp <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    temp<span class="token punctuation">.</span>col<span class="token operator">=</span>temp<span class="token punctuation">.</span>col<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">// 重置位置</span>
+                    ans<span class="token punctuation">[</span>temp<span class="token punctuation">.</span>row<span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment" spellcheck="true">// 移动找下一行继续摆</span>
+                stack<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Queen</span><span class="token punctuation">(</span>queen<span class="token punctuation">.</span>row<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 如果col=n说明这行的所有col已经遍历完且都不能摆,说明上一行的Q摆的不对,需要回溯到上一行,并从下一个col开始继续尝试</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>queen<span class="token punctuation">.</span>col<span class="token operator">==</span>n<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 把当前行的Q弹出,回溯到上一行</span>
+                    stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        <span class="token keyword">break</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token comment" spellcheck="true">// 把上一行的Q移动到下一个col继续摆</span>
+                    Queen temp <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    temp<span class="token punctuation">.</span>col<span class="token operator">=</span>temp<span class="token punctuation">.</span>col<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">// 重置位置</span>
+                    ans<span class="token punctuation">[</span>temp<span class="token punctuation">.</span>row<span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment" spellcheck="true">//当前行继续找下一个col</span>
+                queen<span class="token punctuation">.</span>col<span class="token operator">=</span>queen<span class="token punctuation">.</span>col<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">>></span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span>Integer<span class="token punctuation">[</span><span class="token punctuation">]</span> integers <span class="token operator">:</span> res<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            List<span class="token operator">&lt;</span>String<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>Integer integer <span class="token operator">:</span> integers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                StringBuilder sb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> m <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> m <span class="token operator">&lt;</span> integers<span class="token punctuation">.</span>length<span class="token punctuation">;</span> m<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>integer <span class="token operator">==</span> m<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        sb<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">'Q'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        sb<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>sb<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            result<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">canPutQueen3</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">,</span><span class="token keyword">int</span> col<span class="token punctuation">,</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> ans<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>row<span class="token operator">==</span>ans<span class="token punctuation">.</span>length <span class="token operator">||</span> col<span class="token operator">==</span>ans<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 和前面摆过的Q比较</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>row<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 同列</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span>col<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 同斜线</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span>col<span class="token punctuation">)</span><span class="token operator">==</span>Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>i<span class="token operator">-</span>row<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Queen</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> row<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> col<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">Queen</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">,</span><span class="token keyword">int</span> col<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>row<span class="token operator">=</span>row<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>col<span class="token operator">=</span>col<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -798,7 +907,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2021/04/17/n-huang-hou-wen-ti/">https://lushunjian.gitee.io/2021/04/17/n-huang-hou-wen-ti/</a>
+                    <a href="https://lushunjian.gitee.io/2021/04/17/leetcode-ba-huang-hou-wen-ti/">https://lushunjian.gitee.io/2021/04/17/leetcode-ba-huang-hou-wen-ti/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1296,7 +1405,7 @@
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2021/04/17/n-huang-hou-wen-ti/">
+                <a href="/2021/04/17/leetcode-ba-huang-hou-wen-ti/">
                     <div class="card-image">
                         
                         
