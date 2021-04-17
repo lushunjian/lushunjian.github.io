@@ -842,11 +842,136 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>基于这个特性，我们便可以非常便捷地为某个组件<strong>增强或减弱</strong>其特征，只需要去变更compose函数里的参数个数便可。</p>
 <p><code>compose</code>函数实现方式有很多种，这里推荐其中一个<code>recompact.compose</code></p>
 </blockquote>
-<h2 id="Q8：什么是受控组件？"><a href="#Q8：什么是受控组件？" class="headerlink" title="Q8：什么是受控组件？"></a><em>Q8</em>：什么是受控组件？</h2></li>
+</li>
 </ol>
-<blockquote>
+<h2 id="Q8：什么是受控组件？"><a href="#Q8：什么是受控组件？" class="headerlink" title="Q8：什么是受控组件？"></a><em>Q8</em>：什么是受控组件？</h2><blockquote>
 <p>难度：⭐️⭐️⭐️</p>
 </blockquote>
+<p>在HTML当中，像<code>&lt;input&gt;</code>,<code>&lt;textarea&gt;</code>, 和 <code>&lt;select&gt;</code>这类表单元素会维持自身状态，并根据用户输入进行更新。但在React中，可变的状态通常保存在组件的状态属性中，并且只能用 setState() 方法进行更新。</p>
+<h3 id="非受控组件"><a href="#非受控组件" class="headerlink" title="非受控组件"></a>非受控组件</h3><p>非受控组件，即组件的状态不受React控制的组件，例如下边这个</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Demo1</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>input <span class="token operator">/</span><span class="token operator">></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>Demo1<span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>在这个最简单的输入框组件里,我们并没有干涉input中的value展示,即用户输入的内容都会展示在上面。如果我们通过props给组件设置一个初始默认值,defaultValue属性是React内部实现的一个属性,目的类似于input的placeholder属性。<br>ps: 此处如果使用value代替defaultValue，会发现输入框的值无法改变</p>
+<h3 id="受控组件"><a href="#受控组件" class="headerlink" title="受控组件"></a>受控组件</h3><p>同样的，受控组件就是组件的状态受React控制。上面提到过，既然通过设置input的value属性, 无法改变输入框值,那么我们把它和state结合在一起,再绑定onChange事件,实时更新value值就行了。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">class</span> <span class="token class-name">Demo1</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">{</span>
+            value<span class="token punctuation">:</span> props<span class="token punctuation">.</span>value
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">handleChange</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            value<span class="token punctuation">:</span> e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>input value<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>value<span class="token punctuation">}</span> onChange<span class="token operator">=</span><span class="token punctuation">{</span>e <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">handleChange</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">/</span><span class="token operator">></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="Q9：constructor中super与props参数一起使用的目的是什么？"><a href="#Q9：constructor中super与props参数一起使用的目的是什么？" class="headerlink" title="Q9：constructor中super与props参数一起使用的目的是什么？"></a><em>Q9</em>：constructor中super与props参数一起使用的目的是什么？</h2><blockquote>
+<p>难度：⭐️⭐️</p>
+</blockquote>
+<p>在调用方法之前，子类构造函数无法使用<strong>this</strong>引用<code>super()</code>。在ES6中，在子类的<code>constructor</code>中必须先调用<code>super</code>才能引用<code>this</code>。在<code>constructor</code>中可以使用<code>this.props</code></p>
+<h3 id="使用props"><a href="#使用props" class="headerlink" title="使用props"></a>使用props</h3><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// Prints { name: 'sudheer',age: 30 }</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="不使用props"><a href="#不使用props" class="headerlink" title="不使用props"></a>不使用props</h3><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Prints undefined</span>
+        <span class="token comment" spellcheck="true">// But Props parameter is still available</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Prints { name: 'sudheer',age: 30 }</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// No difference outside constructor</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// Prints { name: 'sudheer',age: 30 }</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>上面的代码片段揭示了this.props行为仅在构造函数中有所不同。外部构造函数相同。</p>
+<h2 id="Q10：以下使用React-createElement的等价项是什么？"><a href="#Q10：以下使用React-createElement的等价项是什么？" class="headerlink" title="Q10：以下使用React.createElement的等价项是什么？"></a><em>Q10</em>：以下使用React.createElement的等价项是什么？</h2><blockquote>
+<p>难度：⭐️⭐️⭐️</p>
+</blockquote>
+<p>以下等同于什么使用<code>React.createElement</code>？</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> element <span class="token operator">=</span> <span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>h1 className<span class="token operator">=</span><span class="token string">"greeting"</span><span class="token operator">></span>
+    Hello<span class="token punctuation">,</span> world<span class="token operator">!</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>答</strong>:</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> element <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>
+  <span class="token string">'h1'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>className<span class="token punctuation">:</span> <span class="token string">'greeting'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">'Hello, world!'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="Q11：什么是JSX？"><a href="#Q11：什么是JSX？" class="headerlink" title="Q11：什么是JSX？"></a><em>Q11</em>：什么是JSX？</h2><blockquote>
+<p>难度：⭐️⭐️⭐️</p>
+</blockquote>
+<p>JSX即JavaScript XML。一种在React组件内部构建标签的类XML语法。JSX为react.js开发的一套语法糖，也是react.js的使用基础。React在不使用JSX的情况下一样可以工作，然而使用JSX可以提高组件的可读性，因此推荐使用JSX。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> props <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">;</span>  
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"my-component"</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>url<span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>JSX的优点：</p>
+<ol>
+<li>允许使用熟悉的语法来定义 HTML 元素树</li>
+<li>提供更加语义化且移动的标签</li>
+<li>程序结构更容易被直观化</li>
+<li>抽象了 React Element 的创建过程</li>
+<li>可以随时掌控 HTML 标签以及生成这些标签的代码</li>
+<li>是原生的 JavaScript</li>
+</ol>
+<h2 id="Q12：React生命周期有哪些不同阶段？"><a href="#Q12：React生命周期有哪些不同阶段？" class="headerlink" title="Q12：React生命周期有哪些不同阶段？"></a><em>Q12</em>：React生命周期有哪些不同阶段？</h2><blockquote>
+<p>难度：⭐️⭐️⭐️</p>
+</blockquote>
+<p>React组件的生命周期分为四个不同阶段：</p>
+<ol>
+<li><strong>初始化：</strong>在此阶段，react组件准备设置初始状态和默认道具。</li>
+<li><strong>挂载：</strong> react组件已准备好挂载在浏览器DOM中。此阶段涵盖<strong>componentWillMount</strong>和<strong>componentDidMount</strong>生命周期方法。</li>
+<li><strong>更新：</strong>在此阶段，组件以两种方式进行更新，即发送新道具和更新状态。此阶段涵盖了<strong>shouldComponentUpdate，componentWillUpdate和componentDidUpdate</strong>生命周期方法。</li>
+<li><strong>卸载：</strong>在最后一个阶段，不需要该组件，并且可以从浏览器DOM上卸载该组件。此阶段包括<strong>componentWillUnmount</strong>生命周期方法。</li>
+</ol>
+<h2 id="Q13：React的生命周期方法是什么？"><a href="#Q13：React的生命周期方法是什么？" class="headerlink" title="Q13：React的生命周期方法是什么？"></a><em>Q13</em>：React的生命周期方法是什么？</h2><blockquote>
+<p>难度：⭐️⭐️⭐️</p>
+</blockquote>
+<ul>
+<li><strong>componentWillMount：</strong>在渲染之前执行，用于根组件中的应用程序级别配置。</li>
+<li><strong>componentDidMount：</strong>仅在客户端的第一次渲染之后执行。 这是AJAX请求和DOM或状态更新应该发生的地方。此方法也用于与其他JavaScript框架以及任何延迟执行的函数(如<code>setTimeout</code>或<code>setInterval</code>)进行集成，在这里使用它来更新状态，以便我们可以触发其他生命周期方法。</li>
+<li><strong>componentWillReceiveProps：</strong>只要在另一个渲染被调用之前更新<code>props</code>就被调用。 当我们更新状态时，从<code>setNewNumber</code>触发它。</li>
+<li><strong>shouldComponentUpdate：</strong>确定是否将更新组件。默认情况下，它返回true。如果您确定组件在状态或道具更新后不需要渲染，则可以返回false值。这是提高性能的好地方，因为如果组件收到新的道具，它可以防止重新渲染。</li>
+<li><strong>componentWillUpdate：</strong>在由shouldComponentUpdate确认返回正值的优点和状态更改时，在重新渲染组件之前执行。</li>
+<li><strong>componentDidUpdate：</strong>通常用于更新DOM以响应属性或状态更改。</li>
+<li><strong>componentWillUnmount：</strong>它将用于取消任何传出的网络请求，或删除与该组件关联的所有事件侦听器。</li>
+</ul>
+<h2 id="Q14：React-Fiber是什么？"><a href="#Q14：React-Fiber是什么？" class="headerlink" title="Q14：React Fiber是什么？"></a><em>Q14</em>：React Fiber是什么？</h2><blockquote>
+<p>难度：⭐️⭐️⭐️⭐️</p>
+</blockquote>
+<p>React Fiber 并不是所谓的纤程（微线程、协程），而是一种基于浏览器的单线程调度算法，背后的支持 API 是大名鼎鼎的：requestIdleCallback。</p>
+<p>Fiberl是一种将 recocilation （递归 diff），拆分成无数个小任务的算法；它随时能够停止，恢复。停止恢复的时机取决于当前的一帧（16ms）内，还有没有足够的时间允许计算。</p>
 
             </div>
             <hr/>
@@ -1365,48 +1490,46 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/04/11/react-mian-shi-ti-zong-jie/">
+                <a href="/2021/04/17/ba-huang-hou-wen-ti/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="React面试题总结">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="八皇后问题">
                         
-                        <span class="card-title">React面试题总结</span>
+                        <span class="card-title">八皇后问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            虽然前端并不是我的强项，但是工作几年了一直做着以后端为主的全栈开发。所以对前端的一些技术框架也比较关注，履历中也有前端开发的经历，因此有时也会被问到一些前端的知识。现如今前端技术发展迅速，JavaScript 工具缓慢而稳定地在市场中扎根，
+                            八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-04-11
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-04-17
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/react/" class="post-category">
-                                    react
+                            <a href="/categories/leetcode/" class="post-category">
+                                    leetcode
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/react/">
-                        <span class="chip bg-color">react</span>
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
                     </a>
                     
                 </div>
