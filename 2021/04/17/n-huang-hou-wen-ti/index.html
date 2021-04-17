@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="八皇后问题, 三秋">
+    <meta name="keywords" content="N皇后问题, 三秋">
     <meta name="description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>八皇后问题 | 三秋</title>
+    <title>N皇后问题 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -429,12 +429,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/31.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">八皇后问题</h1>
+                    <h1 class="description center-align post-title">N皇后问题</h1>
                 </div>
             </div>
         </div>
@@ -594,11 +594,11 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。计算机发明后，有多种计算机语言可以解决此问题。—-节选自百度百科</p>
-<p><img src="/2021/04/17/ba-huang-hou-wen-ti/1.jpg" alt="八皇后"></p>
+<p><img src="/2021/04/17/n-huang-hou-wen-ti/1.jpg" alt="八皇后"></p>
 <p>在力扣与八皇后对应的题目是N皇后问题</p>
 <h2 id="N-皇后"><a href="#N-皇后" class="headerlink" title="N 皇后"></a><a href="https://leetcode-cn.com/problems/n-queens/" target="_blank" rel="noopener">N 皇后</a></h2><p>n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 ‘Q’ 和 ‘.’ 分别代表了皇后和空位。</p>
 <p><strong>示例 1：</strong></p>
-<p><img src="/2021/04/17/ba-huang-hou-wen-ti/queens.jpg" alt="四皇后问题"></p>
+<p><img src="/2021/04/17/n-huang-hou-wen-ti/queens.jpg" alt="四皇后情况"></p>
 <p>输入：n = 4<br>输出：[ [“.Q..”,”…Q”,”Q…”,”..Q.”] , [“..Q.”,”Q…”,”…Q”,”.Q..”] ]<br>解释：如上图所示，4 皇后问题存在两个不同的解法。</p>
 <h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>对于八皇后问题我脑海第一想到的思路，就是自己维护一个 <code>8×8</code> 矩阵，每次找到一个空位摆下一个皇后就把对应行列对角线上的棋格做个标记，后面摆皇后的时候通过这个矩阵判断一下，没有标记的位置就可以摆，但这种方式时间复杂度比较高，每次摆皇后需要遍历一下矩阵，同时需要额外操作维护这个矩阵。虽然我第一想到的是通过矩阵维护状态，但是马上又舍弃了这种思路，因为对DFS有一定的了解，对于这个题肯定有更好的解法那就是回溯（虽然之前也看过回溯算法的思路和技巧，但八皇后问题算是我正儿八经的使用回溯算法解的第一道题了）。来看看回溯的思路，我们试想一下简单点的四皇后问题，如果有一个<code>4×4</code>的棋盘，直接去摆皇后的话，会怎么操作：</p>
 <ol>
@@ -798,7 +798,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2021/04/17/ba-huang-hou-wen-ti/">https://lushunjian.gitee.io/2021/04/17/ba-huang-hou-wen-ti/</a>
+                    <a href="https://lushunjian.gitee.io/2021/04/17/n-huang-hou-wen-ti/">https://lushunjian.gitee.io/2021/04/17/n-huang-hou-wen-ti/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1296,13 +1296,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2021/04/17/ba-huang-hou-wen-ti/">
+                <a href="/2021/04/17/n-huang-hou-wen-ti/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="八皇后问题">
+                        <img src="/medias/featureimages/31.jpg" class="responsive-img" alt="N皇后问题">
                         
-                        <span class="card-title">八皇后问题</span>
+                        <span class="card-title">N皇后问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
