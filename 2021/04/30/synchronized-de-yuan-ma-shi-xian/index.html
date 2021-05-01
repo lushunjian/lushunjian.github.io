@@ -593,7 +593,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直不甚了解，本文主要总结synchronized的实现源码。网上博文很多但大多比较浅显，有的来龙去脉说的不够透彻让人摸不着头脑，有的只停留在字节码的指令级别，对于更深层次的实现没有阐述。对于synchronized的原理直接去看源码，如果没有C++基础还是很吃力的，这里我要推荐两篇博客<a href="https://github.com/farmerjohngit/myblog/issues/12和https://www.cnblogs.com/gmt-hao/p/14139341.html。synchronized" target="_blank" rel="noopener">https://github.com/farmerjohngit/myblog/issues/12和https://www.cnblogs.com/gmt-hao/p/14139341.html。synchronized</a> 的源码很复杂涉及到几种锁状态的转换，部分代码细节的判断和设计晦涩难懂，如果仅凭一己之力通过读源码的方式想搞懂synchronized 的整个流程难度还是很大的。本文很多借鉴了这两篇文章，我在很多不解的地方加入了更详细的解释和理解，把整个逻辑全部理顺了一遍。解决了下面这几个问题</p>
+                <p>synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直不甚了解，本文主要总结synchronized的实现源码。网上博文很多但大多比较浅显，有的来龙去脉说的不够透彻让人摸不着头脑，有的只停留在字节码的指令级别，对于更深层次的实现没有阐述。对于synchronized的原理直接去看源码，如果没有C++基础还是很吃力的，这里我要推荐两篇博客<a href="https://github.com/farmerjohngit/myblog/issues/12" target="_blank" rel="noopener">https://github.com/farmerjohngit/myblog/issues/12</a> 和 <a href="https://www.cnblogs.com/gmt-hao/p/14139341.html" target="_blank" rel="noopener">https://www.cnblogs.com/gmt-hao/p/14139341.html</a>  <code>synchronized</code> 的源码很复杂涉及到几种锁状态的转换，部分代码细节的判断和设计晦涩难懂，如果独自通过阅读源码的方式想搞懂synchronized 的整个流程难度还是很大的。本文很多借鉴了这两篇文章，我在很多不解的地方加入了更详细的解释和理解，把整个逻辑全部理顺了一遍。解决了下面这几个问题</p>
 <ol>
 <li>Synchronized 怎么做到同步的</li>
 <li>Synchronized 做了哪些优化</li>
@@ -604,162 +604,162 @@
 <p>关于HotSpot虚拟机中获取锁的入口，网上很多文章要么给出的方法入口为interpreterRuntime.cpp#monitorenter和bytecodeInterpreter.cpp#1816。因此要找锁的入口，肯定是要在源码中找到对monitorenter指令解析的地方。在HotSpot的中有两处地方对monitorenter指令进行解析：一个是在bytecodeInterpreter.cpp#1816 ，另一个是在templateTable_x86_64.cpp#3667。前者是JVM中的字节码解释器(bytecodeInterpreter)，用C++实现了每条JVM指令(如monitorenter、invokevirtual等)，其优点是实现相对简单且容易理解，缺点是执行慢。后者是模板解释器(templateInterpreter)，其对每个指令都写了一段对应的汇编代码，启动时将每个指令与对应汇编代码入口绑定，可以说是效率做到了极致。在HotSpot中，只用到了模板解释器，字节码解释器根本就没用到，但其实<code>bytecodeInterpreter</code>的逻辑和<code>templateInterpreter</code>的逻辑是大同小异的，因为<code>templateInterpreter</code>中都是汇编代码，比较晦涩，所以看<code>bytecodeInterpreter</code>的实现会便于理解一点。而interpreterRuntime.cpp#monitorenter方法只是锁实现中的一部分，需要注意的是在jdk8u之前，<code>bytecodeInterpreter</code>并没有实现偏向锁的逻辑。</p>
 </blockquote>
 <p>这里还需知道一个概念，即管程，英文名为Monitor。字面意思，是<strong>用来管理进程的</strong>。所谓的<strong>管程实际上是JVM定义的一种数据结构和控制进程的一些操作的集合。</strong>管程封装了同步操作，对进程隐蔽了同步细节，简化了同步功能的调用界面。用户编写并发程序如同编写顺序(串行)程序。</p>
-<h2 id="偏向锁-amp-轻量级锁"><a href="#偏向锁-amp-轻量级锁" class="headerlink" title="偏向锁&amp;轻量级锁"></a>偏向锁&amp;轻量级锁</h2><pre class=" language-c++"><code class="language-c++">CASE(_monitorenter): {
-  // lockee 就是锁对象 栈帧当中生成一个lock record 记录
-  oop lockee = STACK_OBJECT(-1);
-  // 判null，derefing's lockee ought to provoke implicit null check
-  CHECK_NULL(lockee);
-  // find a free monitor or one already allocated for this object
-  // if we find a matching object then we need a new monitor
-  // since this is recursive enter
-  // code 1：找到一个空闲的Lock Record
-  BasicObjectLock* limit = istate->monitor_base();
-  BasicObjectLock* most_recent = (BasicObjectLock*) istate->stack_base();
-  BasicObjectLock* entry = NULL;
-  while (most_recent != limit ) {
-    if (most_recent->obj() == NULL) entry = most_recent;
-    else if (most_recent->obj() == lockee) break;
-    most_recent++;
-  }
-  //entry不为null，代表还有空闲的Lock Record
-  if (entry != NULL) {
-    // code 2：将Lock Record的obj指针指向锁对象
-    entry->set_obj(lockee);
-    int success = false;
-    uintptr_t epoch_mask_in_place = (uintptr_t)markOopDesc::epoch_mask_in_place;
-    // markoop即对象头的mark word
-    markOop mark = lockee->mark();
-    intptr_t hash = (intptr_t) markOopDesc::no_hash;
-    // code 3：如果锁对象的mark word的状态是偏向模式(1 01)
-    if (mark->has_bias_pattern()) {
-      uintptr_t thread_ident;
-      uintptr_t anticipated_bias_locking_value;
-      thread_ident = (uintptr_t)istate->thread();
-     // code 4：这里有几步操作，下文分析
-     // 通过位运算计算anticipated_bias_locking_value
-      anticipated_bias_locking_value =
-        // 将线程id与prototype_header(epoch、分代年龄、偏向模式、锁标志)部分做或运算
-        (((uintptr_t)lockee->klass()->prototype_header() | thread_ident) 
-         // 与锁对象的markword异或，相等为0
-         ^ (uintptr_t)mark) 
-         // 将上面结果中的分代年龄忽略掉
-         &~((uintptr_t) markOopDesc::age_mask_in_place);
-     // code 5：为0代表偏向线程是当前线程 且 对象头的epoch与class的epoch相等，什么也不做
-      if  (anticipated_bias_locking_value == 0) {
-        // already biased towards this thread, nothing to do
-        if (PrintBiasedLockingStatistics) {
-          (* BiasedLocking::biased_lock_entry_count_addr())++;
-        }
-        success = true;
-      }
-       // code 6：如果偏向模式关闭，则尝试撤销偏向锁
-      else if ((anticipated_bias_locking_value & markOopDesc::biased_lock_mask_in_place) != 0) {
-        markOop header = lockee->klass()->prototype_header();
-        if (hash != markOopDesc::no_hash) {
-          header = header->copy_set_hash(hash);
-        }
-        // 利用CAS操作将mark word替换为class中的mark word
-        // lockee->cas_set_mark(header, mark) == mark
-        if (Atomic::cmpxchg_ptr(header, lockee->mark_addr(), mark) == mark) {
-          if (PrintBiasedLockingStatistics)
-            (*BiasedLocking::revoked_lock_entry_count_addr())++;
-        }
-      }
-         // code 7：如果epoch不等于class中的epoch，则尝试重偏向
-      else if ((anticipated_bias_locking_value & epoch_mask_in_place) !=0) {
-        // 构造一个偏向当前线程的mark word
-        markOop new_header = (markOop) ( (intptr_t) lockee->klass()->prototype_header() | thread_ident);
-        if (hash != markOopDesc::no_hash) {
-          new_header = new_header->copy_set_hash(hash);
-        }
-        // CAS替换对象头的mark word，偏向当前线程的
-        // lockee->cas_set_mark(new_header, mark) == mark
-        if (Atomic::cmpxchg_ptr((void*)new_header, lockee->mark_addr(), mark) == mark) {
-          if (PrintBiasedLockingStatistics)
-            (* BiasedLocking::rebiased_lock_entry_count_addr())++;
-        }
-        else {
-          // 重偏向失败，代表存在多线程竞争，则调用monitorenter方法进行锁升级
-          CALL_VM(InterpreterRuntime::monitorenter(THREAD, entry), handle_exception);
-        }
-        success = true;
-      }
-      else {
-         // 走到这里说明当前要么偏向别的线程，要么是匿名偏向(即没有偏向任何线程)
-           // code 8：下面构建一个匿名偏向的mark word，尝试用CAS指令替换掉锁对象的mark word
-        markOop header = (markOop) ((uintptr_t) mark & ((uintptr_t)markOopDesc::biased_lock_mask_in_place |(uintptr_t)markOopDesc::age_mask_in_place |epoch_mask_in_place));
-        if (hash != markOopDesc::no_hash) {
-          header = header->copy_set_hash(hash);
-        }
-        // 这是将mark word偏向当前线程
-        markOop new_header = (markOop) ((uintptr_t) header | thread_ident);
-        // debugging hint
-        DEBUG_ONLY(entry->lock()->set_displaced_header((markOop) (uintptr_t) 0xdeaddead);)
-        if (Atomic::cmpxchg_ptr((void*)new_header, lockee->mark_addr(), header) == header) {
-           //这里会尝试将偏向当前线程的mark word替换到锁对象中，
-           //若是匿名偏向则可以cas成功，若已经偏向其他线程，
-           //或有可能刚好被其他线程先修改了,都说明有多个线程竞争，则会cas失败
-           // 如果CAS修改成功
-          if (PrintBiasedLockingStatistics)
-            (* BiasedLocking::anonymously_biased_lock_entry_count_addr())++;
-        }
-        else {
-          // 如果修改失败说明存在多线程竞争，所以进入monitorenter方法, 锁升级
-          CALL_VM(InterpreterRuntime::monitorenter(THREAD, entry), handle_exception);
-        }
-        success = true;
-      }
-    }
-    // 如果偏向线程不是当前线程或没有开启偏向模式等原因都会导致success==false
-    if (!success) {
-      // 轻量级锁的逻辑 start
-      //code 9: 构造一个无锁状态的 Mark Word，并将Lock Record的lock指向它
-      markOop displaced = lockee->mark()->set_unlocked();
-      // 将刚刚构造的lock record指向该无锁mark word
-      entry->lock()->set_displaced_header(displaced);
-      //如果指定了-XX:+UseHeavyMonitors，则call_vm=true，代表禁用偏向锁和轻量级锁
-      bool call_vm = UseHeavyMonitors;
-      // 利用CAS将对象头的mark word替换为指向Lock Record的指针
-      // cas_set_mark((markOop)entry, displaced)
-      // 这里if条件不满足的话则说明轻量级锁加锁成功直接结束
-      if (call_vm || Atomic::cmpxchg_ptr(entry, lockee->mark_addr(), displaced) != displaced) {
-        // 判断是不是锁重入
-        // 是的话把Displaced Mark Word设置为null来表示重入
-        // 置null的原因是因为要记录重入次数，但是mark word大小有限，所以每次重入都在栈帧中新增一个Displaced Mark Word为null的记录
-        if (!call_vm && THREAD->is_lock_owned((address) displaced->clear_lock_bits())) {                 //code 10: 如果是锁重入，则直接将Displaced Mark Word设置为null
-          entry->lock()->set_displaced_header(NULL);
-        } else {
-         // 若禁用则锁升级
-          CALL_VM(InterpreterRuntime::monitorenter(THREAD, entry), handle_exception);
-        }
-      }
-    }
-    UPDATE_PC_AND_TOS_AND_CONTINUE(1, -1);
-  } else {
-    // lock record不够，重新执行
-    istate->set_msg(more_monitors);
-    UPDATE_PC_AND_RETURN(0); // Re-execute
-  }
-}</code></pre>
+<h2 id="偏向锁-amp-轻量级锁"><a href="#偏向锁-amp-轻量级锁" class="headerlink" title="偏向锁&amp;轻量级锁"></a>偏向锁&amp;轻量级锁</h2><pre class=" language-java"><code class="language-java"><span class="token function">CASE</span><span class="token punctuation">(</span>_monitorenter<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// lockee 就是锁对象 栈帧当中生成一个lock record 记录</span>
+  oop lockee <span class="token operator">=</span> <span class="token function">STACK_OBJECT</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 判null，derefing's lockee ought to provoke implicit null check</span>
+  <span class="token function">CHECK_NULL</span><span class="token punctuation">(</span>lockee<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// find a free monitor or one already allocated for this object</span>
+  <span class="token comment" spellcheck="true">// if we find a matching object then we need a new monitor</span>
+  <span class="token comment" spellcheck="true">// since this is recursive enter</span>
+  <span class="token comment" spellcheck="true">// code 1：找到一个空闲的Lock Record</span>
+  BasicObjectLock<span class="token operator">*</span> limit <span class="token operator">=</span> istate<span class="token operator">-</span><span class="token operator">></span><span class="token function">monitor_base</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  BasicObjectLock<span class="token operator">*</span> most_recent <span class="token operator">=</span> <span class="token punctuation">(</span>BasicObjectLock<span class="token operator">*</span><span class="token punctuation">)</span> istate<span class="token operator">-</span><span class="token operator">></span><span class="token function">stack_base</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  BasicObjectLock<span class="token operator">*</span> entry <span class="token operator">=</span> NULL<span class="token punctuation">;</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>most_recent <span class="token operator">!=</span> limit <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>most_recent<span class="token operator">-</span><span class="token operator">></span><span class="token function">obj</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> NULL<span class="token punctuation">)</span> entry <span class="token operator">=</span> most_recent<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>most_recent<span class="token operator">-</span><span class="token operator">></span><span class="token function">obj</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> lockee<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+    most_recent<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">//entry不为null，代表还有空闲的Lock Record</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>entry <span class="token operator">!=</span> NULL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// code 2：将Lock Record的obj指针指向锁对象</span>
+    entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">set_obj</span><span class="token punctuation">(</span>lockee<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> success <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    uintptr_t epoch_mask_in_place <span class="token operator">=</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>markOopDesc<span class="token operator">:</span><span class="token operator">:</span>epoch_mask_in_place<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// markoop即对象头的mark word</span>
+    markOop mark <span class="token operator">=</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    intptr_t hash <span class="token operator">=</span> <span class="token punctuation">(</span>intptr_t<span class="token punctuation">)</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>no_hash<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// code 3：如果锁对象的mark word的状态是偏向模式(1 01)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>mark<span class="token operator">-</span><span class="token operator">></span><span class="token function">has_bias_pattern</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      uintptr_t thread_ident<span class="token punctuation">;</span>
+      uintptr_t anticipated_bias_locking_value<span class="token punctuation">;</span>
+      thread_ident <span class="token operator">=</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>istate<span class="token operator">-</span><span class="token operator">></span><span class="token function">thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token comment" spellcheck="true">// code 4：这里有几步操作，下文分析</span>
+     <span class="token comment" spellcheck="true">// 通过位运算计算anticipated_bias_locking_value</span>
+      anticipated_bias_locking_value <span class="token operator">=</span>
+        <span class="token comment" spellcheck="true">// 将线程id与prototype_header(epoch、分代年龄、偏向模式、锁标志)部分做或运算</span>
+        <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">klass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">prototype_header</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">|</span> thread_ident<span class="token punctuation">)</span> 
+         <span class="token comment" spellcheck="true">// 与锁对象的markword异或，相等为0</span>
+         <span class="token operator">^</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>mark<span class="token punctuation">)</span> 
+         <span class="token comment" spellcheck="true">// 将上面结果中的分代年龄忽略掉</span>
+         <span class="token operator">&amp;</span><span class="token operator">~</span><span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>age_mask_in_place<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token comment" spellcheck="true">// code 5：为0代表偏向线程是当前线程 且 对象头的epoch与class的epoch相等，什么也不做</span>
+      <span class="token keyword">if</span>  <span class="token punctuation">(</span>anticipated_bias_locking_value <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// already biased towards this thread, nothing to do</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>PrintBiasedLockingStatistics<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token punctuation">(</span><span class="token operator">*</span> BiasedLocking<span class="token operator">:</span><span class="token operator">:</span><span class="token function">biased_lock_entry_count_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+       <span class="token comment" spellcheck="true">// code 6：如果偏向模式关闭，则尝试撤销偏向锁</span>
+      <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>anticipated_bias_locking_value <span class="token operator">&amp;</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>biased_lock_mask_in_place<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        markOop header <span class="token operator">=</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">klass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">prototype_header</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>hash <span class="token operator">!=</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>no_hash<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          header <span class="token operator">=</span> header<span class="token operator">-</span><span class="token operator">></span><span class="token function">copy_set_hash</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 利用CAS操作将mark word替换为class中的mark word</span>
+        <span class="token comment" spellcheck="true">// lockee->cas_set_mark(header, mark) == mark</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>Atomic<span class="token operator">:</span><span class="token operator">:</span><span class="token function">cmpxchg_ptr</span><span class="token punctuation">(</span>header<span class="token punctuation">,</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> mark<span class="token punctuation">)</span> <span class="token operator">==</span> mark<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>PrintBiasedLockingStatistics<span class="token punctuation">)</span>
+            <span class="token punctuation">(</span><span class="token operator">*</span>BiasedLocking<span class="token operator">:</span><span class="token operator">:</span><span class="token function">revoked_lock_entry_count_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+         <span class="token comment" spellcheck="true">// code 7：如果epoch不等于class中的epoch，则尝试重偏向</span>
+      <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>anticipated_bias_locking_value <span class="token operator">&amp;</span> epoch_mask_in_place<span class="token punctuation">)</span> <span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 构造一个偏向当前线程的mark word</span>
+        markOop new_header <span class="token operator">=</span> <span class="token punctuation">(</span>markOop<span class="token punctuation">)</span> <span class="token punctuation">(</span> <span class="token punctuation">(</span>intptr_t<span class="token punctuation">)</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">klass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">prototype_header</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">|</span> thread_ident<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>hash <span class="token operator">!=</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>no_hash<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          new_header <span class="token operator">=</span> new_header<span class="token operator">-</span><span class="token operator">></span><span class="token function">copy_set_hash</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// CAS替换对象头的mark word，偏向当前线程的</span>
+        <span class="token comment" spellcheck="true">// lockee->cas_set_mark(new_header, mark) == mark</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>Atomic<span class="token operator">:</span><span class="token operator">:</span><span class="token function">cmpxchg_ptr</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span>new_header<span class="token punctuation">,</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> mark<span class="token punctuation">)</span> <span class="token operator">==</span> mark<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>PrintBiasedLockingStatistics<span class="token punctuation">)</span>
+            <span class="token punctuation">(</span><span class="token operator">*</span> BiasedLocking<span class="token operator">:</span><span class="token operator">:</span><span class="token function">rebiased_lock_entry_count_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// 重偏向失败，代表存在多线程竞争，则调用monitorenter方法进行锁升级</span>
+          <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">else</span> <span class="token punctuation">{</span>
+         <span class="token comment" spellcheck="true">// 走到这里说明当前要么偏向别的线程，要么是匿名偏向(即没有偏向任何线程)</span>
+           <span class="token comment" spellcheck="true">// code 8：下面构建一个匿名偏向的mark word，尝试用CAS指令替换掉锁对象的mark word</span>
+        markOop header <span class="token operator">=</span> <span class="token punctuation">(</span>markOop<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span> mark <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>markOopDesc<span class="token operator">:</span><span class="token operator">:</span>biased_lock_mask_in_place <span class="token operator">|</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>markOopDesc<span class="token operator">:</span><span class="token operator">:</span>age_mask_in_place <span class="token operator">|</span>epoch_mask_in_place<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>hash <span class="token operator">!=</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>no_hash<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          header <span class="token operator">=</span> header<span class="token operator">-</span><span class="token operator">></span><span class="token function">copy_set_hash</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 这是将mark word偏向当前线程</span>
+        markOop new_header <span class="token operator">=</span> <span class="token punctuation">(</span>markOop<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span> header <span class="token operator">|</span> thread_ident<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// debugging hint</span>
+        <span class="token function">DEBUG_ONLY</span><span class="token punctuation">(</span>entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span><span class="token punctuation">(</span>markOop<span class="token punctuation">)</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span> <span class="token number">0xdeaddead</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>Atomic<span class="token operator">:</span><span class="token operator">:</span><span class="token function">cmpxchg_ptr</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span>new_header<span class="token punctuation">,</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> header<span class="token punctuation">)</span> <span class="token operator">==</span> header<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+           <span class="token comment" spellcheck="true">//这里会尝试将偏向当前线程的mark word替换到锁对象中，</span>
+           <span class="token comment" spellcheck="true">//若是匿名偏向则可以cas成功，若已经偏向其他线程，</span>
+           <span class="token comment" spellcheck="true">//或有可能刚好被其他线程先修改了,都说明有多个线程竞争，则会cas失败</span>
+           <span class="token comment" spellcheck="true">// 如果CAS修改成功</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>PrintBiasedLockingStatistics<span class="token punctuation">)</span>
+            <span class="token punctuation">(</span><span class="token operator">*</span> BiasedLocking<span class="token operator">:</span><span class="token operator">:</span><span class="token function">anonymously_biased_lock_entry_count_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// 如果修改失败说明存在多线程竞争，所以进入monitorenter方法, 锁升级</span>
+          <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 如果偏向线程不是当前线程或没有开启偏向模式等原因都会导致success==false</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 轻量级锁的逻辑 start</span>
+      <span class="token comment" spellcheck="true">//code 9: 构造一个无锁状态的 Mark Word，并将Lock Record的lock指向它</span>
+      markOop displaced <span class="token operator">=</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_unlocked</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 将刚刚构造的lock record指向该无锁mark word</span>
+      entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>displaced<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">//如果指定了-XX:+UseHeavyMonitors，则call_vm=true，代表禁用偏向锁和轻量级锁</span>
+      bool call_vm <span class="token operator">=</span> UseHeavyMonitors<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 利用CAS将对象头的mark word替换为指向Lock Record的指针</span>
+      <span class="token comment" spellcheck="true">// cas_set_mark((markOop)entry, displaced)</span>
+      <span class="token comment" spellcheck="true">// 这里if条件不满足的话则说明轻量级锁加锁成功直接结束</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>call_vm <span class="token operator">||</span> Atomic<span class="token operator">:</span><span class="token operator">:</span><span class="token function">cmpxchg_ptr</span><span class="token punctuation">(</span>entry<span class="token punctuation">,</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> displaced<span class="token punctuation">)</span> <span class="token operator">!=</span> displaced<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 判断是不是锁重入</span>
+        <span class="token comment" spellcheck="true">// 是的话把Displaced Mark Word设置为null来表示重入</span>
+        <span class="token comment" spellcheck="true">// 置null的原因是因为要记录重入次数，但是mark word大小有限，所以每次重入都在栈帧中新增一个Displaced Mark Word为null的记录</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>call_vm <span class="token operator">&amp;&amp;</span> THREAD<span class="token operator">-</span><span class="token operator">></span><span class="token function">is_lock_owned</span><span class="token punctuation">(</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span> displaced<span class="token operator">-</span><span class="token operator">></span><span class="token function">clear_lock_bits</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>                 <span class="token comment" spellcheck="true">//code 10: 如果是锁重入，则直接将Displaced Mark Word设置为null</span>
+          entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+         <span class="token comment" spellcheck="true">// 若禁用则锁升级</span>
+          <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">UPDATE_PC_AND_TOS_AND_CONTINUE</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// lock record不够，重新执行</span>
+    istate<span class="token operator">-</span><span class="token operator">></span><span class="token function">set_msg</span><span class="token punctuation">(</span>more_monitors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">UPDATE_PC_AND_RETURN</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Re-execute</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>上面的代码我都加了注释，基本逻辑应该是可以看的懂得，主要解释一下几个难以理解的点</p>
 <h3 id="code-1处"><a href="#code-1处" class="headerlink" title="code  1处"></a>code  1处</h3><p>这里的 <code>BasicObjectLock</code> 的定义在<code>basicLock.hpp</code>中</p>
-<pre class=" language-c++"><code class="language-c++">class BasicObjectLock VALUE_OBJ_CLASS_SPEC {
-  friend class VMStructs;
- private:
-  BasicLock _lock;                                    // the lock, must be double word aligned
-  oop       _obj;                                     // object holds the lock;
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">BasicObjectLock</span> VALUE_OBJ_CLASS_SPEC <span class="token punctuation">{</span>
+  friend <span class="token keyword">class</span> <span class="token class-name">VMStructs</span><span class="token punctuation">;</span>
+ <span class="token keyword">private</span><span class="token operator">:</span>
+  BasicLock _lock<span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">// the lock, must be double word aligned</span>
+  oop       _obj<span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// object holds the lock;</span>
 
- public:
-    // ...
-};</code></pre>
+ <span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>里面分别包含了一个BasicLock和一个oop对象，BasicLock的定义也在当前文件中</p>
-<pre class=" language-c++"><code class="language-c++">class BasicLock VALUE_OBJ_CLASS_SPEC {
-  friend class VMStructs;
- private:
-  volatile markOop _displaced_header;
- public:
-  // ...
-};</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">BasicLock</span> VALUE_OBJ_CLASS_SPEC <span class="token punctuation">{</span>
+  friend <span class="token keyword">class</span> <span class="token class-name">VMStructs</span><span class="token punctuation">;</span>
+ <span class="token keyword">private</span><span class="token operator">:</span>
+  <span class="token keyword">volatile</span> markOop _displaced_header<span class="token punctuation">;</span>
+ <span class="token keyword">public</span><span class="token operator">:</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>其实就是一个markOop对象头，也就是说<code>BasicObjectLock</code>其实就是一个对象本身和对象头的组合，也叫做<code>lock record</code>。再来看代码code 1处的第10行到第17行，了解完这些我们再看代码，其实就是从当前调用方法栈的most_recent（栈底）搜索到 limit（栈顶）遍历查找，直到找到一个空闲的或者之前就指向当前锁对象的<code>lock record</code>。</p>
 <blockquote>
 <p><strong>Lock Record</strong></p>
