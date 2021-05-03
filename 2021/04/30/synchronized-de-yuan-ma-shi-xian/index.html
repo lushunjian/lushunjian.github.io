@@ -662,7 +662,7 @@
          <span class="token operator">^</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>mark<span class="token punctuation">)</span> 
          <span class="token comment" spellcheck="true">// 将上面结果中的分代年龄忽略掉</span>
          <span class="token operator">&amp;</span><span class="token operator">~</span><span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>age_mask_in_place<span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token comment" spellcheck="true">// 下面几个同级的if分支(code 5,code6,code 7,code 8)都是在判断是否能用偏向锁，轻量级锁</span>
+     <span class="token comment" spellcheck="true">// 下面几个同级的if分支(code 5,code 6,code 7,code 8)都是在判断是否能用偏向锁，轻量级锁</span>
      <span class="token comment" spellcheck="true">// 如果不能就会升级到重量级锁</span>
      <span class="token comment" spellcheck="true">// code 5：判断是否偏向自己，为0代表偏向线程是自己</span>
       <span class="token keyword">if</span>  <span class="token punctuation">(</span>anticipated_bias_locking_value <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -712,7 +712,7 @@
       <span class="token keyword">else</span> <span class="token punctuation">{</span>
             <span class="token comment" spellcheck="true">// code 9：下面构建一个匿名偏向的mark word，尝试用CAS指令替换掉锁对象的mark word</span>
             markOop header <span class="token operator">=</span> <span class="token punctuation">(</span>markOop<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span> mark <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>markOopDesc<span class="token operator">:</span><span class="token operator">:</span>biased_lock_mask_in_place <span class="token operator">|</span>
-                                                            <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>markOopDesc<span class="token operator">:</span><span class="token operator">:</span>age_mask_in_place <span class="token operator">|</span>epoch_mask_in_place<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                              <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>markOopDesc<span class="token operator">:</span><span class="token operator">:</span>age_mask_in_place <span class="token operator">|</span>epoch_mask_in_place<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">if</span> <span class="token punctuation">(</span>hash <span class="token operator">!=</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span>no_hash<span class="token punctuation">)</span> <span class="token punctuation">{</span>
               header <span class="token operator">=</span> header<span class="token operator">-</span><span class="token operator">></span><span class="token function">copy_set_hash</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
@@ -739,7 +739,8 @@
             success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// 如果偏向线程不是当前线程或没有开启偏向模式等原因都会导致success==false</span>
+    <span class="token comment" spellcheck="true">// success等于false说明偏向锁没有加成功(偏向线程不是当前线程或没有开启偏向模式等原因都会导致失败)</span>
+    <span class="token comment" spellcheck="true">// 如果偏向锁加失败，会进入轻量级锁。下面这里就是轻量级锁的加锁逻辑</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
           <span class="token comment" spellcheck="true">// 轻量级锁的逻辑 start</span>
           <span class="token comment" spellcheck="true">//code 10: 构造一个无锁状态的 Mark Word，并将Lock Record的lock指向它</span>
@@ -760,7 +761,7 @@
                <span class="token comment" spellcheck="true">//code 11: 如果是锁重入，则直接将Displaced Mark Word设置为null</span>
               entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-             <span class="token comment" spellcheck="true">// 若禁用则锁升级</span>
+             <span class="token comment" spellcheck="true">// (升到重量级锁) 若禁用则锁升级</span>
               <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
           <span class="token punctuation">}</span>
