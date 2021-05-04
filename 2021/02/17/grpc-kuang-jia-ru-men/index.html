@@ -200,7 +200,7 @@
         <div class="logo-name">三秋</div>
         <div class="logo-desc">
             
-            斯人若彩虹，遇上方知有
+            小破站，记录学习和生活
             
         </div>
     </div>
@@ -1618,6 +1618,14 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             }
             fixPostCardWidth('artDetail', 'prenext-posts');
         });
+		
+		// 默认目录收起,不展开
+		if ($tocAside.hasClass(expandedClass)) {
+			$tocAside.removeClass(expandedClass).hide();
+			$mainContent.removeClass('l9');
+			fixPostCardWidth('artDetail', 'prenext-posts');
+        }
+		
         
     });
 </script>
