@@ -189,8 +189,35 @@
       <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
     </a>
   </li>
+  <li>
+	<a id="dark" onclick="switchDarkMode()">🌞</a>
+  </li>
 </ul>
-
+<link rel="stylesheet" href="/css/dark-mode.css">
+<script>
+	  var isNight = new Date().getHours() >= 22 || new Date().getHours() < 7; // 指定时间
+	  // 依次判断 系统暗黑模式 指定时间 缓存 dark
+	  if( matchMedia('(prefers-color-scheme: dark)').matches || isNight || localStorage.getItem('dark') === '1') {
+		if(!(isNight&&localStorage.getItem('noDark') === '1')) {
+		  document.body.classList.add('dark');
+		}
+	  }
+	  document.getElementById('dark').innerHTML = document.querySelector("body").classList.contains("dark")?"🌙":"🌞";
+	  //点击事件
+		function switchDarkMode() {
+			if ($('body').hasClass('dark')) {
+				$("#dark").html("🌞");
+				document.body.classList.remove('dark');
+				localStorage.setItem('noDark', '1');
+				localStorage.setItem('dark', '0');
+			} else {
+				$("#dark").html("🌙"); 
+				document.body.classList.add('dark');
+				localStorage.setItem('dark', '1');
+				localStorage.setItem('noDark', '0');
+			}
+		}
+</script>
 <div id="mobile-nav" class="side-nav sidenav">
 
     <div class="mobile-head bg-color">
@@ -590,20 +617,20 @@
                 </a>
                 
                 
-                <a href="/categories/spring/" title="spring: 5">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D7BDE2;">spring
-                        <span class="tag-length">5</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/spring-boot/" title="spring boot: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             style="background-color: #85C1E9;">spring boot
                         <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/spring/" title="spring: 5">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #D7BDE2;">spring
+                        <span class="tag-length">5</span>
                     </span>
                 </a>
                 
@@ -739,7 +766,7 @@
                     color: '#3C4858'
                 }
             },
-            indicator: [{"name":"linux","max":30},{"name":"前端","max":30},{"name":"大数据","max":30},{"name":"分布式","max":30},{"name":"其他","max":30},{"name":"golang","max":30},{"name":"java","max":30},{"name":"运维","max":30},{"name":"算法","max":30},{"name":"leetcode","max":30},{"name":"MQL5","max":30},{"name":"react","max":30},{"name":"spring","max":30},{"name":"spring boot","max":30},{"name":"网络编程","max":30},{"name":"github","max":30},{"name":"python","max":30},{"name":"javasript","max":30},{"name":"go","max":30},{"name":"sql","max":30},{"name":"数据库","max":30},{"name":"git","max":30},{"name":"数据结构","max":30},{"name":"编译原理","max":30}],
+            indicator: [{"name":"linux","max":30},{"name":"前端","max":30},{"name":"大数据","max":30},{"name":"分布式","max":30},{"name":"其他","max":30},{"name":"golang","max":30},{"name":"java","max":30},{"name":"运维","max":30},{"name":"算法","max":30},{"name":"leetcode","max":30},{"name":"MQL5","max":30},{"name":"react","max":30},{"name":"spring boot","max":30},{"name":"spring","max":30},{"name":"网络编程","max":30},{"name":"github","max":30},{"name":"python","max":30},{"name":"javasript","max":30},{"name":"go","max":30},{"name":"sql","max":30},{"name":"数据库","max":30},{"name":"git","max":30},{"name":"数据结构","max":30},{"name":"编译原理","max":30}],
             nameGap: 5,
             center: ['50%','55%'],
             radius: '66%'
@@ -750,7 +777,7 @@
             itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data : [
                 {
-                    value : [3,24,4,9,13,6,29,2,10,4,1,2,5,1,1,1,2,1,1,1,1,1,1,1],
+                    value : [3,24,4,9,13,6,29,2,10,4,1,2,1,5,1,1,2,1,1,1,1,1,1,1],
                     name : 'Number of Categories'
                 }
             ]

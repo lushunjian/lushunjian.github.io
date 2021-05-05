@@ -1,0 +1,95 @@
+/* 切换按钮 */
+#dark{
+  cursor pointer
+  position fixed
+  right 40px
+  bottom 98px
+  width 16px
+  height 14px
+  z-index 100
+  font-size 20px
+}
+/*暗黑模式*/
+.dark {
+	background-color: #292a2d !important;
+    transition: background .6s ease-in-out,padding .6s ease-in-out;
+    color: #a9a9b3 !important;
+}
+
+/*正文*/
+.dark .card-content{
+	background-color: #333 !important;
+	transition: background .6s ease-in-out,padding .6s ease-in-out;
+	border-radius: 10px !important;
+}
+.dark .top-scroll .btn-floating {
+    background: linear-gradient(to bottom right, #6a6767 0%, #756f70 100%);
+}
+.dark p code{
+	background-color: #5a5353 !important;
+}
+
+.dark #artDetail .reprint{
+	border: 1px solid #6c6767;
+}
+.dark #rewardModal{
+	background-color: #333 
+}
+/*导航栏*/
+.dark header .nav-transparent {
+    background-color: transparent !important;
+    background-image: none;
+    box-shadow: none;
+}
+.dark .bg-color{
+	background: #494848;
+}
+/*音乐播放器*/
+.dark #aplayer{
+	background-color: #292a2d !important;
+}
+.dark .aplayer-list-light{
+	background-color: #333 !important;
+}
+.dark .aplayer .aplayer-list ol li:hover {
+	background-color: #333 !important;
+}
+.dark .aplayer .aplayer-list ol li{
+	border-top: 1px solid #979393;
+}
+.dark .aplayer-bar{
+	background: #a7a3a3 !important;
+}
+/*暗黑模式 valine插件*/
+.dark .vwrap{
+	border: 1px solid #6c6767 !important;
+}
+.dark .vsubmit{
+	background-color: #292a2d !important;  
+	border: 1px solid #6c6767 !important;
+	color: #a9a9b3 !important;
+}
+.dark textarea{
+	color: #a9a9b3 !important;
+}
+.dark .valine-card{
+	background-color: #333 !important;
+}
+.dark .card{
+	background-color: #333 !important;
+}
+/*暗黑模式 图片亮度降低*/
+.dark img{
+	filter: brightness(0.5) !important;
+}
+.dark hr{
+	background-color: #333 !important;
+}
+.dark .card-action{
+	background-color: #333 !important;
+}
+
+
+.dark p{
+   color: #a09c9c !important
+}

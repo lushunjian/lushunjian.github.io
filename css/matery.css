@@ -37,6 +37,7 @@ body {
     background-color: #eaeaea;
     margin: 0;
     color: #34495e;
+	transition: background .6s ease-in-out,padding .6s ease-in-out;
 }
 
 /*滚动条样式美化开始 lushunjian*/
