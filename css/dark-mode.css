@@ -25,7 +25,17 @@
 .dark .top-scroll .btn-floating {
     background: linear-gradient(to bottom right, #6a6767 0%, #756f70 100%);
 }
+
+/*tag*/
 .dark p code{
+	background-color: #5a5353 !important;
+}
+
+.dark li code{
+	background-color: #5a5353 !important;
+}
+
+.dark table code{
 	background-color: #5a5353 !important;
 }
 
@@ -34,6 +44,16 @@
 }
 .dark #rewardModal{
 	background-color: #333 
+}
+/* 表格*/
+.dark table tr:nth-child(2n), thead {
+	background-color: #454545 !important;
+}
+.dark table, th, td {
+    border: 1px solid #818487 !important;
+}
+.dark table th {
+	background-color: #454545 !important;;
 }
 /*导航栏*/
 .dark header .nav-transparent {
@@ -89,6 +109,12 @@
 	background-color: #333 !important;
 }
 
+.dark .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel {
+    background: #7466b2;
+}
+.dark .cbp_tmtimeline > li .cbp_tmlabel {
+	background: #5a4270;
+}
 
 .dark p{
    color: #a09c9c !important
