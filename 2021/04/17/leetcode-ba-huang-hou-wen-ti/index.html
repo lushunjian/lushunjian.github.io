@@ -1416,10 +1416,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在Java中对象包含三个部分，概括起来分为对象头、对象体和对齐字节。如果是数组，还包括数组长度。markword的结构，定义在markOop.hpp文件
-  32 bits:
-  --------
-  hash:25 -----------
+                            在Java中任意对象都可以用作锁，因此必定要有一个映射关系，存储该对象以及其对应的锁信息（比如当前哪个线程持有锁，哪些线程在等待）。一种很直观的方法是，用一个全局map，来存储这个映射关系，但这样会有一些问题：需要对map做线程安全保障，不
                         
                     </div>
                     <div class="publish-info">

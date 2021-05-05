@@ -593,7 +593,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直不甚了解，本文主要总结synchronized的实现源码。网上博文很多但大多比较浅显，有的来龙去脉说的不够透彻让人摸不着头脑，有的只停留在字节码的指令级别，对于更深层次的实现没有阐述。对于synchronized的原理直接去看源码，如果没有C++基础还是很吃力的，这里我要推荐两篇博客<a href="https://github.com/farmerjohngit/myblog/issues/12" target="_blank" rel="noopener">https://github.com/farmerjohngit/myblog/issues/12</a> 和 <a href="https://www.cnblogs.com/gmt-hao/p/14139341.html" target="_blank" rel="noopener">https://www.cnblogs.com/gmt-hao/p/14139341.html</a>  <code>synchronized</code> 的源码很复杂涉及到几种锁状态的转换，部分代码细节的判断和设计晦涩难懂，如果独自通过阅读源码的方式想搞懂synchronized 的整个流程难度还是很大的。本文很多借鉴了这两篇文章，我在很多不解的地方加入了更详细的解释和理解，把整个逻辑全部理顺了一遍。解决了下面这几个问题</p>
+                <p>synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直不甚了解，本文主要总结synchronized的实现源码。网上博文很多但大多比较浅显，有的来龙去脉说的不够透彻让人摸不着头脑，有的只停留在字节码的指令级别，对于更深层次的实现没有阐述。对于synchronized的原理直接去看源码，如果没有C++基础还是很吃力的，这里我要推荐两篇博客<a href="https://github.com/farmerjohngit/myblog/issues/12" target="_blank" rel="noopener">https://github.com/farmerjohngit/myblog/issues/12</a> 和 <a href="https://www.cnblogs.com/gmt-hao/p/14139341.html" target="_blank" rel="noopener">https://www.cnblogs.com/gmt-hao/p/14139341.html</a>  <code>synchronized</code> 的源码很复杂涉及到几种锁状态的转换，部分代码细节的判断和设计晦涩难懂，如果独自通过阅读源码的方式想搞懂synchronized 的整个流程难度还是很大的。本文很多借鉴了这两篇文章，我在很多不解的地方加入了更详细的解释和理解，把整个逻辑全部理顺了一遍。解决了下面这几个问题，本文分析的JVM版本是JVM8，具体版本号以及代码可以在<a href="http://hg.openjdk.java.net/jdk8u/jdk8u/hotspot/file/9ce27f0a4683" target="_blank" rel="noopener">这里</a>看到。</p>
 <ol>
 <li>synchronized 怎么做到同步的</li>
 <li>synchronized 做了哪些优化</li>
@@ -622,7 +622,8 @@
  <span class="token function">CASE</span><span class="token punctuation">(</span>_monitorexit<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">{</span>
      <span class="token comment" spellcheck="true">// ...</span>
  <span class="token punctuation">}</span></code></pre>
-<h2 id="偏向锁-amp-轻量级锁"><a href="#偏向锁-amp-轻量级锁" class="headerlink" title="偏向锁&amp;轻量级锁"></a>偏向锁&amp;轻量级锁</h2><pre class=" language-java"><code class="language-java"><span class="token function">CASE</span><span class="token punctuation">(</span>_monitorenter<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+<h2 id="偏向锁-amp-轻量级锁"><a href="#偏向锁-amp-轻量级锁" class="headerlink" title="偏向锁&amp;轻量级锁"></a>偏向锁&amp;轻量级锁</h2><p>JVM的开发者发现在很多情况下，在Java程序运行时，同步块中的代码都是不存在竞争的，不同的线程交替的执行同步块中的代码。这种情况下，用重量级锁是没必要的。因此JVM引入了轻量级锁的概念。</p>
+<pre class=" language-java"><code class="language-java"><span class="token function">CASE</span><span class="token punctuation">(</span>_monitorenter<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// lockee 就是锁对象 栈帧当中生成一个lock record 记录</span>
   oop lockee <span class="token operator">=</span> <span class="token function">STACK_OBJECT</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token comment" spellcheck="true">// 判null，如果锁对象为null，会抛出空指针异常</span>
@@ -703,7 +704,7 @@
                 <span class="token punctuation">(</span><span class="token operator">*</span> BiasedLocking<span class="token operator">:</span><span class="token operator">:</span><span class="token function">rebiased_lock_entry_count_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">++</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
             <span class="token keyword">else</span> <span class="token punctuation">{</span>
-              <span class="token comment" spellcheck="true">// (升到重量级锁)重偏向失败，代表存在多线程竞争，则调用monitorenter方法进行锁升级</span>
+              <span class="token comment" spellcheck="true">// 重偏向失败，代表存在多线程竞争，则调用monitorenter方法进行锁升级</span>
               <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
             success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
@@ -733,7 +734,7 @@
                 <span class="token punctuation">(</span><span class="token operator">*</span> BiasedLocking<span class="token operator">:</span><span class="token operator">:</span><span class="token function">anonymously_biased_lock_entry_count_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">++</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
             <span class="token keyword">else</span> <span class="token punctuation">{</span>
-              <span class="token comment" spellcheck="true">// (升到重量级锁)如果修改失败说明存在多线程竞争，所以进入monitorenter方法, 锁升级</span>
+              <span class="token comment" spellcheck="true">// 如果修改失败说明存在多线程竞争，所以进入monitorenter方法, 锁升级</span>
               <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
             success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
@@ -761,7 +762,7 @@
                <span class="token comment" spellcheck="true">//code 11: 如果是锁重入，则直接将Displaced Mark Word设置为null</span>
               entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-             <span class="token comment" spellcheck="true">// (升到重量级锁) 若禁用则锁升级</span>
+             <span class="token comment" spellcheck="true">// 若禁用则锁升级</span>
               <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
           <span class="token punctuation">}</span>
@@ -817,9 +818,9 @@
 <blockquote>
 <p><strong>Lock Record</strong></p>
 <p>关于Lock Record有必要再详细解释一下，它什么时候被创建？在哪里创建？</p>
-<p>当字节码解释器执行<code>monitorenter</code>指令时，如果同步对象锁状态为无锁状态（锁标志位为“01”状态，是否为偏向锁为“0”），虚拟机首先在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，用于存储锁对象目前的Mark Word的拷贝（官方把这份拷贝加了一个Displaced前缀，即Displaced Mark Word），拷贝对象头中的Mark Word复制到锁记录（Lock Record）中。拷贝成功后，虚拟机将使用CAS操作尝试将对象的Mark Word更新为指向自己（线程）的Lock Record的指针。如果这个更新动作成功了，那么这个线程就拥有了该对象的锁，将Lock Record里的owner指针指向锁对象的Mark Word，并且对象Mark Word的锁标志位设置为“00”，表示此对象处于轻量级锁定状态。失败则线程升级为重量级锁，释放时会检查Mark Word中的Lock Record指针是否指向自己(获得锁的线程Lock Record)，使用原子的CAS将Displaced Mark Word替换回对象头，如果成功，则表示没有竞争发生，如果替换失败则升级为重量级锁。整个过程中，Lock Record是一个线程内独享的存储，每一个线程都有一个可用<code>Monitor Record</code>列表。（因为线程执行过程中可能会获得不同的锁对象，所以是个<code>Monitor Record</code>列表）</p>
+<p>当字节码解释器执行<code>monitorenter</code>指令时，如果同步对象锁状态为无锁状态（锁标志位为“01”状态，是否为偏向锁为“0”），虚拟机首先在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，用于存储锁对象目前的Mark Word的拷贝（官方称之为<code>Displaced Mark Word</code>），拷贝对象头中的Mark Word复制到锁记录（Lock Record）中。拷贝成功后，虚拟机将使用CAS操作尝试将对象的Mark Word更新为指向自己（线程）的Lock Record的指针。如果这个更新动作成功了，那么这个线程就拥有了该对象的锁，将Lock Record里的owner指针指向锁对象的Mark Word，并且对象Mark Word的锁标志位设置为“00”，表示此对象处于轻量级锁定状态。失败则线程升级为重量级锁，释放时会检查Mark Word中的Lock Record指针是否指向自己(获得锁的线程Lock Record)，使用原子的CAS将Displaced Mark Word替换回对象头，如果成功，则表示没有竞争发生，如果替换失败则升级为重量级锁。整个过程中，Lock Record是一个线程内独享的数据结构）</p>
 </blockquote>
-<p>如果不熟悉C++语法的人，可能看不懂在做什么，在C++中 <code>-&gt;</code> 操作符左边是结构体指针（相当于Java中对象的引用）右边是这个结构体的函数，因此对于14行 <code>if (most_recent-&gt;obj() == NULL) entry = most_recent</code>等价于 <code>if (most_recent.obj() == NULL) entry = most_recent</code>。那么整个循环就变为</p>
+<p>如果不熟悉C++语法的人，可能看不懂在做什么，在C++中 <code>-&gt;</code> 操作符左边是结构体指针（相当于Java中对象的引用）右边是这个结构体的函数，因此对于14行 <code>if (most_recent-&gt;obj() == NULL) entry = most_recent</code>可理解为 <code>if (most_recent.obj() == NULL) entry = most_recent</code>。那么整个循环就变为</p>
 <pre class=" language-java"><code class="language-java">  <span class="token keyword">while</span> <span class="token punctuation">(</span>most_recent <span class="token operator">!=</span> limit <span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>most_recent<span class="token punctuation">.</span><span class="token function">obj</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> NULL<span class="token punctuation">)</span>
         entry <span class="token operator">=</span> most_recent<span class="token punctuation">;</span>
@@ -1412,10 +1413,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在Java中对象包含三个部分，概括起来分为对象头、对象体和对齐字节。如果是数组，还包括数组长度。markword的结构，定义在markOop.hpp文件
-  32 bits:
-  --------
-  hash:25 -----------
+                            在Java中任意对象都可以用作锁，因此必定要有一个映射关系，存储该对象以及其对应的锁信息（比如当前哪个线程持有锁，哪些线程在等待）。一种很直观的方法是，用一个全局map，来存储这个映射关系，但这样会有一些问题：需要对map做线程安全保障，不
                         
                     </div>
                     <div class="publish-info">

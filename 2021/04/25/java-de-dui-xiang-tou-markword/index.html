@@ -5,10 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Java的对象头MarkWord, 三秋">
-    <meta name="description" content="在Java中对象包含三个部分，概括起来分为对象头、对象体和对齐字节。如果是数组，还包括数组长度。markword的结构，定义在markOop.hpp文件
-  32 bits:
-  --------
-  hash:25 -----------">
+    <meta name="description" content="在Java中任意对象都可以用作锁，因此必定要有一个映射关系，存储该对象以及其对应的锁信息（比如当前哪个线程持有锁，哪些线程在等待）。一种很直观的方法是，用一个全局map，来存储这个映射关系，但这样会有一些问题：需要对map做线程安全保障，不">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -596,7 +593,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在Java中对象包含三个部分，概括起来分为对象头、对象体和对齐字节。如果是数组，还包括数组长度。markword的结构，定义在markOop.hpp文件</p>
+                <p>在Java中任意对象都可以用作锁，因此必定要有一个映射关系，存储该对象以及其对应的锁信息（比如当前哪个线程持有锁，哪些线程在等待）。一种很直观的方法是，用一个全局map，来存储这个映射关系，但这样会有一些问题：需要对map做线程安全保障，不同的<code>synchronized</code>之间会相互影响，性能差；另外当同步对象较多时，该map可能会占用比较多的内存。所以最好的办法是将这个映射关系存储在对象头中，因为对象头本身也有一些hashcode、GC相关的数据，所以如果能将锁信息与这些信息<strong>共存</strong>在对象头中就好了。</p>
+<p>在JVM中，对象在内存中除了本身的数据外还会有个对象头，对于普通对象而言，其对象头中有两类信息：<code>mark word</code>和类型指针。另外对于数组而言还会有一份记录数组长度的数据。在Java中对象包含三个部分，概括起来分为对象头、对象体和对齐字节。如果是数组，还包括数组长度。markword的结构，定义在markOop.hpp文件</p>
 <pre class=" language-java"><code class="language-java">  <span class="token number">32</span> bits<span class="token operator">:</span>
   <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
   hash<span class="token operator">:</span><span class="token number">25</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">></span><span class="token operator">|</span> age<span class="token operator">:</span><span class="token number">4</span>    biased_lock<span class="token operator">:</span><span class="token number">1</span> lock<span class="token operator">:</span><span class="token function">2</span> <span class="token punctuation">(</span>normal object<span class="token punctuation">)</span>

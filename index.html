@@ -727,14 +727,19 @@
                         <div class="dream">
     
     <div class="title center-align">
-        <i class="far fa-lightbulb"></i>&nbsp;&nbsp;我的梦想
+        <i class="far fa-lightbulb"></i>&nbsp;&nbsp;Tips
     </div>
     
     <div class="row">
-        <div class="col l8 offset-l2 m10 offset-m1 s10 offset-s1 center-align text">
-            喝茶听雨，周游世界
+        <div class="col l8 offset-l2 m10 offset-m1 s10 offset-s1 center-align text" style="font-size:18px">
+            Life comes down to a simple choice：get busy living or get busy dying <br>生命可以归结为一种简单的选择：要么忙于生存，要么赶着去死。<br>强者自救，圣者渡人，庸人自扰
         </div>
     </div>
+	
+	<div class="container custom mx-auto" style="text-align: center;margin-top:15px">
+          <img src="/medias/dreams.svg" style="height:200px;">
+    </div>
+	
 </div>
                     
 
@@ -762,7 +767,7 @@
 <script>
 	var flag = true
 	if(flag){
-		var music = [{"name":"晴天","artist":"周杰伦","url":"medias/music/周杰伦-晴天.mp3","cover":"medias/mcover/qingtian.jpg"},{"name":"十年","artist":"陈奕迅","url":"medias/music/陈奕迅+-+十年.mp3","cover":"medias/mcover/shinian.jpg"},{"name":"江南","artist":"林俊杰","url":"medias/music/江南 - 林俊杰.mp3","cover":"medias/mcover/jl.jpg"},{"name":"少年","artist":"梦然","url":"medias/music/梦然-少年.mp3","cover":"medias/mcover/shaonian.jpg"},{"name":"平凡之路","artist":"朴树","url":"medias/music/朴树+-+平凡之路.mp3","cover":"medias/mcover/pfzl.jpg"}]
+		var music = [{"name":"晴天","artist":"周杰伦","url":"medias/music/周杰伦-晴天.mp3","cover":"medias/mcover/qingtian.jpg"},{"name":"十年","artist":"陈奕迅","url":"medias/music/陈奕迅+-+十年.mp3","cover":"medias/mcover/shinian.jpg"},{"name":"江南","artist":"林俊杰","url":"medias/music/江南 - 林俊杰.mp3","cover":"medias/mcover/jl.jpg"},{"name":"平凡之路","artist":"朴树","url":"medias/music/朴树+-+平凡之路.mp3","cover":"medias/mcover/pfzl.jpg"},{"name":"Unravel but is it okay if it's lofi","artist":"Kijugo","url":"medias/music/Kijugo - Unravel but is it okay if it's lofi_.mp3","cover":"medias/mcover/unravel.png"}]
 		console.log(music);
 		const ap = new APlayer({
 		container: document.getElementById('aplayer'),
@@ -858,10 +863,7 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                在Java中对象包含三个部分，概括起来分为对象头、对象体和对齐字节。如果是数组，还包括数组长度。markword的结构，定义在markOop.hpp文件
-  32 bits:
-  --------
-  hash:25 -----------
+                                在Java中任意对象都可以用作锁，因此必定要有一个映射关系，存储该对象以及其对应的锁信息（比如当前哪个线程持有锁，哪些线程在等待）。一种很直观的方法是，用一个全局map，来存储这个映射关系，但这样会有一些问题：需要对map做线程安全保障，不
                             
                         </div>
                         <div class="publish-info">
