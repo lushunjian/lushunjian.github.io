@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的图书, 三秋">
-    <meta name="description" content="我的图书 | 三秋">
+    <meta name="keywords" content="Synchronized之轻量级锁, 三秋">
+    <meta name="description" content="在偏向锁出现竞争后，加锁失败的线程会把Mark Word中的锁状态改为轻量级锁，这样其他线程再来时就会走向轻量级锁的加锁流程。下面开始轻量级锁获取流程分析，代码在bytecodeInterpreter.cpp#1816。
+CASE(_mon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的图书 | 三秋</title>
+    <title>Synchronized之轻量级锁 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -457,12 +458,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的图书</h1>
+                    <h1 class="description center-align post-title">Synchronized之轻量级锁</h1>
                 </div>
             </div>
         </div>
@@ -577,12 +578,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">java</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/java/" class="post-category">
+                                java
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -608,494 +622,59 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>身体和心灵必须有一个在路上</p>
-</blockquote>
-
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban-tab {
-    padding: 5px;
-}
-
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
-
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
-    }
-}
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <a class="hexo-douban-tab" id="hexo-douban-tab1" href="javascript:;"
-       rel="external">
-        Reading
-        (2)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab2" href="javascript:;"
-       rel="external">
-        Wish
-        (2)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab3" href="javascript:;"
-       rel="external">
-        Read
-        (7)</a>
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/view/subject/s/public/s2132270.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/1034279/"> 果壳中的宇宙</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  [英] 史蒂芬·霍金 / 吴忠超 / 湖南科学技术出版社 / 2006-3 / 42.00元
-
-        </div>
-        <div class="hexo-douban-meta">2020-02-17
-      在读 /  物理 宇宙</div>
-        <div class="hexo-douban-comments">
-      非常好的科普读物，真想去探寻宇宙的奥义
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/view/subject/s/public/s1164759.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/1219329/"> Unix/Linux编程实践教程</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  Bruce Molay / 杨宗源、黄海涛 / 清华大学出版社 / 2004-10-1 / 56.00元
-
-        </div>
-        <div class="hexo-douban-meta">2019-03-03
-      在读 /  程序设计 Linux/Unix 操作系统</div>
-        <div class="hexo-douban-comments">
-      深入浅出的阐述了操作系统的工作原理，并配有大量插图，通俗易懂。确实如大家所说，很经典，值得推荐
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img2.doubanio.com/view/subject/s/public/s3078482.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/3066477/"> 三体Ⅱ</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  刘慈欣 / 重庆出版社 / 2008-5 / 32.00
-
-      
-        </div>
-        <div class="hexo-douban-meta">2020-02-17
-      想读 /  宇宙 刘慈欣 中国 三体</div>
-        <div class="hexo-douban-comments">
-      宇宙就像一个黑暗的森林。每个文明都是带枪的猎人
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s26012674.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/5363767/"> 三体Ⅲ</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  刘慈欣 / 重庆出版社 / 2010-11 / 38.00元
-
-      
-        </div>
-        <div class="hexo-douban-meta">2020-02-17
-      想读 /  宇宙 虚拟机 科幻 经典 刘慈欣</div>
-        <div class="hexo-douban-comments">
-      刘大的硬科幻作品，想读，抽个时间看看
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img3.doubanio.com/view/subject/s/public/s27988451.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/2143016/"> 我，机器人</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  (美)阿西莫夫 / 国强等 / 科学普及出版社 / 1983 / 0.66
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  宇宙 科幻 机器人 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      阿西莫夫的经典小说，人和机器人到底是什么关系，如果机器人发展出自我意识，人和机器人能和谐共处吗
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s26601285.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/24380577/"> 平凡的世界</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  路遥 / 北京十月文艺出版社 / 2013-5 / 99.00元
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  小说 至诚至朴 简单的追求 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      是一部现实主义小说，也是一部小说形式的家族史。都说人生会经历三个阶段，1.认识到父母是个普通人，2.认识到自己是个普通人，3.认识到儿子是个普通人。是啊，我们都只是个平凡的人，做着平凡的事。
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/view/subject/s/public/s6340977.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/4242172/"> 天才在左 疯子在右</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  高铭 / 武汉大学出版社 / 2010-2 / 29.80元
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  经典 心理学 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      什么是天才，什么是疯子。天才不被人理解，疯子也被人理解。天才都有很多被人认为是疯子的想法，二者没有绝对的界限
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s29523176.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/27120470/"> 斗罗大陆</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  唐家三少 / 湖南少年儿童出版社 / 2016-6-1 / CNY 34.80
-
-      </div>
-        <div class="hexo-douban-meta">2020-02-17
-      读过 /  唐家三少 小说 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      我也不知道为什么就看完了，我不喜欢看小说的，不过写的不错，剧情挺好
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/view/subject/s/public/s3053779.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/3056892/"> 幻城</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  郭敬明 / 长江文艺出版社 / 2008-4 / 23.00元
-
-      </div>
-        <div class="hexo-douban-meta">2019-04-01
-      读过 /  玄幻 / ★★★☆☆ 还行</div>
-        <div class="hexo-douban-comments">
-      还是高中的时候看过的小说，总得来说还不错
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img2.doubanio.com/view/subject/s/public/s1114142.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/1150503/"> 资本论（第一卷）</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  马克思 / 中共中央马克思恩格斯列宁斯大林著作编译局 / 人民出版社 / 2004-1 / 45.00元
-
-      </div>
-        <div class="hexo-douban-meta">2019-01-31
-      读过 /  资本论 经济学 经济 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      以前课本上总说马克思，恩格斯是很厉害的人物，但我一直不知道他们厉害在哪里。看了这本书，才找的答案
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/view/subject/s/public/s27458236.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title"><a target="_blank" href="https://book.douban.com/subject/24722612/"> 深入理解Java虚拟机（第2版）</a></div>
-        <div class="hexo-douban-meta">
-        
-  
-  周志明 / 机械工业出版社 / 2013-9-1 / 79.00元
-
-      </div>
-        <div class="hexo-douban-meta">2019-01-16
-      读过 /  JVM Java 虚拟机 程序设计 / ★★★★★ 力荐</div>
-        <div class="hexo-douban-comments">
-      jvm经典书籍，讲的非常透彻，赞
-      
-  
-
-  </div>
-    </div>
-</div>
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
-
-</script>
-
+                <p>在偏向锁出现竞争后，加锁失败的线程会把Mark Word中的锁状态改为轻量级锁，这样其他线程再来时就会走向轻量级锁的加锁流程。下面开始轻量级锁获取流程分析，代码在<a href="http://hg.openjdk.java.net/jdk8u/jdk8u/hotspot/file/9ce27f0a4683/src/share/vm/interpreter/bytecodeInterpreter.cpp#l1816" target="_blank" rel="noopener">bytecodeInterpreter.cpp#1816</a>。</p>
+<pre class=" language-java"><code class="language-java"><span class="token function">CASE</span><span class="token punctuation">(</span>_monitorenter<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  oop lockee <span class="token operator">=</span> <span class="token function">STACK_OBJECT</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>entry <span class="token operator">!=</span> NULL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+   <span class="token comment" spellcheck="true">// 上面省略的代码中如果CAS操作失败也会调用到InterpreterRuntime::monitorenter</span>
+
+    <span class="token comment" spellcheck="true">// traditional lightweight locking</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 构建一个无锁状态的Displaced Mark Word</span>
+      markOop displaced <span class="token operator">=</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_unlocked</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 设置到Lock Record中去</span>
+      entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>displaced<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      bool call_vm <span class="token operator">=</span> UseHeavyMonitors<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>call_vm <span class="token operator">||</span> Atomic<span class="token operator">:</span><span class="token operator">:</span><span class="token function">cmpxchg_ptr</span><span class="token punctuation">(</span>entry<span class="token punctuation">,</span> lockee<span class="token operator">-</span><span class="token operator">></span><span class="token function">mark_addr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> displaced<span class="token punctuation">)</span> <span class="token operator">!=</span> displaced<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 如果CAS替换不成功，代表锁对象不是无锁状态，这时候判断下是不是锁重入</span>
+        <span class="token comment" spellcheck="true">// Is it simple recursive case?</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>call_vm <span class="token operator">&amp;&amp;</span> THREAD<span class="token operator">-</span><span class="token operator">></span><span class="token function">is_lock_owned</span><span class="token punctuation">(</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span> displaced<span class="token operator">-</span><span class="token operator">></span><span class="token function">clear_lock_bits</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          entry<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// CAS操作失败则调用monitorenter</span>
+          <span class="token function">CALL_VM</span><span class="token punctuation">(</span>InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>THREAD<span class="token punctuation">,</span> entry<span class="token punctuation">)</span><span class="token punctuation">,</span> handle_exception<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">UPDATE_PC_AND_TOS_AND_CONTINUE</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    istate<span class="token operator">-</span><span class="token operator">></span><span class="token function">set_msg</span><span class="token punctuation">(</span>more_monitors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">UPDATE_PC_AND_RETURN</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Re-execute</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>如果锁对象不是偏向模式或已经偏向其他线程，则<code>success</code>为<code>false</code>。这时候会构建一个无锁状态的<code>mark word</code>设置到<code>Lock Record</code>中去，我们称<code>Lock Record</code>中存储对象<code>mark word</code>的字段叫<code>Displaced Mark Word</code>。需要注意的是这个<code>Displaced Mark Word</code>不是一个指针，而是一个副本。你或许很奇怪，每次加锁的时候都会创建<code>Lock Record</code>，那么<code>Lock Record</code>在线程中到底是个什么样的数据结构呢，这里我把加锁的过程画了出来，连同重量级锁加锁过程一起画了，因为他们是一个动态转换的过程，分开的话隔远了看着累。</p>
+<h2 id="轻量级锁-gt-重量级锁"><a href="#轻量级锁-gt-重量级锁" class="headerlink" title="轻量级锁 -&gt; 重量级锁"></a>轻量级锁 -&gt; 重量级锁</h2><p> Synchronized锁升级过程为：无锁 -&gt; 偏向锁 -&gt; 轻量级锁 -&gt; 重量级锁。</p>
+<ol>
+<li><p>假设线程进入轻量级锁。当线程执行到同步方法或方法中的同步代码块时，线程首先会创建锁记录对象（Lock Record），每个线程的有<code>synchronized</code>关键字的栈帧（每个方法就是一个栈帧）都会包含锁记录结构，内部可以存储锁定对象的mark work</p>
+<p><img src="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/0.png" alt></p>
+</li>
+<li><p>当线程出现竞争时，让锁记录中Object Reference指向锁对象，并尝试cas替换锁对象的Mark Work，将Mark Word的值存入Lock Record的地址，注意此时锁对象头中的锁状态是 00 ，表示线程获得轻量级锁，而<code>Lock Record</code>中的对象头副本是 01。这是因为<code>Lock Record</code>中存储的是修改之前的对象头副本</p>
+<p><img src="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/1.png" alt></p>
+</li>
+<li><p><code>synchronized</code>是<strong>可重入</strong>的，当下次加锁线程还是当前线程时，轻量级锁会创建一个新的<code>Lock Record</code>作为重入的标识，object reference依旧指向object对象，但此时的锁记录副本为 null</p>
+<p><img src="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/3.png" alt></p>
+</li>
+<li><p>当退出同步代码块时，如果锁记录为null，直接出栈，表示重入计数减一</p>
+<p><img src="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/1.png" alt></p>
+</li>
+<li><p>当退出同步代码块时，锁记录不为null，这时使用cas将Lock Record中的Mark Word的副本值恢复给对象头，如果修改成功，则解锁成功。如果失败，说明有其它线程要进入同步代码块，锁已经发生锁膨胀，进入重量级解锁流程</p>
+<p>如果有线程（Thread-A）已经占有了轻量级锁，另一个线程（Thread-B）再次进入同步代码块，检测到对象的mark work的标识为00，则会发生锁膨胀，将锁转变为重量级锁。为object申请Monitor锁，并让mark word指向Monitor，自己进入Monitor对象的entryList进行等待，此时Ower指向锁记录对象的对象引用</p>
+<p><img src="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/4.png" alt></p>
+<p>当Thread-A执行完同步代码块的代码，使用cas将Mark word的值恢复给对象头，此时会失败。这时为进入重量级解锁流程，按照Monitor地址找到Monitor对象，将Owner设置为null，并唤醒EntryList中等待的线程。</p>
+</li>
+</ol>
 
             </div>
             <hr/>
@@ -1121,7 +700,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/books/index.html">https://lushunjian.gitee.io/books/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2021/05/09/synchronized-zhi-qing-liang-ji-suo/">https://lushunjian.gitee.io/2021/05/09/synchronized-zhi-qing-liang-ji-suo/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1158,7 +737,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">java</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1615,30 +1198,20 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/books/index.html">
+                <a href="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="我的图书">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Synchronized之轻量级锁">
                         
-                        <span class="card-title">我的图书</span>
+                        <span class="card-title">Synchronized之轻量级锁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    身体和心灵必须有一个在路上
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban
+                            在偏向锁出现竞争后，加锁失败的线程会把Mark Word中的锁状态改为轻量级锁，这样其他线程再来时就会走向轻量级锁的加锁流程。下面开始轻量级锁获取流程分析，代码在bytecodeInterpreter.cpp#1816。
+CASE(_mon
                         
                     </div>
                     <div class="publish-info">
@@ -1647,13 +1220,25 @@ for (var i = 0; i < firstpages.length; i++) {
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1661,48 +1246,48 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/books/index.html">
+                <a href="/2021/04/30/synchronized-zhi-pian-xiang-suo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="我的图书">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Synchronized之偏向锁">
                         
-                        <span class="card-title">我的图书</span>
+                        <span class="card-title">Synchronized之偏向锁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    身体和心灵必须有一个在路上
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban
+                            synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直理解不够透彻，在面试中也是经常被问，对于一些高级资深的岗位来说，不仅仅只是简单的问一下synchronized 的
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-04-30
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

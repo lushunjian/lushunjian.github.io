@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Synchronized的源码实现, 三秋">
+    <meta name="keywords" content="Synchronized之偏向锁, 三秋">
     <meta name="description" content="synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直理解不够透彻，在面试中也是经常被问，对于一些高级资深的岗位来说，不仅仅只是简单的问一下synchronized 的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Synchronized的源码实现 | 三秋</title>
+    <title>Synchronized之偏向锁 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -457,12 +457,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/49.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Synchronized的源码实现</h1>
+                    <h1 class="description center-align post-title">Synchronized之偏向锁</h1>
                 </div>
             </div>
         </div>
@@ -622,12 +622,6 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直理解不够透彻，在面试中也是经常被问，对于一些高级资深的岗位来说，不仅仅只是简单的问一下synchronized 的使用和大致原理了，而是更深入的问它的加锁解锁过程，实际上synchronized 默默的为我们做了很多事情。关于它的原理网上博文很多但大多比较浅显，有的来龙去脉说的不够清楚让人云里雾里，有的只停留在字节码的指令级别，对于更深层次的实现没有阐述。对于synchronized的加锁过程直接去看源码，如果没有C++基础和并发编程的思维想要看懂还是很吃力的，这里我要推荐两篇博客<a href="https://github.com/farmerjohngit/myblog/issues/12" target="_blank" rel="noopener">https://github.com/farmerjohngit/myblog/issues/12</a> 和 <a href="https://www.cnblogs.com/gmt-hao/p/14139341.html" target="_blank" rel="noopener">https://www.cnblogs.com/gmt-hao/p/14139341.html</a>  <code>synchronized</code> 的加锁过程很复杂涉及到几种锁状态的转换，部分代码细节的数据结构设计和计算（源码中有很多位运算）晦涩难懂。本文很多借鉴了这两篇文章，我在很多不解的地方加入了更详细的解释和理解，把整个逻辑理顺了一遍。解决了下面这几个问题，本文分析的JVM版本是JVM8，具体版本号以及代码可以在<a href="http://hg.openjdk.java.net/jdk8u/jdk8u/hotspot/file/9ce27f0a4683" target="_blank" rel="noopener">这里</a>看到。</p>
-<ol>
-<li>Lock Record和Monitor的数据结构</li>
-<li>synchronized 的加锁过程，锁升级</li>
-<li>synchronized 做了哪些优化</li>
-<li>synchronized 有哪些缺点</li>
-</ol>
 <p>官方对<code>synchronized</code>做了优化，性能得到了很大的提升，已经和AQS差不多了。<code>synchronized</code>代码块是由<code>monitorenter</code>和<code>monitorexit</code>两个字节码指令实现的。JVM 会对其进行解析，如果锁的是对象则就是对该对象加锁解锁，如果是类方法则是对 Class 对象加锁解锁，如果是实例方法则是对对应的对象加锁解锁。</p>
 <blockquote>
 <p>关于HotSpot虚拟机中获取锁的入口，网上很多文章要么给出的方法入口为interpreterRuntime.cpp#monitorenter和bytecodeInterpreter.cpp#1816。因此要找锁的入口，肯定是要在源码中找到对monitorenter指令解析的地方。在HotSpot的中有两处地方对monitorenter指令进行解析：一个是在bytecodeInterpreter.cpp#1816 ，另一个是在templateTable_x86_64.cpp#3667。前者是JVM中的字节码解释器(bytecodeInterpreter)，用C++实现了每条JVM指令(如monitorenter、invokevirtual等)，其优点是实现相对简单且容易理解，缺点是执行慢。后者是模板解释器(templateInterpreter)，其对每个指令都写了一段对应的汇编代码，启动时将每个指令与对应汇编代码入口绑定，可以说是效率做到了极致。在HotSpot中，只用到了模板解释器，字节码解释器根本就没用到，但其实<code>bytecodeInterpreter</code>的逻辑和<code>templateInterpreter</code>的逻辑是大同小异的，因为<code>templateInterpreter</code>中都是汇编代码，比较晦涩，所以看<code>bytecodeInterpreter</code>的实现会便于理解一点。而interpreterRuntime.cpp#monitorenter方法只是锁实现中的一部分，需要注意的是在jdk8u之前，<code>bytecodeInterpreter</code>并没有实现偏向锁的逻辑。</p>
@@ -802,7 +796,8 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>上面的代码我都加了注释，基本逻辑应该是可以看的懂得，主要解释一下几个难以理解的点</p>
-<h3 id="code-1处"><a href="#code-1处" class="headerlink" title="code  1处"></a>code  1处</h3><p>这里的 <code>BasicObjectLock</code> 的定义在<code>basicLock.hpp</code>中</p>
+<p><strong><em>code  1处</em></strong></p>
+<p>这里的 <code>BasicObjectLock</code> 的定义在<code>basicLock.hpp</code>中</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">BasicObjectLock</span> VALUE_OBJ_CLASS_SPEC <span class="token punctuation">{</span>
   friend <span class="token keyword">class</span> <span class="token class-name">VMStructs</span><span class="token punctuation">;</span>
  <span class="token keyword">private</span><span class="token operator">:</span>
@@ -848,20 +843,29 @@
 <p>当字节码解释器执行<code>monitorenter</code>指令时，如果同步对象锁状态为无锁状态（锁标志位为“01”状态，是否为偏向锁为“0”），虚拟机首先在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，用于存储锁对象目前的Mark Word的拷贝（官方称之为<code>Displaced Mark Word</code>），拷贝对象头中的Mark Word复制到锁记录（Lock Record）中。拷贝成功后，虚拟机将使用CAS操作尝试将对象的Mark Word更新为指向自己（线程）的Lock Record的指针。如果这个更新动作成功了，那么这个线程就拥有了该对象的锁，将Lock Record里的owner指针指向锁对象的Mark Word，并且对象Mark Word的锁标志位设置为“00”，表示此对象处于轻量级锁定状态。失败则线程升级为重量级锁，释放时会检查Mark Word中的Lock Record指针是否指向自己（获得锁的线程Lock Record），使用原子的CAS将Displaced Mark Word替换回对象头，如果成功，则表示没有竞争发生，如果替换失败则升级为重量级锁。整个过程中，Lock Record是一个线程内独享的数据结构</p>
 </blockquote>
 <p>如果不熟悉C++语法的人，可能看不懂在做什么，在C++中 <code>-&gt;</code> 操作符左边是结构体指针（相当于Java中对象的引用）右边是这个结构体的函数，因此对于14行 <code>if (most_recent-&gt;obj() == NULL) entry = most_recent</code>可理解为 <code>if (most_recent.obj() == NULL) entry = most_recent</code>。所以整个循环就是在线程栈中找可用的 <code>Lock Record</code></p>
-<h3 id="code-2处"><a href="#code-2处" class="headerlink" title="code 2处"></a>code 2处</h3><p>获取到<code>Lock Record</code>后，首先要做的就是为其obj字段赋值。将Lock Record的obj指针指向锁对象</p>
-<h3 id="code-3处"><a href="#code-3处" class="headerlink" title="code 3处"></a>code 3处</h3><p>判断锁对象的<code>mark word</code>是否是偏向模式，即低3位是否为101。</p>
-<h3 id="code-4处"><a href="#code-4处" class="headerlink" title="code 4处"></a>code 4处</h3><p>里有几步位运算的操作<code>anticipated_bias_locking_value = (((uintptr_t)lockee-&gt;klass()-&gt;prototype_header() | thread_ident) ^ (uintptr_t)mark) &amp;  ~((uintptr_t) markOopDesc::age_mask_in_place);</code> 这个位运算可以分为3个部分。</p>
+<p><strong><em>code 2处</em></strong></p>
+<p>获取到<code>Lock Record</code>后，首先要做的就是为其obj字段赋值。将Lock Record的obj指针指向锁对象</p>
+<p><strong><em>code 3处</em></strong></p>
+<p>判断锁对象的<code>mark word</code>是否是偏向模式，即低3位是否为101。</p>
+<p><strong><em>code 4处</em></strong></p>
+<p>里有几步位运算的操作<code>anticipated_bias_locking_value = (((uintptr_t)lockee-&gt;klass()-&gt;prototype_header() | thread_ident) ^ (uintptr_t)mark) &amp;  ~((uintptr_t) markOopDesc::age_mask_in_place);</code> 这个位运算可以分为3个部分。</p>
 <ol>
 <li>第一部分：<code>((uintptr_t)lockee-&gt;klass()-&gt;prototype_header() | thread_ident)</code> 将当前线程id和类的prototype_header相或，这样得到的值为（当前线程id + prototype_header中的（epoch + 分代年龄 + 偏向锁标志 + 锁标志位）），注意prototype_header的分代年龄那4个字节为0</li>
 <li>第二部分： <code>^ (uintptr_t)mark</code> 将上面计算得到的结果与锁对象的markOop进行异或，相等的位全部被置为0，只剩下不相等的位。</li>
 <li>第三部分 ：<code>&amp; ~((uintptr_t) markOopDesc::age_mask_in_place)</code> markOopDesc::age_mask_in_place为…0001111000,取反后，变成了…1110000111,除了分代年龄那4位，其他位全为1；将取反后的结果再与上面的结果相与，将上面异或得到的结果中分代年龄给忽略掉。</li>
 </ol>
-<h3 id="code-5处"><a href="#code-5处" class="headerlink" title="code 5处"></a>code 5处</h3><p><code>anticipated_bias_locking_value==0</code>代表偏向的线程是当前线程且<code>mark word</code>的epoch等于class的epoch，这种情况下什么都不用做。</p>
-<h3 id="code-6处"><a href="#code-6处" class="headerlink" title="code 6处"></a>code 6处</h3><p><code>(anticipated_bias_locking_value &amp; markOopDesc::biased_lock_mask_in_place) != 0</code>代表class的prototype_header或对象的<code>mark word</code>中偏向模式是关闭的，又因为能走到这已经通过了<code>mark-&gt;has_bias_pattern()</code>判断，即对象的<code>mark word</code>中偏向模式是开启的，那也就是说class的prototype_header不是偏向模式。</p>
-<h3 id="code-7处"><a href="#code-7处" class="headerlink" title="code 7处"></a>code 7处</h3><p>如果epoch已过期，则需要重偏向，利用CAS指令将锁对象的<code>mark word</code>替换为一个偏向当前线程且epoch为类的epoch的新的<code>mark word</code>。</p>
-<h3 id="code-8处"><a href="#code-8处" class="headerlink" title="code 8处"></a>code 8处</h3><p>CAS将偏向线程改为当前线程，如果当前是匿名偏向则能修改成功，否则进入锁升级的逻辑。</p>
-<h3 id="code-9处"><a href="#code-9处" class="headerlink" title="code 9处"></a>code 9处</h3><p>这一步已经是轻量级锁的逻辑了。从上图的<code>mark word</code>的格式可以看到，轻量级锁中<code>mark word</code>存的是指向<code>Lock Record</code>的指针。这里构造一个无锁状态的<code>mark word</code>，然后存储到<code>Lock Record</code>（<code>Lock Record</code>的格式可以看第一篇文章）。设置<code>mark word</code>是无锁状态的原因是：轻量级锁解锁时是将对象头的<code>mark word</code>设置为<code>Lock Record</code>中的<code>Displaced Mark Word</code>，所以创建时设置为无锁状态，解锁时直接用CAS替换就好了。</p>
-<h3 id="code-10"><a href="#code-10" class="headerlink" title="code 10"></a>code 10</h3><p> 如果是锁重入，则将<code>Lock Record</code>的<code>Displaced Mark Word</code>设置为null，起到一个锁重入计数的作用。</p>
+<p><strong><em>code 5处</em></strong></p>
+<p><code>anticipated_bias_locking_value==0</code>代表偏向的线程是当前线程且<code>mark word</code>的epoch等于class的epoch，这种情况下什么都不用做。</p>
+<p><strong><em>code 6处</em></strong></p>
+<p><code>(anticipated_bias_locking_value &amp; markOopDesc::biased_lock_mask_in_place) != 0</code>代表class的prototype_header或对象的<code>mark word</code>中偏向模式是关闭的，又因为能走到这已经通过了<code>mark-&gt;has_bias_pattern()</code>判断，即对象的<code>mark word</code>中偏向模式是开启的，那也就是说class的prototype_header不是偏向模式。</p>
+<p><strong><em>code 7处</em></strong></p>
+<p>如果epoch已过期，则需要重偏向，利用CAS指令将锁对象的<code>mark word</code>替换为一个偏向当前线程且epoch为类的epoch的新的<code>mark word</code>。</p>
+<p><strong><em>code 8处</em></strong></p>
+<p>CAS将偏向线程改为当前线程，如果当前是匿名偏向则能修改成功，否则进入锁升级的逻辑。</p>
+<p><strong><em>code 9处</em></strong></p>
+<p>这一步已经是轻量级锁的逻辑了。从上图的<code>mark word</code>的格式可以看到，轻量级锁中<code>mark word</code>存的是指向<code>Lock Record</code>的指针。这里构造一个无锁状态的<code>mark word</code>，然后存储到<code>Lock Record</code>（<code>Lock Record</code>的格式可以看第一篇文章）。设置<code>mark word</code>是无锁状态的原因是：轻量级锁解锁时是将对象头的<code>mark word</code>设置为<code>Lock Record</code>中的<code>Displaced Mark Word</code>，所以创建时设置为无锁状态，解锁时直接用CAS替换就好了。</p>
+<p><strong><em>code 10处</em></strong></p>
+<p> 如果是锁重入，则将<code>Lock Record</code>的<code>Displaced Mark Word</code>设置为null，起到一个锁重入计数的作用。</p>
 <p><strong>以上是偏向锁加锁的流程（包括部分轻量级锁的加锁流程），如果当前锁已偏向其他线程||epoch值过期||偏向模式关闭||获取偏向锁的过程中存在并发冲突，都会进入到<code>InterpreterRuntime::monitorenter</code>方法， 在该方法中会对偏向锁撤销和升级。</strong></p>
 <h2 id="偏向锁的撤销"><a href="#偏向锁的撤销" class="headerlink" title="偏向锁的撤销"></a>偏向锁的撤销</h2><p>这里说的撤销是指在获取偏向锁的过程因为不满足条件导致要将锁对象改为非偏向锁状态；释放是指退出同步块时的过程，释放锁的逻辑会在下一小节阐述。请读者注意本文中<strong>撤销与释放的区别</strong>。如果获取偏向锁失败会进入到<a href="http://hg.openjdk.java.net/jdk8u/jdk8u/hotspot/file/9ce27f0a4683/src/share/vm/interpreter/interpreterRuntime.cpp#l608" target="_blank" rel="noopener">InterpreterRuntime::monitorenter</a>方法</p>
 <pre class=" language-java"><code class="language-java"><span class="token function">IRT_ENTRY_NO_ASYNC</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">,</span> InterpreterRuntime<span class="token operator">:</span><span class="token operator">:</span><span class="token function">monitorenter</span><span class="token punctuation">(</span>JavaThread<span class="token operator">*</span> thread<span class="token punctuation">,</span> BasicObjectLock<span class="token operator">*</span> elem<span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -1052,7 +1056,9 @@ IRT_END</code></pre>
     <span class="token comment" spellcheck="true">// 如果能找到对应的Lock Record说明偏向的线程还在执行同步代码块中的代码</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>mon_info<span class="token operator">-</span><span class="token operator">></span><span class="token function">owner</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-      <span class="token comment" spellcheck="true">// 需要升级为轻量级锁，直接修改偏向线程栈中的Lock Record。为了处理锁重入的case，在这里将Lock Record的Displaced Mark Word设置为null，第一个Lock Record会在下面的代码中再处理</span>
+      <span class="token comment" spellcheck="true">// 需要升级为轻量级锁，直接修改偏向线程栈中的Lock Record。</span>
+      <span class="token comment" spellcheck="true">// 为了处理锁重入的case，在这里将Lock Record的Displaced Mark Word设置为null，</span>
+      <span class="token comment" spellcheck="true">// 第一个Lock Record会在下面的代码中再处理</span>
       markOop mark <span class="token operator">=</span> markOopDesc<span class="token operator">:</span><span class="token operator">:</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token punctuation">(</span>BasicLock<span class="token operator">*</span><span class="token punctuation">)</span> NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
       highest_lock <span class="token operator">=</span> mon_info<span class="token operator">-</span><span class="token operator">></span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
       highest_lock<span class="token operator">-</span><span class="token operator">></span><span class="token function">set_displaced_header</span><span class="token punctuation">(</span>mark<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1149,28 +1155,7 @@ IRT_END</code></pre>
 <li><p>唤醒暂停的线程，从安全点继续执行代码</p>
 </li>
 </ol>
-<p>为什么要去找可用的<code>Lock Record</code>呢？难度一个对象锁对应多个<code>Lock Record</code>吗？到这里就有必要知道线程栈中的 <code>Lock Record</code>到底是怎么存储的了。这里就涉及到轻量级锁的加锁流程了，只有轻量级锁需要用到 <code>Lock Record</code>，下面用画图的方式说一下加锁的过程，这里我把轻量级锁加锁过程和重量级锁加锁过程一起写了，因为他们是一整串流程，分开的话隔远了看着累。至于重量级锁的代码流程，</p>
-<h3 id="轻量级锁-gt-重量级锁"><a href="#轻量级锁-gt-重量级锁" class="headerlink" title="轻量级锁 -&gt; 重量级锁"></a>轻量级锁 -&gt; 重量级锁</h3><p>先跳过偏向锁吧（偏向锁比较简单，就是判断一下Mark Word中的偏向线程ID，然后通过CAS去修改）</p>
-<ol>
-<li><p>假设线程进入轻量级锁。当线程执行到同步方法或方法中的同步代码块时，线程首先会创建锁记录对象（Lock Record），每个线程的有<code>synchronized</code>关键字的栈帧（每个方法就是一个栈帧）都会包含锁记录结构，内部可以存储锁定对象的mark work</p>
-<p><img src="/2021/04/30/synchronized-de-yuan-ma-shi-xian/0.png" alt></p>
-</li>
-<li><p>当线程出现竞争时，让锁记录中Object Reference指向锁对象，并尝试cas替换锁对象的Mark Work，将Mark Word的值存入Lock Record的地址，注意此时锁对象头中的锁状态是 00 ，表示线程获得轻量级锁，而<code>Lock Record</code>中的对象头副本是 01。这是因为<code>Lock Record</code>中存储的是修改之前的对象头副本</p>
-<p><img src="/2021/04/30/synchronized-de-yuan-ma-shi-xian/1.png" alt></p>
-</li>
-<li><p><code>synchronized</code>是<strong>可重入</strong>的，当下次加锁线程还是当前线程时，轻量级锁会创建一个新的<code>Lock Record</code>作为重入的标识，object reference依旧指向object对象，但此时的锁记录副本为 null</p>
-<p><img src="/2021/04/30/synchronized-de-yuan-ma-shi-xian/3.png" alt></p>
-</li>
-<li><p>当退出同步代码块时，如果锁记录为null，直接出栈，表示重入计数减一</p>
-<p><img src="/2021/04/30/synchronized-de-yuan-ma-shi-xian/1.png" alt></p>
-</li>
-<li><p>当退出同步代码块时，锁记录不为null，这时使用cas将Lock Record中的Mark Word的副本值恢复给对象头，如果修改成功，则解锁成功。如果失败，说明有其它线程要进入同步代码块，锁已经发生锁膨胀，进入重量级解锁流程</p>
-<p>如果有线程（Thread-A）已经占有了轻量级锁，另一个线程（Thread-B）再次进入同步代码块，检测到对象的mark work的标识为00，则会发生锁膨胀，将锁转变为重量级锁。为object申请Monitor锁，并让mark word指向Monitor，自己进入Monitor对象的entryList进行等待，此时Ower指向锁记录对象的对象引用</p>
-<p><img src="/2021/04/30/synchronized-de-yuan-ma-shi-xian/4.png" alt></p>
-<p>当Thread-A执行完同步代码块的代码，使用cas将Mark word的值恢复给对象头，此时会失败。这时为进入重量级解锁流程，按照Monitor地址找到Monitor对象，将Owner设置为null，并唤醒EntryList中等待的线程。</p>
-</li>
-<li></li>
-</ol>
+<p>简单来说偏向锁适合线程竞争少的情况，偏向锁的加锁过程仅仅只在修改Mark Word中的偏向线程时使用了CAS操作，后续对于持有偏向锁的重入操作仅仅只是判断一下，而对于没有持有锁的线程来竞争时也只是判断一下，如果不是偏向自己则升级为轻量级锁。对于偏向锁的重入计数是通过线程栈中的<code>Lock Record</code>来实现的，每次重入（即碰到<code>monitorenter</code>指令）时创建一个<code>Lock Record</code>，每次释放（碰到<code>monitorexit</code>指令）时，移除一个<code>Lock Record</code>，因此在并发不高的情况下，偏向锁的性能很高</p>
 
             </div>
             <hr/>
@@ -1196,7 +1181,7 @@ IRT_END</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2021/04/30/synchronized-de-yuan-ma-shi-xian/">https://lushunjian.gitee.io/2021/04/30/synchronized-de-yuan-ma-shi-xian/</a>
+                    <a href="https://lushunjian.gitee.io/2021/04/30/synchronized-zhi-pian-xiang-suo/">https://lushunjian.gitee.io/2021/04/30/synchronized-zhi-pian-xiang-suo/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1689,30 +1674,30 @@ IRT_END</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/04/30/synchronized-de-yuan-ma-shi-xian/">
+                <a href="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/49.jpg" class="responsive-img" alt="Synchronized的源码实现">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Synchronized之轻量级锁">
                         
-                        <span class="card-title">Synchronized的源码实现</span>
+                        <span class="card-title">Synchronized之轻量级锁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            synchronized 是我们日常使用频率很高的关键字，它是控制线程安全的同步锁。虽然开发中一直使用，但对于它的实现原理一直理解不够透彻，在面试中也是经常被问，对于一些高级资深的岗位来说，不仅仅只是简单的问一下synchronized 的
+                            在偏向锁出现竞争后，加锁失败的线程会把Mark Word中的锁状态改为轻量级锁，这样其他线程再来时就会走向轻量级锁的加锁流程。下面开始轻量级锁获取流程分析，代码在bytecodeInterpreter.cpp#1816。
+CASE(_mon
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-04-30
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-05-09
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1725,7 +1710,6 @@ IRT_END</code></pre>
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
