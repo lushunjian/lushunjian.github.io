@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的游戏, 三秋">
-    <meta name="description" content="我的游戏 | 三秋">
+    <meta name="keywords" content="Umi和Dva框架指南, 三秋">
+    <meta name="description" content="使用蚂蚁金服的Antd框架有一年多了，现在感觉越用越顺手。但Antd只是个UI框架，这些强大功能的背后是Umi和Dva的功劳，路由和Model经过简单的配置就可以使用，在一个组件中还可以实现多个Model的注入。这种丝滑程度，让我不禁想起了">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>我的游戏 | 三秋</title>
+    <title>Umi和Dva框架指南 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -457,12 +457,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的游戏</h1>
+                    <h1 class="description center-align post-title">Umi和Dva框架指南</h1>
                 </div>
             </div>
         </div>
@@ -577,12 +577,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                                <span class="chip bg-color">前端</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -608,328 +621,126 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-    <p>大部分男生都无法抗拒游戏的魅力</p>
+                <p>使用蚂蚁金服的Antd框架有一年多了，现在感觉越用越顺手。但Antd只是个UI框架，这些强大功能的背后是<code>Umi</code>和<code>Dva</code>的功劳，路由和Model经过简单的配置就可以使用，在一个组件中还可以实现多个Model的注入。这种丝滑程度，让我不禁想起了SpringBoot。Umi+Dva的确实是一套成熟的前端解决方案，它融合了很多技术和理念，对于刚使用的人来说，学习成本还是挺高的，不像Vue那样容易上手。</p>
+<blockquote>
+<p>简单来说</p>
+<p>umi ：可以理解为 roadhog + 路由，并辅以一套插件机制，目的是通过框架的方式简化 React 开发</p>
+<p>dva ：可以理解为 redux + redux-saga，数据流解决方案，和 umi 没有依赖关系，可以独立使用</p>
+<p>roadhog 是基于 webpack 的封装工具，目的是简化 webpack 的配置，是一个包含 <code>dev</code>、<code>build</code> 和 <code>test</code> 的命令行工具</p>
 </blockquote>
-
-<style>
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-douban-tab {
-    padding: 5px;
-}
-
-.hexo-douban-active {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-item {
-    padding-bottom: 10px;
-    position: relative;
-    clear: both;
-    min-height: 170px;
-    padding: 10px 0;
-    border-bottom: 1px #ddd solid;
-}
-
-@media screen and (max-width: 600px) {
-    .hexo-douban-item {
-        width: 100%;
+<h2 id="Umi介绍"><a href="#Umi介绍" class="headerlink" title="Umi介绍"></a>Umi介绍</h2><p>Umi是蚂蚁金服的底层前端框架，特别是从3.0版本开始，它们的slogan就改成了<strong>插件化的企业级前端应用框架</strong>，插件这个概念让整个umi框架的扩展性大大提高，插件让框架支持各种功能扩展和业务需求。可以说<strong>插件</strong>就是umi的灵魂，官网文档描述Umi的6大特性：</p>
+<ul>
+<li>🎉 可扩展，Umi 实现了完整的生命周期，并使其插件化，Umi 内部功能也全由插件完成。此外还支持插件和插件集，以满足功能和垂直域的分层需求。</li>
+<li>📦 开箱即用，Umi 内置了路由、构建、部署、测试等，仅需一个依赖即可上手开发。并且还提供针对 React 的集成插件集，内涵丰富的功能，可满足日常 80% 的开发需求。</li>
+<li>🐠 企业级，经蚂蚁内部 3000+ 项目以及阿里、优酷、网易、飞猪、口碑等公司项目的验证，值得信赖。</li>
+<li>🚀 大量自研，包含微前端、组件打包、文档工具、请求库、hooks 库、数据流等，满足日常项目的周边需求。</li>
+<li>🌴 完备路由，同时支持配置式路由和约定式路由，同时保持功能的完备性，比如动态路由、嵌套路由、权限路由等等。</li>
+<li>🚄 面向未来，在满足需求的同时，我们也不会停止对新技术的探索。比如 dll 提速、modern mode、webpack@5、自动化 external、bundler less 等等</li>
+</ul>
+<h3 id="约定大于配置"><a href="#约定大于配置" class="headerlink" title="约定大于配置"></a>约定大于配置</h3><p>约定大于配置的思想，简化了很多搭建项目时的工作，在使用umi框架的时候，它很多东西都是约定式的。所谓约定式就是指，按照约定好的方式开发，就能达到某种效果，中间的过程由框架帮我们完成，一般的我们通过umi创建的工程，目录结构如下</p>
+<pre><code>.
+├── dist/                          // 默认的 build 输出目录
+├── mock/                          // mock 文件所在目录，基于 express
+├── config/
+    ├── config.js                  // umi 配置，同 .umirc.js，二选一
+└── src/                           // 源码目录，可选
+    ├── layouts/index.js           // 全局布局
+    ├── locales                    // 国际化
+    ├── models                     // model层
+    ├── services                   // service层
+    ├── pages/                     // 页面目录，里面的文件即路由
+        ├── .umi/                  // dev 临时目录，需添加到 .gitignore
+        ├── .umi-production/       // build 临时目录，会自动删除
+        ├── document.ejs           // HTML 模板
+        ├── 404.js                 // 404 页面
+        ├── page1.js               // 页面 1，任意命名，导出 react 组件
+        ├── page1.test.js          // 用例文件，umi test 会匹配所有 .test.js 和 .e2e.js 结尾的文件
+        └── page2.js               // 页面 2，任意命名
+    ├── global.css                 // 约定的全局样式文件，自动引入，也可以用 global.less
+    ├── global.js                  // 可以在这里加入 polyfill
+    ├── app.js                     // 运行时配置文件
+├── .umirc.js                      // umi 配置，同 config/config.js，二选一
+├── .env                           // 环境变量
+└── package.json</code></pre><p>在Umi的约定下</p>
+<ul>
+<li>建一个 locales 目录，就拥有了国际化</li>
+<li>建一个 models 目录，就拥有了数据流</li>
+<li>建一个 mock 目录，就拥有了数据 mock</li>
+</ul>
+<p>这看起来是非常黑盒非常酷的，用这种方式其实对于团队代码风格的统一是非常有好处的，直接在框架层面就约束了大家的目录组织模式，便于团队维护。</p>
+<p>但是缺点也是挺明显的，灵活性不如配置式的高，因为只能按特定的模式来开发，如果原本约定的方式不满足业务需求，就需要额外开发umi插件来魔改原本的功能。而且约定式的开发是相对其他框架来说很特别的一点，对新上手的同学来说需要时间去通读官网文档了解约定式的规则。总的来说有舍有得，我还是倾向于约定的方式，整个项目结构简单清晰</p>
+<blockquote>
+<p>umi 缺点就是无法暴露原始的webpack.config.json 文件，只能按照官方文档上特定的方法进行修改，而文档却并不完善，项目进行顺利时大家笑嘻嘻，但如果碰到棘手的问题，就不得不去深入了解umi这个黑盒的原理。启动 <code>umi dev</code> 后，大家会发现 pages 下多了个 <code>.umi</code> 的目录。这是啥？这是 umi 的临时目录，可以在这里做一些验证，但请不要直接在这里修改代码，umi 重启或者 pages 下的文件修改都会重新生成这个文件夹下的文件</p>
+</blockquote>
+<h3 id="插件体系"><a href="#插件体系" class="headerlink" title="插件体系"></a>插件体系</h3><p>umi 区别于其他前端开发框架和工具的核心就是它的插件机制，基于 umi 的插件机制，你可以获得扩展项目的编译时和运行时的能力。通过插件支持的功能也会变得更强大，我们针对功能的需要可以去使用修改代码打包配置，修改启动代码，约定目录结构，修改 HTML 等更丰富接口。</p>
+<p>可以说插件体系是 Umi 最重要的基建，因为包括 Umi内部实现也是全部由插件构成，Umi通过插件体系实现了技术收敛，把大家常用的技术栈进行整理，让大家只用 Umi 就可以完成 80% 的日常工作。3.x版本重构了整个插件体系。从图看出 presets插件集 和 plugins插件 垂直分层，插件组合成不同的插件集来处理不同的业务场景。而umi本身已经内置了一个针对react应用的插件集（<a href="https://umijs.org/zh-CN/plugins/preset-react" target="_blank" rel="noopener">@umijs/preset-react</a>），正是这个插件集中的插件引入了react项目中常用的一些功能如antd，数据流，国际化等。</p>
+<h3 id="umi的配置"><a href="#umi的配置" class="headerlink" title="umi的配置"></a>umi的配置</h3><p>根目录下的 <strong>.umirc.js</strong> 是整个应用的配置文件，上面提到的插件也可以在这里配置。配置项可以写在 <strong>.umirc.js</strong> 文件中，也可以写在 <strong>config/config.js</strong> 文件中，<strong>二者只有一个生效</strong> 。我个人倾向于用config.js，关于更详细配置，看<a href="https://umijs.org/zh-CN/config" target="_blank" rel="noopener">官网</a></p>
+<h2 id="Dva介绍"><a href="#Dva介绍" class="headerlink" title="Dva介绍"></a>Dva介绍</h2><p>一个轻量级的前端数据流应用框架。通过 reducers, effects 和 subscriptions 组织 model，简化 redux 和 redux-saga 引入的概念</p>
+<blockquote>
+<p>React 本身只是一个 DOM 的抽象层，使用组件构建虚拟 DOM。如果开发大应用，还需要解决一个问题。</p>
+<ul>
+<li>通信：组件之间如何通信？</li>
+<li>数据流：数据如何和视图串联起来？路由和数据如何绑定？如何编写异步逻辑？</li>
+</ul>
+</blockquote>
+<p>目前流行的数据流方案有：</p>
+<ul>
+<li>Flux，单向数据流方案，以 <a href="https://github.com/reactjs/redux" target="_blank" rel="noopener">Redux</a> 为代表</li>
+<li>Reactive，响应式数据流方案，以 <a href="https://github.com/mobxjs/mobx" target="_blank" rel="noopener">Mobx</a> 为代表</li>
+<li>其他，比如 rxjs 等</li>
+</ul>
+<p>到底哪一种架构最合适 React ？目前最流行的数据流方案，截止 2017.1，最流行的社区 React 应用架构方案如下。</p>
+<ul>
+<li>路由： <a href="https://github.com/ReactTraining/react-router/tree/v2.8.1" target="_blank" rel="noopener">React-Router</a></li>
+<li>架构： <a href="https://github.com/reactjs/redux" target="_blank" rel="noopener">Redux</a></li>
+<li>异步操作： <a href="https://github.com/yelouafi/redux-saga" target="_blank" rel="noopener">Redux-saga</a></li>
+</ul>
+<p>缺点：要引入多个库，项目结构复杂。dva 是体验技术部开发的 React 应用框架，dva将上面三个 React 工具库包装在一起，简化了 API，让开发 React 应用更加方便和快捷。dva = React-Router + Redux + Redux-saga。</p>
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p>Action 是一个普通 javascript 对象，它是改变 State 的唯一途径。无论是从 UI 事件、网络回调，还是 WebSocket 等数据源所获得的数据，最终都会通过 dispatch 函数调用一个 action，从而改变对应的数据。action 必须带有 <code>type</code> 属性指明具体的行为，其它字段可以自定义，如果要发起一个 action 需要使用 <code>dispatch</code> 函数；需要注意的是 <code>dispatch</code> 是在组件 connect Models以后，通过 props 传入的。</p>
+<p><strong>方式一(推荐)</strong>： 使用dispatch调用models里面effects/reducer声明的方法</p>
+<pre class=" language-JavaScript"><code class="language-JavaScript">this.props.dispatch({
+  type: 'system/testFunc',                                      //type，命名空间/effects方法名
+  payload: params,                                              //payload，参数
+});</code></pre>
+<p><strong>方式二</strong>：dispatch带callback回调函数作为第三个参数</p>
+<pre class=" language-JavaScript"><code class="language-JavaScript">//组件中
+this.props.dispatch({
+  type: 'system/testFunc',
+  payload: params,
+  callback: (res) => {
+    if (!!res) {
+      //do sth
     }
+  }
+});
+
+//model中
+*testFunc({ payload, callback }, { call, put }){
+  const { data } = yield call(services.rightSave, payload);
+  if (data && data.code == 0) {
+    !!callback && && callback(data);
+  }
+}</code></pre>
+<h3 id="connect"><a href="#connect" class="headerlink" title="connect"></a>connect</h3><p><strong>方式一</strong>：通过connet函数</p>
+<pre class=" language-JavaScript"><code class="language-JavaScript">import { connect } from 'dva'; 
+function mapStateToProps(state) { //state是项目所有的models
+  const { selectList } = state.system; //获取namespace命名空间为system的models数据state
+  const { organizationList } = state.global; //全局获取namespace命名空间为global的models数据state
+  return {
+    selectList,
+    organizationList
+  };
 }
-
-.hexo-douban-picture {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 100px;
-}
-
-.hexo-douban-info {
-    padding-left: 120px;
-}
-
-.hexo-douban-meta {
-    font-size: 12px;
-    padding-right: 10px;
-}
-
-.hexo-douban-comments {
-    font-size: 12px;
-}
-
-.hexo-douban-pagination {
-    margin-top: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.hexo-douban-button {
-    padding: 5px;
-}
-
-.hexo-douban-button:hover {
-    background: #657b83;
-    color: #fff;
-}
-
-.hexo-douban-hide {
-    display: none;
-}
-
-.hexo-douban-show {
-    display: block;
-}
-
-
-</style>
-
-<div class="hexo-douban-tabs">
-    <a class="hexo-douban-tab" id="hexo-douban-tab1" href="javascript:;"
-       rel="external">
-        Playing
-        (0)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab2" href="javascript:;"
-       rel="external">
-        Wish
-        (0)</a>
-    <a class="hexo-douban-tab" id="hexo-douban-tab3" href="javascript:;"
-       rel="external">
-        Played
-        (6)</a>
-
-</div>
-<div>
-    <div id="hexo-douban-item1">
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item2">
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-    <div id="hexo-douban-item3">
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28384635.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/25865152/">纪念碑谷 Monument Valley</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  手游 神作 独立游戏 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 惊叹作者的奇思构想，画风很美。里面的关卡是在真实三维世界不可能存在的，很赞</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s21863858.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/19956598/">逆战 AssaultFire</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  FPS 塔防 射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 大学时开始玩的设计游戏，最喜欢玩这个游戏的机甲模式，使用机甲打怪兽，简直不要太爽，燃爆了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img2.doubanio.com/lpic/s29342102.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10740751/">穿越火线 크로스파이어</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  射击 CF 第一人称射击 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 穿越火线当年火到不行，初中玩的第一个游戏。还记得当年网吧通宵打幽灵生化模式，好像就在昨天。当初最想要的就是一把军斧，没舍得买，哈哈</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img2.doubanio.com/lpic/s29003601.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10829706/">QQ飞车</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  赛车 网游 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 初中就开始玩的游戏，以前网吧通宵总会跑几个小时，怀恋琳琅天上的飞车</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img9.doubanio.com/lpic/s28783216.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/26775340/">英雄联盟 League of Legends</a>
-        </div>
-        <div class="hexo-douban-meta">2020-02-17 /  策略 塔防 / ★★★★★ 力荐 </div>
-        <div class="hexo-douban-comments"> 策略塔防，和好兄弟开黑必玩，直到现在依旧很火的游戏</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-item">
-    <div class="hexo-douban-picture"><img src="/assets/douban-loading.gif" data-src="https://img1.doubanio.com/lpic/s10321409.jpg" referrerPolicy="no-referrer" /></div>
-    <div class="hexo-douban-info">
-        <div class="hexo-douban-title">
-            <a target="_blank" href="https://www.douban.com/game/10793961/">剑灵 블레이드&amp;소울</a>
-        </div>
-        <div class="hexo-douban-meta">2019-01-15 /  角色扮演 剑灵 腾讯 /  </div>
-        <div class="hexo-douban-comments"> 游戏不管是画面，剧情，副本，时装都是我玩过的最好的一款游戏，相当不错。不过腾讯游戏你知道的，变着法子圈钱，导致玩家流失严重。只能怀念怀念了</div>
-    </div>
-</div>
-
-
-        
-        <div class="hexo-douban-pagination">
-    <a class="hexo-douban-button hexo-douban-firstpage" href="javascript:;"> Top</a>
-    <a class="hexo-douban-button hexo-douban-previouspage" href="javascript:;">Prev</a>
-    <span class="hexo-douban-pagenum">2 / 3</span>
-    <a class="hexo-douban-button hexo-douban-nextpage" href="javascript:;">Next</a>
-    <a class="hexo-douban-button hexo-douban-lastpage" href="javascript:;">End</a>
-</div>
-    </div>
-
-</div>
-
-<script>
-    /**
- * Created by myths on 18-2-8.
- */
-
-Element.prototype.siblings = function () {
-    var siblingElement = [];
-    var sibs = this.parentNode.children;
-    for (var i = 0; i < sibs.length; i++) {
-        if (sibs[i] !== this) {
-            siblingElement.push(sibs[i]);
-        }
-    }
-    return siblingElement;
-};
-function tabClick() {
-    //修改标签样式
-    this.classList.add('hexo-douban-active');
-    var sibs = this.siblings();
-    for (var j = 0; j < sibs.length; j++) {
-        sibs[j].classList.remove('hexo-douban-active');
-    }
-    //显示对应板块
-    var itemId = this.id.replace('tab', 'item');
-    var target = document.getElementById(itemId);
-    target.classList.remove('hexo-douban-hide');
-    target.classList.add('hexo-douban-show');
-    sibs = document.getElementById(itemId).siblings();
-    for (var k = 0; k < sibs.length; k++) {
-        sibs[k].classList.remove('hexo-douban-show');
-        sibs[k].classList.add('hexo-douban-hide');
-    }
-}
-var tabs = document.getElementsByClassName("hexo-douban-tab");
-for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = tabClick;
-    tabs[i].onclick.apply(tabs[i]);
-}
-tabs[2].click();
-
-    var firstpages = document.getElementsByClassName("hexo-douban-firstpage");
-var previouspages = document.getElementsByClassName("hexo-douban-previouspage");
-var nextpages = document.getElementsByClassName("hexo-douban-nextpage");
-var lastpages = document.getElementsByClassName("hexo-douban-lastpage");
-var pagenums = document.getElementsByClassName("hexo-douban-pagenum");
-
-function makePageNum(num, arr) {
-    return (num + 1) + ' / ' + (Math.ceil(arr.length / 10 === 0 ? 1 : Math.ceil(arr.length / 10)));
-}
-
-function firstBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, 0);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(0, sibs);
-}
-
-function previousBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum > 0) {
-        currNum--;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function nextBtn() {
-    var sibs = this.parentNode.siblings();
-    var currNum = this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText;
-    currNum = currNum.substr(0, currNum.indexOf('/') - 1);
-    currNum = parseInt(currNum, 10) - 1;
-    if (currNum < Math.ceil(sibs.length / 10) - 1) {
-        currNum++;
-    }
-    displayPage(sibs, currNum);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(currNum, sibs);
-}
-
-function lastBtn() {
-    var sibs = this.parentNode.siblings();
-    displayPage(sibs, Math.ceil(sibs.length / 10) - 1);
-    this.parentNode.getElementsByClassName('hexo-douban-pagenum')[0].innerText = makePageNum(Math.ceil(sibs.length / 10) - 1 === -1 ? 0 : Math.ceil(sibs.length / 10) - 1, sibs);
-}
-
-function displayPage(arr, num) {
-    for (var i = 0; i < arr.length; i++) {
-        if (Math.floor(i / 10) === num) {
-            arr[i].classList.remove('hexo-douban-hide');
-            var img = arr[i].getElementsByTagName('img')[0];
-            img.src = img.getAttribute('data-src');
-        } else {
-            arr[i].classList.add('hexo-douban-hide');
-        }
-    }
-}
-
-for (var i = 0; i < firstpages.length; i++) {
-
-    //add listener
-    firstpages[i].onclick = firstBtn;
-    previouspages[i].onclick = previousBtn;
-    nextpages[i].onclick = nextBtn;
-    lastpages[i].onclick = lastBtn;
-
-    //set page num
-    var size = pagenums[i].parentNode.siblings().length;
-    pagenums[i].innerText = '1 / ' + (Math.ceil(size / 10) === 0 ? 1 : Math.ceil(size / 10));
-    firstpages[i].click();
-}
-
-</script>
-
+export default connect(mapStateToProps)(System);   //connect组件
+//或者直接解构
+export default connect(({ system, global: { organizationList } }) => ({ ...system, organizationList }))(System); </code></pre>
+<p><strong>方式二</strong>：es6注解方式引入，只能用于class继承组件</p>
+<pre class=" language-JavaScript"><code class="language-JavaScript">@connect(({ system, global: {organizationList} }) => ({ 
+  ...system,
+  organizationList
+}))
+class System extends React.Component{render(){return {<div> </div>}}</code></pre>
+<p>在@connect注解中可以注入想使用的任何model，注入后这些model中的数据可以在组件的props参数中取到</p>
 
             </div>
             <hr/>
@@ -955,7 +766,7 @@ for (var i = 0; i < firstpages.length; i++) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/games/index.html">https://lushunjian.gitee.io/games/index.html</a>
+                    <a href="https://lushunjian.gitee.io/2021/06/27/umi-he-dva-kuang-jia-zhi-nan/">https://lushunjian.gitee.io/2021/06/27/umi-he-dva-kuang-jia-zhi-nan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -992,7 +803,11 @@ for (var i = 0; i < firstpages.length; i++) {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                                    <span class="chip bg-color">前端</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1449,30 +1264,19 @@ for (var i = 0; i < firstpages.length; i++) {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2021/06/27/umi-he-dva-kuang-jia-zhi-nan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Umi和Dva框架指南">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">Umi和Dva框架指南</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            使用蚂蚁金服的Antd框架有一年多了，现在感觉越用越顺手。但Antd只是个UI框架，这些强大功能的背后是Umi和Dva的功劳，路由和Model经过简单的配置就可以使用，在一个组件中还可以实现多个Model的注入。这种丝滑程度，让我不禁想起了
                         
                     </div>
                     <div class="publish-info">
@@ -1481,13 +1285,25 @@ for (var i = 0; i < firstpages.length; i++) {
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                        <span class="chip bg-color">前端</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1495,48 +1311,49 @@ for (var i = 0; i < firstpages.length; i++) {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/games/index.html">
+                <a href="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的游戏">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Synchronized之轻量级锁">
                         
-                        <span class="card-title">我的游戏</span>
+                        <span class="card-title">Synchronized之轻量级锁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-    大部分男生都无法抗拒游戏的魅力
-
-
-
-    
-.hexo-douban-tabs {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.hexo-doub
+                            在偏向锁出现竞争后，加锁失败的线程会把Mark Word中的锁状态改为轻量级锁，这样其他线程再来时就会走向轻量级锁的加锁流程。下面开始轻量级锁获取流程分析，代码在bytecodeInterpreter.cpp#1816。
+CASE(_mon
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-09
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            顺坚
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

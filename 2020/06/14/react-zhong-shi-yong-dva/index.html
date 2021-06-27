@@ -667,7 +667,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-javascript"><code class="language-javascript"><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   type<span class="token punctuation">:</span> <span class="token string">'add'</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>具体可以查看文档：<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fwww.redux.org.cn%2Fdocs%2Fbasics%2FActions.html" target="_blank" rel="noopener">redux——action</a></p>
+<p>具体可以查看文档：<a href="https://www.redux.org.cn/docs/basics/Actions.html" target="_blank" rel="noopener">redux——action</a></p>
 <h3 id="Dispatch-函数"><a href="#Dispatch-函数" class="headerlink" title="Dispatch 函数"></a>Dispatch 函数</h3><p>dispatching function 是一个用于触发 action 的函数，action 是改变 State 的唯一途径，但是它只描述了一个行为，而 dipatch 可以看作是触发这个行为的方式，而 Reducer 则是描述如何改变数据的。在 dva 中，connect Model 的组件通过 props 可以访问到 dispatch，可以调用 Model 中的 Reducer 或者 Effects，常见的形式如：</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   type<span class="token punctuation">:</span> <span class="token string">'user/add'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 如果在 model 外调用，需要添加 namespace</span>
@@ -730,7 +730,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 </code></pre>
 <h3 id="构建model"><a href="#构建model" class="headerlink" title="构建model"></a>构建model</h3><p>可在终端通过命令 <code>dva g model users</code>生成文件，也可手动创建，然后修改 <code>src/models/users.js</code></p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> usersService <span class="token keyword">from</span> <span class="token string">'../services/users'</span><span class="token punctuation">;</span>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> fetch <span class="token keyword">as</span> usersService <span class="token keyword">from</span> <span class="token string">'../services/users'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
 
@@ -744,18 +744,22 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
   effects<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token operator">*</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> payload <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> call<span class="token punctuation">,</span> put <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token operator">*</span><span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">{</span> payload <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> call<span class="token punctuation">,</span> put <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
      <span class="token comment" spellcheck="true">//payload是从组件router传递过来的参数,</span>
      <span class="token comment" spellcheck="true">//这里的call方法可以使用payload参数传递给后台程序进行处理这里可以调用service层的方法进行调用后端程序，</span>
      <span class="token comment" spellcheck="true">//这里的put表示存储在当前命名空间example中，通过save方法存在当前state中</span>
-      <span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'save'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">call</span><span class="token punctuation">(</span>fetch <span class="token punctuation">,</span> payload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> <span class="token string">'saveTest'</span><span class="token punctuation">,</span>
+            payload<span class="token punctuation">:</span> response
+          <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
   <span class="token comment" spellcheck="true">//用来保存更新state值 上面的put方法调用这里的方法</span>
   reducers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token function">save</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token operator">...</span>state<span class="token punctuation">,</span> <span class="token operator">...</span>action<span class="token punctuation">.</span>payload <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">saveTest</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> payload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token operator">...</span>state<span class="token punctuation">,</span> <span class="token operator">...</span>payload <span class="token punctuation">}</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
