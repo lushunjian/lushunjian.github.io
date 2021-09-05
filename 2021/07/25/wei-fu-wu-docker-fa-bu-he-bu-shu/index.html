@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="微服务Docker发布和部署, 三秋">
+    <meta name="keywords" content="微服务的Docker发布和部署, 三秋">
     <meta name="description" content="本文主要记录微服务通过Maven插件实现生成镜像，并发布到本地仓库和远程的中央仓库。在此之前需要安装好相关的环境，如本地docker服务，docker桌面工具Docker Desktop for Windows （官网上也有Docker D">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>微服务Docker发布和部署 | 三秋</title>
+    <title>微服务的Docker发布和部署 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -457,12 +457,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/28.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/38.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">微服务Docker发布和部署</h1>
+                    <h1 class="description center-align post-title">微服务的Docker发布和部署</h1>
                 </div>
             </div>
         </div>
@@ -641,7 +641,11 @@
 <p><img src="/2021/07/25/wei-fu-wu-docker-fa-bu-he-bu-shu/5.png" alt></p>
 <p>Docker Desktop中还集成了kubernetes，我们可以选择启用一个单实例的k8s集群来体验容器编排的功能</p>
 <p><img src="/2021/07/25/wei-fu-wu-docker-fa-bu-he-bu-shu/6.png" alt></p>
-<h2 id="本地生成镜像"><a href="#本地生成镜像" class="headerlink" title="本地生成镜像"></a>本地生成镜像</h2><p>前面准备工作都做完了以后，来到重头戏，实现本地打包时生成镜像并发布到本地的docker服务中，并且实现镜像发布到远程的dockerhub仓库中。需要用到一个docker的插件dockerfile-maven-plugin，直接上maven配置，下面这个配置是最终的配置，接下来我会解释每个配置项的作用</p>
+<h2 id="本地生成镜像"><a href="#本地生成镜像" class="headerlink" title="本地生成镜像"></a>本地生成镜像</h2><p>前面准备工作都做完了以后，来到重头戏，实现本地打包时生成镜像并发布到本地的docker服务中，并且实现镜像发布到远程的dockerhub仓库中。需要用到一个docker的插件<code>dockerfile-maven-plugin</code></p>
+<blockquote>
+<p>默认情况下，该插件通过访问localhost:2375来连接本地docker，可以通过设置DOCKER_HOST 环境变量来连接docker，即<code>DOCKER_HOST=tcp://&lt;host&gt;:2375</code> 。如果没有设置 <code>DOCKER_HOST</code> 环境变量，也可以命令行显示指定 <code>DOCKER_HOST</code> 来执行，如我本机指定 DOCKER_HOST：<code>DOCKER_HOST=unix:///var/run/docker.sock mvn clean install docker:build</code>。</p>
+</blockquote>
+<p>直接上maven配置，下面这个配置是最终的配置，接下来会解释每个配置项的作用</p>
 <pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0<span class="token punctuation">"</span></span>
          <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
@@ -869,7 +873,7 @@ Process finished with exit code 0
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>server</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>servers</span><span class="token punctuation">></span></span></code></pre>
-<p>然后在插件的配置中加入</p>
+<p>然后在插件的配置中加入如下配置关联上述<code>server id</code></p>
 <pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>serverId</span><span class="token punctuation">></span></span>docker-hub<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>serverId</span><span class="token punctuation">></span></span></code></pre>
 <p>至此配置全部完毕了，接下来执行插件的命令 <code>docker:push</code> 即可</p>
 <p><img src="/2021/07/25/wei-fu-wu-docker-fa-bu-he-bu-shu/13.png" alt></p>
@@ -1393,48 +1397,46 @@ Process finished with exit code 0
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/07/25/wei-fu-wu-docker-fa-bu-he-bu-shu/">
+                <a href="/2021/09/05/guan-yu-gu-piao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="微服务Docker发布和部署">
+                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="关于股票">
                         
-                        <span class="card-title">微服务Docker发布和部署</span>
+                        <span class="card-title">关于股票</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文主要记录微服务通过Maven插件实现生成镜像，并发布到本地仓库和远程的中央仓库。在此之前需要安装好相关的环境，如本地docker服务，docker桌面工具Docker Desktop for Windows （官网上也有Docker D
+                            股票（stock）是股份公司所有权的一部分，也是发行的所有权凭证，是股份公司为筹集资金而发行给各个股东作为持股凭证并借以取得股息和红利的一种有价证券。股票是资本市场的长期信用工具，可以转让，买卖，股东凭借它可以分享公司的利润，但也要承担公司
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-05
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/docker/" class="post-category">
-                                    docker
+                            <a href="/categories/%E4%BA%A4%E6%98%93/" class="post-category">
+                                    交易
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/docker/">
-                        <span class="chip bg-color">docker</span>
+                    <a href="/tags/%E4%BA%A4%E6%98%93/">
+                        <span class="chip bg-color">交易</span>
                     </a>
                     
                 </div>
