@@ -1,0 +1,1583 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="有效市场假说, 三秋">
+    <meta name="description" content="有效市场假说（Efficient Markets Hypothesis，EMH）是由尤金·法玛（Eugene Fama）于1970年提出并深化的。“有效市场假说”的研究起源于路易斯·巴舍利耶（Bachelier，1900），他从随机过程角度">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>有效市场假说 | 三秋</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">三秋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/games">
+          
+          <i class="fas fa-puzzle-piece" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>游戏</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/my-games">
+          
+          <i class="fas fa-flag" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>撸毛</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+	<a id="dark" onclick="switchDarkMode()">🌞</a>
+  </li>
+</ul>
+<link rel="stylesheet" href="/css/dark-mode.css">
+<script>
+	  var isNight = new Date().getHours() >= 19 || new Date().getHours() < 8; // 指定时间
+	  // 依次判断 系统暗黑模式 指定时间 缓存 dark
+	  if( window.matchMedia('(prefers-color-scheme: dark)').matches || isNight || localStorage.getItem('dark') === '1') {
+	 
+		if(!(isNight&&localStorage.getItem('noDark') === '1')) {
+		  document.body.classList.add('dark');
+		}
+	  }
+	  document.getElementById('dark').innerHTML = document.querySelector("body").classList.contains("dark")?"🌙":"🌞";
+	  //点击事件
+		function switchDarkMode() {
+			if ($('body').hasClass('dark')) {
+				$("#dark").html("🌞");
+				document.body.classList.remove('dark');
+				localStorage.setItem('noDark', '1');
+				localStorage.setItem('dark', '0');
+			} else {
+				$("#dark").html("🌙"); 
+				document.body.classList.add('dark');
+				localStorage.setItem('dark', '1');
+				localStorage.setItem('noDark', '0');
+			}
+		}
+</script>
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">三秋</div>
+        <div class="logo-desc">
+            
+            小破站，记录学习和生活
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/games " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-puzzle-piece" style="position: absolute;left:50px" ></i>
+			      
+		          <span>游戏</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/my-games " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-flag" style="position: absolute;left:50px" ></i>
+			      
+		          <span>撸毛</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">有效市场假说</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E4%BA%A4%E6%98%93/">
+                                <span class="chip bg-color">交易</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E4%BA%A4%E6%98%93/" class="post-category">
+                                交易
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2021-10-05
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>有效市场假说（Efficient Markets Hypothesis，EMH）是由<a href="https://baike.baidu.com/item/%E5%B0%A4%E9%87%91%C2%B7%E6%B3%95%E7%8E%9B/1461980" target="_blank" rel="noopener">尤金·法玛</a>（Eugene Fama）于1970年提出并深化的。“有效市场假说”的研究起源于路易斯·巴舍利耶（Bachelier，1900），他从随机过程角度研究了布朗运动以及股价变化的随机性，并且他认识到市场在信息方面的有效性：过去、现在的事件，甚至将来事件的贴现值反映在市场价格中。他提出的“基本原则”是股价遵循公平游戏（fair game）模型。</p>
+<p>在他之后的几十年内，除了1930—1940年间的Working、Cowles和Jones的研究外，没有对股价行为的经验出现。随着电脑的使用，Kendall(1953)研究英国和美国的<a href="https://wiki.mbalib.com/wiki/%E5%95%86%E5%93%81%E4%BB%B7%E6%A0%BC" target="_blank" rel="noopener">商品价格</a>和证券价格，发现股价变化的随机性。后来，Roberts（1959）展示了一个从随机数列产生的序列和美国的股价是无法区分的。Osborne（1959）发现股价行为和流体中的粒子的行为差不多，并用物理方法来研究股价行为。Coonter(1964)的论文集收录了大量对<a href="https://wiki.mbalib.com/wiki/%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">随机游走模型</a>的检验；而在这个论文集中，一些论文在解释随机游走时却通常是在暗示股价服从公平游戏过程。因为早期学者是从实证结论出发而缺乏一个理论框架。</p>
+<p><a href="https://wiki.mbalib.com/wiki/Samuelson" target="_blank" rel="noopener">Samuelson</a>（1965），Mandelbrot（1966）通过数学证明澄清了公平游戏模型和<a href="https://wiki.mbalib.com/wiki/%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0" target="_blank" rel="noopener">随机游走</a>的关系，从理论上论述了有效市场和公平游戏模型之间的对应关系，还为有效市场假说作了理论上的铺垫。在总结了前人的理论和实证的基础上，并借助<a href="https://wiki.mbalib.com/wiki/Samuelson" target="_blank" rel="noopener">Samuelson</a>（1965）的分析方法和Roberts（1967）提出的三种有效形式，Fama（1970）提出了有效市场假说</p>
+<h2 id="有效市场的定义"><a href="#有效市场的定义" class="headerlink" title="有效市场的定义"></a>有效市场的定义</h2><p>有效市场必须同时满足几个条件才能称之为有效市场模型，当然这是一种理想模型，现实中往往无法满足，但理解有效市场模型可以帮助我们看清市场的本源。<strong>“有效市场假说”包含以下几个条件：</strong></p>
+<ul>
+<li>第一， 在市场上的每个人都是理性的经济人，金融市场上每只股票所代表的各家公司都处于这些理性人的严格监视之下，他们每天都在进行基本分析，以公司未来的获利性来评价公司的股票价格，把未来价值折算成今天的现值，并谨慎地在风险与收益之间进行权衡取舍。简而言之，<strong>在有效市场中，所有的投资者都是理性的</strong></li>
+<li>第二， 股票的价格反映了这些理性人的供求的平衡，想买的人正好等于想卖的人，即，认为股价被高估的人与认为股价被低估的人正好相等，假如有人发现这两者不等，即存在套利的可能性的话，他们立即会用买进或卖出股票的办法使股价迅速变动到能够使二者相等为止。简而言之，<strong>在有效市场中，所有的投资者都是追求利益最大化的</strong></li>
+<li>第三， 股票的价格也能充分反映该资产的所有可获得的信息，即”信息有效”，当信息变动时，股票的价格就一定会随之变动。一个利好消息或利空消息刚刚传出时，股票的价格就开始异动，当它已经路人皆知时，股票的价格也已经涨或跌到适当的价位了。简而言之，<strong>在有效市场中，所有投资者不存在信息差</strong></li>
+</ul>
+<p>“有效市场假说”实际上意味着”天下没有免费的午餐”，世上没有唾手可得之物。在一个正常的有效率的市场上，每个人都别指望发意外之财，所以我们花时间去看路上是否有钱好拣是不明智的，我们费心去分析股票的价值也是无益的，它白费我们的心思。当然，”有效市场假说”只是一种理论假说，实际上，并非每个人总是理性的，也并非在每一时点上都是信息有效的。”这种理论也许并不完全正确”，<a href="https://wiki.mbalib.com/wiki/%E6%9B%BC%E6%98%86" target="_blank" rel="noopener">曼昆</a>说，”但是，有效市场假说作为一种对世界的描述，比你认为的要好得多。”</p>
+<h2 id="有效市场假说的三种形态"><a href="#有效市场假说的三种形态" class="headerlink" title="有效市场假说的三种形态"></a>有效市场假说的三种形态</h2><p>在理解三种形态之前，我们需要先知道三个概念的含义，<strong>历史信息</strong>，<strong>公开信息</strong>，<strong>内部信息</strong>。这是影响投资者决策的三个重要信息，有效市场的三种形态也是基于这三个信息的分类</p>
+<ul>
+<li><em>历史信息</em>：市场的历史信息包括股票的k线，成交价、成交量、卖空金额，融资金融等。</li>
+<li><em>公开信息</em>：市场的公开信息最直接的就是公司的基本面，经济环境的宏观面等</li>
+<li><em>内部信息</em>：市场的内部消息是指公司的暂未公布的利好利空的内部消息</li>
+</ul>
+<p><strong>弱式有效市场假说（weak Form efficiency）</strong></p>
+<p>该假说认为在弱式有效的情况下，市场价格已充分反应出所有过去历史的证券价格信息，包括股票的成交价、成交量、卖空金额，融资金融等 ；如果弱式有效市场假说成立，则股票价格的技术分析失效，投资者无法通过技术分析获得超额收益</p>
+<p><strong>半强式有效市场假说(Semi—Strong Form Efficiency)</strong></p>
+<p>该假说认为价格已充分反应出所有已公开的有关公司营运前景的信息。这些信息有成交价、成交量、盈利资料、盈利预测值，公司管理状况及其它公开披露的财务信息等。假如投资者能迅速获得这些信息，股价应迅速作出反应。如果半强式有效假说成立，则在市场中利用技术分析和基本分析都失效，投资者无法通过技术分析和基本面分析获得超额收益</p>
+<p><strong>强式有效市场假说(Strong Form of Efficiency Market)</strong></p>
+<p>强式有效市场假说认为价格已充分地反应了所有关于公司营运的信息，这些信息包括已公开的或内部未公开的信息。即股票价格已经包括了所有信息：证券市场信息，非市场相关的公开信息和内部消息，在强式有效市场中，没有任何方法能帮助投资者获得超额利润，即使基金和有内幕消息者也一样。</p>
+<p><img src="/2021/10/05/you-xiao-shi-chang-jia-shuo/1.png" alt></p>
+<h2 id="有效市场假说的意义"><a href="#有效市场假说的意义" class="headerlink" title="有效市场假说的意义"></a>有效市场假说的意义</h2><h3 id="理论意义"><a href="#理论意义" class="headerlink" title="理论意义"></a>理论意义</h3><p>提高证券市场的有效性，根本问题就是要解决证券价格形成过程中在信息披露、信息传输、信息解读以及信息反馈各个环节所出现的问题，其中最关键的一个问题就是建立上市公司强制性信息披露制度。从这个角度来看地，公开信息披露制度是建立有效资本市场的基础，也是资本市场有效性得以不断提高的起点。</p>
+<h3 id="实践意义"><a href="#实践意义" class="headerlink" title="实践意义"></a>实践意义</h3><p><strong>(1)  有效市场和技术分析</strong></p>
+<p>如果市场未达到弱式下的有效，则当前的价格未完全反映历史价格信息，那么未来的价格变化将进一步对过去的价格信息作出反应。在这种情况下，人们可以利用技术分析和图表从过去的价格信息中分析出未来价格的某种变化倾向，从而在交易中获利。如果市场是弱式有效的，则过去的历史价格信息已完全反映在当前的价格中，未来的价格变化将与当前及历史价格无关，这时使用技术分析和图表分析当前及历史价格对未来作出预测将是徒劳的。如果不运用进一步的价格序列以外的信息，明天价格最好的预测值将是今天的价格。因此在弱式有效市场中，技术分析将失效。</p>
+<p><strong>(2)  有效市场和基本分析</strong></p>
+<p>如果市场未达到半强式有效，公开信息未被当前价格完全反映，分析公开资料寻找误定价格将能增加收益。但如果市场半强式有效，那么仅仅以公开资料为基础的分析将不能提供任何帮助，因为针对当前已公开的资料信息，目前的价格是合适的，未来的价格变化与当前已知的公开信息毫无关系，其变化纯粹依赖于明天新的公开信息。对于那些只依赖于已公开信息的人来说，明天才公开的信息，他今天是一无所知的，所以不用未公开的资料，对于明天的价格，他的最好的预测值也就是今天的价格。所以在这样的一个市场中，已公布的基本面信息无助于分析家挑选价格被高估或低估的证券，基于公开资料的基础分析毫无用处。</p>
+<p><strong>(3)  有效市场和证券组合管理</strong></p>
+<p>如果市场是强式有效的，人们获取内部资料并按照它行动，这时任何新信息(包括公开的和内部的)将迅速在市场中得到反映。所以在这种市场中，任何企图寻找内部资料信息来打击市场的做法都是不明智的。这种强式有效市场假设下，任何专业投资者的边际市场价值为零，因为没有任何资料来源和<a href="https://wiki.mbalib.com/wiki/%E5%8A%A0%E5%B7%A5" target="_blank" rel="noopener">加工</a>方式能够稳定地增加收益。对于<a href="https://wiki.mbalib.com/wiki/%E8%AF%81%E5%88%B8%E7%BB%84%E5%90%88%E7%90%86%E8%AE%BA" target="_blank" rel="noopener">证券组合理论</a>来说，其组合构建的条件之一即是假设证券市场是充分有效的，所有市场参与者都能同等地得到充分的投资信息，如各种证券收益和风险的变动及其影响因素，同时不考虑<a href="https://wiki.mbalib.com/wiki/%E4%BA%A4%E6%98%93%E8%B4%B9%E7%94%A8" target="_blank" rel="noopener">交易费用</a>。但对于<a href="https://wiki.mbalib.com/wiki/%E8%AF%81%E5%88%B8%E7%BB%84%E5%90%88" target="_blank" rel="noopener">证券组合</a>的管理来说，如果市场是强式有效的，组合管理者会选择消极保守型的态度，只求获得市场平均的收益率水平，因为区别将来某段时期的有利和无利的投资不可能以现阶段已知的这些投资的任何特征为依据，进而进行组合调整。因此在这样一个市场中，管理者一般模拟某一种主要的市场指数进行投资。而在市场仅达到弱式有效状态时，组织管理者则是积极进取的，会在选择资产和买卖时机上下功夫，努力寻找价格偏离价值的资产。</p>
+<p>市场有效性与投资分析的关系，<strong>有效市场的三种形式和证券投资分析有效性之间的关系</strong>可以由下表来表示：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>技术分析</th>
+<th>基本分析</th>
+<th>内幕消息</th>
+<th>组合管理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0. <a href="https://wiki.mbalib.com/wiki/%E6%97%A0%E6%95%88%E5%B8%82%E5%9C%BA" target="_blank" rel="noopener">无效市场</a></td>
+<td>有效</td>
+<td>有效</td>
+<td>有效</td>
+<td>积极进取</td>
+</tr>
+<tr>
+<td>1. 弱式有效</td>
+<td>无效</td>
+<td>有效</td>
+<td>有效</td>
+<td>积极进取</td>
+</tr>
+<tr>
+<td>2. 半强式有效</td>
+<td>无效</td>
+<td>无效</td>
+<td>有效</td>
+<td>积极进取</td>
+</tr>
+<tr>
+<td>3. 强式有效</td>
+<td>无效</td>
+<td>无效</td>
+<td>无效</td>
+<td>消极保守</td>
+</tr>
+</tbody></table>
+<p>现在对有效市场假说基本了解了，现在提一个问题</p>
+<blockquote>
+<p>中国的A股市场和美国的纳斯达克分别是什么市场呢？</p>
+<ul>
+<li>A股市场是无效市场，对应上表中的0市场</li>
+<li>美国市场是介于弱式有效和半强式有效之间，对应上表中的1.5市场</li>
+</ul>
+</blockquote>
+<h3 id="EMH面临的理论挑战"><a href="#EMH面临的理论挑战" class="headerlink" title="EMH面临的理论挑战"></a>EMH面临的理论挑战</h3><p>（1）投资者并非是完全理性的。Fischer、Black（1986）指出投资者购买所依据的是“噪音”而非信息。</p>
+<p>（2）投资者不止偶然偏离理性，而是经常以同样的方式偏离理性。<a href="https://wiki.mbalib.com/wiki/%E8%A1%8C%E4%B8%BA%E9%87%91%E8%9E%8D%E5%AD%A6" target="_blank" rel="noopener">行为金融学</a>中“投资者心态”理论讨论的就是大量投资者犯同样的判断失误的错误，且他们的错误又具有相关性的现象。</p>
+<p>（3）套利者不会完全消除非理性投资者的错误对价格的影响。大多数情况下证券没有合适的的替代品。即使能找到完全的替代品，套利者也面临其他风险，如noise trade risk——未来出让时价格不可预知</p>
+<h2 id="无效市场"><a href="#无效市场" class="headerlink" title="无效市场"></a>无效市场</h2><p>无效市场理论是建立在<strong>索罗斯</strong>的哲学研究基础之上的。他认为人的认知并不能达到完美，所有的认识都是有缺陷的或是歪曲的，人们依靠自已的认识对市场进行预期，并与影响价格的内在规律价值规律相互作用，甚至市场的走势操纵着需求和供给的发展，这样他就得到了这样一个结论，我们所要对付的市场并不是理性的，是一个无效市场。</p>
+<p>此观点认为市场是无效的，或者说市场有的时候会无效。他们认为人的心理是最难度量的，有的人愿意以10元获得1元的利润，有的人愿意用10元获得0.5元的利润，每个人的需求不一样，所以导致每个人对于现在市场的看法不一样，有的人会认为高，有的人会认为低，并且伴随着恐惧贪婪，更让这个市场缺少有效性。这批少数者认为市场是愚蠢的，经常会犯错误，而我们只要利用这个错误就能够获得超额的利润。根本不要花那么多的人力物力去追求完美的信息，只要利用别人的愚蠢，来获得利润。所以这些人对于技术派和基本面派几乎不懈一顾。认为市场是无效的。所以任何基于此上的技术分析，基本分析根本毫无意义。</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>无效市场理论与传统的经济学理论是互不相容的，有效市场理论认为，市场的运转有其自身的逻辑性和理性，市场的发展最终是走向一个平衡点，而达到这个平衡点的前提条件，一是人们能够在任何指定的时间完美地掌握市场信息，二是市场价格能反映所有有效的信息。</p>
+<p>通常大多数分析师秉承有效市场理论利用自已所掌握的信息以及对目前价格分析，强化了当前趋势的发展，在大众的推波助澜下，使市场更加趋于非理性，成为无效市场。受资金操纵、逼仓、以及指数基金利用农产品期货进行保值、对冲基金的交易行为等等所引发的市场过度行为，我们不能说是在向市场的平衡点靠近，更无需对这种市场横加指责，因为依据索罗斯的观点，这时的市场恰恰是无效市场特征-非理性表现最为突出的阶段，因而此时分析师对行情的判断依据也是靠不住的。</p>
+<p>认识并充分利用市场的无效性，为索罗斯的投资提供了重要的前提。80年代，索罗斯在东欧、前苏联等所建立的一系列慈善基金，表面上为慈善事业，实际上其重要的目的是为了改变这些国家原有的”封闭社会”下的计划经济体制，而实现自由的，完全市场化的自由经济体制，因为只有如此，才会为他的基金的发展提供更广阔的天地。索罗斯正是利用和把握了无效市场所提供的投资机会，使他的基金发展状大。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lushunjian.gitee.io" rel="external nofollow noreferrer">顺坚</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lushunjian.gitee.io/2021/10/05/you-xiao-shi-chang-jia-shuo/">https://lushunjian.gitee.io/2021/10/05/you-xiao-shi-chang-jia-shuo/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="https://lushunjian.gitee.io" target="_blank">顺坚</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E4%BA%A4%E6%98%93/">
+                                    <span class="chip bg-color">交易</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+		
+			//  豆瓣插件a标签移除target属性
+		$("#hexo-douban-tab1").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$("#hexo-douban-tab2").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$("#hexo-douban-tab3").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-firstpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-previouspage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-nextpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-lastpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+    });
+	
+
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2021/10/05/you-xiao-shi-chang-jia-shuo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="有效市场假说">
+                        
+                        <span class="card-title">有效市场假说</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            有效市场假说（Efficient Markets Hypothesis，EMH）是由尤金·法玛（Eugene Fama）于1970年提出并深化的。“有效市场假说”的研究起源于路易斯·巴舍利耶（Bachelier，1900），他从随机过程角度
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BA%A4%E6%98%93/" class="post-category">
+                                    交易
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%A4%E6%98%93/">
+                        <span class="chip bg-color">交易</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/10/02/ban-dao-ti-chan-ye-lian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="半导体产业链">
+                        
+                        <span class="card-title">半导体产业链</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            半导体是电子产品的核心，信息产业的基石。但国内半导体自给率水平非常低，特别是核心芯片极度缺乏，国产占有率都几乎为零。
+
+芯片关乎到国家安全，国产化迫在眉睫。半导体分类是一个很宽泛的概念，主要分四块：
+
+第一块，也是最大的一块，集成电路，集成
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BA%A4%E6%98%93/" class="post-category">
+                                    交易
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%A4%E6%98%93/">
+                        <span class="chip bg-color">交易</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+		
+		// 默认目录收起,不展开
+		if ($tocAside.hasClass(expandedClass)) {
+			$tocAside.removeClass(expandedClass).hide();
+			$mainContent.removeClass('l9');
+			fixPostCardWidth('artDetail', 'prenext-posts');
+        }
+		
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://lushunjian.gitee.io" target="_blank">顺坚</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+</html>
