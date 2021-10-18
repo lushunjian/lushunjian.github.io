@@ -1931,228 +1931,219 @@
 </code></pre>
 <p>然后用踩坑第三步的方式，把这个文件导入并用别名重命名，代码如下</p>
 <p><strong>config.js</strong></p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> webpackPlugin <span class="token keyword">from</span> <span class="token string">'./plugin.config'</span><span class="token punctuation">;</span>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//...</span>
-    chainWebpack<span class="token punctuation">:</span> webpackPlugin<span class="token punctuation">,</span>
-<span class="token punctuation">}</span></code></pre>
-<p><strong>plugin.config.js</strong></p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> path <span class="token keyword">from</span> <span class="token string">'path'</span><span class="token punctuation">;</span>
+  plugins<span class="token punctuation">,</span>
+  hash<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  targets<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    ie<span class="token punctuation">:</span> <span class="token number">11</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// ... 省略配置</span>
+  proxy<span class="token punctuation">:</span> proxy<span class="token punctuation">[</span>REACT_APP_ENV <span class="token operator">||</span> <span class="token string">'dev'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  chainWebpack<span class="token punctuation">:</span> webpackPlugin<span class="token punctuation">,</span>
+  alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">'react/jsx-runtime'</span><span class="token punctuation">:</span>  path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../src/utils/jsx-runtime.js'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p><strong>Text.jsx</strong></p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span>Component<span class="token punctuation">,</span>useRef<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>PageHeaderWrapper<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@ant-design/pro-layout"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Collapse<span class="token punctuation">,</span>Button<span class="token punctuation">,</span>Row<span class="token punctuation">,</span> Col<span class="token punctuation">,</span>Tabs<span class="token punctuation">,</span>Card<span class="token punctuation">,</span>Carousel <span class="token punctuation">,</span>Descriptions<span class="token punctuation">,</span>Radio<span class="token punctuation">,</span>DatePicker <span class="token punctuation">,</span>Select<span class="token punctuation">,</span>Upload <span class="token punctuation">,</span>PageHeader <span class="token punctuation">,</span>Tag<span class="token punctuation">,</span>Cascader <span class="token punctuation">,</span>TimePicker<span class="token punctuation">,</span>message<span class="token punctuation">,</span>Table     <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppleOutlined<span class="token punctuation">,</span> AndroidOutlined<span class="token punctuation">,</span>EditOutlined<span class="token punctuation">,</span> EllipsisOutlined<span class="token punctuation">,</span> SettingOutlined<span class="token punctuation">,</span>InboxOutlined<span class="token punctuation">,</span>PictureOutlined<span class="token punctuation">,</span>CheckCircleFilled<span class="token punctuation">,</span>DeleteFilled <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@ant-design/icons'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> OrgTree <span class="token keyword">from</span> <span class="token string">'react-org-tree'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">'react-orgchart/index.css'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> moment <span class="token keyword">from</span> <span class="token string">'moment'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> DndProvider<span class="token punctuation">,</span> useDrag<span class="token punctuation">,</span> useDrop <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-dnd'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> HTML5Backend <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-dnd-html5-backend'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> update <span class="token keyword">from</span> <span class="token string">'immutability-helper'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> RangePicker <span class="token punctuation">}</span> <span class="token operator">=</span> DatePicker<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> Option <span class="token punctuation">}</span> <span class="token operator">=</span> Select<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> Panel <span class="token punctuation">}</span> <span class="token operator">=</span> Collapse<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> Dragger <span class="token punctuation">}</span> <span class="token operator">=</span> Upload<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> TabPane <span class="token punctuation">}</span> <span class="token operator">=</span> Tabs<span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> type <span class="token operator">=</span> <span class="token string">'DraggableBodyRow'</span><span class="token punctuation">;</span>
 
 
-<span class="token keyword">const</span> webpackPlugin <span class="token operator">=</span> config <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token keyword">const</span> DraggableBodyRow <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> index<span class="token punctuation">,</span> moveRow<span class="token punctuation">,</span> className<span class="token punctuation">,</span> style<span class="token punctuation">,</span> <span class="token operator">...</span>restProps <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> ref <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> isOver<span class="token punctuation">,</span> dropClassName <span class="token punctuation">}</span><span class="token punctuation">,</span> drop<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useDrop</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    accept<span class="token punctuation">:</span> type<span class="token punctuation">,</span>
+    collect<span class="token punctuation">:</span> monitor <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> <span class="token punctuation">{</span> index<span class="token punctuation">:</span> dragIndex <span class="token punctuation">}</span> <span class="token operator">=</span> monitor<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>dragIndex <span class="token operator">===</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        isOver<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">isOver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        dropClassName<span class="token punctuation">:</span> dragIndex <span class="token operator">&lt;</span> index <span class="token operator">?</span> <span class="token string">' drop-over-downward'</span> <span class="token punctuation">:</span> <span class="token string">' drop-over-upward'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    drop<span class="token punctuation">:</span> item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token function">moveRow</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>index<span class="token punctuation">,</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span><span class="token punctuation">,</span> drag<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useDrag</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    type<span class="token punctuation">,</span>
+    item<span class="token punctuation">:</span> <span class="token punctuation">{</span> index <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    collect<span class="token punctuation">:</span> monitor <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+      isDragging<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">isDragging</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">drop</span><span class="token punctuation">(</span><span class="token function">drag</span><span class="token punctuation">(</span>ref<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  config<span class="token punctuation">.</span>resolve<span class="token punctuation">.</span>alias
-    <span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'react/jsx-runtime'</span><span class="token punctuation">,</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/utils/jsx-runtime.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>tr
+      ref<span class="token operator">=</span><span class="token punctuation">{</span>ref<span class="token punctuation">}</span>
+      className<span class="token operator">=</span><span class="token punctuation">{</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>className<span class="token interpolation-punctuation punctuation">}</span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>isOver <span class="token operator">?</span> dropClassName <span class="token punctuation">:</span> <span class="token string">''</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">}</span>
+      style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> cursor<span class="token punctuation">:</span> <span class="token string">'move'</span><span class="token punctuation">,</span> <span class="token operator">...</span>style <span class="token punctuation">}</span><span class="token punctuation">}</span>
+      <span class="token punctuation">{</span><span class="token operator">...</span>restProps<span class="token punctuation">}</span>
+    <span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token keyword">export</span> <span class="token keyword">default</span> webpackPlugin<span class="token punctuation">;</span>
-</code></pre>
-<p><strong>Text.jsx</strong></p>
-<pre class=" language-html"><code class="language-html">import React, {Component,useRef} from "react";
-import {PageHeaderWrapper} from "@ant-design/pro-layout";
-import { Collapse,Button,Row, Col,Tabs,Card,Carousel ,Descriptions,Radio,DatePicker ,Select,Upload ,PageHeader ,Tag,Cascader ,TimePicker,message,Table     } from 'antd';
-import { AppleOutlined, AndroidOutlined,EditOutlined, EllipsisOutlined, SettingOutlined,InboxOutlined,PictureOutlined,CheckCircleFilled,DeleteFilled } from '@ant-design/icons';
-import OrgTree from 'react-org-tree';
-import 'react-orgchart/index.css';
-import moment from 'moment';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
 
-const { RangePicker } = DatePicker;
-const { Option } = Select;
-const { Panel } = Collapse;
-const { Dragger } = Upload;
-const { TabPane } = Tabs;
+<span class="token keyword">class</span> <span class="token class-name">MyForm</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">{</span>
 
-const type = 'DraggableBodyRow';
+      tableData<span class="token punctuation">:</span><span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          key<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+          name<span class="token punctuation">:</span> <span class="token string">'John Brown'</span><span class="token punctuation">,</span>
+          age<span class="token punctuation">:</span> <span class="token number">32</span><span class="token punctuation">,</span>
+          address<span class="token punctuation">:</span> <span class="token string">'New York No. 1 Lake Park'</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          key<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+          name<span class="token punctuation">:</span> <span class="token string">'Jim Green'</span><span class="token punctuation">,</span>
+          age<span class="token punctuation">:</span> <span class="token number">42</span><span class="token punctuation">,</span>
+          address<span class="token punctuation">:</span> <span class="token string">'London No. 1 Lake Park'</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          key<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span>
+          name<span class="token punctuation">:</span> <span class="token string">'Joe Black'</span><span class="token punctuation">,</span>
+          age<span class="token punctuation">:</span> <span class="token number">32</span><span class="token punctuation">,</span>
+          address<span class="token punctuation">:</span> <span class="token string">'Sidney No. 1 Lake Park'</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-const MyNodeComponent = (node) => (
-    &lt;div onClick={() => alert(node.label)}>
-      { node.label }
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-  );
+  <span class="token comment" spellcheck="true">// 拖拽表格</span>
+  moveRow <span class="token operator">=</span> <span class="token punctuation">(</span>dragIndex<span class="token punctuation">,</span> hoverIndex<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> dragRow <span class="token operator">=</span> data<span class="token punctuation">[</span>dragIndex<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      tableData<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        $splice<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>dragIndex<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>hoverIndex<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> dragRow<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-const DraggableBodyRow = ({ index, moveRow, className, style, ...restProps }) => {
-  const ref = useRef();
-  const [{ isOver, dropClassName }, drop] = useDrop({
-    accept: type,
-    collect: monitor => {
-      const { index: dragIndex } = monitor.getItem() || {};
-      if (dragIndex === index) {
-        return {};
-      }
-      return {
-        isOver: monitor.isOver(),
-        dropClassName: dragIndex &lt; index ? ' drop-over-downward' : ' drop-over-upward',
-      };
-    },
-    drop: item => {
-      moveRow(item.index, index);
-    },
-  });
-  const [, drag] = useDrag({
-    type,
-    item: { index },
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  drop(drag(ref));
+  dragRow <span class="token operator">=</span> <span class="token punctuation">(</span>record<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    index<span class="token punctuation">,</span>
+    moveRow<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  return (
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span>
-      <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span>{ref}</span>
-      <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span>{`${className}${isOver</span> <span class="token attr-name">?</span> <span class="token attr-name">dropClassName</span> <span class="token attr-name">:</span> <span class="token attr-name">''}`}</span>
-      <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation">=</span>{{</span> <span class="token attr-name"><span class="token namespace">cursor:</span></span> <span class="token attr-name">'move',</span> <span class="token attr-name">...style</span> <span class="token attr-name">}}</span>
-      <span class="token attr-name">{...restProps}</span>
-    <span class="token punctuation">/></span></span>
-  );
-};
+  moveRow <span class="token operator">=</span> <span class="token punctuation">(</span>dragIndex<span class="token punctuation">,</span> hoverIndex<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> tableData <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> dragRow <span class="token operator">=</span> tableData<span class="token punctuation">[</span>dragIndex<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span>
+      <span class="token function">update</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        tableData<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          $splice<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>dragIndex<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>hoverIndex<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> dragRow<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">,</span>tableData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-class MyForm extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
+  components <span class="token operator">=</span> <span class="token punctuation">{</span>
+    body<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      row<span class="token punctuation">:</span> DraggableBodyRow<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-      tableData:[
-        {
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-        },
-        {
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-        },
-        {
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sidney No. 1 Lake Park',
-        },
-      ]
-    };
-  }
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-  // 拖拽表格
-  moveRow = (dragIndex, hoverIndex) => {
-    const { data } = this.state;
-    const dragRow = data[dragIndex];
-
-    this.setState({
-      tableData: {
-        $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
-      }
-    });
-  };
-
-  dragRow = (record, index) => ({
-    index,
-    moveRow,
-  });
-
-  moveRow = (dragIndex, hoverIndex) => {
-    const { tableData } = this.state;
-    const dragRow = tableData[dragIndex];
-
-    this.setState(
-      update(this.state, {
-        tableData: {
-          $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
-        },
-      }),
-    );
-    console.log('data',tableData);
-  };
-
-  components = {
-    body: {
-      row: DraggableBodyRow,
-    },
-  };
-
-  render() {
-
-    // 拖拽排序表格
-    const columns = [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-      },
-      {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-      },
-    ];
+    <span class="token comment" spellcheck="true">// 拖拽排序表格</span>
+    <span class="token keyword">const</span> columns <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        title<span class="token punctuation">:</span> <span class="token string">'Name'</span><span class="token punctuation">,</span>
+        dataIndex<span class="token punctuation">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        key<span class="token punctuation">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        title<span class="token punctuation">:</span> <span class="token string">'Age'</span><span class="token punctuation">,</span>
+        dataIndex<span class="token punctuation">:</span> <span class="token string">'age'</span><span class="token punctuation">,</span>
+        key<span class="token punctuation">:</span> <span class="token string">'age'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        title<span class="token punctuation">:</span> <span class="token string">'Address'</span><span class="token punctuation">,</span>
+        dataIndex<span class="token punctuation">:</span> <span class="token string">'address'</span><span class="token punctuation">,</span>
+        key<span class="token punctuation">:</span> <span class="token string">'address'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 
-    return (
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PageHeaderWrapper</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PageHeader</span>
-          <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Title<span class="token punctuation">"</span></span>
-          <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>site-page-header<span class="token punctuation">"</span></span>
-          <span class="token attr-name">subTitle</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>This is a subtitle<span class="token punctuation">"</span></span>
-          <span class="token attr-name">tags</span><span class="token attr-value"><span class="token punctuation">=</span>{&lt;Tag</span> <span class="token attr-name">color</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blue<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Running<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Tag</span><span class="token punctuation">></span></span>}
-          extra={[
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Operation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>,
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Operation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>,
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>primary<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>PageHeaderWrapper<span class="token operator">></span>
+        <span class="token operator">&lt;</span>PageHeader
+          title<span class="token operator">=</span><span class="token string">"Title"</span>
+          className<span class="token operator">=</span><span class="token string">"site-page-header"</span>
+          subTitle<span class="token operator">=</span><span class="token string">"This is a subtitle"</span>
+          tags<span class="token operator">=</span><span class="token punctuation">{</span><span class="token operator">&lt;</span>Tag color<span class="token operator">=</span><span class="token string">"blue"</span><span class="token operator">></span>Running<span class="token operator">&lt;</span><span class="token operator">/</span>Tag<span class="token operator">></span><span class="token punctuation">}</span>
+          extra<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">[</span>
+            <span class="token operator">&lt;</span>Button key<span class="token operator">=</span><span class="token string">"3"</span><span class="token operator">></span>Operation<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span><span class="token punctuation">,</span>
+            <span class="token operator">&lt;</span>Button key<span class="token operator">=</span><span class="token string">"2"</span><span class="token operator">></span>Operation<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span><span class="token punctuation">,</span>
+            <span class="token operator">&lt;</span>Button key<span class="token operator">=</span><span class="token string">"1"</span> type<span class="token operator">=</span><span class="token string">"primary"</span><span class="token operator">></span>
               Primary
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>
-          ]}
-          avatar={{ src: 'https://avatars1.githubusercontent.com/u/8186664?s=460&amp;v=4' }}
-          style={{backgroundColor:'white'}}
-        >
-          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Row</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Col</span> <span class="token attr-name">span</span><span class="token attr-value"><span class="token punctuation">=</span>{8}</span><span class="token punctuation">></span></span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+          <span class="token punctuation">]</span><span class="token punctuation">}</span>
+          avatar<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> src<span class="token punctuation">:</span> <span class="token string">'https://avatars1.githubusercontent.com/u/8186664?s=460&amp;v=4'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>backgroundColor<span class="token punctuation">:</span><span class="token string">'white'</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+        <span class="token operator">></span>
+          <span class="token operator">&lt;</span>Row<span class="token operator">></span>
+            <span class="token operator">&lt;</span>Col span<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">8</span><span class="token punctuation">}</span><span class="token operator">></span>
               xxx
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Col</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Col</span> <span class="token attr-name">span</span><span class="token attr-value"><span class="token punctuation">=</span>{16}</span><span class="token punctuation">></span></span>
-              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Tabs</span> <span class="token attr-name">defaultActiveKey</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TabPane</span>
-                  <span class="token attr-name">tab</span><span class="token attr-value"><span class="token punctuation">=</span>{&lt;span</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>AppleOutlined</span> <span class="token punctuation">/></span></span>Tab 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>}
-                  key="1">
+            <span class="token operator">&lt;</span><span class="token operator">/</span>Col<span class="token operator">></span>
+            <span class="token operator">&lt;</span>Col span<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">16</span><span class="token punctuation">}</span><span class="token operator">></span>
+              <span class="token operator">&lt;</span>Tabs defaultActiveKey<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span>
+                <span class="token operator">&lt;</span>TabPane
+                  tab<span class="token operator">=</span><span class="token punctuation">{</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token operator">&lt;</span>AppleOutlined <span class="token operator">/</span><span class="token operator">></span>Tab <span class="token number">1</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">}</span>
+                  key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span>
                   xxx
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TabPane</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TabPane</span>
-                  <span class="token attr-name">tab</span><span class="token attr-value"><span class="token punctuation">=</span>{&lt;span</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>AndroidOutlined</span> <span class="token punctuation">/></span></span>Tab 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>}
-                  key="2">
-                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>DndProvider</span> <span class="token attr-name">backend</span><span class="token attr-value"><span class="token punctuation">=</span>{HTML5Backend}</span><span class="token punctuation">></span></span>
-                    &lt;Table
-                      columns={columns}
-                      dataSource={this.state.tableData}
-                      components={this.components}
-                      onRow={(record, index) => ({
-                        index,
-                        moveRow: this.moveRow,
-                      })}
-                    />
-                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>DndProvider</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TabPane</span><span class="token punctuation">></span></span>
-              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Tabs</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Col</span><span class="token punctuation">></span></span>
-          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Row</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PageHeader</span><span class="token punctuation">></span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PageHeaderWrapper</span><span class="token punctuation">></span></span>
-    );
-  }
-}
-export default MyForm;
+                <span class="token operator">&lt;</span><span class="token operator">/</span>TabPane<span class="token operator">></span>
+                <span class="token operator">&lt;</span>TabPane
+                  tab<span class="token operator">=</span><span class="token punctuation">{</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token operator">&lt;</span>AndroidOutlined <span class="token operator">/</span><span class="token operator">></span>Tab <span class="token number">2</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">}</span>
+                  key<span class="token operator">=</span><span class="token string">"2"</span><span class="token operator">></span>
+                  <span class="token operator">&lt;</span>DndProvider backend<span class="token operator">=</span><span class="token punctuation">{</span>HTML5Backend<span class="token punctuation">}</span><span class="token operator">></span>
+                    <span class="token operator">&lt;</span>Table
+                      columns<span class="token operator">=</span><span class="token punctuation">{</span>columns<span class="token punctuation">}</span>
+                      dataSource<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>tableData<span class="token punctuation">}</span>
+                      components<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>components<span class="token punctuation">}</span>
+                      onRow<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span>record<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+                        index<span class="token punctuation">,</span>
+                        moveRow<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>moveRow<span class="token punctuation">,</span>
+                      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+                    <span class="token operator">/</span><span class="token operator">></span>
+                  <span class="token operator">&lt;</span><span class="token operator">/</span>DndProvider<span class="token operator">></span>
+                <span class="token operator">&lt;</span><span class="token operator">/</span>TabPane<span class="token operator">></span>
+              <span class="token operator">&lt;</span><span class="token operator">/</span>Tabs<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>Col<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>Row<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>PageHeader<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>PageHeaderWrapper<span class="token operator">></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> MyForm<span class="token punctuation">;</span>
 </code></pre>
 
             </div>
