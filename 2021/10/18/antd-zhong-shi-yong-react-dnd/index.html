@@ -5,8 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Antd中使用React-dnd, 三秋">
-    <meta name="description" content="这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头，踩坑之路就开始了。
-第一坑：Ant-Desgin我公司的">
+    <meta name="description" content="这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头。由于种种原因我没有升级Antd和React版本，所以本文">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -622,7 +621,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头，踩坑之路就开始了。</p>
+                <p>这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头。由于种种原因我没有升级Antd和React版本，所以本文是React低版本适配React-dnd的踩坑之路 :sob:</p>
 <h2 id="第一坑：Ant-Desgin"><a href="#第一坑：Ant-Desgin" class="headerlink" title="第一坑：Ant-Desgin"></a>第一坑：Ant-Desgin</h2><p>我公司的项目使用的是<code>Antd3.x</code>的版本，万事第一步先把官方例子拿过来，在本地项目中跑通看看效果先</p>
 <p><img src="/2021/10/18/antd-zhong-shi-yong-react-dnd/1.png" alt></p>
 <p>这代码拿到本地后，编译就会报错，报错信息如下</p>
@@ -636,7 +635,7 @@
 <p>我在家里试过，如果用的是Antd 4.x的版本，不会有任何问题。很酸爽，把需要的包引进来就成了</p>
 </blockquote>
 <p>既然这条路走不通，那就想想其他办法吧</p>
-<h2 id="第三坑：使用-jsx-runtime"><a href="#第三坑：使用-jsx-runtime" class="headerlink" title="第三坑：使用 jsx-runtime"></a>第三坑：使用 jsx-runtime</h2><p>遇到这些问题后，我想是不是<code>react-dnd</code>版本太高了导致的，低版本的<code>react-dnd</code> 用的应该就是低版本的 react吧，我去 <code>react-dnd</code> 的github仓库中看了下<code>Issues</code>。找找看是不是其他人也碰到了类似的问题，果然在*<a href="https://github.com/react-dnd/react-dnd/issues/3137" target="_blank" rel="noopener">#3137</a>*在有人跟我碰到了一样的问题。这个问题中使用了一个解决方案</p>
+<h2 id="第三坑：使用-jsx-runtime"><a href="#第三坑：使用-jsx-runtime" class="headerlink" title="第三坑：使用 jsx-runtime"></a>第三坑：使用 jsx-runtime</h2><p>遇到这些问题后，我想是不是<code>react-dnd</code>版本太高了导致的，低版本的<code>react-dnd</code> 用的应该就是低版本的 react吧，我去 <code>react-dnd</code> 的github仓库中看了下<code>Issues</code>。找找看是不是其他人也碰到了类似的问题，果然在<a href="https://github.com/react-dnd/react-dnd/issues/3137" target="_blank" rel="noopener"><em>#3137</em></a>在有人跟我碰到了一样的问题。这个问题中使用了一个解决方案</p>
 <ol>
 <li><p>单独导入了<code>jsx-runtime</code>包，<code>npm i jsx-runtime</code></p>
 </li>
@@ -696,7 +695,24 @@
       <span class="token punctuation">}</span>
 </code></pre>
 <p>而在这个<code>Issues</code>的后面也有人解释了，使用<code>jsx-runtime</code>包提供的解决方案不能像<code>react/jsx</code>运行时那样工作，它们的运行时的工作方式非常不同。无奈之下这条路也堵死了。</p>
-<h2 id="最终解"><a href="#最终解" class="headerlink" title="最终解"></a>最终解</h2><p>不饶圈子了，直接说我的最终解决方法吧，我把React17.0.0.1中的<code>jsx-runtime.js</code>中直接拷贝到了我自己的项目中，<code>jsx-runtime.js</code>的源码如下</p>
+<h2 id="最终解"><a href="#最终解" class="headerlink" title="最终解"></a>最终解</h2><p>经过很多次的努力尝试，我最终找到了一个解决办法，直接把源码拿过来了，这也算没有办法的办法吧，我把<code>React17.0.0.1</code>中的<code>jsx-runtime.js</code>中直接拷贝到了我自己的项目中</p>
+<blockquote>
+<p>我项目中 React的版本是<code>16.8.6</code>，需要注意的是在最开始我的React版本是<code>16.6.3</code>，用这个版本会报另一个错误，大致如下</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">[</span>HMR<span class="token punctuation">]</span> Waiting <span class="token keyword">for</span> update signal <span class="token keyword">from</span> WDS<span class="token operator">...</span>
+DndProvider<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">54</span> Uncaught TypeError<span class="token punctuation">:</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span> is not a <span class="token keyword">function</span>
+    at DndProvider <span class="token punctuation">(</span>DndProvider<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">54</span><span class="token punctuation">)</span>
+    at renderWithHooks <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">16240</span><span class="token punctuation">)</span>
+    at updateFunctionComponent <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">18327</span><span class="token punctuation">)</span>
+    at updateSimpleMemoComponent <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">18265</span><span class="token punctuation">)</span>
+    at updateMemoComponent <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">18168</span><span class="token punctuation">)</span>
+    at beginWork$<span class="token number">1</span> <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">20222</span><span class="token punctuation">)</span>
+    at HTMLUnknownElement<span class="token punctuation">.</span>callCallback <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">337</span><span class="token punctuation">)</span>
+    at Object<span class="token punctuation">.</span>invokeGuardedCallbackDev <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">386</span><span class="token punctuation">)</span>
+    at invokeGuardedCallback <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">441</span><span class="token punctuation">)</span>
+    at beginWork$$<span class="token number">1</span> <span class="token punctuation">(</span>react<span class="token operator">-</span>dom<span class="token punctuation">.</span>development<span class="token punctuation">.</span>js<span class="token punctuation">:</span><span class="token number">25737</span><span class="token punctuation">)</span></code></pre>
+<p>在<code>DndProvider.js</code>文件的54行处正在调用的是<code>useEffect</code>方法，而这个方法也是来源于react，把react升级到<code>16.8.6</code>就不会出现这个问题了</p>
+</blockquote>
+<p><code>jsx-runtime.js</code>的源码如下</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>NODE_ENV <span class="token operator">===</span> <span class="token string">'production'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1929,7 +1945,7 @@
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>然后用踩坑第三步的方式，把这个文件导入并用别名重命名，代码如下</p>
+<p>然后用踩坑第三步的方式，把这个文件使用webpack配置并重命名，代码如下</p>
 <p><strong>config.js</strong></p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -1942,6 +1958,7 @@
   <span class="token comment" spellcheck="true">// ... 省略配置</span>
   proxy<span class="token punctuation">:</span> proxy<span class="token punctuation">[</span>REACT_APP_ENV <span class="token operator">||</span> <span class="token string">'dev'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   chainWebpack<span class="token punctuation">:</span> webpackPlugin<span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">//  重点是这个别名配置，必须要有</span>
   alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     <span class="token string">'react/jsx-runtime'</span><span class="token punctuation">:</span>  path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../src/utils/jsx-runtime.js'</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -2145,6 +2162,7 @@
 <span class="token punctuation">}</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> MyForm<span class="token punctuation">;</span>
 </code></pre>
+<p>虽然问题得以解决了，但费时费力的折腾了半天，如果允许的话最简单的方式就是把Antd升级到4.x，把React升级17.x版本。低版本最终会被淘汰</p>
 
             </div>
             <hr/>
@@ -2663,31 +2681,29 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/10/18/antd-zhong-shi-yong-react-dnd/">
+                <a href="/2021/10/24/webgl-yu-three-js/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Antd中使用React-dnd">
+                        <img src="/medias/featureimages/44.jpg" class="responsive-img" alt="WebGL与three.js">
                         
-                        <span class="card-title">Antd中使用React-dnd</span>
+                        <span class="card-title">WebGL与three.js</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头，踩坑之路就开始了。
-第一坑：Ant-Desgin我公司的
+                            WebGL (全写Web Graphics Library) 是一种3D绘图协议，并提供了JavaScript API，，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0（OpenGL for Embedded Sys
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-18
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-24
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -2700,7 +2716,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     

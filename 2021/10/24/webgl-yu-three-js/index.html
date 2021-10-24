@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="JavaScript的闭包, 三秋">
-    <meta name="description" content="闭包是函数式编程中特有的东西，同业也是JavaScript的特色，很多高级应用都要依靠闭包实现。以前看过很多关于闭包的解释，大多解释得比较含糊，没有说到底层的原理上或是对底层原理一笔带过，导致会有似懂非懂，似是而非的感觉。闭包还涉及到另一个">
+    <meta name="keywords" content="WebGL与three.js, 三秋">
+    <meta name="description" content="WebGL (全写Web Graphics Library) 是一种3D绘图协议，并提供了JavaScript API，，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0（OpenGL for Embedded Sys">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>JavaScript的闭包 | 三秋</title>
+    <title>WebGL与three.js | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -457,12 +457,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/41.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/44.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">JavaScript的闭包</h1>
+                    <h1 class="description center-align post-title">WebGL与three.js</h1>
                 </div>
             </div>
         </div>
@@ -604,7 +604,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-10-13
+                    2021-10-24
                 </div>
                 
 
@@ -621,72 +621,39 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>闭包是函数式编程中特有的东西，同业也是JavaScript的特色，很多高级应用都要依靠闭包实现。以前看过很多关于闭包的解释，大多解释得比较含糊，没有说到底层的原理上或是对底层原理一笔带过，导致会有似懂非懂，似是而非的感觉。闭包还涉及到另一个重要的知识点，就是JavaScript中上下文和运行时如何找上下文的问题。这把这个问题搞清楚，才能解释闭包的问题。</p>
-<h2 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h2><p>当我们启动程序时，我们从全局执行上下文中开始。一些变量是在全局执行上下文中声明的。我们称之为全局变量。当程序调用一个函数时，会发生什么？有以下几个步骤：</p>
-<ol>
-<li>JavaScript创建一个新的本函数的执行上下文，我们叫作本地执行上下文。</li>
-<li>这个本地执行上下文将有它自己的一组变量，这些变量将是这个执行上下文的本地变量。</li>
-<li>新的执行上下文被推到到执行堆栈中。可以将执行堆栈看作是一种保存程序在其执行中的位置的容器。</li>
-</ol>
-<p>函数什么时候结束？当它遇到一个<code>return</code>语句或一个结束括号<code>}</code>。当一个函数结束时，会发生以下情况：</p>
-<ol>
-<li>这个函数的本地执行上下文从执行堆栈中弹出。</li>
-<li>函数将返回值返回给外层的调用上下文（调用上下文是调用这个本地的执行上下文），它可以是全局执行上下文，也可以是另外一个本地的执行上下文。返回的值可以是一个对象、一个数组、一个函数、一个布尔值等等，如果函数没有<code>return</code>语句，则返回<code>undefined</code>。</li>
-<li>函数的本地执行上下文被销毁，销毁是很重要，这个本地执行上下文中声明的所有变量都将被删除，不再有变量。实际上就是被垃圾回收器回收了，释放内存空间。</li>
-</ol>
-<h2 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h2><p>任何语言的变量都有作用域，作用域机制是为了方便垃圾回收器回收的，在词法上分为两种作用域：</p>
-<ul>
-<li><strong>全局作用域</strong> —— 第一次执行代码的默认环境（在浏览器中最外层就是window，即<code>var</code>声明的变量）</li>
-<li><strong>函数作用域</strong> —— 当执行流进入函数体时</li>
-</ul>
-<p><code>fn(…)</code> —— 当调用方法时，我们把当前 执行上下文 认作是当前代码执行的一个环境与作用域。举个栗子，我们看一下下面的代码：</p>
-<pre class=" language-javascript"><code class="language-javascript"> <span class="token keyword">let</span> val1 <span class="token operator">=</span> <span class="token number">2</span>
- <span class="token keyword">function</span> <span class="token function">multiplyThis</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-   <span class="token keyword">let</span> ret <span class="token operator">=</span> n <span class="token operator">*</span> val1
-   <span class="token keyword">return</span> ret
- <span class="token punctuation">}</span>
- <span class="token keyword">let</span> multiplied <span class="token operator">=</span> <span class="token function">multiplyThis</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span>
- console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'example of scope:'</span><span class="token punctuation">,</span> multiplied<span class="token punctuation">)</span></code></pre>
-<p>为了理解JavaScript引擎是如何工作的以及理解词法作用域的一些知识。，让我们详细分析一下：</p>
-<ol>
-<li>在全局执行上下文中声明一个新的变量<code>val1</code>，并将其赋值为<code>2</code>。</li>
-<li>第<code>2-5</code>行，声明一个新的变量 <code>multiplyThis</code>，并给它分配一个函数定义。</li>
-<li>第<code>6</code>行，声明一个在全局执行上下文 <code>multiplied</code> 新变量。</li>
-<li>从全局执行上下文内存中查找变量<code>multiplyThis</code>，并将其作为函数执行，传递数字 <code>6</code> 作为参数。</li>
-<li>新函数调用(创建新执行上下文），创建一个新的 <code>multiplyThis</code> 函数执行上下文。</li>
-<li>在 <code>multiplyThis</code> 执行上下文中，声明一个变量<code>n</code>并将其赋值为<code>6</code>。</li>
-<li>第 <code>3</code> 行。在<code>multiplyThis</code>执行上下文中，声明一个变量<code>ret</code>。</li>
-<li><strong>来到的重要的一步</strong>，继续第 <code>3</code> 行。对两个操作数 <code>n</code> 和 <code>val1</code> 进行乘法运算.在<code>multiplyThis</code>执行上下文中查找变量 <code>n</code>。我们在步骤6中声明了它,它的内容是数字<code>6</code>。在<code>multiplyThis</code>执行上下文中查找变量<code>val1</code>。<code>multiplyThis</code>执行上下文没有一个标记为 <code>val1</code> 的变量。我们向调用上下文查找，调用上下文是全局执行上下文，在全局执行上下文中寻找 <code>val1</code>。哦，是的、在那儿，它在步骤1中定义，数值是<code>2</code>。（在JavaScript中如果一个变量在本作用域内找不到，就会一直向外层的作用域找，直到找到为止，如果最外层也没有那就是<code>undefined</code>）</li>
-<li>继续第 <code>3</code> 行。将两个操作数相乘并将其赋值给<code>ret</code>变量，6 * 2 = 12，ret 现在值为 <code>12</code>。</li>
-<li>返回<code>ret</code>变量，销毁<code>multiplyThis</code>执行上下文及其变量 <code>ret</code> 和 <code>n</code> 。变量 <code>val1</code> 没有被销毁，因为它是全局执行上下文的一部分。</li>
-<li>回到第<code>6</code>行。在调用上下文中，数字 <code>12</code> 赋值给 <code>multiplied</code> 的变量。</li>
-<li>最后在第<code>7</code>行，我们在控制台中打印 <code>multiplied</code> 变量的值</li>
-</ol>
-<p>在这个例子中，我们需要记住一个函数可以访问在它的调用上下文中定义的变量，这个就是<strong>词法作用域（Lexical scope）</strong>。</p>
-<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>直接上代码</p>
-<pre class=" language-javascript"><code class="language-javascript">
-<span class="token keyword">function</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">'hello world'</span><span class="token punctuation">;</span>
-  <span class="token keyword">function</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> a <span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// hello world</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>在outer函数中声明了一个字符串变量a和一个函数变量inner，然后我返回了函数变量inner。然后在外面执行返回的函数。疑问：为什么输出<code>hello world</code>，因为按正常理解，最后执行的b函数实际是inner函数，而inner函数是通过执行outer函数返回的，在执行完outer函数后，outer函数的上下文已经销毁了，outer函数上下文中的变量应该被回收了，为什么inner函数能访问到outer函数中的<code>a变量</code></p>
-<h3 id="为什么会这样？"><a href="#为什么会这样？" class="headerlink" title="为什么会这样？"></a>为什么会这样？</h3><p>之所以能实现这种效果，是因为闭包的特性使得返回的匿名函数的作用域链一直保存着对<code>a变量</code>的引用。什么意思呢，从另一个方面来解释，假设不存在闭包这个特性，那上面的代码执行效果又会变成什么样？</p>
-<p>如果按照前面的理解，执行完outer函数后，outer函数上下文被销毁，变量被回收。那么函数变量inner应该也被回收，所以<code>第10行</code>代码应该返回<code>undefined</code>，当然你会反驳说因为第10行代码把inner赋值给了外层的b变量，所以相当于外层的上下文引用了inner函数，所以inner不能被回收，但外层上下文没有因为a变量，所以a应该被回收。此时引用链应该是 <code>windows -&gt; inner</code>，既然说到了这，别忘了inner中引用了 a变量，所以完整的引用链应该是  <code>windows -&gt; inner -&gt; a</code>。所以外层上下文通过 inner 间接的引用了 <code>a变量</code>。这就是闭包实现的真正原因</p>
+                <p>WebGL (全写Web Graphics Library) 是一种3D绘图协议，并提供了JavaScript API，，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0（OpenGL for Embedded Systems，OpenGL嵌入式版本，针对手机、游戏机等设备相对较轻量级的版本）结合在一起，用于在任何兼容的Web浏览器中呈现交互式3D和2D图形，而无需使用插件。WebGL可以为HTML5 Canvas提供硬件3D加速渲染，这样Web开发人员就可以借助系统显卡来在浏览器里更流畅地展示3D场景和模型了，还能创建复杂的导航和数据视觉化。</p>
+<h2 id="Three-js"><a href="#Three-js" class="headerlink" title="Three.js"></a>Three.js</h2><p>Three.js是WebGL的JavaScript 3D库，其对WebGL提供的接口进行了非常好的封装，它是由居住在西班牙巴塞罗那的程序员Ricardo Cabbello Miguel开发的，此人更出名的网名叫做Mr.doob。Three.js以简单、直观的方式封装了3D图形编程中常用的对象。Three.js在开发中使用了很多图形引擎的高级技巧，极大地提高了性能。另外，由于内置了很多常用对象和极易上手的工具，Three.js的功能也非常强大。最后，Three.js还是完全开源的，你可以在GitHub上找到它的源代码，并且有很多人贡献代码，帮助Mr.doob一起维护这个框架。Three.js简化了很多WebGL API的细节，大大降低了学习成本，成为前端开发者完成3D绘图的得力工具。</p>
 <blockquote>
-<p><strong>闭包的原理</strong>：内部函数（返回的匿名函数）的作用域链仍然保有对 外部函数的变量type的引用。垃圾回收器不会对它回收</p>
+<p><strong>WebGL和Three.js的关系</strong></p>
+<p>WebGL原生的api是一种非常低级的接口，而且还需要一些数学和图形学的相关技术。对于没有相关基础的人来说，入门真的很难，Three.js将入门的门槛降低了整整的一大截，对WebGL进行封装，简化我们创建三维动画场景的过程。用最简单的一句话概括：WebGL和Three.js的关系，相当于JavaScript和Jquery的关系。</p>
 </blockquote>
-<p>当调用<code>outer()</code>之后，内部函数执行环境的作用域链就有了包含<code>a变量</code>的活动对象，垃圾回收的机制之一就是 判断一个对象是否存在被引用，如果是则不清除。而此时内部函数被全局的<code>b变量</code>引用，所以在执行完<code>b()</code>后，内部变量a依然存在。</p>
-<blockquote>
-<p>闭包的滥用会导致一些副作用，比如内存溢出、调试困难等。所以要慎用，清除闭包的方法就是消除引用。在该例中，令b = null 即可清除引用。</p>
-</blockquote>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说了这么多总结一下吧，一句话：闭包的原因是因为存在引用链，阻止了垃圾回收。</p>
+<p>three.js官方文档 ：<a href="https://threejs.org/" target="_blank" rel="noopener">threejs.org/</a></p>
+<p>three.js中文文档 ： <a href="https://techbrood.com/threejs/docs/" target="_blank" rel="noopener">techbrood.com/threejs/doc…</a></p>
+<h3 id="ThreeJS优点"><a href="#ThreeJS优点" class="headerlink" title="ThreeJS优点"></a>ThreeJS优点</h3><p>Three.js作为WebGL框架中的佼佼者，由于它的易用性和扩展性，使得它能够满足大部分的开发需求</p>
+<ol>
+<li>Three.js掩盖了3D渲染的细节：Three.js将WebGL原生API的细节抽象化，将3D场景拆解为网格、材质和光源(即它内置了图形编程常用的一些对象种类)。</li>
+<li>面向对象：开发者可以使用上层的JavaScript对象，而不是仅仅调用JavaScript函数。</li>
+<li>功能非常丰富：Three.js除了封装了WebGL原始API之外，Three.js还包含了许多实用的内置对象，可以方便地应用于游戏开发、动画制作、幻灯片制作、髙分辨率模型和一些特殊的视觉效果制作。</li>
+<li>速度很快：Three.js采用了3D图形最佳实践来保证在不失可用性的前提下，保持极高的性能。</li>
+<li>支持交互：WebGL本身并不提供拾取（picking)功能（即是否知道鼠标正处于某个物体上）。而Three.js则固化了拾取支持，这就使得你可以轻松为你的应用添加交互功能。</li>
+<li>包含数学库：Three.js拥有一个强大易用的数学库，你可以在其中进行矩阵、投影和矢量运算。</li>
+<li>内置文件格式支持：你可以使用流行的3D建模软件导出文本格式的文件，然后使用Three.js加载；也可以使用Three.js自己的JSON格式或二进制格式。</li>
+<li>扩展性很强：为Three.js添加新的特性或进行自定义优化是很容易的事情。如果你需要某个特殊的数据结构，那么只需要封装到Three.js即可。</li>
+<li>支持HTML5 canvas：Three.js不但支持WebGL，而且还支持使用Canvas2D、Css3D和SVG进行渲染。在未兼容WebGL的环境中可以回退到其它的解决方案。</li>
+</ol>
+<h3 id="ThreeJS缺点"><a href="#ThreeJS缺点" class="headerlink" title="ThreeJS缺点"></a>ThreeJS缺点</h3><p>虽然Three.js的优势很大，但是它也有它的不足之处：</p>
+<ol>
+<li>官网文档非常粗糙，对于新手极度不友好。</li>
+<li>国内的相关资源匮乏。</li>
+<li>Three.js所有的资料都是以英文格式存在，对国内的朋友来说又提高了门槛。</li>
+<li>Three.js不是游戏引擎，一些游戏相关的功能没有封装在里面，如果需要相关的功能需要进行二次开发。</li>
+</ol>
+<h3 id="其他WebGL库"><a href="#其他WebGL库" class="headerlink" title="其他WebGL库"></a>其他WebGL库</h3><ol>
+<li><strong>Babylon</strong>：它是最好的JavaScript3D游戏引擎，它能创建专业级三维游戏。主要以游戏开发和易用性为主。对于WebGL的封装，双方做的各有千秋，Three.js浅一些，好处是易于扩展，易于向更底层学习；Babylon.js深一些，好处是易用扩展难度大一些。</li>
+<li><strong>PlayCanvas</strong>：是一个基于WebGL游戏引擎的企业级开源JavaScript框架，它有许多的开发工具能帮你快速创建3D游戏。但扩展性不如Three.js。</li>
+<li><strong>Cesium</strong>：是国外一个基于JavaScript编写的使用WebGL的地图引擎，支持3D,2D,2.5D形式的地图展示，可以自行绘制图形，高亮区域。Cesium是一个地图引擎，专注于Gis</li>
+</ol>
+<h2 id="ThreeJS的API"><a href="#ThreeJS的API" class="headerlink" title="ThreeJS的API"></a>ThreeJS的API</h2><p>threejs的三大组件：场景-scene，相机-camera，渲染器-renderer。</p>
 
             </div>
             <hr/>
@@ -712,7 +679,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2021/10/13/javascript-de-bi-bao/">https://lushunjian.gitee.io/2021/10/13/javascript-de-bi-bao/</a>
+                    <a href="https://lushunjian.gitee.io/2021/10/24/webgl-yu-three-js/">https://lushunjian.gitee.io/2021/10/24/webgl-yu-three-js/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1205,29 +1172,30 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2021/10/18/antd-zhong-shi-yong-react-dnd/">
+                <a href="/2021/10/24/webgl-yu-three-js/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Antd中使用React-dnd">
+                        <img src="/medias/featureimages/44.jpg" class="responsive-img" alt="WebGL与three.js">
                         
-                        <span class="card-title">Antd中使用React-dnd</span>
+                        <span class="card-title">WebGL与three.js</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头。由于种种原因我没有升级Antd和React版本，所以本文
+                            WebGL (全写Web Graphics Library) 是一种3D绘图协议，并提供了JavaScript API，，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0（OpenGL for Embedded Sys
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-18
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1240,6 +1208,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1258,38 +1227,31 @@ console<span class="token punctuation">.</span><span class="token function">log<
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/10/10/liang-jie-guan-xi/">
+                <a href="/2021/10/18/antd-zhong-shi-yong-react-dnd/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="量价关系">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Antd中使用React-dnd">
                         
-                        <span class="card-title">量价关系</span>
+                        <span class="card-title">Antd中使用React-dnd</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            由浅入深的带大家理解资本市场一些现象的底层逻辑
-文章会详细解答以下几个问题：
-
-为什么观察成交量那么重要，量价齐升为什么是好事？
-为什么股价总是处于波动，横盘越久爆发行情可能性越大？
-趋势的本质是什么？macd为什么有用？
-
-首先需明白股价
+                            这是一篇踩坑的记录，最近项目有个需求要用到Antd中的拖拽表格的拖拽效果用于表格数据的重排序，Antd的官方文档中也有拖拽表格的Demo例子。所以当SA问能否实现时，我微微的点了点头。由于种种原因我没有升级Antd和React版本，所以本文
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-18
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BA%A4%E6%98%93/" class="post-category">
-                                    交易
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1299,8 +1261,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E4%BA%A4%E6%98%93/">
-                        <span class="chip bg-color">交易</span>
+                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                        <span class="chip bg-color">前端</span>
                     </a>
                     
                 </div>
