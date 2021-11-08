@@ -622,13 +622,14 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>WebGL (全写Web Graphics Library) 是一种3D绘图协议，并提供了JavaScript API，，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0（OpenGL for Embedded Systems，OpenGL嵌入式版本，针对手机、游戏机等设备相对较轻量级的版本）结合在一起，用于在任何兼容的Web浏览器中呈现交互式3D和2D图形，而无需使用插件。WebGL可以为HTML5 Canvas提供硬件3D加速渲染，这样Web开发人员就可以借助系统显卡来在浏览器里更流畅地展示3D场景和模型了，还能创建复杂的导航和数据视觉化。</p>
-<h2 id="Three-js"><a href="#Three-js" class="headerlink" title="Three.js"></a>Three.js</h2><p>Three.js是WebGL的JavaScript 3D库，其对WebGL提供的接口进行了非常好的封装，它是由居住在西班牙巴塞罗那的程序员Ricardo Cabbello Miguel开发的，此人更出名的网名叫做Mr.doob。Three.js以简单、直观的方式封装了3D图形编程中常用的对象。Three.js在开发中使用了很多图形引擎的高级技巧，极大地提高了性能。另外，由于内置了很多常用对象和极易上手的工具，Three.js的功能也非常强大。最后，Three.js还是完全开源的，你可以在GitHub上找到它的源代码，并且有很多人贡献代码，帮助Mr.doob一起维护这个框架。Three.js简化了很多WebGL API的细节，大大降低了学习成本，成为前端开发者完成3D绘图的得力工具。</p>
+<h2 id="ThreeJS"><a href="#ThreeJS" class="headerlink" title="ThreeJS"></a>ThreeJS</h2><p>Three.js是WebGL的JavaScript 3D库，其对WebGL提供的接口进行了非常好的封装，它是由居住在西班牙巴塞罗那的程序员Ricardo Cabbello Miguel开发的，此人更出名的网名叫做Mr.doob。Three.js以简单、直观的方式封装了3D图形编程中常用的对象。Three.js在开发中使用了很多图形引擎的高级技巧，极大地提高了性能。另外，由于内置了很多常用对象和极易上手的工具，Three.js的功能也非常强大。最后，Three.js还是完全开源的，你可以在GitHub上找到它的源代码，并且有很多人贡献代码，帮助Mr.doob一起维护这个框架。Three.js简化了很多WebGL API的细节，大大降低了学习成本，成为前端开发者完成3D绘图的得力工具。</p>
 <blockquote>
 <p><strong>WebGL和Three.js的关系</strong></p>
 <p>WebGL原生的api是一种非常低级的接口，而且还需要一些数学和图形学的相关技术。对于没有相关基础的人来说，入门真的很难，Three.js将入门的门槛降低了整整的一大截，对WebGL进行封装，简化我们创建三维动画场景的过程。用最简单的一句话概括：WebGL和Three.js的关系，相当于JavaScript和Jquery的关系。</p>
 </blockquote>
 <p>three.js官方文档 ：<a href="https://threejs.org/" target="_blank" rel="noopener">threejs.org/</a></p>
 <p>three.js中文文档 ： <a href="https://techbrood.com/threejs/docs/" target="_blank" rel="noopener">techbrood.com/threejs/doc…</a></p>
+<p>推荐文档地址：<a href="http://www.webgl3d.cn/" target="_blank" rel="noopener">http://www.webgl3d.cn/</a></p>
 <h3 id="ThreeJS优点"><a href="#ThreeJS优点" class="headerlink" title="ThreeJS优点"></a>ThreeJS优点</h3><p>Three.js作为WebGL框架中的佼佼者，由于它的易用性和扩展性，使得它能够满足大部分的开发需求</p>
 <ol>
 <li>Three.js掩盖了3D渲染的细节：Three.js将WebGL原生API的细节抽象化，将3D场景拆解为网格、材质和光源(即它内置了图形编程常用的一些对象种类)。</li>
@@ -653,7 +654,267 @@
 <li><strong>PlayCanvas</strong>：是一个基于WebGL游戏引擎的企业级开源JavaScript框架，它有许多的开发工具能帮你快速创建3D游戏。但扩展性不如Three.js。</li>
 <li><strong>Cesium</strong>：是国外一个基于JavaScript编写的使用WebGL的地图引擎，支持3D,2D,2.5D形式的地图展示，可以自行绘制图形，高亮区域。Cesium是一个地图引擎，专注于Gis</li>
 </ol>
-<h2 id="ThreeJS的API"><a href="#ThreeJS的API" class="headerlink" title="ThreeJS的API"></a>ThreeJS的API</h2><p>threejs的三大组件：场景-scene，相机-camera，渲染器-renderer。</p>
+<h2 id="核心的API"><a href="#核心的API" class="headerlink" title="核心的API"></a>核心的API</h2><p>threeJS中有几个重要的概念，也是构建一个3D场景图必要的对象，分别如下</p>
+<ol>
+<li><strong>场景（Scene）</strong>：是一个三维空间，所有物品的容器，可以把场景想象成一个空房间</li>
+<li><strong>相机（Camera）</strong>：场景中的相机，代替人眼去观察，相机看到的内容就是最终屏幕上的效果</li>
+<li><strong>网格（Mesh）</strong>：包括二维物体（点、线、面）、三维物体，模型等等</li>
+<li><strong>光源（Light）</strong>：场景中的光照，如果不添加光照场景将会是一片漆黑，包括环境光、平行光、点光源等</li>
+<li><strong>渲染器（Renderer）</strong>:场景的渲染方式，如webGL\canvas2D\Css3D。</li>
+<li><strong>控制器（Control）</strong>: 可通过键盘、鼠标控制相机的移动</li>
+</ol>
+<p>下面我们依次详细学习以上的细分知识点。</p>
+<h3 id="相机"><a href="#相机" class="headerlink" title="相机"></a>相机</h3><p>ThreeJS中我们常用的有两种类型的相机：<code>正交（orthographic）相机</code>、<code>透视（perspective）相机</code>。一般情况下为了模拟人眼我们都是使用透视相机； 正交镜头的特点是，物品的渲染尺寸与它距离镜头的远近无关。也就是说在场景中移动一个物体，其大小不会变化。正交镜头适合2D游戏。透视镜头则是模拟人眼的视觉特点，距离远的物体显得更小。透视镜头通常更适合3D渲染。但是理解照相机的情况下，先理解另一个概念——视椎体</p>
+<p><img src="/2021/10/24/webgl-yu-three-js/1.png" alt></p>
+<p>视锥体是摄像机可见的空间，看上去像截掉顶部的金字塔。视锥体由6个裁剪面围成，构成视锥体的4个侧面称为上左下右面，分别对应屏幕的四个边界。为了防止物体离摄像机过近，设置近切面（Near plane），同时为了防止物体离摄像机太远而不可见，设置远切面（Far plane）。</p>
+<p>创建一个透视相机：<code>let camera = new THREE.PerspectiveCamera(fov,aspect,near,far)</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fov</td>
+<td>视野角度，从镜头可以看到的场景的部分。通常3D游戏的FOV取值在60-90度之间较好的默认值为60</td>
+</tr>
+<tr>
+<td>aspect</td>
+<td>渲染区域的纵横比。较好的默认值为<code>window.innerWidth/window.innerHeight</code></td>
+</tr>
+<tr>
+<td>near</td>
+<td>摄像机视锥体近端面</td>
+</tr>
+<tr>
+<td>far</td>
+<td>摄像机视锥体远端面</td>
+</tr>
+</tbody></table>
+<p>创建摄像机以后还要对其进行移动、然后对准物体积聚的场景中心位置，分别是设置其 position和调用 lookAt 方法，参数均是一个 xyz向量(new THREE.Vector3(x,y,z))</p>
+<blockquote>
+<p>camera.position：控制相机在整个3D环境中的位置（取值为3维坐标对象-THREE.Vector3(x,y,z)）<br>camera.lookAt：控制相机的焦点位置，决定相机的朝向（取值为3维坐标对象-THREE.Vector3(x,y,z)）</p>
+</blockquote>
+<h3 id="光源"><a href="#光源" class="headerlink" title="光源"></a>光源</h3><p>在ThreeJs中光源是必须的，如果一个场景你不设置灯光那么世界将会是一片漆黑。ThreeJs内置了多种光源以满足特定场景的需要。可以根据自己的项目需要来选择何种灯光</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AmbientLight</td>
+<td>环境光，其颜色均匀的应用到场景及其所有对象上。 这种光源为场景添加全局的环境光，这种光没有特定的方向，不会产生阴影。 通常不会把<code>AmbientLight</code>作为唯一的光源，而是和<code>SpotLight</code>、<code>DirectionalLigh</code>t等光源结合使用，从而达到柔化阴影、添加全局色调的效果。 指定颜色时要相对保守，例如#0c0c0c。设置太亮的颜色会导致整个画面过度饱和，什么都看不清。</td>
+</tr>
+<tr>
+<td>PointLight</td>
+<td>3D空间中的一个点光源，向所有方向发出光线</td>
+</tr>
+<tr>
+<td>SpotLight</td>
+<td>也就无限光，光线是平行的。典型的例子是日光,用于模拟遥远的，类似太阳那样的光源。<br>该光源与<code>SpotLight</code>的主要区别是，它不会随着距离而变暗，所有被照耀的地方获得相同的光照强度。</td>
+</tr>
+<tr>
+<td>HemisphereLight</td>
+<td>特殊光源，用于创建户外自然的光线效果。 此光源模拟物体表面反光效果、微弱发光的天空,模拟穹顶（半球）的微弱发光效果，让户外场景更加逼真。 使用<code>DirectionalLight</code> + <code>AmbientLight</code>可以在某种程度上来模拟户外光线，但是不够真实，因为无法体现大气层的散射效果、地面或物体的反射效果</td>
+</tr>
+<tr>
+<td>AreaLight</td>
+<td>面光源，指定一个发光的区域</td>
+</tr>
+<tr>
+<td>LensFlare</td>
+<td>不是光源，用于给光源添加镜头光晕效果</td>
+</tr>
+</tbody></table>
+<p>关于光源的详细 API 可以参考 threejs 官网，很详细，demo 也很完整 <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fthreejs.org%2Fexamples%2F%3Fq%3Dlight%23webgl_lights_physical" target="_blank" rel="noopener">传送门</a></p>
+<p>网格</p>
+<p>在计算机的世界里，一条弧线是由有限个点构成的有限条线段连接得到的。当线段数量越多，长度就越短，当达到你无法察觉这是线段时，一条平滑的弧线就出现了。 计算机的三维模型也是类似的。只不过线段变成了平面，普遍用三角形组成的网格来描述。我们把这种模型称之为 Mesh 模型。</p>
+<blockquote>
+<p>在 threeJs 的世界中，材质(Material)+几何体(Geometry)就是一个 mesh。设置其name属性可以通过<code>scene.getObjectByName(name)</code>获取该物体对象;Geometry就好像是骨架，材质则类似于皮肤，对于材质和几何体的分类见下表格</p>
+</blockquote>
+<p><strong>材质分类</strong></p>
+<table>
+<thead>
+<tr>
+<th>材质</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MeshBasicMaterial</td>
+<td>基本的材质，显示为简单的颜色或者显示为线框。不考虑光线的影响</td>
+</tr>
+<tr>
+<td>MeshDepthMaterial</td>
+<td>使用简单的颜色，但是颜色深度和距离相机的远近有关</td>
+</tr>
+<tr>
+<td>MeshNormalMaterial</td>
+<td>基于面Geometry的法线（normals）数组来给面着色</td>
+</tr>
+<tr>
+<td>MeshFacematerial</td>
+<td>容器，允许为Geometry的每一个面指定一个材质</td>
+</tr>
+<tr>
+<td>MeshLambertMaterial</td>
+<td>考虑光线的影响，哑光材质</td>
+</tr>
+<tr>
+<td>MeshPhongMaterial</td>
+<td>考虑光线的影响，光泽材质</td>
+</tr>
+<tr>
+<td>ShaderMaterial</td>
+<td>允许使用自己的着色器来控制顶点如何被放置、像素如何被着色</td>
+</tr>
+<tr>
+<td>LineBasicMaterial</td>
+<td>用于THREE.Line对象，创建彩色线条</td>
+</tr>
+<tr>
+<td>LineDashMaterial</td>
+<td>用于THREE.Line对象，创建虚线条</td>
+</tr>
+<tr>
+<td>RawShaderMaterial</td>
+<td>仅和THREE.BufferedGeometry联用，优化静态Geometry（顶点、面不变）的渲染</td>
+</tr>
+<tr>
+<td>SpriteCanvasMaterial</td>
+<td>在针对单独的点进行渲染时用到</td>
+</tr>
+<tr>
+<td>SpriteMaterial</td>
+<td>在针对单独的点进行渲染时用到</td>
+</tr>
+<tr>
+<td>PointCloudMaterial</td>
+<td>在针对单独的点进行渲染时用到</td>
+</tr>
+</tbody></table>
+<p><strong>2D图形</strong></p>
+<table>
+<thead>
+<tr>
+<th>图形</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>THREE.PlaneGeometry</td>
+<td>外观上是一个矩形<code>new THREE.PlaneGeometry(width, height, widthSegments, heightSegments)</code></td>
+</tr>
+<tr>
+<td>THREE.CircleGeometry</td>
+<td>外观上是一个圆形或者扇形<br> 半径为3的圆<code>new THREE.CircleGeometry(3, 12)</code>; 半径为3的半圆<code>new THREE.CircleGeometry(3, 12, 0, Math.PI)</code>;第三个参数和第四个分别是起始角度和结束角度，默认0-2*PI</td>
+</tr>
+<tr>
+<td>THREE.RingGeometry</td>
+<td>外观上是一个圆环或者扇环<code>new THREE.RingGeometry(innerRadius, outerRadius, thetaSegments, phiSegments,thetaStart, thetaLength)</code></td>
+</tr>
+<tr>
+<td>THREE.ShapeGeometry</td>
+<td>该形状允许你创建自定义的二维图形，其操作方式类似于SVG/Canvas中的画布</td>
+</tr>
+</tbody></table>
+<p><strong>3D图形</strong></p>
+<table>
+<thead>
+<tr>
+<th>图形</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>THREE.BoxGeometry</td>
+<td>这是一个具有长宽高的盒子BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments)</td>
+</tr>
+<tr>
+<td>THREE.SphereGeometry</td>
+<td>这是一个三维球体/不完整球体<code>SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)</code></td>
+</tr>
+<tr>
+<td>THREE. CylinderGeometry</td>
+<td>可以绘制圆柱、圆筒、圆锥或者截锥</td>
+</tr>
+</tbody></table>
+<p><strong>加载外部模型</strong></p>
+<p>一般来讲我们的场景中可能是一些奇奇怪怪的形状，或多或少项目中都会用到一些外部的模型资源，比如动物啊，装饰物啊什么的，再加上一些动画，这样整个场景更加显得生动，那么 threejs 中我们可以通过哪些方式来加载外部的模型资源呢？加载外部模型，是通过Three.js加载器（Loader）实现的。加载器把文本/二进制的模型文件转化为Three.js对象结构。 每个加载器理解某种特定的文件格式。需要注意的是，由于贴图的尺寸必须是(2的幂数)X (2的幂数)，如：1024X512，所以为了防止贴图变形，平面的宽度比例需要与贴图的比例一致。加载外部模型数据支持以下格式</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JSON</td>
+<td>Three.js自定义的、基于JSON的格式。<br>可以声明式的定义一个Geometry或者Scene.利用该格式，你可以方便的重用复杂的Geometry或Scene</td>
+</tr>
+<tr>
+<td>OBJ / MTL</td>
+<td>OBJ是Wavefront开发的一种简单3D格式，此格式被广泛的支持，用于定义Geometry，MTL用于配合OBJ，它指定OBJ使用的材质</td>
+</tr>
+<tr>
+<td>Collada（dae）</td>
+<td>基于XML的格式，被大量3D应用程序、渲染引擎支持</td>
+</tr>
+<tr>
+<td>STL</td>
+<td>STereoLithography的简写，在快速原型领域被广泛使用。<br>3D打印模型通常使用该格式定义Three.js提供了STLExporter.js，使用它可以把Three.js模型导出为STL格式</td>
+</tr>
+<tr>
+<td>CTM</td>
+<td>openCTM定义的格式，以紧凑的格式存储基于三角形的Mesh</td>
+</tr>
+<tr>
+<td>VTK</td>
+<td>Visualization Toolkit定义的格式，用于声明顶点和面。<br>此格式有二进制/ASCII两种变体，Three.js仅支持ASCII变体</td>
+</tr>
+<tr>
+<td>AWD</td>
+<td>3D场景的二进制格式，主要被away3d引擎使用，Three.js不支持AWD压缩格式</td>
+</tr>
+<tr>
+<td>Assimp</td>
+<td>开放资产导入库（Open asset import library）是导入多种3D模型的标准方式。<br>使用该Loader你可以导入多种多样的3D模型格式</td>
+</tr>
+<tr>
+<td>VRML</td>
+<td>虚拟现实建模语言（Virtual Reality Modeling Language）是一种基于文本的格式。<br>现已经被X3D格式取代尽管Three.js不直接支持X3D，但是后者很容易被转换为其它格式</td>
+</tr>
+<tr>
+<td>Babylon</td>
+<td>游戏引擎Babylon的私有格式</td>
+</tr>
+<tr>
+<td>PLY</td>
+<td>常用于存储来自3D扫描仪的信息</td>
+</tr>
+</tbody></table>
+<p>在项目一开始尝试是使用 dae 文件，后面发现 json 文件更加方便一点，所以最终使用的是 jsonloader 导入 json 文件。json文件可以通过 blender 或者3DsMax 导出，他们都有各自的 export json的插件。在软件中处理好模型贴图和动画以后，导出 json 文件和相应的贴图文件给到前端即可。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> jsonLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>JSONLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+jsonLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'model.json'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>geometry<span class="token punctuation">,</span> materials<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    materials<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>mat<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//这里面可以设置材质的各种信息</span>
+        mat<span class="token punctuation">.</span>skinning <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        mat<span class="token punctuation">.</span>color <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span><span class="token string">"rgb(233,203,113)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//模型颜色</span>
+        mat<span class="token punctuation">.</span>emissive <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span><span class="token string">"rgb(110,110,110)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//自发光颜色</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> model <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>SkinnedMesh</span><span class="token punctuation">(</span>geometry<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshFaceMaterial</span><span class="token punctuation">(</span>materials<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    model<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"model name"</span><span class="token punctuation">;</span>
+    scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//下面是播放模型中的动画内容</span>
+    <span class="token keyword">var</span> sceneAnimationClip <span class="token operator">=</span> model<span class="token punctuation">.</span>geometry<span class="token punctuation">.</span>animations<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword">var</span> mixer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AnimationMixer</span><span class="token punctuation">(</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    mixers<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>mixer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> sceneAnimation <span class="token operator">=</span> mixer<span class="token punctuation">.</span><span class="token function">clipAction</span><span class="token punctuation">(</span>sceneAnimationClip<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    sceneAnimation<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
