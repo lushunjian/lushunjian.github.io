@@ -4,9 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="ajax和axios、fetch的区别, 三秋">
-    <meta name="description" content="axios、fetch 和 ajax的区别 在网络上存在很多文章。现针对自己的情况，来重新整理一份，便于自己记忆和理解。内容参考了网络上的众多文章。
-XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
+    <meta name="keywords" content="利弗莫尔关键点交易法, 三秋">
+    <meta name="description" content="利弗莫尔关键点交易法包括支撑，阻力的交易，突破交易。至今西方仍有大量交易员仅仅依靠支撑阻力位交易而取得过人业绩。要想灵活运用支撑与阻力获利，必须要了解支撑与阻力形成的真正原因，同其它的技术分析的根源一样，它们都是心理因素造成的。除阻力和支持">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +13,7 @@ XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ajax和axios、fetch的区别 | 三秋</title>
+    <title>利弗莫尔关键点交易法 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -458,12 +457,12 @@ XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/24.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">ajax和axios、fetch的区别</h1>
+                    <h1 class="description center-align post-title">利弗莫尔关键点交易法</h1>
                 </div>
             </div>
         </div>
@@ -580,8 +579,8 @@ XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%89%8D%E7%AB%AF/">
-                                <span class="chip bg-color">前端</span>
+                            <a href="/tags/%E4%BA%A4%E6%98%93/">
+                                <span class="chip bg-color">交易</span>
                             </a>
                         
                     </div>
@@ -592,8 +591,8 @@ XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
+                            <a href="/categories/%E4%BA%A4%E6%98%93/" class="post-category">
+                                交易
                             </a>
                         
                     </div>
@@ -605,7 +604,7 @@ XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-11-06
+                    2021-11-13
                 </div>
                 
 
@@ -622,137 +621,95 @@ XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>axios、fetch 和 ajax的区别 在网络上存在很多文章。现针对自己的情况，来重新整理一份，便于自己记忆和理解。内容参考了网络上的众多文章。</p>
-<h2 id="XMLHttpRequest"><a href="#XMLHttpRequest" class="headerlink" title="XMLHttpRequest"></a>XMLHttpRequest</h2><p>浏览器通过XMLHttpRequest 对象进行 HTTP 通信。传统Ajax 指的是 XMLHttpRequest（XHR），最早出现的向后端发送请求的技术，隶属于原始 JS 中， 核心使用 XMLHttpRequest 对象。它可以使用JSON、XML、HTML和text文本等格式发送和接收数据，多个请求之间如果有先后关系的话，就会出现回调地狱，<strong>它的主要好处是可以在不刷新页面的情况下，向后端发起请</strong>。</p>
-<p>简单的 HTTP 请求</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'GET'</span><span class="token punctuation">,</span> <span class="token string">'/url'</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>完整的 HTTP 请求</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 请求成功回调函数</span>
-xhr<span class="token punctuation">.</span>onload <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'request success'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 请求结束</span>
-xhr<span class="token punctuation">.</span>onloadend <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'request loadend'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 请求出错</span>
-xhr<span class="token punctuation">.</span>onerror <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'request error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 请求超时</span>
-xhr<span class="token punctuation">.</span>ontimeout <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'request timeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-xhr<span class="token punctuation">.</span>timeout <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 设置超时时间,0表示永不超时</span>
-<span class="token comment" spellcheck="true">// 初始化请求</span>
-xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'GET/POST/DELETE/...'</span><span class="token punctuation">,</span> <span class="token string">'/url'</span><span class="token punctuation">,</span> <span class="token boolean">true</span> <span class="token operator">||</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 设置期望的返回数据类型 'json' 'text' 'document' ...</span>
-xhr<span class="token punctuation">.</span>responseType <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 设置请求头</span>
-xhr<span class="token punctuation">.</span><span class="token function">setRequestHeader</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 发送请求，参数可以不传，可以是表单数据，可以是拼接在url后的数据，可以是json串</span>
-xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token keyword">null</span> <span class="token operator">||</span> <span class="token keyword">new</span> <span class="token class-name">FormData</span> <span class="token operator">||</span> <span class="token string">'a=1&amp;b=2'</span> <span class="token operator">||</span> <span class="token string">'json字符串'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">// 请求回调函数.XMLHttpRequest标准又分为Level 1和Level 2,这是Level 1和的回调处理方式</span>
- xhr<span class="token punctuation">.</span>onreadystatechange <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  　　<span class="token keyword">if</span> <span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>readyState <span class="token operator">!==</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  　　　　<span class="token keyword">return</span><span class="token punctuation">;</span>
-  　　<span class="token punctuation">}</span>
-  　　<span class="token keyword">const</span> status <span class="token operator">=</span> xhr<span class="token punctuation">.</span>status<span class="token punctuation">;</span>
-  　　<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>status <span class="token operator">>=</span> <span class="token number">200</span> <span class="token operator">&amp;&amp;</span> status <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">)</span> <span class="token operator">||</span> status <span class="token operator">===</span> <span class="token number">304</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  　　　　console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'request success'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  　　<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-  　　　　console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'request error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  　　<span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h2 id="JQuery-ajax"><a href="#JQuery-ajax" class="headerlink" title="JQuery ajax"></a>JQuery ajax</h2><p>为了更快捷的操作DOM，并且规避一些浏览器兼容问题，产生了<code>jQuery</code>。它里面的<code>AJAX</code>请求也兼容了各浏览器，可以有简单易用的方法<code>$.get</code>，<code>$.post</code>。简单点说，就是对<code>XMLHttpRequest</code>对象的封装。</p>
-<pre class=" language-javascript"><code class="language-javascript">$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  type<span class="token punctuation">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
-  url<span class="token punctuation">:</span> url<span class="token punctuation">,</span> 
-  data<span class="token punctuation">:</span> data<span class="token punctuation">,</span>
-  dataType<span class="token punctuation">:</span> dataType<span class="token punctuation">,</span>
-  success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-  error<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>随着前后端技术的发展，jquery几乎不会再使用，对于一些老项目还会在用，jquery的缺点</p>
+                <p>利弗莫尔关键点交易法包括支撑，阻力的交易，突破交易。至今西方仍有大量交易员仅仅依靠支撑阻力位交易而取得过人业绩。要想灵活运用支撑与阻力获利，必须要了解支撑与阻力形成的真正原因，同其它的技术分析的根源一样，它们都是心理因素造成的。除阻力和支持外还有其他的关键点位</p>
+<blockquote>
+<p>根据有效市场假说，利弗莫尔关键点交易法属于技术分析和情绪分析，因此该交易法适用于对技术分析有效的半强无效市场。实际上我认为在一个存在博弈的市场中，心理和情绪会一直存在，因为只要股票交易是人参与就不能避免人性的弱点，所以心理和情绪分析一直有效。（量化交易除外）</p>
+</blockquote>
+<p>不论何时,只要耐心等待市场到达我所说的“关键点”后才动手,我就总能从交易中获利。因为在这种情况下，我选择的正是标志着行情启动的心理时机。我永远用不着为亏损而焦虑，并根据准则发出的信号逐步积累头寸。之后我唯一要做的就是静观其变，任由市场自动展开行情演变的过程。我知道只需如此，市场自身就会在合适的时机发出信号，让我了结获利。</p>
+<p>“罗马不是一天建成的”，没有哪个重大市场运动会在一天或一周内一蹴而就。关键点位也一样它需要时间才能逐步完成发生、发展、终结的整个过程。</p>
+<h2 id="阻力位和支撑位"><a href="#阻力位和支撑位" class="headerlink" title="阻力位和支撑位"></a>阻力位和支撑位</h2><p>股价k线图上密集成交地带形成之后，股价一旦向上突破，这一形态往往就成为支撑区域；当股价一旦向下突破，这一区域往往就会成为阻力区域。</p>
 <ol>
-<li>如果有多个请求，并且有依赖关系的话，容易形成回调地狱。</li>
-<li>本身是针对MVC的编程，不符合现在前端MVVM的浪潮。</li>
-<li>ajax是jQuery中的一个方法。如果只是要使用ajax却要引入整个jQuery非常的不合理。</li>
+<li><strong>阻力位</strong>：当股价在一个价格区域波动时间较久，这一个价格区域买进的投资人越多。股价跌破这一价格区域，就使买进的投资人全部被套，随着时间的推移，长期的心理折磨和亲友的担心埋怨会造成巨大压力，侥幸心理逐渐减少，取而代之的是深深的恐惧与担心，一旦股价重新回到这一价格区域附近，投资者必然急不可待的卖出股票，以求减少损失，于是就会形成很强的卖压，使股价不易突破这一价格区域，阻力因此形成。</li>
+<li><strong>支撑位</strong>：上一波行情股价波动的最低点价位处往往会形成支撑，原因同样如此。当股价在下跌过程中，投资人往往不知何处是底，但是很多投资人因为错失上一阶段行情的最低点进货，所以十分懊恼，因此常常以前一次行情的低点作为进场时机，同时股价跌至这一价位时，持有股票的投资人亏损往往日渐加大，产生了浓烈的惜售心理，除此之外很多投资人因为错失上一阶段行情的最低点进货，所以十分懊恼，也常常以前一次行情的低点作为进场时机，所以很轻微的买进，就造成股价的大幅回升，这就是支撑的形成原因。</li>
 </ol>
-<h2 id="Axios"><a href="#Axios" class="headerlink" title="Axios"></a>Axios</h2><p><code>Axios</code>是一个基于<code>promise</code>的<code>HTTP</code>库，可以用在浏览器和 <code>node.js</code> 中。它本质也是对原生<code>XMLHttpRequest</code>的封装，只不过它是Promise的实现版本，符合最新的ES规范。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> axios <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'axios'</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">// Make a request for a user with a given ID</span>
-axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/url'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>params<span class="token punctuation">}</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">// or axios.post ...</span>
-        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">{</span>
-                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">{</span>
-           console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span> 
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">// Want to use async/await? Add the `async` keyword to your outer function/method</span>
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    <span class="token keyword">try</span><span class="token punctuation">{</span>
-        <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/user'</span><span class="token punctuation">)</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>                   
-    <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">{</span>
-         console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>  
-    <span class="token punctuation">}</span>  
-<span class="token punctuation">}</span></code></pre>
-<p>async/await 是ES6 中的内容，在 IE 及一些老版本的浏览器不支持，请谨慎使用。axios 的优点</p>
+<h2 id="百分之五十的原则"><a href="#百分之五十的原则" class="headerlink" title="百分之五十的原则"></a>百分之五十的原则</h2><p>当股价在某一个价格区域换手率很大，形成时间也较长，此时股价突然上涨或下跌，上涨幅度达到50%时，常常会受到很强的卖出压力，造成股价反转或横向波动；或者股价下跌50%处时容易受到支撑，改变股价波动的方向。</p>
+<p>这是因为在股票市场上到处都有投机客，当股价一旦开始涨跌时就开始迅速寻找进出的时机，多数人的买卖依据不是因为什么客观原因，而是以自己的盈亏情况作为买卖的依据。当股价上涨幅度达到50%时，一方面持有股票的投资人获利丰厚，投资增值已达一半，担心股价反转，到头空欢喜一场，开始卖出股票。同时持币的投资人认为股价上涨过快涨幅较大，而不肯进入，因此股价很容易反转下跌。当股价从一个价格区域下跌跌幅达到50%处时，持有股票的人就因亏损过大而不愿卖出，反而逐渐摊低买进。投机客因为股价大跌到原价的一半，认为股价不会再跌而大量买进，因此常常使股价反转。事实上，不仅是50%处容易受到支撑与阻力，30%、100%处都容易受到支撑与阻力，这些点位也都是在实际操作过程中不容忽视的，原因也完全相同。</p>
+<h2 id="整数价位"><a href="#整数价位" class="headerlink" title="整数价位"></a>整数价位</h2><p>比如10元、20元、50元等等，还有指数点位1000点、2000点、10000点等等这些点位常常会形成重要的支撑与阻力。一方面是因为投资人认为在这一价位买进卖出股票之后，比较容易计算盈亏情况，更重要的是对于新高价的恐惧与底价的预期，也会使他们在面临整数关位时急于进行交易，久而久之这些价位就形成了阻力或支撑</p>
+<h2 id="箱体震荡"><a href="#箱体震荡" class="headerlink" title="箱体震荡"></a>箱体震荡</h2><p>当股价在一个价格区域之内上下波动，连续几次都不能向上或向下突破，那么这个形态的上档高点就会成为阻力位，而下档的最低价位处就成为一条支撑线。这个点位被冲击的次数越多，上下的幅度越大，支撑与阻力就越具有意义。这是因为，当股价连续两次没有向上突破时，短线投资者就会认为这一价位不易突破，因而以此作为参考卖出股票，在低档价位处买进股票，进行高抛低吸，以求利润的最大化。随着更多的人发现这种现象，就会有越来越多的人加入这一行列，支撑与阻力的意义就会越强，这就是股票箱体的产生原因。通常情况下，一个阻力位一旦被有效突破，这个价格区域就从阻力变成了支撑；同理，一个支撑位一旦被跌破，就会转变成压力。通过我们对于支撑与阻力的了解日益加深，我们就可以通过这些知识为我们获利打下坚实的基础，我们应用上述方法进行实际操作过程中，必须注意以下一些客观因素，以提高我们的成功率。</p>
 <ol>
-<li>从浏览器中创建XMLHttpRequest</li>
-<li>支持 Promise API</li>
-<li>客户端支持防止 CSRF</li>
-<li>提供了一些<strong>并发</strong>请求的接口（重要，方便了很多的操作）</li>
-<li>拦截请求和响应</li>
-<li>转换请求和响应数据</li>
+<li><strong>市场情况</strong>。在多头市场中阻力位的意义相对比较弱，而支撑的意义通常比较强；在熊市则是另一种情形，在空头市场中，阻力位的意义比较重而支撑的意义则比较弱。这是因为在股市的上涨过程中，投资者的心态因屡屡获利，或者看见他人的获利效应较为稳定，本来盈利后准备卖出的投资人因大势向好，而提高盈利预期。另一些原本等待解套后就立即出局的投资者，在乐观的市场气氛中，也蠢蠢欲动，希望有所利润再卖出。所有的人欢欣鼓舞，于是产生了支撑的意义就比较强，而阻力的作用比较弱的现象。在空头市场中，大多数的投资人发现大家都是在亏损，几乎所有的股票都在下跌，在这种时候，一有获利投资人自然地产生落袋为安，以及见好就收的心理。同时，原本被套之后期待解套的投资人，也因大市利空不断，大盘持续下跌，由期待解套变化成为少亏就行的愿望，自然会导致阻力位的意义比较重而支撑的意义则比较弱。</li>
+<li><strong>压力与支撑的时间长短</strong>。如果成交密集区域形成时间很长，已经达到了五六年之久甚至更长时间，往往就不具有支撑和阻力的意义。这是因为在这一个价位区买进的人，多数都已经在低位割肉卖出了，即使有人还没有卖出，这部分人也已经寥寥无几。这一区域已经不再是大多投资人的成本区域，所以就不会产生较重的支撑与阻力。</li>
+<li><strong>换手率的大小对于支撑位与阻力位的意义十分重要</strong>。一个价位的成交量越大，说明这一价位换手率越高，平均持仓成本越靠近这一价格区域，这样当股价越靠近这一价格区域，支撑与阻力的就越具有意义。投资人在选股过程中，如果发现有两只股票条件都比较适合，那么我建议你应该选择在下跌过程中，成交量较小的那一只股票，因为这种股票在上涨过程中因套牢的投资人比较少，所以上档压力较轻，比较容易大幅快速上涨。投资人的心理波动直接决定了他们的买卖欲望，而买卖欲望往往决定了股价的支撑与阻力的强弱，只要我们了解他们的心理变动，就很容易预测股价的支撑与阻力所发生的区域并以此进行交易。</li>
 </ol>
-<p><strong>防止CSRF（跨站请求伪造）：就是让你的每个请求都带一个从cookie中拿到的key，根据浏览器同源策略，假冒的网站是拿不到你 cookie 中的key的，这样，后台就可以轻松辨别出这个请求是否是用户在假冒网站上的误导输入，从而采取正确的策略。</strong></p>
-<h2 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h2><p>fetch 号称是 AJAX 的替代品，是在 ES6 出现的，使用了ES6 中的 promise 对象。Fetch 是基于 promise 设计的。 Fetch 的代码结构比起 ajax 简单多了，<strong>fetch 不是 ajax的进一步封装，而是原生 JS ， 没有使用 XMLHttpRequest 对象。</strong></p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// 一个简单的fetch 请求</span>
-<span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'http://example.com/movies.json'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>myJson<span class="token punctuation">)</span><span class="token punctuation">{</span>
-       console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>myJson<span class="token punctuation">)</span> 
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-
-
-<span class="token comment" spellcheck="true">// 一个带有参数的fetch请求</span>
-<span class="token function">postData</span><span class="token punctuation">(</span><span class="token string">'http://example.com/answer'</span><span class="token punctuation">,</span><span class="token punctuation">{</span>answer<span class="token punctuation">:</span> <span class="token number">42</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>data <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">// JSON from 'response.json()' call</span>
-    <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-<span class="token keyword">function</span> <span class="token function">postData</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// Default options are marked with *</span>
-  <span class="token keyword">return</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-       body<span class="token punctuation">:</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">// must match 'Content-Type' header</span>
-       cache<span class="token punctuation">:</span> <span class="token string">'no-cache'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">// * default, no-cache, reload, force-cache, only-if-cached</span>
-        headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            <span class="token string">'user-agent'</span><span class="token punctuation">:</span> <span class="token string">'Mozilla/4.0 MDN Example'</span><span class="token punctuation">,</span>
-             <span class="token string">'content-type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        method<span class="token punctuation">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// *GET, POST, PUT, DELETE, etc.</span>
-        mode<span class="token punctuation">:</span> <span class="token string">'cors'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// no-cors, cors, *same-origin</span>
-        redirect<span class="token punctuation">:</span> <span class="token string">'follow'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// manual, *follow, error</span>
-        referrer<span class="token punctuation">:</span> <span class="token string">'no-referrer'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// *client, no-referrer    </span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span>    
-  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">></span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// parses response to JSON</span></code></pre>
-<p>由于fetch是原生的api，因此想要很好的使用<code>fetch</code>，需要做一些封装处理。<strong>fetch目前遇到的问题</strong></p>
+<h2 id="趋势线"><a href="#趋势线" class="headerlink" title="趋势线"></a>趋势线</h2><p>趋势线就是在k线运动的大方向上画一条线，一般以k线的顶点画一条线或以k线的底点画一条线。在很多时候，经常可以看见这样的情况，当一个长期趋势线形成之后，我们可以明显的发现，每一次指数探底回落的低点，往往是前一个成交密集区域的高点（阻力位）。而一个下跌趋势中股价反弹的高点，又往往止于前一个成交密集区域的低点。这种现象告诉我们，每一个形态一旦形成，它的阻力位被突破之后，往往成为一条上升趋势的一个下档支撑，而不会被跌破；每当一个形态的下档支撑被跌破，往往就有可能成为一个下跌趋势线的反弹高点（阻力位）。</p>
 <ol>
-<li><code>fetch</code>只对网络请求报错，对<code>400</code>，<code>500</code>都当做成功的请求，需要封装去处理</li>
-<li><code>fetch</code>默认不会带<code>cookie</code>，需要添加配置项： fetch(url, {credentials: ‘include’})</li>
-<li><code>fetch</code>不支持<code>abort</code>，不支持超时控制，使用<code>setTimeout</code>及<code>Promise.reject</code>的实现超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费。</li>
-<li><code>fetch</code>没有办法原生监测请求的进度，而<code>XHR</code>可以。</li>
+<li><strong>趋势线经过底部或顶部越多，形成的时间越久，这条趋势线就越有参考意义</strong>。这是因为越是经过越多的支撑与阻力，发现这一条趋势线的投资人就越多，他们就会加入到高抛低吸的行列，来利用这条趋势线赚取利润，使这条趋势线越来越牢固。但要注意的是底部与底部，顶部与顶部之间的时间间隔不可太近。</li>
+<li><strong>过于陡峭的趋势线，通常不具有实质意义，总体来说30度到45度的趋势线最有意义</strong>。这主要是因为陡峭的上升趋势线，是股票上涨速度较快造成的。这样持有该股的投资大众平均成本较低，随着股价的上涨，获利越来越丰厚，这样越向上抛压就越大，很容易产生巨大的获利回吐压力造成股价狂跌。而一条陡峭的下跌趋势线，说明大众持仓成本很高，大多已经亏损严重，随着股价的下跌，往往很容易因投资大众的亏损惨重而产生强烈的惜售，改变股价波动的方向。只有经过充分换手的趋势线才是稳定的。所以一条陡峭的趋势线通常不具有实质的参考意义。</li>
+<li>在下跌过程中，股价在市场气氛较为热烈的情况下，大幅反弹形成的高点相连接，构成的一条向下倾斜的上档压力线。以及上涨过程中，在悲观的气氛下冲击形成的恐慌性低点，相连接的一条向上倾斜的下档支撑线。是最具意义的趋势线。</li>
 </ol>
+<p><strong>趋势线突破的有效性</strong></p>
+<p>股价朝一个方向波动到一定时候，总要改变方向，对于新趋势的开始，必须从突破的有效性加以确认。对于趋势线突破的确认与形态突破的确认基本一致，也是从突破支撑或阻力的幅度，与成交量的变化来确认的。</p>
+<ol>
+<li><strong>不论是向上还是向下突破，当日股价收盘价必须超过趋势线3%以上为有效突破，幅度越大越好</strong>。但是从指数的走势图上看，在指数上涨或下跌时，很少有大于3%的幅度，所以指数突破趋势线就不能够以此为依据，只要指数突破幅度在1％以上，并连续三个交易日未跌破趋势线或回升至趋势线以上时，即为有效突破。</li>
+<li><strong>股价向上突破下跌趋势线时，成交量必须放大，而且越大越好。充分的换手才是股价持续上涨的保证</strong>。但指数的突破仅仅是以指数突破的幅度为依据，而不理会成交量的变化，成交量只能作为参考。向下突破上升趋势时，成交量不用放大就可以视为有效突破。</li>
+</ol>
+<p>有很多人认为，当趋势线一旦被股价横盘突破之后，往往预示着股价马上就要反转，是较早形成的买卖信号，应当及早进出。这种看法是不足取的，尽管趋势已经被股价横向突破，趋势的波动方向已经改变，毕竟趋势并没有反转，这时只有等待这一形态形成之后，被明确地向上或向下突破，才真正给出一个明确的买卖信号，而不应该急于进出。</p>
+<h2 id="颈线"><a href="#颈线" class="headerlink" title="颈线"></a>颈线</h2><p>在接触形态分析过程中必然要接触到颈线，无论任何形态，不论是反转形态，还是整理形态，都以颈线的有效突破作为研判后市走向的依据。但在所有的技术分析书籍中，仅仅提到了它的存在，从没有人试图将它真正所代表的含义加以解释，使颈线颇具神秘色彩。事实上颈线的意义十分简单，就是指一个形态的支撑与阻力。</p>
+<p>回顾所有颈线的传统画法，仔细观察可以发现，几乎所有的底部颈线画法，基本上都是将每次反弹高点加以连接得出。而顶部颈线是将每次回落的低点加以连接形成的。这样画出的直线，为什么对后市有指导意义？要从它所表达的含义说起。</p>
+<h3 id="底部颈线的意义"><a href="#底部颈线的意义" class="headerlink" title="底部颈线的意义"></a>底部颈线的意义</h3><ul>
+<li><strong>心理预期</strong>：股价在连续下跌之后反弹，随后在某一价位处止涨回落，当股价再次上涨至这一价位处时，投资人就自然而然的担心这一价位是否会再次产生阻力，于是产生卖出观望的心理。同时短线客会产生高抛低吸的念头，在低点买进在反弹高点卖出，以求利润最大化，每当股价涨至高点处就开始卖出。因为这些原因，使颈线处出现很大的卖压。</li>
+<li><strong>平均成本</strong>：在整个底部形成过程中，很多投资人在这一价格区域买进股票，他们的平均成本都在颈线之下，一旦股价向上突破颈线，这些买进的投资人就全部获利，获利卖出的欲望，使颈线处出现强大卖压。</li>
+</ul>
+<p>因为以上原因，所以颈线很难被突破。形态持续时间越长，颈线被冲击次数越多，越不易被突破，除非强大的购买力量介入，才会造成被突破的局面。既然有大量的资金介入，后市就极有可能开始大幅上涨。</p>
+<h3 id="顶部颈线的意义"><a href="#顶部颈线的意义" class="headerlink" title="顶部颈线的意义"></a>顶部颈线的意义</h3><ul>
+<li><strong>心理预期</strong>：当股价在连续上涨过程中突然回落，在一价位处止跌继续上涨，当股价再次回落这一价位处时，很多投资人预期这一价位还会出现支撑，因而减少卖出。另一些高位卖出的短线客预计股价不会再跌，产生高抛低吸的念头在此买进，形成惜售和买进的力量。和底部颈线相同的是，这一点位被冲击的次数越多，这一价位处买进的意愿就越强。</li>
+<li><strong>平均成本</strong>：一个顶部形成不是一朝一夕可以完成，很多投资人在这一价位区域买进，当股价跌至形态低位处时，这些投资人就毫无利润可言，因此产生强烈的惜售心理，造成卖压减少，因此不容易突破。另一方面，一旦股价跌破颈线，会造成大量投资人被套，股价再次回升到颈线处，投资人就会产生少亏出局的念头卖出股票，形成强大卖压，造成股价继续下跌。</li>
+</ul>
+<p>因为有以上原因，颈线不易被突破，一旦被有效突破，通常意味着行情已经发生反转。</p>
+<p>另外还有整理形态，总的来说上升过程中的整理形态颈线的意义，与底部形态的颈线意义相同。而下跌过程中的整理形态的颈线意义，与顶部形态的颈线意义较为一致。不论是上涨过程还是下跌过程中，只要一个形态形成，我们就应该迅速寻找这个形态的支撑与阻力，而不是仅仅是支撑或阻力。因为只要股价没有明显的选择波动方向，我们就不能断定它必然是涨是跌，而寻找支撑与阻力就是为了在第一时间，判断股价波动的方向，加以正确投资。</p>
+<p>很多时候，颈线并不是水平的，常常略微向上或向下倾斜，这都不影响颈线的意义。重要的是，它必须正确的反映股价的支撑或压力。所以说颈线的意义是非常简单的，一句话就可以概括，就是代表一个形态的支撑与阻力。</p>
+<h2 id="黄金买点"><a href="#黄金买点" class="headerlink" title="黄金买点"></a>黄金买点</h2><p>好的开始是成功的开端，正确的把握绝佳的买进时机是我们重要的工作，我们学习最终的目的，就是为了寻找最佳买进时机。通过前面的学习，我们已经可以找到一些能够上涨的股票，但我们不应该满足于仅仅会上涨的股票，而是要去寻找最具潜力的股票，因为我们的目标是精益求精。所以通过设置一些前提，作为选股的条件，是我们提高胜算的基础。</p>
+<ol>
+<li><p><strong>有宽广的底部</strong>：我们的首选是有漫长筑底过程的底部形态，这是因为底部过程中在低位盘旋的时间越长，平均持仓成本就越低，一旦向上突破投资人卖出股票的愿望十分强烈，机构很容易吸进大量的股票。一旦向上突破往往说明机构有十足做多的信心与实力，因此后市的涨幅就十分巨大。</p>
+</li>
+<li><p><strong>突破时极其巨大的成交量</strong>：观察成交量的变化是研判黑马股的重要手段，不论任何时候，永远不要相信一个没有巨大成交量伴随的突破，突破时成交量越大，越具有意义。它表明投资大众因稍有盈余，或损失稍有减少就急于出局，遭遇机构大户的的大量买进形成的，所以越大越好。</p>
+</li>
+<li><p><strong>极高的相对强度</strong>：相对强度是我们选股的重要手段之一，所谓相对强弱就是指一只股票与一群股票，或者一只股票与大盘指数之间的走势强弱比率关系，它也可存在于一个板块与大盘指数之间。最早提出相对强度的是罗伯特·雷亚。我们现在所指的相对强度，是一只股票与大盘指数之间的比率关系。当大盘上涨10％时，如果某个个股在同一时期上涨幅度小于10％，我们就说这只股票的相对强度弱于大盘。而另一个个股的涨幅在同一时期大于10％，我们就说这只个股的相对强度强于大势。当个股强于大盘的程度越大，相对强度就越高。当大盘在下跌的时候，而个股在上涨，更说明相对强度极强。买卖股票的重要判断依据，就是相对强弱。</p>
+<p>不论任何时候，我们绝不能买进任何相对强度较弱的股票。如果大盘持续上涨，个股尽管也在上涨，但是相对强度却较弱，常常可以说明该股的上涨是十分被动的，多是大势上扬带动，表明这只股票上涨将十分有限。我们选择最佳股票时，前提就是在大势长期下跌的急速下跌期买进股价大幅上涨，伴随极强的相对强度突破阻力位的股票，因为这样的股票走势通常是机构利用悲观的市场气氛，大量买进股票造成的。</p>
+<p>在大势接连下跌之后，绝大多数人都被深深套牢了，套牢的恐惧会使人难以忍受，解套愿望强烈。而在这时却有一只股票不跌反涨，持有股票的投资人担心股价回调，因此大多产生强烈落袋为安的念头，急于卖出。而持币的投资人通常会采取小心谨慎的态度不敢轻易进场，因为在他们身边有着太多屡作屡挫损失惨重的朋友。即使敢于买进，通常也是试探性买进。或者去买进一些相对强度稍强的股票，这样在心理上比较容易接受。而更多的投资人干脆去买跌幅巨大的股票坐等股价反弹。这样相对强度最强的股票很容易大量集中到机构的手中，可以说这种走势的结果就是机构大量吸货的产物。既然他们肯大量买进，往往预示着行情就要大幅拉升了，这样的股票通常会迅速成为市场的龙头品种。</p>
+</li>
+<li><p><strong>异常悲观的市场气氛，或者较大利空个股</strong>：在作多某只股票时，一致看空的气氛是十分重要的。因为在悲观的市场气氛下，大多投资人都十分谨慎，出于恐惧心理投资人极易卖出手中的筹码，因此机构只要稍稍拉高股票，很容易吸进大量的筹码。越悲观的市场气氛越是买进的最佳时机。而市场气氛热烈的时候，大多数投资人往往对未来满怀希望，机构很难吸到大量的筹码，所以不论任何时候，尽量不要在市场气氛良好的时候买进股票，这样成功的概率不高。如果以后容许卖空股票时，也要尽量在气氛热烈的市场中卖空股票所以，行情就要大幅拉升了，这样的股票通常会迅速成为市场的龙头品种。</p>
+<p>不论任何时候，只要有机构开始大量买进某只股票，就是这个股票大幅上涨的开始，没有绝对的把握，他们是万万不敢大举进场的。因此，只要我们找到了被机构不顾一切大量买进的股票，就等于找到了未来的龙头。以上的方法就是为这一目的而设，最佳的投资买点是当以上条件都同时符合时，为最佳买进点位。也就是说，某只股票在大盘长期下跌过程中，它反而形成宽广的底部，最后在市场一片看空中，在极强的相对强度下，伴随着巨大的成交量向上突破颈线时，即形成最佳的买进时机。这样形成的买进时机在实际操作过程中成功率极高，因此我们称之为黄金买点。但是真正完全符合以上条件的投资机会少之又少，有时当符合前面的两个以上条件伴随着股价的突破时，往往也是较好的买进时机，因为它们的成功率也相对较高，但是应该十分慎重对待。</p>
+</li>
+</ol>
+<p><strong>我们应该引以注意的是，这些前提并非是死的教条，随着未来市场投资主体渐渐改变，以上方法也许渐渐会不再适用，但是万变不离其中</strong>，不论是任何时候的金融市场，永远是机构大户与市场的投资主体的对奕，机构大户利用对市场投资主体的了解进行操纵，以求从中获取巨大的利润。我们只要真正明白股票的运作规律，了解市场上的投资主体的心理，从中找到最佳的方法还是易如反掌的。</p>
+<p>机构介入程度最大的股票，事实上也是最好与其他的股票区分的，因为它的走势往往与大众的预期截然不同，很多时候，我们所面临的真正困难，不是在于是否能够发现它，而是在于你是否有勇气在悲观的气氛中全仓杀进。更多的时候，恐惧和担心使我们更愿意在良好的气氛中，买进与大多数股票趋同的股票，因为这样在心理上更容易接受一些。但是，如果你要的是最好最强势的股票，就丝毫没有妥协的余地。</p>
+<p><strong>寻找突破性的利润</strong></p>
+<p>当我们有了足够的股票分析知识，和能够执行以上设置的前提后，就可以拥有长期稳定的盈利能力了。这是否就意味着保守？或者放弃追求卓越成绩的机会？当然不是这样。我们不会失去任何真正的机会，只是更加小心谨慎而已，这样做的目的在于对风险的控制。</p>
+<p>所有的运作都遵循以上的方法，但每年都会出现一两次绝佳的投资机会，所谓绝佳的投资机会是指不但成功的机率极高，比如实际成功率很有可能高于40％及50％，有时甚至达到60％、70％的实际成功率。而且投资点位与止损点之间的差距很小，一旦失误损失很小，一旦上涨盈利却很大，风险／盈利比率有可能达到1：7甚至于1：10。这样就产生出极佳的投资机会。这种情况一旦出现，我们真正的投资机会就来临了，这时我们要抓住时机扩大战果，赢得突破性的利润。</p>
+<p>当指数长期在大众一致看空的气氛中加速下跌，突然有一日，一只长期盘整的股票股价突然脱离大盘，伴随着极强的相对强度和巨大的成交量，突破颈线上行后，经过一段时间的上涨，在极度悲观的气氛中，开始反抽至颈线位附近，并止跌起稳，这就形成了一个最佳的买点。</p>
+<p>为什么说是最佳的买进点，原因有两个：</p>
+<ol>
+<li>通过前面的知识，我们可以得知在极度悲观的市场氛围下，伴随着极强的相对强度并以巨大的成交量配合突破的股票，随后继续上涨的可能性极高。</li>
+<li>因为股价回抽后就是在颈线上下波动，即使股价向下跌破颈线进行止损，损失也可以控制在大致4％左右。既然上涨的成功率很高，而且即使出错损失也很少，风险／盈利比率又十分适宜，自然就是难得的买进时机。因此我们就可以在此大作文章。首先在颈线附近可以买到的低价位处，买进重仓60％到80％之间。然后观察股票的波动。此时股价即使向下跌破止损点，我们立即止损损失也很小，只有总金额的4％以内。此时如果股价一旦开始上涨，并冲破前一波行情冲高回落形成的高点时，就为我们提供了又一次进场的时机。</li>
+</ol>
+<p>因为股价又一次向上突破了一个阻力区，因而这一价位常常会形成支撑，我们就要将止损位移动到新突破的价位处，随后将剩余资金全部投入。不论以后的行情如何发展，首先一点我们过去所投入的资金已经出现了利润，即使股价再次下行跌破我们所设的新止损点，也不会造成我们的亏损，我们依然还具有微利。如果股价如我们所料，持续上涨，我们就可以获取丰厚的利润了。</p>
+<p>在我的投资哲学中，永远不会有孤注一掷的念头，任何孤注一掷的想法都将造成资金的巨大亏损直至破产。但是也绝不能错过任何极佳的机会。好机会极少出现，所以一旦出现就绝不能错过，我们要有获取巨大利润的信心和勇气，只有这样，才能创造巨大的财富。</p>
+<p>任何优秀的投资者，都绝不可能在一年里获得全部盈利，总有几笔投资是在亏损或者不挣钱，成败的关键不是我们取得多少次的成功还是失败，而是在于我们成功时能够得到多少，而失败时造成了多大的损失。如果你要保持最好的业绩，就一定要抓住最佳的机会赚取丰厚的利润，而在失误的时候最低限度的减少损失，这就是成功出于众人的奥秘。承担风险是无可指责的，究竟是孤注一掷，还是的最大限度承担风险，就是看一旦失误造成的亏损是否是我们可以承受的。</p>
+<p>最伟大的投资家经常表面上看十分大胆自负，但实际上他们是最谨小慎微的人，因为他们知道必须保证自己参与投资的资格然后找寻求利润的增长。任何时候任何投资，即使再小也要谨慎小心，带着一种如临深渊，如履薄冰的态度，慎重地对待每一次投资，会使你终身受益。</p>
+<h2 id="最佳卖点"><a href="#最佳卖点" class="headerlink" title="最佳卖点"></a>最佳卖点</h2><p>股市有言，会买的是徒弟，会卖的才是师傅。当我们学会掌握最佳的买进时机进行交易之后，仅仅成功了一半，剩下的就是如何掌握最佳的卖出时机。市场上最遗憾的不是原本就一无所有，而是在股票刚刚上涨的开始，投资人就纷纷卖出了手中的股票，然后眼睁睁的看着它狂涨，或者死死的抱住股票，任它暴涨暴跌体会上上下下的感觉，直到煮熟的鸭子又飞了。极少有人可以一直持有到高价区才卖出，为什么会有这么痛苦的遗憾？究其根源，只是因为他们心中没有一个长远的持股计划，不会捕捉最佳的卖出时机，因此很容易被股价小幅波动所困惑，最终失去了应该到手的巨额利润。如何选择最佳卖点，是获利极重要和困难的一环。</p>
+<p>很多人卖出是因为已经获利，而长期持有是因为已经陷入套牢的泥潭，这是完全错误的，好的投资策略恰恰相反，他只会让利润奔跑，而砍掉所有可能使他陷入泥潭的股票。</p>
+<p>首先我们必须要克服错误的态度，大多数时候我们卖出的愿望取决于我们的得与失，卖出意愿通常随着亏损的加大而减少，随着获利的增加而增加，以及我们对后市过分的担心。所有的意愿都取决于我们的主观意志，而不是客观的推断。或者担心公司的业绩下滑会造成股价的下跌；或者担心市盈率太高难以支撑股价；或者担心某种宏观因素影响公司的前景，再影响公司股价。各种因素常常会影响我们的判断，事实上真正影响公司发展前景的因素早已经反映在股票价格上了，走势早已包含了一切。<strong>如果我们希望取得良好的收益，卖出的前提条件只有一个，就是是否股价已经跌破重要的支撑，开始进入下跌阶段，而不能以个人得失和主观的认识影响我们的卖出决定。</strong></p>
+<p>因此我们首先对自己承诺，除非股票自己走出头部，跌破重要的支撑，否则决不因为任何的原因卖出股票。不论这只股票的价格有多高，有多少的利空传闻，市场气氛有多可怕，或者我们的获利程度有多丰厚。最佳的卖出点应随着股价地波动而调整，而不是一成不变的。如何最大化地保证我们盈利安全性的同时，还能对风险加以控制是一个动态的概念，下面我们就来详细地介绍，如何正确选择最佳的卖出时机。</p>
+<blockquote>
+<p>股价在长期低迷的底部徘徊，直到有一天股价从盘局中向上有效突破ａ点，通过我们前面学到的知识，知道行情已经开始翻转上升，于是我们在ａ点开始买进。因为ａ点原是颈线，被突破后就会形成支撑，于是我们就将它作为第一止损点。只要股价未跌破ａ点就静观其变，一旦股价有效跌破a点就立刻卖出。股价在上涨至b点处开始回落，跌至ａ点处受到支撑止跌回升，并很快创出最近的新高。直到上涨到c点处才遭遇卖压回落调整，逐步回落到b点价位处再次止跌回升，表明b点处又形成新的支撑，因此我们就把b点作为又一新的卖出点。当股价突破c点处，又一个压力被突破，因而这个点位常常会形成支撑，因此我们再次将卖出价位调高至c点，然后看着股价继续进行它的上涨旅途。</p>
+<p>最后股价较长时间在d点和e点之间盘整，股价屡次在e点处受到支撑回升，因此我们将e点作为新的卖出点位，最终股价跌破e点向下滑落，预示着长期上涨行情的结束，于是我们就在这一价位处从容出局。随后股价往往小幅回调至颈线处即行回落，再次证明了牛市行情的终结。</p>
+</blockquote>
+<p>用一句话来讲，因为支撑一旦形成通常不易被跌穿，除非有强大的卖压出现才能造成股价跌破支撑。因此每一个新的支撑出现之后，一旦被有效向下突破时，（所谓有效跌破支撑的确认，同顶部颈线的突破确认相同，都是以收盘价跌破支撑的幅度在3％以上作为有效突破。）就是我们的卖出点位，只有这样才能真正反映出股价趋势的反转。</p>
+<p>很多人在持有股票过程中，很喜欢给自己一个定位，譬如短线投机、中线持有、长线投资等，而我从来没有为自己下一个这样的定义，因为任何股票，我在进场前都没有计划准备持有期限。我只会眼盯着自己的止损点位是否被突破，只要我的止损点位不被向下突破，我就会一直持有直到趋势的反转，因为止损点位代表着我的持仓成本和趋势的反转。</p>
+<p>如果我所设的止损位不破，我就会持续持有，而不论是一个月还是一年。但是一旦如果股价向下跌破我的止损，只要规则容许我出局，那怕是仅仅持有一分钟，我也会毫不犹豫的选择出局。止损点位的突破意味着趋势的反转，表示着他已经在近期内无法再给我带来利润，因此毫无持有的道理。而股价只要顺着我的预期成长，就意味着它会源源不断的给我带来丰厚的利润，就像好的员工不应该被开除一样，相反应该得到的是鼓励，因此我从不卖出正在成长的股票，无论持有时间是一个月还是一年。</p>
+<p>在整个操作过程中，我们采用步步为营的策略来控制风险，每当股价上涨一个台阶，一个新的支撑形成，我们就将卖出点位上移至这一新的支撑价位，用以保护我们已经到手的利润不被侵蚀，一旦股价跌破支撑位就立即卖出，丝毫不能犹豫。因为有时一旦股价跌破支撑，下跌的速度是非常快的，往往在你还在犹豫的时候已经下跌很多了。尽管运用这种方法使我们不能卖在最高点，但任何事有得就有失，在我们寻求稳健的同时，就不得不有所付出，要想不被小的振荡所吓跑，适当地拿出一点到手的利润作为获取利润同时控制风险的代价，是非常正常的，因为天下没有免费的午餐。只有这样才能使你在大多数时候，在大势基本向好时一路持有，直至行情反转。</p>
+<p>在整个股票持有过程中，最大的困扰来自于我们对未来不确定因素的困惑，贪婪与恐惧总是时刻影响我们正常的判断。人的本性总是不切实际的希望自己地投资完美无暇，既不放过任何的利润，又不愿承担一点点风险，事实上任何事都不可能是完美无缺的。</p>
 
             </div>
             <hr/>
@@ -778,7 +735,7 @@ axios<span class="token punctuation">.</span><span class="token keyword">get</sp
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2021/11/06/ajax-he-axios-fetch-de-qu-bie/">https://lushunjian.gitee.io/2021/11/06/ajax-he-axios-fetch-de-qu-bie/</a>
+                    <a href="https://lushunjian.gitee.io/2021/11/13/li-fu-mo-er-guan-jian-dian-jiao-yi-fa/">https://lushunjian.gitee.io/2021/11/13/li-fu-mo-er-guan-jian-dian-jiao-yi-fa/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -816,8 +773,8 @@ axios<span class="token punctuation">.</span><span class="token keyword">get</sp
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%89%8D%E7%AB%AF/">
-                                    <span class="chip bg-color">前端</span>
+                                <a href="/tags/%E4%BA%A4%E6%98%93/">
+                                    <span class="chip bg-color">交易</span>
                                 </a>
                             
                         </div>
@@ -1271,9 +1228,10 @@ axios<span class="token punctuation">.</span><span class="token keyword">get</sp
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2021/11/13/li-fu-mo-er-guan-jian-dian-jiao-yi-fa/">
                     <div class="card-image">
@@ -1291,9 +1249,9 @@ axios<span class="token punctuation">.</span><span class="token keyword">get</sp
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-13
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-13
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1306,6 +1264,7 @@ axios<span class="token punctuation">.</span><span class="token keyword">get</sp
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1324,24 +1283,25 @@ axios<span class="token punctuation">.</span><span class="token keyword">get</sp
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/10/24/webgl-yu-three-js/">
+                <a href="/2021/11/06/ajax-he-axios-fetch-de-qu-bie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/44.jpg" class="responsive-img" alt="WebGL与three.js">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="ajax和axios、fetch的区别">
                         
-                        <span class="card-title">WebGL与three.js</span>
+                        <span class="card-title">ajax和axios、fetch的区别</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            WebGL (全写Web Graphics Library) 是一种3D绘图协议，并提供了JavaScript API，，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0（OpenGL for Embedded Sys
+                            axios、fetch 和 ajax的区别 在网络上存在很多文章。现针对自己的情况，来重新整理一份，便于自己记忆和理解。内容参考了网络上的众多文章。
+XMLHttpRequest浏览器通过XMLHttpRequest 对象进行 HTTP 通
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-06
                             </span>
                         <span class="publish-author">
                             
