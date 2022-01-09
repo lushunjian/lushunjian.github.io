@@ -621,7 +621,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>AQS全名：<strong>AbstractQueuedSynchronizer</strong>，是并发容器J.U.C（java.util.concurrent）下locks包内的一个类。它实现了一个<strong>FIFO</strong>(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个<strong>双向链表</strong>。很多我们耳熟能详的并发工具，譬如ReentrangLock、Semaphore，它们的实现都用到了一个共同的基类–<strong>AbstractQueuedSynchronizer</strong>，还有其他的诸如ReentrantReadWriteLock，SynchronousQueue，FutureTask等等皆是基于AQS的。当然，我们自己也能利用AQS非常轻松容易地构造出符合我们自己需求的同步器。</p>
+                <p>AQS全名：<strong>AbstractQueuedSynchronizer</strong>，是并发容器J.U.C（java.util.concurrent）下locks包内的一个类。它实现了一个<strong>FIFO</strong>(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个<strong>双向链表</strong>。很多我们耳熟能详的并发工具，譬如ReentrangLock、Semaphore，它们的实现都用到了一个共同的基类–<strong>AbstractQueuedSynchronizer</strong>，还有其他的诸如ReentrantReadWriteLock，SynchronousQueue，FutureTask等等皆是基于AQS的。当然，我们自己也能利用AQS非常轻松容易地构造出符合我们自己需求的同步器。本文主要总结AQS各方法的流程，同时解决在面试中遇到的问题，加深理解</p>
 <p>AQS与synchronized关键字都是Java提供的加锁API，经过优化后的synchronized在性能上和AQS相当，但在使用上要简单的多。除了在使用上有一些区别外，在实现原理上也有很多区别</p>
 <ol>
 <li><p>AQS是Java代码层面的锁实现，底层是基于硬件指令级别的<em>cas</em>实现；synchronized是Java字节码层面的实现，底层是基于操作系统的<em>mutex lock</em>实现（mutex lock实际上是CPU到内存之间的总线锁）</p>
@@ -824,7 +824,7 @@
 <span class="token punctuation">}</span></code></pre>
 <p>release的同步状态相对简单，需要找到头结点的后继结点进行唤醒，若后继结点为空或处于CANCEL状态，从后向前遍历找寻一个正常的结点，唤醒其对应线程。一句话概括：<strong>用unpark()唤醒等待队列中最前边的那个未放弃线程</strong></p>
 <blockquote>
-<p>这里提有一个问题，是我曾面试阿里云时被问到的，队列的链表是双向链表，按理来说从前往后找速度会更快，但这里为什么要从后往前找状态可用的节点，而不是从前往后找？</p>
+<p>Question1：这里有一个问题，是我曾面试阿里云时被问到的，队列的链表是双向链表，按理来说从前往后找速度会更快，但这里为什么要从后往前找状态可用的节点，而不是从前往后找？</p>
 <p>问题的答案和入队时的逻辑有关，enq方法如下</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> Node <span class="token function">enq</span><span class="token punctuation">(</span><span class="token keyword">final</span> Node node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -836,8 +836,25 @@
             node<span class="token punctuation">.</span>prev <span class="token operator">=</span> t<span class="token punctuation">;</span>
             <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetTail</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token comment" spellcheck="true">// compareAndSetTail(t, node)是线程安全的，但if里面的代码块不是线程安全的</span>
-                <span class="token comment" spellcheck="true">// 假设线程1正准备释放锁，线程2执行到这里被挂起，此时 t.next = node;还没有被执行，所以这时线程1想要释放锁，从前往后找时，next的指向还是null，会出现线程2已经进入了队列但是线程1却找不到的线程2的情况，而compareAndSetTail是线程安全的，从尾结点向前找肯定能找到</span>
+                <span class="token comment" spellcheck="true">// 假设线程1正准备释放锁，线程2执行到这里被挂起，此时 t.next = node;还没有被执行，所以这时线程1想要释放锁，</span>
+                <span class="token comment" spellcheck="true">// 从前往后找时，next的指向还是null，会出现线程2已经进入了队列但是线程1却找不到的线程2的情况，而compareAndSetTail是线程安全的，从尾结点向前找肯定能找到</span>
                 t<span class="token punctuation">.</span>next <span class="token operator">=</span> node<span class="token punctuation">;</span>
+                <span class="token keyword">return</span> t<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Question2：第一个问题的原因找到了，这里我产生了一个疑问，为什么Doug Lea要把prev和next的赋值分开写呢？如果把next的赋值也挪上去（如下）是不是就可用避免上述说的从后往前找的问题？</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> Node <span class="token function">enq</span><span class="token punctuation">(</span><span class="token keyword">final</span> Node node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Node t <span class="token operator">=</span> tail<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetHead</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                tail <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            node<span class="token punctuation">.</span>prev <span class="token operator">=</span> t<span class="token punctuation">;</span>
+            t<span class="token punctuation">.</span>next <span class="token operator">=</span> node<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetTail</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">return</span> t<span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">}</span>
@@ -1441,48 +1458,46 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2022/01/08/bing-fa-bian-cheng-aqs-xiang-jie/">
+                <a href="/2022/01/09/javascript-de-yuan-xing-lian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/38.jpg" class="responsive-img" alt="并发编程AQS详解">
+                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="Javascript的原型链">
                         
-                        <span class="card-title">并发编程AQS详解</span>
+                        <span class="card-title">Javascript的原型链</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.util.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数
+                            JS用了几年了，对于JS原型链的认知还比较模糊，JS是函数式编程语言，同时也可以是面向对象编程的语言（而且函数也是对象。这是与Java不同的地方），但尽管JS是有面向对象的特质，但其实现原理却Java有很大区别。因此不要用Java面向对象的
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-08
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-09
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/java/" class="post-category">
-                                    java
+                            <a href="/categories/javascript/" class="post-category">
+                                    javascript
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">java</span>
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
                     </a>
                     
                 </div>
