@@ -813,6 +813,8 @@ Person<span class="token punctuation">.</span>prototype <span class="token opera
 <p><strong>new 的作用，就是省那么几行代码。（也就是所谓的语法糖）</strong></p>
 <h2 id="proto-属性"><a href="#proto-属性" class="headerlink" title="_proto__属性"></a>_proto__属性</h2><p><code>_proto__</code>属性在js中是相当重要的概念，面向对象编程和委托设计都是围绕它展开的。但同时它在js的内部实现中，却十分的复杂，这里我们好好讨论下这个独特的属性。首先这个属性是什么？在官方的es5中，定义了一个名叫[[prototype]]的属性，每个对象都拥有这样一个属性，这个属性是一个指针，它指向一个名叫原型对象的内存堆。而原型对象也是对象，因此又含有自己的[[prototype]]的属性，又指向下一个原型对象。 那么终点是哪? 当然是我们的Object.prototype对象</p>
 <p> 注意，这里使用的是[[prototype]]，而并非 <code>_proto_</code>。那么这是一个东西吗？当然！[[prototype]]是官方所定义的属性，而<code>_proto__</code>是浏览器自己对[[prototype]]所做的实现。也就是说， <code>_proto__</code>是浏览器自己根据标准制定出来的。</p>
+<p>ECMA-262第五版的时候这个内部属性叫<code>[Prototype]</code>,而<code>_proto_</code>是Firefox，Chrome和Safari浏览器提供的一个属性，在其他的实现里面，这个内部属性是没法访问的，所以你能从控制台看到的是<code>_proto_</code>，所以我觉得这个属性应该用<code>[Prototype]</code>比较符合它的本质。</p>
+<h2 id="prototype属性"><a href="#prototype属性" class="headerlink" title="prototype属性"></a>prototype属性</h2><p>prototype对象的作用，就是定义所有实例对象共享的属性和方法，所以它也被称为实例对象的原型，而实例对象可以视作从prototype对象衍生出来的。<strong>通过new出来的实例是没有prototype属性的，只有函数才有prototype属性,这个属性值为一个object对象实例对象时没有这个属性的，实例对象通过<code>__proto__</code>这个内部属性（[[prototype]]）来串起一个原型链的，通过这个原型链可以查找属性，方法。准确的说，只有构造函数才有prototype属性。通常我们自定义的函数都属于构造函数，所以都有此属性。JS运行时环境内置的函数有些不是构造函数，比如alert和Math.sqrt等，就没有此属性。</strong></p>
 
             </div>
             <hr/>
