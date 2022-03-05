@@ -711,7 +711,84 @@
 </ul>
 <h4 id="Cobar"><a href="#Cobar" class="headerlink" title="Cobar"></a>Cobar</h4><p>阿里 b2b 团队开发和开源的，属于 proxy 层方案，就是介于应用服务器和数据库服务器之间。应用程序通过 JDBC 驱动访问 Cobar 集群，Cobar 根据 SQL 和分库规则对 SQL 做分解，然后分发到 MySQL 集群不同的数据库实例上执行。早些年还可以用，但是最近几年都没更新了，基本没啥人用，差不多算是被抛弃的状态吧。而且不支持读写分离、存储过程、跨库 join 和分页等操作。</p>
 <h4 id="TDDL"><a href="#TDDL" class="headerlink" title="TDDL"></a>TDDL</h4><p>淘宝团队开发的，属于 client 层方案。支持基本的 crud 语法和读写分离，但不支持 join、多表查询等语法。目前使用的也不多，因为还依赖淘宝的 diamond 配置管理系统。</p>
+<h3 id="ShardingSphere"><a href="#ShardingSphere" class="headerlink" title="ShardingSphere"></a>ShardingSphere</h3><p>ShardingSphere是一套开源的分布式数据库中间件解决方案组成的生态圈，它由Sharding-JDBC、Sharding-Proxy和Sharding-Sidecar（计划中）这3款相互独立的产品组成。 他们均提供标准化的数据分片、分布式事务和数据库治理功能，可适用于如Java同构、异构语言、容器、云原生等各种多样化的应用场景。</p>
+<blockquote>
+<p>ShardingSphere定位为关系型数据库中间件，旨在充分合理地在分布式的场景下利用关系型数据库的计算和存储能力，而并非实现一个全新的关系型数据库。 它与NoSQL和NewSQL是并存而非互斥的关系。NoSQL和NewSQL作为新技术探索的前沿，放眼未来，拥抱变化，是非常值得推荐的。反之，也可以用另一种思路看待问题，放眼未来，关注不变的东西，进而抓住事物本质。 关系型数据库当今依然占有巨大市场，是各个公司核心业务的基石，未来也难于撼动，我们目前阶段更加关注在原有基础上的增量，而非颠覆。</p>
+</blockquote>
 <h4 id="Sharding-jdbc"><a href="#Sharding-jdbc" class="headerlink" title="Sharding-jdbc"></a>Sharding-jdbc</h4><p>当当开源的，属于 client 层方案，是<a href="https://shardingsphere.apache.org/" target="_blank" rel="noopener"> <code>ShardingSphere</code> </a>的 client 层方案，<a href="https://shardingsphere.apache.org/" target="_blank" rel="noopener"> <code>ShardingSphere</code> </a>还提供 proxy 层的方案 Sharding-Proxy。确实之前用的还比较多一些，因为 SQL 语法支持也比较多，没有太多限制，而且截至 2019.4，已经推出到了 <code>4.0.0-RC1</code> 版本，支持分库分表、读写分离、分布式 id 生成、柔性事务（最大努力送达型事务、TCC 事务）。而且确实之前使用的公司会比较多一些（这个在官网有登记使用的公司，可以看到从 2017 年一直到现在，是有不少公司在用的），目前社区也还一直在开发和维护，还算是比较活跃，个人认为算是一个现在也<strong>可以选择的方案</strong>。</p>
+<ul>
+<li>适用于任何基于Java的ORM框架，如：JPA, Hibernate, Mybatis, Spring JDBC Template或直接使用JDBC。</li>
+<li>基于任何第三方的数据库连接池，如：DBCP, C3P0, BoneCP, Druid, HikariCP等。</li>
+<li>支持任意实现JDBC规范的数据库。目前支持MySQL，Oracle，SQLServer和PostgreSQL。</li>
+</ul>
+<p><img src="/2022/02/09/fen-qu-fen-biao-fen-ku/4.png" alt></p>
+<h4 id="Sharding-Proxy"><a href="#Sharding-Proxy" class="headerlink" title="Sharding-Proxy"></a>Sharding-Proxy</h4><p>定位为透明化的数据库代理端，提供封装了数据库二进制协议的服务端版本，用于完成对异构语言的支持。 目前先提供MySQL版本，它可以使用任何兼容MySQL协议的访问客户端(如：MySQL Command Client, MySQL Workbench等)操作数据，对DBA更加友好。</p>
+<ul>
+<li>向应用程序完全透明，可直接当做MySQL使用。</li>
+<li>适用于任何兼容MySQL协议的客户端。</li>
+</ul>
+<p><img src="/2022/02/09/fen-qu-fen-biao-fen-ku/6.png" alt></p>
+<h3 id="Sharding-Sidecar（TBD）"><a href="#Sharding-Sidecar（TBD）" class="headerlink" title="Sharding-Sidecar（TBD）"></a>Sharding-Sidecar（TBD）</h3><p>定位为Kubernetes或Mesos的云原生数据库代理，以DaemonSet的形式代理所有对数据库的访问。 通过无中心、零侵入的方案提供与数据库交互的的啮合层，即Database Mesh，又可称数据网格。</p>
+<p>Database Mesh的关注重点在于如何将分布式的数据访问应用与数据库有机串联起来，它更加关注的是交互，是将杂乱无章的应用与数据库之间的交互有效的梳理。使用Database Mesh，访问数据库的应用和数据库终将形成一个巨大的网格体系，应用和数据库只需在网格体系中对号入座即可，它们都是被啮合层所治理的对象。</p>
+<p><img src="/2022/02/09/fen-qu-fen-biao-fen-ku/7.png" alt></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><em>Sharding-JDBC</em></th>
+<th><em>Sharding-Proxy</em></th>
+<th><em>Sharding-Sidecar</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库</td>
+<td>任意</td>
+<td>MySQL</td>
+<td>MySQL</td>
+</tr>
+<tr>
+<td>连接消耗数</td>
+<td>高</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>异构语言</td>
+<td>仅Java</td>
+<td>任意</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>损耗低</td>
+<td>损耗略高</td>
+<td>损耗低</td>
+</tr>
+<tr>
+<td>无中心化</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>静态入口</td>
+<td>无</td>
+<td>有</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<h4 id="混合架构"><a href="#混合架构" class="headerlink" title="混合架构"></a>混合架构</h4><ul>
+<li>Sharding-JDBC采用无中心化架构，适用于Java开发的高性能的轻量级OLTP应用；</li>
+<li>Sharding-Proxy提供静态入口以及异构语言的支持，适用于OLAP应用以及对分片数据库进行管理和运维的场景。</li>
+</ul>
+<p>ShardingSphere是多接入端共同组成的生态圈。 通过混合使用Sharding-JDBC和Sharding-Proxy，并采用同一注册中心统一配置分片策略，能够灵活的搭建适用于各种场景的应用系统，架构师可以更加自由的调整适合于当前业务的最佳系统架构。</p>
+<blockquote>
+<p><strong>OLTP与OLAP的介绍</strong></p>
+<p>数据处理大致可以分成两大类：联机事务处理OLTP（on-line transaction processing）、联机分析处理OLAP（On-Line Analytical Processing）。</p>
+<p>OLTP是传统的关系型数据库的主要应用，主要是基本的、日常的事务处理，例如银行交易。</p>
+<p>OLAP是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。 </p>
+<p>OLTP 系统强调数据库内存效率，强调内存各种指标的命令率，强调绑定变量，强调并发操作；<br>OLAP 系统则强调数据分析，强调SQL执行市场，强调磁盘I/O，强调分区等。</p>
+</blockquote>
 <h4 id="Mycat"><a href="#Mycat" class="headerlink" title="Mycat"></a>Mycat</h4><p>基于 Cobar 改造的，属于 proxy 层方案，支持的功能非常完善，而且目前应该是非常火的而且不断流行的数据库中间件，社区很活跃，也有一些公司开始在用了。但是确实相比于 Sharding jdbc 来说，年轻一些，经历的锤炼少一些。</p>
 <p>综上，现在其实建议考量的，就是 Sharding-jdbc 和 Mycat，这两个都可以去考虑使用。</p>
 <p>Sharding-jdbc 这种 client 层方案的<strong>优点在于不用部署，运维成本低，不需要代理层的二次转发请求，性能很高</strong>，但是如果遇到升级啥的需要各个系统都重新升级版本再发布，各个系统都需要<strong>耦合</strong> Sharding-jdbc 的依赖；</p>
