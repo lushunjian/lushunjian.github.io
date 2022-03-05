@@ -884,27 +884,32 @@
 
 <span class="token function">initPortal</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 <p><strong>docker nginx 配置</strong></p>
-<p>此处 <code>nginx</code> 主要作用是用于端口目录转发，并配置主应用访问子应用的跨域问题。使用 <code>docker</code> 配置部署 <code>nginx</code>：</p>
-<pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># docker-compose.yml</span>
+<p>此处 <code>nginx</code> 主要作用是用于端口目录转发，并配置主应用访问子应用的跨域问题。</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># nginx.conf</span>
 
-<span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3.1'</span>
-<span class="token key atrule">services</span><span class="token punctuation">:</span>
-  <span class="token key atrule">nginx</span><span class="token punctuation">:</span>
-    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
-    <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx
-    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nginx
-    <span class="token key atrule">ports</span><span class="token punctuation">:</span> 
-      <span class="token punctuation">-</span> 8888<span class="token punctuation">:</span><span class="token number">80</span>
-      <span class="token punctuation">-</span> 8889<span class="token punctuation">:</span><span class="token number">8889</span>
-      <span class="token punctuation">-</span> 7100<span class="token punctuation">:</span><span class="token number">7100</span>
-      <span class="token punctuation">-</span> 7101<span class="token punctuation">:</span><span class="token number">7101</span>
-    <span class="token key atrule">volumes</span><span class="token punctuation">:</span> 
-      <span class="token punctuation">-</span> /app/volumes/nginx/nginx.conf<span class="token punctuation">:</span>/etc/nginx/nginx.conf
-      <span class="token punctuation">-</span> /app/volumes/nginx/html<span class="token punctuation">:</span>/usr/share/nginx/html
-      <span class="token punctuation">-</span> /app/micro/portal<span class="token punctuation">:</span>/app/micro/portal
-      <span class="token punctuation">-</span> /app/micro/app1<span class="token punctuation">:</span>/app/micro/app1
-      <span class="token punctuation">-</span> /app/micro/app2<span class="token punctuation">:</span>/app/micro/app2</code></pre>
-<p>将编译后的主应用以及子应用放到对应的数据卷挂载目录即可，如主应用 <code>/app/micro/portal</code>。</p>
+http <span class="token punctuation">{</span>
+    server <span class="token punctuation">{</span>
+      listen    8889;
+      server_name 192.168.2.192;
+
+      location /app1 <span class="token punctuation">{</span>
+        proxy_pass  127.0.0.1<span class="token punctuation">:</span><span class="token number">7100</span>
+
+        try_files $uri $uri/ /index.html;
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    server <span class="token punctuation">{</span>
+      listen    8889;
+      server_name 192.168.2.192;
+
+      location /app2 <span class="token punctuation">{</span>
+        proxy_pass  127.0.0.1<span class="token punctuation">:</span><span class="token number">7101</span>
+
+        try_files $uri $uri/ /index.html;
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="子应用适配框架"><a href="#子应用适配框架" class="headerlink" title="子应用适配框架"></a>子应用适配框架</h4><p>下面子应用以常规 <code>vue</code> 项目为例。</p>
 <p><strong>入口文件 main.js</strong></p>
 <p>在入口文件增加 <code>qiankun</code> 环境判断，判断当前是 <code>qiankuan</code> 环境的则将子应用引入到主应用框架内，然后在主框架内执行正常的 <code>vue</code> 元素挂载。</p>
@@ -993,7 +998,7 @@
   <span class="token punctuation">]</span>
 <span class="token punctuation">)</span></code></pre>
 <p><strong>字体图标与 css 背景图片路径问题</strong></p>
-<p>默认情况下，在 <code>css</code> 引用的资源使用 <code>url-loader</code> 加载打包出来是相对路径的，所以会出现子应用的资源拼接到主应用的 <code>domain</code> 的情况，造成加载资源失败。因为 <code>element-ui</code> 的字体图标是在 <code>css</code> 里面引入的，还有相关背景图片的引入也是在 <code>css</code> 里，所以需要配置 <code>webpack</code> 的 <code>url-loader</code>，生产模式情况下直接指定资源前缀。</p>
+<p>默认情况下，在 <code>css</code> 引用的资源使用 <code>url-loader</code> 加载打包出来是相对路径的，所以会出现子应用的资源拼接到主应用的 <code>domain</code> 的情况，造成加载资源失败。因为 <code>element-ui</code> 的字体图标是在 <code>css</code> 里面引入的，还有相关背景图片的引入也是在 <code>css</code> 里，所以需要配置 <code>webpack</code> 的 <code>url-loader</code>，生产模式情况下直接指定资源前缀。使之成为绝对路径。</p>
 <pre class=" language-javascript"><code class="language-javascript">module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
@@ -1017,6 +1022,69 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
+<p>这样配置后，打包出来的 css 样式文件会变成：</p>
+<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/* static/css/app.e99e9aae.css */</span>
+
+<span class="token selector">background-header </span><span class="token punctuation">{</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(//192.168.2.192:7100/static/img/bg_header.790a94f4.png)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>资源是绝对路径，就不会出现上面子应用资源加载失败的情况。但是，这种前端配置文件写死路径的做法灵活性并不好，比如不能做到编译一次，任意部署，因为路径写死，所以如果需要部署到其他服务器的话，就需要重新编译了。接下来，讲的是实现灵活部署的方案。</p>
+<p><strong>结合 nginx 配置资源引用路径代理转发</strong></p>
+<p>我们在只编译打包一次前端应用的前提下，为了实现灵活部署，需要借助 <code>nginx</code> 来实现。</p>
+<pre class=" language-javascript"><code class="language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  chainWebpack<span class="token punctuation">:</span> <span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> 
+
+    config<span class="token punctuation">.</span>module
+      <span class="token punctuation">.</span><span class="token function">rule</span><span class="token punctuation">(</span><span class="token string">"fonts"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token regex">/\.(woff2?|eot|ttf|otf)(\?.*)?$/</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"url-loader"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">loader</span><span class="token punctuation">(</span><span class="token string">"url-loader"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">options</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        limit<span class="token punctuation">:</span> <span class="token number">4096</span><span class="token punctuation">,</span>
+        name<span class="token punctuation">:</span> <span class="token string">'static/fonts/[name].[hash:8].[ext]'</span><span class="token punctuation">,</span>
+        publicPath<span class="token punctuation">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>NODE_ENV <span class="token operator">===</span> <span class="token string">'production'</span> <span class="token operator">?</span> <span class="token string">'/live'</span> <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    config<span class="token punctuation">.</span>module
+      <span class="token punctuation">.</span><span class="token function">rule</span><span class="token punctuation">(</span><span class="token string">"images"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token regex">/\.(png|jpe?g|gif|webp)(\?.*)?$/</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"url-loader"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">loader</span><span class="token punctuation">(</span><span class="token string">"url-loader"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">options</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        limit<span class="token punctuation">:</span> <span class="token number">4096</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// name 代表 url-loader 会将资源写到 static/fonts/ 下</span>
+        name<span class="token punctuation">:</span> <span class="token string">'static/img/[name].[hash:8].[ext]'</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// publicPath 代表资源引入 url 会生成 /live 的前缀，比如 /live/static/img/bg_header.790a94f4.png</span>
+        publicPath<span class="token punctuation">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>NODE_ENV <span class="token operator">===</span> <span class="token string">'production'</span> <span class="token operator">?</span> <span class="token string">'/live'</span> <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>假设主应用部署地址是 <code>192.168.2.192</code>，子应用的部署地址是 <code>192.168.2.193:7102</code>。打包编译部署后，子应用的 css 文件里面的图片资源引用 <code>url</code> 如下：</p>
+<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/* static/css/app.e99e9aae.css */</span>
+
+<span class="token selector">background-header </span><span class="token punctuation">{</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(/live/static/img/bg_header.790a94f4.png)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>主应用加载子应用的时候，子应用的资源拼接主应用 <code>domian</code> 后，子应用的 <code>css</code> 文件里面的图片资源加载路径 <code>url</code> 就会变成：</p>
+<pre class=" language-bash"><code class="language-bash">192.168.2.192/live/static/img/bg_header.790a94f4.png</code></pre>
+<p>此时的关键就是要访问到子应用的资源，而不是去主应用资源目录去找。所以我们采用 <code>nginx</code> 路径代理转发端口的方案，当应用访问 <code>192.168.2.192/live</code> 这个路径时，经过 <code>nginx</code> 进行路径代理转发配置，转发到子应用端口。</p>
+<p>配置 <code>nginx</code> 代理规则：</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># nginx.conf</span>
+
+http <span class="token punctuation">{</span>
+  server <span class="token punctuation">{</span>
+    listen    80<span class="token punctuation">;</span>
+    server_name 192.168.2.192<span class="token punctuation">;</span>
+
+    location /live <span class="token punctuation">{</span>
+      proxy_pass  192.168.2.192:7102
+      try_files <span class="token variable">$uri</span> <span class="token variable">$uri</span>/ /index.html<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时真正访问的资源路径（子应用资源路径）是：</p>
+<pre class=" language-bash"><code class="language-bash">192.168.2.193:7102/static/img/bg_header.790a94f4.png</code></pre>
 
             </div>
             <hr/>
