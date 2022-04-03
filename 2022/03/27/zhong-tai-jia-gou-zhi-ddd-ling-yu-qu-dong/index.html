@@ -1253,30 +1253,33 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2022/03/27/zhong-tai-jia-gou-zhi-ddd-ling-yu-qu-dong/">
+                <a href="/2022/04/03/fen-bu-shi-suo-de-she-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/42.jpg" class="responsive-img" alt="中台架构之DDD领域驱动">
+                        <img src="/medias/featureimages/40.jpg" class="responsive-img" alt="分布式锁的设计">
                         
-                        <span class="card-title">中台架构之DDD领域驱动</span>
+                        <span class="card-title">分布式锁的设计</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            DDD，全称Domain-Driven Design， 是一种处理复杂领域的设计思想，它试图分离技术实现的复杂性，并围绕业务概念构建领域模型来控制业务的复杂性，以解决软件难以理解，难以演进的问题。它通过边界划分将复杂业务领域简单化，帮我们设
+                            分布式锁的实现有多种方式，但是不管怎样，设计分布式锁一般要满足以下条件：
+
+互斥性：任意时刻，只能有一个客户端获取锁，不能同时有两个客户端获取到锁。
+安全性：锁只能被持有该锁的客户端删除，不能由其它客户端删除。
+避免死锁：分布式锁一定能得到
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-03
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1289,7 +1292,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
