@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="对于类加载的一点理解, 三秋">
-    <meta name="description" content="当我们写好一个Java程序之后，不是管是CS还是BS应用，都是由若干个.class文件组织而成的一个完整的Java应用程序，当程序在运行时，即会调用该程序的一个入口函数来调用系统的相关功能，而这些功能都被封装在不同的class文件当中，所以">
+    <meta name="keywords" content="Java的反射与动态编译, 三秋">
+    <meta name="description" content="JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法；这种动态获取的信息以及动态调用对象的方法的功能称为Java语言的反射机制。这种技术在一些开源框架中使用非常广泛，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>对于类加载的一点理解 | 三秋</title>
+    <title>Java的反射与动态编译 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -479,12 +479,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/39.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/37.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">对于类加载的一点理解</h1>
+                    <h1 class="description center-align post-title">Java的反射与动态编译</h1>
                 </div>
             </div>
         </div>
@@ -626,7 +626,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2022-06-02
+                    2022-06-05
                 </div>
                 
 
@@ -643,199 +643,161 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>当我们写好一个Java程序之后，不是管是CS还是BS应用，都是由若干个.class文件组织而成的一个完整的Java应用程序，当程序在运行时，即会调用该程序的一个入口函数来调用系统的相关功能，而这些功能都被封装在不同的class文件当中，所以经常要从这个class文件中要调用另外一个class文件中的方法，如果另外一个文件不存在的，则会引发系统异常。而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，通过Java的类加载机制（ClassLoader）来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。</p>
-<blockquote>
-</blockquote>
-<h2 id="Java默认提供的三个ClassLoader"><a href="#Java默认提供的三个ClassLoader" class="headerlink" title="Java默认提供的三个ClassLoader"></a>Java默认提供的三个ClassLoader</h2><ul>
-<li><strong>BootStrap ClassLoader</strong>：称为启动类加载器，是Java类加载层次中最顶层的类加载器，<strong>负责加载JDK中的核心类库，如：rt.jar、resources.jar、charsets.jar等</strong>。即 JAVA_HOME/lib目录下的的核心API或-Xbootclasspath选项指定</li>
-<li><strong>Extension ClassLoader</strong>：称为扩展类加载器，负责加载Java的扩展类库，默认加载JAVA_HOME/jre/lib/ext/目下的所有jar。</li>
-<li><strong>App ClassLoader</strong>：也叫System class loader（系统类加载器），负责加载应用程序classpath目录下的所有jar和class文件。</li>
+                <p>JAVA反射机制是在<strong>运行状态</strong>中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法；这种动态获取的信息以及动态调用对象的方法的功能称为Java语言的反射机制。这种技术在一些开源框架中使用非常广泛，<strong>但Java为什么能够支持反射，而在其他语言如C++，Go中却没有反射的说法</strong>。这要从JVM的动态编译技术说起。</p>
+<h3 id="动态编译与静态编译"><a href="#动态编译与静态编译" class="headerlink" title="动态编译与静态编译"></a>动态编译与静态编译</h3><ul>
+<li>静态编译：在编译时，把所有模块都编译进可执行文件里，当启动这个可执行文件时，所有模块都被加载进来。即所有的代码，类的关系在写代码时都是确定的，</li>
+<li>动态编译：在程序运行时可以动态的加载一些在编译阶段完全未知的代码，我们可以在运行阶段动态生成新的代码，然后编译运行</li>
 </ul>
-<p>每个类加载器都有直接的名字空间，对于同一个类加载器实例来说，名字相同的类只能存在一个，并且仅仅加载一次。不管该类有没有变化，下次再需要加载时候，它只是从自己的缓存中直接返回已经加载过的类引用。我们自己编写的类默认情况下都是通过System ClassLoader进行加载的。当我们使用new关键字或者class.forName来加载类时，所有加载的类则调用SystemClassLoader进行加载。</p>
-<h3 id="ClassLoader加载类的原理"><a href="#ClassLoader加载类的原理" class="headerlink" title="ClassLoader加载类的原理"></a>ClassLoader加载类的原理</h3><p> ClassLoader使用的是<strong>双亲委托模型</strong>来搜索类的，每个ClassLoader实例都有一个父类加载器的引用（不是继承的关系，是一个包含的关系），虚拟机内置的类加载器（Bootstrap ClassLoader）本身没有父类加载器，但可以用作其它ClassLoader实例的的父类加载器。当一个ClassLoader实例需要加载某个类时，它会试图亲自搜索某个类之前，先把这个任务委托给它的父类加载器，这个过程是由上至下依次检查的，首先由最顶层的类加载器Bootstrap ClassLoader试图加载，如果没加载到，则把任务转交给Extension ClassLoader试图加载，如果也没加载到，则转交给App ClassLoader 进行加载，如果它也没有加载得到的话，则返回给委托的发起者，由它到指定的文件系统或网络等URL中加载该类。如果它们都没有加载到这个类时，则抛出ClassNotFoundException异常。否则将这个找到的类生成一个类的定义，并将它加载到内存当中，最后返回这个类在内存中的Class实例对象。</p>
-<h3 id="为什么需要三个类加载器？"><a href="#为什么需要三个类加载器？" class="headerlink" title="为什么需要三个类加载器？"></a>为什么需要三个类加载器？</h3><p>如果没有双亲委派模型，也就不需要三个类型加载器，那为什么要使用双亲委托这种模型呢？因为这样可以避免重复加载，当父亲已经加载了该类的时候，就没有必要子ClassLoader再加载一次。考虑到安全因素，我们试想一下，如果不使用这种委托模式，那我们就可以随时使用自定义的String来动态替代java核心api中定义的类型，这样会存在非常大的安全隐患，而双亲委托的方式，就可以避免这种情况，因为String已经在启动时就被引导类加载器（Bootstrcp ClassLoader）加载，所以用户自定义的ClassLoader永远也无法加载一个自己写的String，除非你改变JDK中ClassLoader搜索类的默认算法。<strong>但是JVM在搜索类的时候，又是如何判定两个class是相同的呢？</strong></p>
+<p>动态编译是从Java 6开始支持的，主要是通过一个JavaCompiler接口来完成的。通过这种方式我们可以<strong>在程序运行中直接编译一个已经存在的java文件，也可以在内存中动态生成Java代码，动态编译执行</strong>。正是由于这种技术的存在，所有运行于JVM上的语言（如Kotlin，Groovy，Scala）都可以和Java语言混合运行</p>
+<h3 id="什么是解释器？什么是编译器？"><a href="#什么是解释器？什么是编译器？" class="headerlink" title="什么是解释器？什么是编译器？"></a>什么是解释器？什么是编译器？</h3><p>HotSpot包括一个解释器和两个编译器(client和server, 实际运行中选择其一即可, 大多选择server), 解释与编译混合执行模式, 默认启动解释执行</p>
+<p>①<code>server</code>模式下应用程序启动较慢, 占用内存多, 但执行效率高, 其适用于服务器端需要长期执行的应用;<br>② <code>client</code>模式下应用程序启动较快, 占用内存小, 但执行效率较低, 默认情况下不进行动态编译, 适用于桌面应用程序.</p>
+<p>查看 JVM 的启动模式:</p>
+<pre class=" language-shell"><code class="language-shell"># 使用解释与编译混合的模式
+java -version
+java version "1.8.0_162"
+Java(TM) SE Runtime Environment (build 1.8.0_162-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.162-b12, mixed mode)
+# mixed mode 解释与编译混合的模式, 是默认使用的模式.
+
+
+# 使用纯解释模式
+java -Xint -version
+java version "1.8.0_162"
+Java(TM) SE Runtime Environment (build 1.8.0_162-b12)
+# interpreted mode 纯解释模式, 即禁用JIT编译.
+
+
+# 使用纯编译模式
+java -Xcomp -version
+java version "1.8.0_162"
+Java(TM) SE Runtime Environment (build 1.8.0_162-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.162-b12, compiled mode)
+# compiled mode 纯编译模式, 如果方法无法编译, 则回退到解释模式执行无法编译的方法.</code></pre>
+<p><strong>解释器</strong></p>
+<p>解释器是一种计算机程序，它直接执行由编程语言或脚本语言编写的代码，并不会把源代码预编译成机器码，解释器会一行一行的读取源代码，解释，然后立即执行。JVM启动时，会根据预定义的规范对字节码采用逐行解释的方式执行，也就是将字节码文件中的每条内容都翻译成系统能识别的指令并执行。注意这里是直接执行，并没有编译出什么文件（就算有也是部分临时的），相当于实时翻译并执行。</p>
+<p><strong>编译器</strong></p>
+<p>编译器负责把一种编程语言（通常为高级语言）“翻译”成另外一种语言（通常为低级语言），后者往往是二进制的形式的机器语言，被称为目标代码(object code)，这个转换的过程通常的目的是生成可执行的程序。在Java中，将.java编译为.class文件就是编译器的一种操作。而如果我们又将.class编译成计算机CPU可以直接执行的机器语言，也是编译操作。注意这里并没有执行，只负责完整、彻底的翻译，然后生成翻译后的文件，并没有任何执行的操作。</p>
 <blockquote>
-<p><strong>判断两个class对象是否是同一个的两个必要条件</strong></p>
-<ol>
-<li>类的完整类名是否一致，包括包名</li>
-<li>加载这个类的ClassLoader（指ClassLoader实例对象）必须相同</li>
-</ol>
-<p>换句话说，在JVM中，即使两个类对象（class对象）来源同一个Class文件，被同一个虚拟机所加载，但只要加载它们的ClassLoader实例对象不一样，那么这两个对象也是不相同的</p>
+<p>由于JVM可以动态编译，在此技术之上衍生出了许多框架，例如反射和动态代理。</p>
 </blockquote>
-<h2 id="怎么打破双亲委派？"><a href="#怎么打破双亲委派？" class="headerlink" title="怎么打破双亲委派？"></a>怎么打破双亲委派？</h2><ol>
-<li>自定义写一个继承ClassLoader 的类加载器</li>
-<li>重写loadClass方法</li>
-<li>重写findClass方法方法</li>
-</ol>
-<p>这里最主要的是重写loadclass方法，由于双亲委派机制的实现都是经过这个方法实现的，先找附加在其进行加载，若是父加载器没法加载再由本身来进行加载，源码里会直接找到根加载器，重写了这个方法之后就能本身定义加载的方式了</p>
-<h3 id="未破坏双亲委派机制之前"><a href="#未破坏双亲委派机制之前" class="headerlink" title="未破坏双亲委派机制之前"></a>未破坏双亲委派机制之前</h3><p>Java有自己的一套 资源管理服务JNDI 等等，是由启动类加载器加载的，说明类是放在<code>rt.jar</code>包中。</p>
-<blockquote>
-<p>双亲委派机制：当前类加载器收到类加载的请求后，先不自己尝试加载类，而是先将请求委派给父类加载器，调用父类的 loadClass() 方法，这是一个递归的过程（因此，所有的类加载请求，都会先被传送到启动类加载器），只有当父类加载器加载失败时，当前类加载器才会尝试自己去自己负责的区域加载。</p>
-<p><strong>所以判断是否破坏双亲委派机制的一个重要指标是类加载的请求顺序</strong></p>
-</blockquote>
-<p><code>java.sql.Driver</code>这个东西。JDK只能提供一个规范接口，而不能提供实现。提供实现的是实际的数据库提供商。提供商的库总不能放JDK目录里吧。</p>
-<p>Java从1.6搞出了SPI就是为了优雅的解决这类问题——JDK提供接口，供应商提供服务。编程人员编码时面向接口编程，然后JDK能够自动找到合适的实现，岂不是很爽？</p>
-<p>但是便利的同时也带来了困扰。提供商提供的类不能放JDK里的lib目录下，所以也就没法用BootstrapClassLoader加载了。所以当你代码写了</p>
-<pre class=" language-java"><code class="language-java">Class <span class="token class-name">clz</span> <span class="token operator">=</span> Class<span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span><span class="token string">"java.sql.Driver"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-Driver d <span class="token operator">=</span> <span class="token punctuation">(</span>Driver<span class="token punctuation">)</span>clz<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>这个代码会用Bootstrap ClassLoader尝试去加载，问题是<code>java.sql.Driver</code>是个接口，无法真的实例化，就报错了。在没有SPI时，你可以现在classpath里加一个<code>mysql-connector-java.jar</code>包，然后这样写</p>
-<pre class=" language-java"><code class="language-java">Class <span class="token class-name">clz</span> <span class="token operator">=</span> Class<span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span><span class="token string">"com.mysql.jdbc.Driver"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-Driver d <span class="token operator">=</span> <span class="token punctuation">(</span>Driver<span class="token punctuation">)</span> clz<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>这就没问题了，这里用了Application Classloader加载了<code>mysql-connector-java.jar</code>的<code>com.mysql.jdbc.Driver</code>。问题是你硬编码了，一定要加载”com.mysql.jdbc.Driver”，不是很优雅，不能实现“用接口编程，自动实例化真的实现“的这种编码形式。为了提高代码的优雅灵活性，在高版本中引入了SPI机制，同时也打破了双亲委派模型</p>
-<h3 id="JDBC破坏双亲委派机制"><a href="#JDBC破坏双亲委派机制" class="headerlink" title="JDBC破坏双亲委派机制"></a>JDBC破坏双亲委派机制</h3><p><strong>JDBC4.0之后使用spi机制才会破坏双亲委派机制</strong>，使用 SPI 在<code>META-INF/services/java.sql.Driver</code>寻找实现类 <code>com.mysql.cj.jdbc.Driver</code>，如下图</p>
-<p><img src="/2022/06/02/dui-yu-lei-jia-zai-de-yi-dian-li-jie/1.png" alt></p>
-<p>所以我们就不需要自己注册驱动了（需要 SPI 服务帮我们注册），连接的过程变为了</p>
-<pre class=" language-java"><code class="language-java"> String url <span class="token operator">=</span> <span class="token string">"jdbc:mysql://localhost:3306/blog?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;zeroDateTimeBehavior=CONVERT_TO_NULL"</span><span class="token punctuation">;</span>
- String username <span class="token operator">=</span> <span class="token string">"root"</span><span class="token punctuation">;</span>
- String password <span class="token operator">=</span> <span class="token string">"root"</span><span class="token punctuation">;</span>
+<h3 id="动态编译代码"><a href="#动态编译代码" class="headerlink" title="动态编译代码"></a>动态编译代码</h3><p>首先写一个动态创建编译的方法，测试类如下</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>build<span class="token punctuation">;</span>
 
- Connection connection <span class="token operator">=</span> DriverManager<span class="token punctuation">.</span><span class="token function">getConnection</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<p>然而， DriverManager 是位于<code>rt.jar</code>包中的，类加载器是启动类加载器，<code>com.mysql.jdbc.Driver</code>肯定不在 <code>&lt;JAVA_HOME&gt;/lib</code>，那就无法加载MySQL的Driver，我们可以用应用程序类加载器来加载。所以java开发者的设计是，添加一个线程上下文类加载器（Thread Context ClassLoader），在启动类加载器中获取应用程序类加载器。 <strong>Thread.setContextClassLoaser()</strong> 设置线程上下文类加载器，如果创建线程的时候没有设置，会从父类继承一个，默认应用程序类加载器。</p>
-<p><strong>线程上下文类加载器是让父类加载器请求子类加载器完成类的加载，打破了双亲委派机制。</strong>具体过程，在 DriverManager 的静态代码块对 Driver进行加载：</p>
-<pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DriverManager</span> <span class="token punctuation">{</span>
-     <span class="token keyword">static</span> <span class="token punctuation">{</span>
-         <span class="token function">loadInitialDrivers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"JDBC DriverManager initialized"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token punctuation">}</span>
+<span class="token keyword">import</span> javax<span class="token punctuation">.</span>tools<span class="token punctuation">.</span>*<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>File<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>FileWriter<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>PrintWriter<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>Method<span class="token punctuation">;</span>
 
-     <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">loadInitialDrivers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">/**
+ * @Auther: Lushunjian
+ * @Date: 2022/6/4 14:59
+ * @Description:
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyApp</span> <span class="token punctuation">{</span>
 
-         <span class="token comment" spellcheck="true">//..</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String args<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
 
-         AccessController<span class="token punctuation">.</span><span class="token function">doPrivileged</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">PrivilegedAction</span><span class="token operator">&lt;</span>Void<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-             <span class="token keyword">public</span> Void <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-
-                 ServiceLoader<span class="token operator">&lt;</span>Driver<span class="token operator">></span> loadedDrivers <span class="token operator">=</span> ServiceLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>Driver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                 Iterator<span class="token operator">&lt;</span>Driver<span class="token operator">></span> driversIterator <span class="token operator">=</span> loadedDrivers<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-                 <span class="token keyword">try</span><span class="token punctuation">{</span>
-                     <span class="token keyword">while</span><span class="token punctuation">(</span>driversIterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                         driversIterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                     <span class="token punctuation">}</span>
-                 <span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>Throwable t<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                 <span class="token comment" spellcheck="true">// Do nothing</span>
-                 <span class="token punctuation">}</span>
-                 <span class="token keyword">return</span> null<span class="token punctuation">;</span>
-             <span class="token punctuation">}</span>
-         <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-         <span class="token comment" spellcheck="true">//..</span>
-     <span class="token punctuation">}</span>
- <span class="token punctuation">}</span>
-</code></pre>
-<p>其中最重要的是SPI 服务，ServiceLoader 查找<code>META-INF/services/java.sql.Driver</code>文件 ，在下面用<code>driversIterator</code>遍历的时候就会发现文件中的内容，例如，MySQL中的就是一行字符串 <code>com.mysql.cj.jdbc.Driver</code>。点进<code>ServiceLoader.load()</code>方法查看</p>
-<pre class=" language-java"><code class="language-java">     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token operator">&lt;</span>S<span class="token operator">></span> ServiceLoader<span class="token operator">&lt;</span>S<span class="token operator">></span> <span class="token function">load</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span>S<span class="token operator">></span> service<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         ClassLoader cl <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContextClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token keyword">return</span> ServiceLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>service<span class="token punctuation">,</span> cl<span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token punctuation">}</span>
-
-     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token operator">&lt;</span>S<span class="token operator">></span> ServiceLoader<span class="token operator">&lt;</span>S<span class="token operator">></span> <span class="token function">loadInstalled</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span>S<span class="token operator">></span> service<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         ClassLoader cl <span class="token operator">=</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         ClassLoader prev <span class="token operator">=</span> null<span class="token punctuation">;</span>
-         <span class="token comment" spellcheck="true">// 如果创建线程的时候没有设置，会使用父类加载器，上面已经设置，那么这里的类加载器就是线程上下文类加载器</span>
-         <span class="token keyword">while</span> <span class="token punctuation">(</span>cl <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-             prev <span class="token operator">=</span> cl<span class="token punctuation">;</span>
-             cl <span class="token operator">=</span> cl<span class="token punctuation">.</span><span class="token function">getParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token punctuation">}</span>
-         <span class="token keyword">return</span> ServiceLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>service<span class="token punctuation">,</span> prev<span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token punctuation">}</span>
-</code></pre>
-<p>出现了我们前面说的内容，<strong>线程上下文类加载器</strong>，说明不符合双亲委派机制了，所以<code>ServiceLoader</code>拿到了 拿到了线程上下文类加载器。接着看源码，ServiceLoader 自己实现了 Iterator ，叫 LazyIterator 。</p>
-<pre class=" language-java"><code class="language-java"> <span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">LazyIterator</span>
-         <span class="token keyword">implements</span> <span class="token class-name">Iterator</span><span class="token operator">&lt;</span>S<span class="token operator">></span>
- <span class="token punctuation">{</span>
-     <span class="token comment" spellcheck="true">//..</span>
-     <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">hasNextService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         <span class="token comment" spellcheck="true">//..</span>
-     <span class="token punctuation">}</span>
-
-     <span class="token keyword">private</span> S <span class="token function">nextService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">hasNextService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-             <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token comment" spellcheck="true">// META-INF/services/java.sql.Driver文件中的内容，即 `com.mysql.cj.jdbc.Driver`</span>
-         String cn <span class="token operator">=</span> nextName<span class="token punctuation">;</span>
-         nextName <span class="token operator">=</span> null<span class="token punctuation">;</span>
-         Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> c <span class="token operator">=</span> null<span class="token punctuation">;</span>
-         <span class="token keyword">try</span> <span class="token punctuation">{</span>
-             <span class="token comment" spellcheck="true">// 使用线程上下文类加载器加载 实现类(com.mysql.cj.jdbc.Driver)</span>
-             c <span class="token operator">=</span> Class<span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span>cn<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> loader<span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ClassNotFoundException</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-             <span class="token function">fail</span><span class="token punctuation">(</span>service<span class="token punctuation">,</span>
-                  <span class="token string">"Provider "</span> <span class="token operator">+</span> cn <span class="token operator">+</span> <span class="token string">" not found"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token punctuation">}</span>
-         <span class="token comment" spellcheck="true">//..</span>
-     <span class="token punctuation">}</span>
-     <span class="token comment" spellcheck="true">// hasNext()..调用hasNextService()</span>
-
-     <span class="token comment" spellcheck="true">// next()..调用nextService()</span>
-
- <span class="token punctuation">}</span>
-</code></pre>
-<h3 id="Tomcat类加载体系结构"><a href="#Tomcat类加载体系结构" class="headerlink" title="Tomcat类加载体系结构"></a>Tomcat类加载体系结构</h3><p>Tomcat同样破坏了双亲委派模型，那么Tomcat是如何完成多个web应用之间相互隔离，又如何保证多个web应用都能加载到基础类库</p>
-<p><img src="/2022/06/02/dui-yu-lei-jia-zai-de-yi-dian-li-jie/2.png" alt></p>
-<p>Tomcat本身也是一个java项目，因此其也需要被JDK的类加载机制加载，也就必然存在引导类加载器、扩展类加载器和应用(系统)类加载器。Tomcat自身定义的类加载器主要由图中下半部分组成，<code>Common ClassLoader</code>作为<code>Catalina ClassLoader</code>和<code>Shared ClassLoader</code>的parent，而<code>Shared ClassLoader</code>又可能存在多个children类加载器<code>WebApp ClassLoader</code>，一个<code>WebApp ClassLoader</code>实际上就对应一个Web应用，那Web应用就有可能存在Jsp页面，这些Jsp页面最终会转成class类被加载，因此也需要一个Jsp的类加载器，就是图中的JasperLoder<br> 需要注意的是，在代码层面<code>Catalina ClassLoader</code>、<code>Shared ClassLoader</code>、<code>Common ClassLoader</code>对应的实体类实际上都是<code>URLClassLoader</code>或者<code>SecureClassLoader</code>，一般我们只是根据加载内容的不同和加载父子顺序的关系，在逻辑上划分为这三个类加载器；而<code>WebApp ClassLoader</code>和<code>JasperLoader</code>都是存在对应的类加载器类的</p>
-<h2 id="通过磁盘-网络动态加载类"><a href="#通过磁盘-网络动态加载类" class="headerlink" title="通过磁盘/网络动态加载类"></a>通过磁盘/网络动态加载类</h2><p>动态加载jar包，在实际开发中经常会需要用到，尤其涉及平台和业务的关系的时候，业务逻辑部分可以独立出去交给业务方管理，业务方只需要提供jar包，就能在平台上运行。</p>
-<p>创建一个maven工程，编写一个测试类，然后通过maven打包生成jar包，测试类如下</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RemoteTest</span> <span class="token punctuation">{</span>
-
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span>String say<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        JSONObject object <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSONObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        object<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span><span class="token string">"test"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"随便说说:"</span><span class="token operator">+</span>object<span class="token punctuation">.</span><span class="token function">toJSONString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">build</span><span class="token punctuation">(</span><span class="token string">"测试动态编译输出"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>生成一个jar包 <code>test-1.0-SNAPSHOT.jar</code>，放在我本地的 <code>F:\test\test-1.0-SNAPSHOT.jar</code> 目录。然后再创建另一个工程，在此工程中加载这个本地的jar包，代码如下。也可通过网络请求加载远程的包，这样就实现了动态加载类</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyRemoteTest</span> <span class="token punctuation">{</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">static</span> ClassLoader <span class="token function">getMyClassLoader</span><span class="token punctuation">(</span>String path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">build</span><span class="token punctuation">(</span>String param<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//构建一个类的源代码</span>
+        StringBuilder sourceCode <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        sourceCode<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"public class Temp {"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"public static String call(String args) {"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"System.out.println(\""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\");"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"return \"Hello, "</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\";"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"}"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"}"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">try</span> <span class="token punctuation">{</span>
-            ClassLoader systemClassLoader <span class="token operator">=</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            URL url <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            ClassLoader custom <span class="token operator">=</span>
-                    <span class="token keyword">new</span> <span class="token class-name">URLClassLoader</span><span class="token punctuation">(</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> url <span class="token punctuation">}</span><span class="token punctuation">,</span> systemClassLoader <span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">return</span> custom<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> exp<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            exp<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//将源文件写入到磁盘中</span>
+            String javaFileName <span class="token operator">=</span> <span class="token string">"Temp.java"</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//生成的Java源文件存放到指定目录</span>
+            File sourceDir <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"F:\\test\\java-demo\\source"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>sourceDir<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                sourceDir<span class="token punctuation">.</span><span class="token function">mkdirs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            File javaFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>sourceDir<span class="token punctuation">,</span> javaFileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            PrintWriter writer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PrintWriter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">FileWriter</span><span class="token punctuation">(</span>javaFile<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>sourceCode<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">//动态编译磁盘中的代码</span>
+            <span class="token comment" spellcheck="true">//生成的字节码文件存放到&lt;module>F:\test\java-demo\classes目录下</span>
+            File distDir <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"F:\\test\\java-demo\\classes"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>distDir<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                distDir<span class="token punctuation">.</span><span class="token function">mkdirs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            JavaCompiler javac <span class="token operator">=</span> ToolProvider<span class="token punctuation">.</span><span class="token function">getSystemJavaCompiler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//JavaCompiler最核心的方法是run, 通过这个方法编译java源文件, 前3个参数传null时,</span>
+            <span class="token comment" spellcheck="true">//分别使用标准输入/输出/错误流来 处理输入和编译输出. 使用编译参数-d指定字节码输出目录.</span>
+            <span class="token keyword">int</span> compileResult <span class="token operator">=</span> javac<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">,</span> <span class="token string">"-d"</span><span class="token punctuation">,</span> distDir<span class="token punctuation">.</span><span class="token function">getAbsolutePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> javaFile<span class="token punctuation">.</span><span class="token function">getAbsolutePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//run方法的返回值: 0-表示编译成功, 否则表示编译失败</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>compileResult <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"编译失败!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token comment" spellcheck="true">//动态执行 (反射执行)</span>
+
+            <span class="token comment" spellcheck="true">// 加载本地磁盘上的包</span>
+            MyClassLoader loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//加载类</span>
+            Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> klass <span class="token operator">=</span> loader<span class="token punctuation">.</span><span class="token function">findClass</span><span class="token punctuation">(</span><span class="token string">"Temp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            Method evalMethod <span class="token operator">=</span> klass<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"call"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            String result <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span>evalMethod<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>klass<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"eval("</span> <span class="token operator">+</span> param <span class="token operator">+</span> <span class="token string">") = "</span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">static</span> ClassLoader <span class="token function">getNetClassLoader</span><span class="token punctuation">(</span>String url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>再写一个类加载器，用来加载动态创建的类</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>build<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>IOException<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>net<span class="token punctuation">.</span>URI<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>net<span class="token punctuation">.</span>URISyntaxException<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>nio<span class="token punctuation">.</span>file<span class="token punctuation">.</span>Files<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>nio<span class="token punctuation">.</span>file<span class="token punctuation">.</span>Path<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>nio<span class="token punctuation">.</span>file<span class="token punctuation">.</span>Paths<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * @Auther: Lushunjian
+ * @Date: 2022/6/4 15:26
+ * @Description:
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyClassLoader</span> <span class="token keyword">extends</span> <span class="token class-name">ClassLoader</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token function">MyClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">findClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token keyword">throws</span> ClassNotFoundException <span class="token punctuation">{</span>
+        String myPath <span class="token operator">=</span> <span class="token string">"file:///F:/test/java-demo/classes/"</span> <span class="token operator">+</span> name<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">,</span><span class="token string">"/"</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">".class"</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//System.out.println(myPath);</span>
+        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> cLassBytes <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        Path path <span class="token operator">=</span> null<span class="token punctuation">;</span>
         <span class="token keyword">try</span> <span class="token punctuation">{</span>
-
-
-            ClassLoader systemClassLoader <span class="token operator">=</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            URI uri <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URI</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            ClassLoader custom <span class="token operator">=</span>
-                    <span class="token keyword">new</span> <span class="token class-name">URLClassLoader</span><span class="token punctuation">(</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> uri<span class="token punctuation">.</span><span class="token function">toURL</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> systemClassLoader <span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">return</span> custom<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> exp<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            exp<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            path <span class="token operator">=</span> Paths<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">URI</span><span class="token punctuation">(</span>myPath<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cLassBytes <span class="token operator">=</span> Files<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> <span class="token operator">|</span> URISyntaxException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">assert</span> cLassBytes <span class="token operator">!=</span> null<span class="token punctuation">;</span>
+        Class <span class="token class-name">clazz</span> <span class="token operator">=</span> <span class="token function">defineClass</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> cLassBytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> cLassBytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> clazz<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 加载远程服务的包</span>
-       <span class="token comment" spellcheck="true">//  ClassLoader classLoader = MyRemoteTest.getMyClassLoader("http:/127.0.0.1/test/test-1.0-SNAPSHOT.jar");</span>
-
-        <span class="token comment" spellcheck="true">// 加载本地磁盘上的包</span>
-        ClassLoader classLoader <span class="token operator">=</span> MyRemoteTest<span class="token punctuation">.</span><span class="token function">getMyClassLoader</span><span class="token punctuation">(</span><span class="token string">"file:///F:/test/test-1.0-SNAPSHOT.jar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment" spellcheck="true">//加载类</span>
-        <span class="token comment" spellcheck="true">//Class&lt;?> userService =  Class.forName("com.mark.RemoteTest");</span>
-
-        Class<span class="token operator">&lt;</span> <span class="token operator">?</span> <span class="token operator">></span> userService <span class="token operator">=</span> classLoader<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span> <span class="token string">"com.mark.RemoteTest"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token comment" spellcheck="true">//获取方法</span>
-        Method printMethod <span class="token operator">=</span> userService<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"sayHello"</span><span class="token punctuation">,</span>String<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment" spellcheck="true">//调用</span>
-        printMethod<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>userService<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">" lisi "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="Java的反射"><a href="#Java的反射" class="headerlink" title="Java的反射"></a>Java的反射</h3><p>Java反射是Java被视为动态（或准动态）语言的一个关键性质。这个机制允许程序在运行时透过Reflection APIs取得任何一个已知名称的class的内部信息，包括其modifiers（诸如public、static等）、superclass（例如Object）、实现之interfaces（例如Cloneable），也包括fields和methods的所有信息，并可于运行时改变fields内容或唤起methods。</p>
+<p>Reflection可以在运行时加载、探知、使用编译期间完全未知的classes。即Java程序可以加载一个运行时才得知名称的class，获取其完整构造，并生成其对象实体、或对其fields设值、或唤起其methods。</p>
+<p>反射（reflection）允许静态语言在运行时（runtime）检查、修改程序的结构与行为。<br> 在静态语言中，使用一个变量时，必须知道它的类型。在Java中，变量的类型信息在编译时都保存到了class文件中，这样在运行时才能保证准确无误；换句话说，程序在运行时的行为都是固定的。如果想在运行时改变，就需要反射这东西了。</p>
 
             </div>
             <hr/>
@@ -861,7 +823,7 @@ Driver d <span class="token operator">=</span> <span class="token punctuation">(
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2022/06/02/dui-yu-lei-jia-zai-de-yi-dian-li-jie/">https://lushunjian.gitee.io/2022/06/02/dui-yu-lei-jia-zai-de-yi-dian-li-jie/</a>
+                    <a href="https://lushunjian.gitee.io/2022/06/05/java-de-fan-she-yu-dong-tai-bian-yi/">https://lushunjian.gitee.io/2022/06/05/java-de-fan-she-yu-dong-tai-bian-yi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1354,9 +1316,10 @@ Driver d <span class="token operator">=</span> <span class="token punctuation">(
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2022/06/05/java-de-fan-she-yu-dong-tai-bian-yi/">
                     <div class="card-image">
@@ -1374,9 +1337,9 @@ Driver d <span class="token operator">=</span> <span class="token punctuation">(
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-05
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-05
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1389,6 +1352,7 @@ Driver d <span class="token operator">=</span> <span class="token punctuation">(
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1407,24 +1371,24 @@ Driver d <span class="token operator">=</span> <span class="token punctuation">(
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/05/31/leetcode-zui-chang-gong-gong-zi-xu-lie/">
+                <a href="/2022/06/02/dui-yu-lei-jia-zai-de-yi-dian-li-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/42.jpg" class="responsive-img" alt="LeetCode-最长公共子序列">
+                        <img src="/medias/featureimages/39.jpg" class="responsive-img" alt="对于类加载的一点理解">
                         
-                        <span class="card-title">LeetCode-最长公共子序列</span>
+                        <span class="card-title">对于类加载的一点理解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            力扣上一道中等题，求两个字符串的最长公共子序列。说实话这道题我完全没有思路，一开始尝试用双指针去遍历两个数组，但是公共子序列可以是不连续的，这样情况就会变得很复杂。在和力扣度过美好的一天后，我最终放弃了。看完题解后，茅塞顿开。故此记录一下思
+                            当我们写好一个Java程序之后，不是管是CS还是BS应用，都是由若干个.class文件组织而成的一个完整的Java应用程序，当程序在运行时，即会调用该程序的一个入口函数来调用系统的相关功能，而这些功能都被封装在不同的class文件当中，所以
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-31
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-02
                             </span>
                         <span class="publish-author">
                             
