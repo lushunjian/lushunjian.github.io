@@ -672,125 +672,125 @@
 <li>select的实现是每次将待检测的描述符放在位数组中，全部传给内核进行监听，内核监听之后会返回一个就绪描述符个数，并且修改了监听的事件值，以表示该事件就绪。内核再将修改后的数组传给用户空间。用户空间只能通过遍历所有描述符来处理就绪的描述符，之后再将描述符传给内核继续监听……很明显，这样在监听的描述符少的情况下并不影响效率，但是监听的描述符数量特别大的情况下，每次又只有少数描述符上有事件就绪，大量的换入换出会使得效率十分低下（每次调用 select，都需要把 fd 集合从用户态拷贝到内核态，这个开销在 fd 很多时会很大）</li>
 </ol>
 <p><strong>select使用示例</strong></p>
-<pre class=" language-c++"><code class="language-c++">#include<stdio.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>                        
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>    
+<pre class=" language-java"><code class="language-java">#include<span class="token operator">&lt;</span>stdio<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>stdio<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>stdlib<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>string<span class="token punctuation">.</span>h<span class="token operator">></span>                        
+#include <span class="token operator">&lt;</span>unistd<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>sys<span class="token operator">/</span>socket<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>netinet<span class="token operator">/</span>in<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>arpa<span class="token operator">/</span>inet<span class="token punctuation">.</span>h<span class="token operator">></span>    
 
-void server() {
+<span class="token keyword">void</span> <span class="token function">server</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-    // 创建socket连接
-    int lfd = socket(AF_INET,SOCK_STREAM,0);
-    struct sockaddr_in my_addr; 
-    bzero(&my_addr, sizeof(my_addr));
-    my_addr.sin_family = AF_INET; // ipv4
-    my_addr.sin_port   = htons(9090);
-    my_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-    // 绑定端口
-    bind(lfd, (struct sockaddr*)&my_addr, sizeof(my_addr));
-    // 监听连接请求
-    listen(lfd, 128);
-    printf("listen client @port=%d...\n", 9090);
-    int lastfd = lfd;
-    // 定义文件描述符集
-    fd_set read_fd_set, all_fd_set;
-    // 服务socket描述符加入set集合中
-    FD_ZERO(&all_fd_set);
-    FD_SET(lfd, &all_fd_set);
-    printf("准备进入while循环\n");
-    while (1) {
-        read_fd_set = all_fd_set;
-        printf("阻塞中... lastfd=%d\n", lastfd);
-        int nready = select(lastfd+1, &read_fd_set, NULL, NULL, NULL);
-        switch (nready) {
-            case 0 :
-                printf("select time out ......\n");
-                break;
-            case -1 :
-                perror("select error \n");
-                break;
-            default:
-                // 监听到新的客户端连接
-                if (FD_ISSET(lfd, &read_fd_set)) {
-                    struct sockaddr_in client_addr;    
-                    socklen_t cliaddr_len = sizeof(client_addr);
-                    char cli_ip[INET_ADDRSTRLEN] = "";    
-                    // 肯定有连接不会阻塞
-                    int clientfd = accept(lfd, (struct sockaddr*)&client_addr, &cliaddr_len);
-                    inet_ntop(AF_INET, &client_addr.sin_addr, cli_ip, INET_ADDRSTRLEN);
-                    printf("----------------------------------------------\n");
-                    printf("client ip=%s,port=%d\n", cli_ip, ntohs(client_addr.sin_port));
-                    // 将clientfd加入读集合
-                    FD_SET(clientfd, &all_fd_set);    
-                    lastfd = clientfd;
-                    if(0 == --nready) {
-                        continue;
-                    }
-                }
-                int i;
-                for (i = lfd + 1;i <= lastfd; i++) {
-                    // 处理读事件
-                    if (FD_ISSET(i, &read_fd_set)) {
-                        char recv_buf[512] = "";
-                        int rs = read(i, recv_buf, sizeof(recv_buf));
-                        if (rs == 0 ) {
-                            close(i);
-                            FD_CLR(i, &all_fd_set);
-                        } else {
-                            printf("%s\n",recv_buf);
-                            // 给每一个服务端写数据
-                            int j;
-                            for (j = lfd + 1;j <= lastfd; j++) {
-                                if (j != i) {
-                                    write(j, recv_buf, strlen(recv_buf));
-                                }
-                            }
-                        }
-                    }
-                }
-        }
+    <span class="token comment" spellcheck="true">// 创建socket连接</span>
+    <span class="token keyword">int</span> lfd <span class="token operator">=</span> <span class="token function">socket</span><span class="token punctuation">(</span>AF_INET<span class="token punctuation">,</span>SOCK_STREAM<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    struct sockaddr_in my_addr<span class="token punctuation">;</span> 
+    <span class="token function">bzero</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>my_addr<span class="token punctuation">,</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>my_addr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    my_addr<span class="token punctuation">.</span>sin_family <span class="token operator">=</span> AF_INET<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ipv4</span>
+    my_addr<span class="token punctuation">.</span>sin_port   <span class="token operator">=</span> <span class="token function">htons</span><span class="token punctuation">(</span><span class="token number">9090</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    my_addr<span class="token punctuation">.</span>sin_addr<span class="token punctuation">.</span>s_addr <span class="token operator">=</span> <span class="token function">htonl</span><span class="token punctuation">(</span>INADDR_ANY<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token comment" spellcheck="true">// 绑定端口</span>
+    <span class="token function">bind</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token punctuation">(</span>struct sockaddr<span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>my_addr<span class="token punctuation">,</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>my_addr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 监听连接请求</span>
+    <span class="token function">listen</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token number">128</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"listen client @port=%d...\n"</span><span class="token punctuation">,</span> <span class="token number">9090</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> lastfd <span class="token operator">=</span> lfd<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 定义文件描述符集</span>
+    fd_set read_fd_set<span class="token punctuation">,</span> all_fd_set<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 服务socket描述符加入set集合中</span>
+    <span class="token function">FD_ZERO</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>all_fd_set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">FD_SET</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>all_fd_set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"准备进入while循环\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        read_fd_set <span class="token operator">=</span> all_fd_set<span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"阻塞中... lastfd=%d\n"</span><span class="token punctuation">,</span> lastfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> nready <span class="token operator">=</span> <span class="token function">select</span><span class="token punctuation">(</span>lastfd<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>read_fd_set<span class="token punctuation">,</span> NULL<span class="token punctuation">,</span> NULL<span class="token punctuation">,</span> NULL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>nready<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> <span class="token number">0</span> <span class="token operator">:</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"select time out ......\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">:</span>
+                <span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"select error \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token comment" spellcheck="true">// 监听到新的客户端连接</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">FD_ISSET</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>read_fd_set<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    struct sockaddr_in client_addr<span class="token punctuation">;</span>    
+                    socklen_t cliaddr_len <span class="token operator">=</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>client_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">char</span> cli_ip<span class="token punctuation">[</span>INET_ADDRSTRLEN<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>    
+                    <span class="token comment" spellcheck="true">// 肯定有连接不会阻塞</span>
+                    <span class="token keyword">int</span> clientfd <span class="token operator">=</span> <span class="token function">accept</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token punctuation">(</span>struct sockaddr<span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>client_addr<span class="token punctuation">,</span> <span class="token operator">&amp;</span>cliaddr_len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">inet_ntop</span><span class="token punctuation">(</span>AF_INET<span class="token punctuation">,</span> <span class="token operator">&amp;</span>client_addr<span class="token punctuation">.</span>sin_addr<span class="token punctuation">,</span> cli_ip<span class="token punctuation">,</span> INET_ADDRSTRLEN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"----------------------------------------------\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"client ip=%s,port=%d\n"</span><span class="token punctuation">,</span> cli_ip<span class="token punctuation">,</span> <span class="token function">ntohs</span><span class="token punctuation">(</span>client_addr<span class="token punctuation">.</span>sin_port<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">// 将clientfd加入读集合</span>
+                    <span class="token function">FD_SET</span><span class="token punctuation">(</span>clientfd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>all_fd_set<span class="token punctuation">)</span><span class="token punctuation">;</span>    
+                    lastfd <span class="token operator">=</span> clientfd<span class="token punctuation">;</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">==</span> <span class="token operator">--</span>nready<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> lfd <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&lt;=</span> lastfd<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 处理读事件</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">FD_ISSET</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>read_fd_set<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">char</span> recv_buf<span class="token punctuation">[</span><span class="token number">512</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+                        <span class="token keyword">int</span> rs <span class="token operator">=</span> <span class="token function">read</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> recv_buf<span class="token punctuation">,</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>recv_buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>rs <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                            <span class="token function">close</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token function">FD_CLR</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>all_fd_set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span>recv_buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token comment" spellcheck="true">// 给每一个服务端写数据</span>
+                            <span class="token keyword">int</span> j<span class="token punctuation">;</span>
+                            <span class="token keyword">for</span> <span class="token punctuation">(</span>j <span class="token operator">=</span> lfd <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>j <span class="token operator">&lt;=</span> lastfd<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">!=</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                    <span class="token function">write</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> recv_buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>recv_buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                                <span class="token punctuation">}</span>
+                            <span class="token punctuation">}</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
 
-    }
-}
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-int main(){
-    server();
-    return 0;
-}
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">server</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>参数2：关注读状态的描述符集，一般都用的这个</p>
 <p>参数3：关注写状态的描述符集，不用设置为NULL参数4：异常状态描述符集，没用过，一般设置NULL参数5：设置阻塞超时时间，这个参数有3种可能。1. 设置空指针则一直等待，2. 等待timeval指定的固定时间，3. timeval结构值为0，则每次调用都不等待。</p>
 <p><strong>poll</strong>是<strong>select</strong>的改进版，本质上和select没有区别，它将用户传入的数组拷贝到内核空间，然后查询每个fd对应的设备状态， <strong>但是它没有最大连接数的限制</strong>，原因是它是基于链表来存储的</p>
 <h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><p>epoll是在select出现N多年后才出现的，epoll可以理解为<code>event pool</code>，不同与select、poll的轮询机制，epoll采用的是事件驱动机制，每个fd上有注册有回调函数，当网卡接收到数据时会回调该函数，同时将该fd的引用放入rdlist就绪列表中。当调用epoll_wait检查是否有事件发生时，只需要检查eventpoll对象中的rdlist双链表中是否有epitem元素即可。如果rdlist不为空，则把发生的事件复制到用户态，同时将事件数量返回给用户。</p>
 <p><strong>epoll函数的接口定义</strong></p>
-<pre class=" language-c++"><code class="language-c++">#include <sys/epoll.h>
+<pre class=" language-java"><code class="language-java">#include <span class="token operator">&lt;</span>sys<span class="token operator">/</span>epoll<span class="token punctuation">.</span>h<span class="token operator">></span>
 
-// 数据结构
-// 每一个epoll对象都有一个独立的eventpoll结构体
-// 用于存放通过epoll_ctl方法向epoll对象中添加进来的事件
-// epoll_wait检查是否有事件发生时，只需要检查eventpoll对象中的rdlist双链表中是否有epitem元素即可
-struct eventpoll {
-    /*红黑树的根节点，这颗树中存储着所有添加到epoll中的需要监控的事件*/
-    struct rb_root  rbr;
-    /*双链表中则存放着将要通过epoll_wait返回给用户的满足条件的事件*/
-    struct list_head rdlist;
-};
+<span class="token comment" spellcheck="true">// 数据结构</span>
+<span class="token comment" spellcheck="true">// 每一个epoll对象都有一个独立的eventpoll结构体</span>
+<span class="token comment" spellcheck="true">// 用于存放通过epoll_ctl方法向epoll对象中添加进来的事件</span>
+<span class="token comment" spellcheck="true">// epoll_wait检查是否有事件发生时，只需要检查eventpoll对象中的rdlist双链表中是否有epitem元素即可</span>
+struct eventpoll <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/*红黑树的根节点，这颗树中存储着所有添加到epoll中的需要监控的事件*/</span>
+    struct rb_root  rbr<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/*双链表中则存放着将要通过epoll_wait返回给用户的满足条件的事件*/</span>
+    struct list_head rdlist<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-// API
-// 内核中间加一个 ep 对象，把所有需要监听的socket都放到ep对象中
-int epoll_create(int size); 
-// epoll_ctl 负责把 socket 增加、删除到内核红黑树
-int epoll_ctl(int epfd,  // 创建的ep对象
-              int op,    // 操作类型 新增、删除等
-              int fd,    // 要操作的对象
-              struct epoll_event *event  // 事件
-             ); 
-// epoll_wait 负责检测可读队列，没有可读 socket 则阻塞进程
-int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
+<span class="token comment" spellcheck="true">// API</span>
+<span class="token comment" spellcheck="true">// 内核中间加一个 ep 对象，把所有需要监听的socket都放到ep对象中</span>
+<span class="token keyword">int</span> <span class="token function">epoll_create</span><span class="token punctuation">(</span><span class="token keyword">int</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true">// epoll_ctl 负责把 socket 增加、删除到内核红黑树</span>
+<span class="token keyword">int</span> <span class="token function">epoll_ctl</span><span class="token punctuation">(</span><span class="token keyword">int</span> epfd<span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">// 创建的ep对象</span>
+              <span class="token keyword">int</span> op<span class="token punctuation">,</span>    <span class="token comment" spellcheck="true">// 操作类型 新增、删除等</span>
+              <span class="token keyword">int</span> fd<span class="token punctuation">,</span>    <span class="token comment" spellcheck="true">// 要操作的对象</span>
+              struct epoll_event <span class="token operator">*</span>event  <span class="token comment" spellcheck="true">// 事件</span>
+             <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true">// epoll_wait 负责检测可读队列，没有可读 socket 则阻塞进程</span>
+<span class="token keyword">int</span> <span class="token function">epoll_wait</span><span class="token punctuation">(</span><span class="token keyword">int</span> epfd<span class="token punctuation">,</span> struct epoll_event <span class="token operator">*</span> events<span class="token punctuation">,</span> <span class="token keyword">int</span> maxevents<span class="token punctuation">,</span> <span class="token keyword">int</span> timeout<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 </code></pre>
 <p><strong>epoll执行流程</strong></p>
@@ -807,78 +807,78 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 <li>边缘触发（ET, Edge Triggered）：与水平触发模式相反，调用epoll_wait()的时候会通知你哪个文件描述符可读写，如果你不处理或者没处理完下次也不通知你，只通知你这一次，爱咋咋地。直到第二次有数据可读写的时候再次通知你。这种效率比较高，但是不能保证数据的完整性，如果一次处理不完就不告诉你了。</li>
 </ol>
 <p><strong>epoll示例代码</strong></p>
-<pre class=" language-c++"><code class="language-c++">#include<stdio.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>                        
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>    
-#include <sys/epoll.h>
+<pre class=" language-java"><code class="language-java">#include<span class="token operator">&lt;</span>stdio<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>stdio<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>stdlib<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>string<span class="token punctuation">.</span>h<span class="token operator">></span>                        
+#include <span class="token operator">&lt;</span>unistd<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>sys<span class="token operator">/</span>socket<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>netinet<span class="token operator">/</span>in<span class="token punctuation">.</span>h<span class="token operator">></span>
+#include <span class="token operator">&lt;</span>arpa<span class="token operator">/</span>inet<span class="token punctuation">.</span>h<span class="token operator">></span>    
+#include <span class="token operator">&lt;</span>sys<span class="token operator">/</span>epoll<span class="token punctuation">.</span>h<span class="token operator">></span>
 
-void server() {
+<span class="token keyword">void</span> <span class="token function">server</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-    // 创建socket连接
-    int lfd = socket(AF_INET,SOCK_STREAM,0);
-    struct sockaddr_in my_addr; 
-    bzero(&my_addr, sizeof(my_addr));
-    my_addr.sin_family = AF_INET; // ipv4
-    my_addr.sin_port   = htons(8088);
-    my_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-    // 绑定端口
-    bind(lfd, (struct sockaddr*)&my_addr, sizeof(my_addr));
-    // 监听连接请求
-    listen(lfd, 128);
-    printf("listen client @port=%d...\n", 8088);
-    int epct, i;
-    struct epoll_event event;
-    struct epoll_event events[100];
-    memset(events, 0, 100 * sizeof(struct epoll_event));
-    int epfd = epoll_create(1);
-    event.data.fd = lfd;
-    event.events = EPOLLIN;
-    epoll_ctl(epfd, EPOLL_CTL_ADD, lfd, &event);
-    while (1) {
-        printf("阻塞中....\n");
-        int nready = epoll_wait(epfd, events, 20, -1);
-        int i;
-        for (i = 0; i < nready; ++i) {
-            // 监听到新的客户端连接
-            if (events[i].data.fd == lfd) {
-                struct sockaddr_in client_addr;    
-                socklen_t cliaddr_len = sizeof(client_addr);
-                char cli_ip[INET_ADDRSTRLEN] = "";    
-                // 肯定有连接不会阻塞
-                int clientfd = accept(lfd, (struct sockaddr*)&client_addr, &cliaddr_len);
-                inet_ntop(AF_INET, &client_addr.sin_addr, cli_ip, INET_ADDRSTRLEN);
+    <span class="token comment" spellcheck="true">// 创建socket连接</span>
+    <span class="token keyword">int</span> lfd <span class="token operator">=</span> <span class="token function">socket</span><span class="token punctuation">(</span>AF_INET<span class="token punctuation">,</span>SOCK_STREAM<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    struct sockaddr_in my_addr<span class="token punctuation">;</span> 
+    <span class="token function">bzero</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>my_addr<span class="token punctuation">,</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>my_addr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    my_addr<span class="token punctuation">.</span>sin_family <span class="token operator">=</span> AF_INET<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ipv4</span>
+    my_addr<span class="token punctuation">.</span>sin_port   <span class="token operator">=</span> <span class="token function">htons</span><span class="token punctuation">(</span><span class="token number">8088</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    my_addr<span class="token punctuation">.</span>sin_addr<span class="token punctuation">.</span>s_addr <span class="token operator">=</span> <span class="token function">htonl</span><span class="token punctuation">(</span>INADDR_ANY<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token comment" spellcheck="true">// 绑定端口</span>
+    <span class="token function">bind</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token punctuation">(</span>struct sockaddr<span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>my_addr<span class="token punctuation">,</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>my_addr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 监听连接请求</span>
+    <span class="token function">listen</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token number">128</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"listen client @port=%d...\n"</span><span class="token punctuation">,</span> <span class="token number">8088</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> epct<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+    struct epoll_event event<span class="token punctuation">;</span>
+    struct epoll_event events<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token function">memset</span><span class="token punctuation">(</span>events<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">100</span> <span class="token operator">*</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>struct epoll_event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> epfd <span class="token operator">=</span> <span class="token function">epoll_create</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    event<span class="token punctuation">.</span>data<span class="token punctuation">.</span>fd <span class="token operator">=</span> lfd<span class="token punctuation">;</span>
+    event<span class="token punctuation">.</span>events <span class="token operator">=</span> EPOLLIN<span class="token punctuation">;</span>
+    <span class="token function">epoll_ctl</span><span class="token punctuation">(</span>epfd<span class="token punctuation">,</span> EPOLL_CTL_ADD<span class="token punctuation">,</span> lfd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"阻塞中....\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> nready <span class="token operator">=</span> <span class="token function">epoll_wait</span><span class="token punctuation">(</span>epfd<span class="token punctuation">,</span> events<span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> nready<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 监听到新的客户端连接</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>events<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>fd <span class="token operator">==</span> lfd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                struct sockaddr_in client_addr<span class="token punctuation">;</span>    
+                socklen_t cliaddr_len <span class="token operator">=</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>client_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">char</span> cli_ip<span class="token punctuation">[</span>INET_ADDRSTRLEN<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>    
+                <span class="token comment" spellcheck="true">// 肯定有连接不会阻塞</span>
+                <span class="token keyword">int</span> clientfd <span class="token operator">=</span> <span class="token function">accept</span><span class="token punctuation">(</span>lfd<span class="token punctuation">,</span> <span class="token punctuation">(</span>struct sockaddr<span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>client_addr<span class="token punctuation">,</span> <span class="token operator">&amp;</span>cliaddr_len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">inet_ntop</span><span class="token punctuation">(</span>AF_INET<span class="token punctuation">,</span> <span class="token operator">&amp;</span>client_addr<span class="token punctuation">.</span>sin_addr<span class="token punctuation">,</span> cli_ip<span class="token punctuation">,</span> INET_ADDRSTRLEN<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-                event.data.fd = clientfd;
-                event.events = EPOLLIN | EPOLLET;
-                epoll_ctl(epfd, EPOLL_CTL_ADD, clientfd, &event);
+                event<span class="token punctuation">.</span>data<span class="token punctuation">.</span>fd <span class="token operator">=</span> clientfd<span class="token punctuation">;</span>
+                event<span class="token punctuation">.</span>events <span class="token operator">=</span> EPOLLIN <span class="token operator">|</span> EPOLLET<span class="token punctuation">;</span>
+                <span class="token function">epoll_ctl</span><span class="token punctuation">(</span>epfd<span class="token punctuation">,</span> EPOLL_CTL_ADD<span class="token punctuation">,</span> clientfd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-                printf("----------------------------------------------\n");
-                printf("client ip=%s,port=%d\n", cli_ip, ntohs(client_addr.sin_port));
-            } else {
-                char recv_buf[512] = "";
-                int rs = read(events[i].data.fd, recv_buf, sizeof(recv_buf));
-                if (rs < 0) {
-                    close(events[i].data.fd);
-                    epoll_ctl(epfd, EPOLL_CTL_DEL, events[i].data.fd, &event);
-                    continue;
-                }
-                printf("%s\n",recv_buf);
-            }
-        }
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"----------------------------------------------\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"client ip=%s,port=%d\n"</span><span class="token punctuation">,</span> cli_ip<span class="token punctuation">,</span> <span class="token function">ntohs</span><span class="token punctuation">(</span>client_addr<span class="token punctuation">.</span>sin_port<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">char</span> recv_buf<span class="token punctuation">[</span><span class="token number">512</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> rs <span class="token operator">=</span> <span class="token function">read</span><span class="token punctuation">(</span>events<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>fd<span class="token punctuation">,</span> recv_buf<span class="token punctuation">,</span> <span class="token function">sizeof</span><span class="token punctuation">(</span>recv_buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>rs <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">close</span><span class="token punctuation">(</span>events<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">epoll_ctl</span><span class="token punctuation">(</span>epfd<span class="token punctuation">,</span> EPOLL_CTL_DEL<span class="token punctuation">,</span> events<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>fd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span>recv_buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
 
 
-    }
-}
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-int main(){
-    server();
-    return 0;
-}
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">server</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
 </code></pre>
 
@@ -1399,48 +1399,46 @@ int main(){
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2022/06/05/select-yu-epoll/">
+                <a href="/2022/06/06/hong-hei-shu-de-fan-zhuan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/32.jpg" class="responsive-img" alt="select与epoll">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="红黑树的翻转">
                         
-                        <span class="card-title">select与epoll</span>
+                        <span class="card-title">红黑树的翻转</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            select与epoll是操作系统提供的两种I/O多路复用的机制，I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。select是比较早出现的技术，但是
+                            红黑树（R-B Tree），它是二叉树中，最经典也是最复杂的数据结构。也是一种常见的自平衡二分搜索树。说到自平衡就涉及到旋转，这是红黑树最难的地方之一。我在一开始接触时也是云里雾里，不知道为什么红黑树相比普通的二叉树要设置这么多条件，更别说
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-05
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-06
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="post-category">
-                                    网络编程
+                            <a href="/categories/java/" class="post-category">
+                                    java
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
-                        <span class="chip bg-color">网络编程</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
                     </a>
                     
                 </div>
