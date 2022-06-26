@@ -1,0 +1,1619 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="云原生, 三秋">
+    <meta name="description" content="随着虚拟化技术的成熟和分布式架构的普及，用来部署、管理和运行应用的云平台被越来越多的提及。IaaS、PaaS和SaaS是云计算的3种基本服务类型，它们是关注硬件基础设施的基础设施即服务、关注软件和中间件平台的平台即服务以及关注业务应用的软件">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>云原生 | 三秋</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">三秋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/navigate" class="waves-effect waves-light">
+      
+      <i class="fas fa-location-arrow" style="zoom: 0.6;"></i>
+      
+      <span>导航</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/games">
+          
+          <i class="fas fa-puzzle-piece" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>游戏</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/my-games">
+          
+          <i class="fas fa-flag" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>撸毛</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+	<a id="dark" onclick="switchDarkMode()">🌞</a>
+  </li>
+</ul>
+<link rel="stylesheet" href="/css/dark-mode.css">
+<script>
+	  var isNight = new Date().getHours() >= 19 || new Date().getHours() < 8; // 指定时间
+	  // 依次判断 系统暗黑模式 指定时间 缓存 dark
+	  if( window.matchMedia('(prefers-color-scheme: dark)').matches || isNight || localStorage.getItem('dark') === '1') {
+	 
+		if(!(isNight&&localStorage.getItem('noDark') === '1')) {
+		  document.body.classList.add('dark');
+		}
+	  }
+	  document.getElementById('dark').innerHTML = document.querySelector("body").classList.contains("dark")?"🌙":"🌞";
+	  //点击事件
+		function switchDarkMode() {
+			if ($('body').hasClass('dark')) {
+				$("#dark").html("🌞");
+				document.body.classList.remove('dark');
+				localStorage.setItem('noDark', '1');
+				localStorage.setItem('dark', '0');
+			} else {
+				$("#dark").html("🌙"); 
+				document.body.classList.add('dark');
+				localStorage.setItem('dark', '1');
+				localStorage.setItem('noDark', '0');
+			}
+		}
+</script>
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">三秋</div>
+        <div class="logo-desc">
+            
+            小破站，记录学习和生活
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/navigate" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-location-arrow"></i>
+			
+			导航
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/games " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-puzzle-piece" style="position: absolute;left:50px" ></i>
+			      
+		          <span>游戏</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/my-games " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-flag" style="position: absolute;left:50px" ></i>
+			      
+		          <span>撸毛</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">云原生</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">java</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/java/" class="post-category">
+                                java
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2022-06-26
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>随着虚拟化技术的成熟和分布式架构的普及，用来部署、管理和运行应用的云平台被越来越多的提及。IaaS、PaaS和SaaS是云计算的3种基本服务类型，它们是关注硬件基础设施的基础设施即服务、关注软件和中间件平台的平台即服务以及关注业务应用的软件即服务。在容器技术、可持续交付、编排系统等开源社区的推动下，以及微服务等开发理念的带动下，应用上云已经是不可逆转的趋势。随着云化技术的不断进展，云原生的概念也应运而生。</p>
+<blockquote>
+<p>大家言必称云原生，<strong>却鲜少有人告诉你到底什么是云原生</strong>，若是找资料来看，读完大多会感觉云绕雾罩，一知半解，总之虚得很；甚至会让你一度怀疑自己的智商。云原生之所以解释不清楚，是因为云原生没有确切的定义，云原生一直在发展变化之中，解释权不归某个人或组织所有。</p>
+</blockquote>
+<p>说到云原生，就不得不提到<code>云计算</code>，云计算这个词也火了很久。</p>
+<h2 id="什么是云计算"><a href="#什么是云计算" class="headerlink" title="什么是云计算"></a>什么是云计算</h2><p>用过阿里云主机的，对云服务器应该不陌生，在那些年大家应该看过诸如这样的新闻标题：<code>“中国云计算之父：当年拿走马云10个亿，11年后还给马云5400亿”</code>，没错，这个中国云计算之父就是我们阿里云的创始人——王坚博士。</p>
+<p>早些年，国内电商迎来飞速发展时期，淘宝用户每年增长十几倍，而国外云计算平台都是针对本土企业设计，没有考虑过服务几亿人的情况。于是拥有一套属于自己、便宜好用的计算架构，成为阿里巴巴当时的重中之重。于是马云把王坚从微软挖来，负责构建阿里的计算架构，并且约定每年投10个亿，坚持10年。</p>
+<p>不过，阿里云发展的前几年并不顺利；内部质疑、技术出现瓶颈，大批工程师因为看不到阿里云的前景，纷纷投入其他部门，或者干脆离开阿里，最严重的时候，阿里云80%工程师都选择离开，但王坚依然顶着巨大压力坚持了下去。</p>
+<p>2013年，飞天系统实现了5000台机器的集群调度，阿里正式成为中国第一家拥有完整云计算系统能力的企业，也成为中国第一家有能力提供海外云计算服务的公司。此后，12306将业务放到了阿里云上，春运高峰期间，阿里云承担了12306系统大部分的流量，一改往日抢票期间系统瘫痪的情况。展示了自身实力的阿里云，开始大规模对外提供云计算服务。去年双十一，阿里云更是创造了新的世界纪录，而阿里云全都支撑下来，刷新了历史。值得关注的是，对比五年前，阿里云的业绩已增长了数十倍。如今，阿里云在国内的份额遥遥领先其它对手，并且成功走向国际。</p>
+<p>想必大家已经感受到了云计算的强大，那么接下来我们再来看看云计算的概念。</p>
+<p>2006年，亚马逊把基于分布式操作系统聚集起来的强⼤计算能⼒，通过互联⽹的⽅分输送给千千万万的普通⽤户，⼈们给这种计算的在线服务，起的名字叫做云计算。</p>
+<p>通俗的说，把分布式操作系统聚集起来的强大计算能力像水电一样，成为大众的必需品，输送给千家万户，让每个人都可以高效利用这种计算资源。就像水龙头一样，我们什么需要水打开水龙头就好了，再也不用去井里挑水喝了；什么时候需要电直接打开开关就好了，再也不用拿两根木头磨来磨去了。但是，你要付费，你得掏钱，天底下没有免费的午餐，因为能量守恒。</p>
+<h2 id="云计算的四个层次"><a href="#云计算的四个层次" class="headerlink" title="云计算的四个层次"></a>云计算的四个层次</h2><h3 id="IaaS（基础架构即服务）"><a href="#IaaS（基础架构即服务）" class="headerlink" title="IaaS（基础架构即服务）"></a>IaaS（基础架构即服务）</h3><p>IaaS（Infrastructure as a Service，基础架构即服务）是基础层。在这一层，通过虚拟化、动态化将IT基础资源（计算、网络、存储）聚合形成资源池。资源池即计算能力的集合，终端用户（企业）可以通过网络获得自己需要的计算资源，运行自己的业务系统。这种方式使用户不必自己建设这些基础设施，而是通过付费即可使用这些资源。</p>
+<h3 id="PaaS（平台即服务）"><a href="#PaaS（平台即服务）" class="headerlink" title="PaaS（平台即服务）"></a>PaaS（平台即服务）</h3><p>在IaaS层之上的是PaaS（Platform as a Service，平台即服务）层。这一层除了提供基础计算能力，还具备了业务的开发运行环境，提供包括应用代码、SDK、操作系统以及API在内的IT组件，供个人开发者和企业将相应功能模块嵌入软件或硬件，以提高开发效率。对于企业或终端用户而言，这一层的服务可以为业务创新提供快速、低成本的环境。</p>
+<h3 id="SaaS（软件即服务）"><a href="#SaaS（软件即服务）" class="headerlink" title="SaaS（软件即服务）"></a>SaaS（软件即服务）</h3><p>最上层是SaaS（Software as a Service，软件即服务）。实际上，SaaS在云计算概念出现之前就已经存在，并随着云计算技术的发展得到了更好的发展。SaaS的软件是“拿来即用”的，不需要用户安装，软件升级与维护也无须终端用户参与。同时，它还是按需使用的软件，与传统软件购买后就无法退货相较具有无可比拟的优势。</p>
+<h3 id="DaaS（数据即服务）"><a href="#DaaS（数据即服务）" class="headerlink" title="DaaS（数据即服务）"></a>DaaS（数据即服务）</h3><p>越来越多的数据沉淀、抽象形成了新的服务——DaaS（Data as a Service，数据即服务）。数据聚合抽象，把数据转换成通用信息，从而为公众提供公共信息服务。例如，对于天气信息，可能A需要根据天气信息来判断出门穿着，B需要根据天气信息判断是否洗车，C需要根据天气信息判断是否准备防洪防涝设施等。不同用户均可利用DaaS满足自己的诉求。</p>
+<p>此外，通过对各类数据信息进一步加工形成信息组合应用，会进一步盘活数据，提升数据价值。这就像搭积木一样，对基础数据信息块以不同的方式进行组装，可以达到千变万化的效果。DaaS服务已成为当下数字化转型的重要抓手。</p>
+<h2 id="日薄西山：瀑布模型"><a href="#日薄西山：瀑布模型" class="headerlink" title="日薄西山：瀑布模型"></a>日薄西山：瀑布模型</h2><p>传统的软件开发环境依赖于由单体架构驱动的所谓“瀑布”模型，其中软件是按顺序开发的。</p>
+<p>1、设计师准备产品设计以及相关文件。<br>2、开发人员编写代码并将其发送给测试部门。<br>3、测试团队运行不同类型的测试来识别错误并衡量应用程序的性能。<br>4、发现错误时，会将代码发送回开发人员。<br>5、代码成功通过所有测试后，将部署到测试生产环境并部署到实时环境。</p>
+<p>如果需要更新代码或添加/删除功能，则必须重新完成整个过程。当多个团队在同一个项目上工作时，相互协调代码更改是一个很大的挑战。它还限制他们使用单一的编程语言。此外，部署大型软件项目需要建立庞大的基础架构以及广泛的功能测试机制。整个过程效率低下且耗时。</p>
+<p>引入了微服务架构来解决大多数这些挑战。微服务架构是一种面向服务的架构，其中应用程序构建为松散耦合的独立服务，可以通过 API 相互通信。它使开发人员能够处理不同的服务并独立使用不同的语言。借助充当版本控制系统的中央存储库，组织能够同时处理代码的不同部分并更新特定功能，而不会干扰软件或导致应用程序停机。此外，实施自动化后，企业可以轻松、频繁地进行具有重大影响的更改，而无需付出多少努力。</p>
+<h2 id="后起之秀：云原生"><a href="#后起之秀：云原生" class="headerlink" title="后起之秀：云原生"></a>后起之秀：云原生</h2><p><strong>云原生是一种构建和运行应用程序的方法，是一套技术体系和方法论，云原生（CloudNative）是一个组合词，Cloud+Native。</strong>云原生拆分为<strong>云</strong>和<strong>原生</strong>两部分。</p>
+<ul>
+<li>Cloud表示应用程序位于云中，而不是传统的数据中心；</li>
+<li>Native表示应用程序从设计之初即考虑到云的环境，原生为云而设计，在云上以最佳姿势运行，充分利用和发挥云平台的弹性+分布式优势。</li>
+</ul>
+<p>云原生的发展历史，不同的人和组织对云原生有不同的定义，相同的人和组织在不同时间点对云原生也有不同的定义：</p>
+<ol>
+<li><p>Pivotal公司的Matt Stine于2013年首次提出云原生（CloudNative）的概念；2015年，云原生刚推广时，Matt Stine在《迁移到云原生架构》一书中定义了符合云原生架构的几个特征：符合12模式（Twelve-Factor App）、微服务、自敏捷架构、基于API协作、扛脆弱性</p>
+</li>
+<li><p>2015年云原生计算基金会（CNCF）成立，CNCF掺和进来后，最初把云原生定义为包括：容器化</p>
+<p>封装+自动化管理+面向微服务；</p>
+</li>
+<li><p>到了2017年，Matt Stine在接受InfoQ采访时又改了口风，将云原生架构归纳为模块化、可观察、可部署、可测试、可替换、可处理，6个特质</p>
+</li>
+<li><p>到了2018年，CNCF又更新了云原生的定义，把服务网格(Service Mesh)和声明式API给加了进来。</p>
+</li>
+<li><p>Pivotal最新官网对云原生概括为4个要点：DevOps+持续交付+微服务+容器。</p>
+</li>
+</ol>
+<p>可见，不同的人和组织对云原生有不同的定义，相同的人和组织在不同时间点对云原生也有不同的定义，主要原因是云原生的技术体系还在不断发展，不断完善。我们按照Pivotal最新官网的定义来理解云原生，即<strong>DevOps+持续交付+微服务+容器</strong>。</p>
+<p><strong>什么是云原生？</strong></p>
+<p><em>云原生架构是一种创新的软件开发方法，专为充分利用云计算模型而设计。它使组织能够使用微服务架构将应用程序构建为松散耦合的服务，并在动态编排的平台上运行它们。因此，基于云原生应用程序架构构建的应用程序是可靠的，可提供规模和性能，并缩短上市时间</em>。</p>
+<h3 id="为什么云原生如此重要？"><a href="#为什么云原生如此重要？" class="headerlink" title="为什么云原生如此重要？"></a>为什么云原生如此重要？</h3><p>云原生应用专为云模型而开发。小的专用功能团队快速将这些应用构建和部署到可提供轻松的横向扩展和硬件解耦的平台，为企业提供更高的敏捷性、弹性和云间的可移植性。</p>
+<ul>
+<li><strong>云是一种竞争优势：</strong>云原生意味着将云目标从节约 IT 成本转变为推动企业发展。在软件时代，如果企业可以根据客户需求快速构建和交付应用，那么该企业将在其行业中占据主导地位。一旦交付，应用必须像永远在线的弹性扩展服务一样运行。</li>
+<li><strong>灵活性</strong>：企业可以构建无需修改便可在任何云上运行的应用。团队可以保留跨多个云供应商和一个私有云迁移或分发应用的能力，以匹配自己的业务优先级并优化云定价。</li>
+<li><strong>让开发人员以最好的状态工作</strong>：采用云原生应用的团队可为开发人员省去为了在各种云基础架构间运行和扩展而编写代码所产生的开销，让他们专注于编写能够交付客户价值的代码。标准化开发人员体系上的 12 因素应用需要一套标准的服务，从而提供标准的开发人员“合同”，确保其应用充分利用底层的云原生平台。</li>
+<li><strong>协调运营和业务</strong>：通过实现自动化 IT 运营，企业可以转变为一个重点明确的精益团队，与推动业务优先事项保持一致。由于员工专注于流程改进，而不是日常的普通管理任务，他们可以消除由于人为错误导致的故障风险。通过在体系的所有层面进行自动化的实时修补和升级，他们可以消除停机时间，并且不再需要具有“传承”专业知识的运营专家。</li>
+</ul>
+<h3 id="云原生四要素"><a href="#云原生四要素" class="headerlink" title="云原生四要素"></a>云原生四要素</h3><p>云原生的四要素包括：<strong>持续交付、DevOps、微服务、容器</strong></p>
+<p><img src="/2022/06/26/yun-yuan-sheng/1.jpg" alt></p>
+<p><strong>持续交付</strong></p>
+<p>持续交付是不误时开发，不停机更新，小步快跑，反传统瀑布式开发模型，这要求开发版本和稳定版本并存，其实需要很多流程和工具支撑。</p>
+<p><strong>DevOps</strong></p>
+<p>这是个组合词，Dev+Ops，就是开发和运维合体，不像开发和产品，经常刀刃相见，实际上DevOps应该还包括测试，DevOps是一个敏捷思维，是一个沟通文化，也是组织形式，为云原生提供持续交付能力。</p>
+<p><strong>微服务</strong></p>
+<p>微服务是将应用作为小型服务集合进行开发的架构方法，其中每个服务都可实施业务功能，在自己的流程中运行并通过 HTTP API 进行通信。每个微服务都可以独立于应用中的其他服务进行部署、升级、扩展和重新启动，通常作为自动化系统的一部分运行，可以在不影响最终客户的情况下频繁更新正在使用中的应用。</p>
+<p><strong>容器</strong></p>
+<p>与标准虚拟机相比，容器能同时提供效率和速度。单个操作系统实例使用操作系统 级的虚拟化，在一个或多个隔离容器之间进行动态划分，每个容器都具有唯一的可写文件系统和资源配额。创建和破坏容器的开销较低，再加上单个虚拟机中的高包装密度，使容器成为部署各个微服务的完美计算工具。</p>
+<h3 id="主要区别：云原生与传统企业应用"><a href="#主要区别：云原生与传统企业应用" class="headerlink" title="主要区别：云原生与传统企业应用"></a>主要区别：云原生与传统企业应用</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>云原生应用</th>
+<th>传统的企业应用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>预测性</strong></td>
+<td><strong>可预测</strong>。 云原生应用符合旨在通过可预测行为最大限度提高弹性的框架或“合同”。云平台中使用的高度自动化的容器驱动的基础架构推动着软件编写方式的发展。第一次作为 12 因素应用记录的 12 个原则就是阐释此类“合同”的良好示例。</td>
+<td><strong>不可预测</strong>。 传统应用的架构或开发方式使其无法实现在云原生平台上运行的所有优势。此类应用通常构建时间更长，大批量发布，只能逐渐扩展，并且会发生更多的单点故障。</td>
+</tr>
+<tr>
+<td><strong>依赖性</strong></td>
+<td><strong>操作系统抽象化</strong>。 云原生应用架构要求开发人员使用平台作为一种方法，从底层基础架构依赖关系中抽象出来，从而实现应用的简单迁移和扩展。实现云原生应用架构最有效的抽象方法是提供一个形式化的平台。Pivotal Platform 非常适用于在谷歌云端平台 、微软 Azure 或亚马逊云服务等基于云的基础架构上运行。</td>
+<td><strong>依赖操作系统</strong>。 传统的应用架构允许开发人员在应用和底层操作系统、硬件、存储和支持服务之间建立紧密的依赖关系。这些依赖关系使应用在新基础架构间的迁移和扩展变得复杂且充满风险，与云模型相背而驰。</td>
+</tr>
+<tr>
+<td><strong>弹性</strong></td>
+<td><strong>弹性扩容缩容</strong>。 云原生应用平台可自动进行基础架构调配和配置，根据应用的日常需求在部署时动态分配和重新分配资源。基于云原生运行时的构建方式可优化应用生命周期管理，包括扩展以满足需求、资源利用率、可用资源编排，以及从故障中恢复，最大程度减少停机时间。</td>
+<td><strong>预留资源</strong>。 传统 IT 会为应用设计专用的自定义基础架构解决方案，这延迟了应用的部署。由于基于最坏情况估算容量，解决方案通常容量过大，同时几乎没有能力继续扩展以满足需求。</td>
+</tr>
+<tr>
+<td><strong>协作性</strong></td>
+<td><strong>协作</strong>。 云原生可协助 DevOps，从而在开发和运营职能部门之间建立密切协作，将完成的应用代码快速顺畅地转入生产。</td>
+<td><strong>孤立</strong>。 传统 IT 将完成的应用代码从开发人员“隔墙”交接到运营，然后由运营人员在生产中运行此代码。企业的内部问题之严重以至于无暇顾及客户，导致内部冲突产生，交付缓慢折中，员工士气低落。</td>
+</tr>
+<tr>
+<td><strong>交付时效</strong></td>
+<td><strong>持续交付</strong>。 IT 团队可以在单个软件更新准备就绪后立即将其发布出去。快速发布软件的企业可获得更紧密的反馈循环，并能更有效地响应客户需求。持续交付最适用于其他相关方法，包括测试驱动型开发和持续集成。</td>
+<td><strong>瀑布式开发</strong>。 IT 团队定期发布软件，通常间隔几周或几个月，事实上，当代码构建至发布版本时，该版本的许多组件已提前准备就绪，并且除了人工发布工具之外没有依赖关系。如果客户需要的功能被延迟发布，那企业将会错失赢得客户和增加收入的机会。</td>
+</tr>
+<tr>
+<td><strong>服务耦合</strong></td>
+<td><strong>独立</strong>。 微服务架构将应用分解成小型松散耦合的独立运行的服务。这些服务映射到更小的独立开发团队，可以频繁进行独立的更新、扩展和故障转移/重新启动操作，而不影响其他服务。</td>
+<td><strong>依赖</strong>。 一体化架构将许多分散的服务捆绑在一个部署包中，使服务之间出现不必要的依赖关系，导致开发和部署过程丧失敏捷性。</td>
+</tr>
+<tr>
+<td><strong>故障恢复</strong></td>
+<td><strong>快速恢复</strong>。 容器运行时和编排程序可在虚拟机上提供动态的高密度虚拟化覆盖，与托管微服务非常匹配。编排可动态管理容器在虚拟机群集间的放置，以便在发生故障时提供弹性扩展和恢复/重新启动功能。</td>
+<td><strong>恢复缓慢</strong>。 基于虚拟机的基础架构对于基于微服务的应用来说是一个缓慢而低效的基础，因为单个虚拟机启动或关闭的速度很慢，甚至在向其部署应用代码之前就存在很大的开销。</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lushunjian.gitee.io" rel="external nofollow noreferrer">顺坚</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lushunjian.gitee.io/2022/06/26/yun-yuan-sheng/">https://lushunjian.gitee.io/2022/06/26/yun-yuan-sheng/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="https://lushunjian.gitee.io" target="_blank">顺坚</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">java</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+		
+			//  豆瓣插件a标签移除target属性
+		$("#hexo-douban-tab1").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$("#hexo-douban-tab2").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$("#hexo-douban-tab3").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-firstpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-previouspage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-nextpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-lastpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+    });
+	
+
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2022/06/26/yun-yuan-sheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="云原生">
+                        
+                        <span class="card-title">云原生</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            随着虚拟化技术的成熟和分布式架构的普及，用来部署、管理和运行应用的云平台被越来越多的提及。IaaS、PaaS和SaaS是云计算的3种基本服务类型，它们是关注硬件基础设施的基础设施即服务、关注软件和中间件平台的平台即服务以及关注业务应用的软件
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-26
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/06/19/bio-yu-nio-de-yi-dian-li-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="BIO与NIO的一点理解">
+                        
+                        <span class="card-title">BIO与NIO的一点理解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            BIO即阻塞IO，NIO是非阻塞IO。NIO 库是在 JDK 1.4 中引入的。NIO 弥补了原来的 BIO 的不足，它在标准 Java 代码中提供了高速的、面向块的 I/O。NIO被称为 no-blocking io 或者 new io都
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+		
+		// 默认目录收起,不展开
+		if ($tocAside.hasClass(expandedClass)) {
+			$tocAside.removeClass(expandedClass).hide();
+			$mainContent.removeClass('l9');
+			fixPostCardWidth('artDetail', 'prenext-posts');
+        }
+		
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://lushunjian.gitee.io" target="_blank">顺坚</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+</html>
