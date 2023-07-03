@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="长连接的负载均衡, 三秋">
-    <meta name="description" content="​    最近公司培训，讲到了有关于长连接的负载均衡解决方案，确有体会，故此记录一下。在之前做负载均衡一般针对的是短连接，短连接的场景在实际应用中非常普遍。浏览器中大部分的请求都是短连接，例如用户登录，注册。商城的订单，付款等功能都属于短连">
+    <meta name="keywords" content="证券, 三秋">
+    <meta name="description" content="证券 | 三秋">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>长连接的负载均衡 | 三秋</title>
+    <title>证券 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -498,12 +498,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/46.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">长连接的负载均衡</h1>
+                    <h1 class="description center-align post-title">证券</h1>
                 </div>
             </div>
         </div>
@@ -618,29 +618,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                <span class="chip bg-color">算法</span>
-                            </a>
-                        
-                            <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
-                                <span class="chip bg-color">负载均衡</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" class="post-category">
-                                分布式
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -649,7 +632,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2018-07-28
+                    2023-07-03
                 </div>
                 
 
@@ -666,57 +649,58 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>​    最近公司培训，讲到了有关于长连接的负载均衡解决方案，确有体会，故此记录一下。在之前做负载均衡一般针对的是短连接，短连接的场景在实际应用中非常普遍。浏览器中大部分的请求都是短连接，例如用户登录，注册。商城的订单，付款等功能都属于短连接。短连接的特点就是无状态，连接时间短，长则三四秒，短则几毫秒。短连接的负载均衡很容易解决，开源中间件也比较多,例如nginx，F5等。而长连接的负载均衡解决方案则比较少了，主要原因是长连接相对于短连接来说应用面比较窄。一般是定制化需求会使用长连接。而生活中长连接作为普遍的应用就是直播系统了，近几年直播这种娱乐方式也越来越受到年轻人的喜爱，虎牙，斗鱼等直播平台如雨后春笋般涌现。我所在的公司主要从事安防行业，其中最为普遍的业务是摄像头的录像，在城市中每个街头，小区，公交地铁上的摄像头都会接入到公安体系中，其中录像不但能实时播放而且还会保存到服务器中，方便公安人员破案时可以随时查看录像。由于摄像机是24小时录像的，所以在这种场景下摄像机是使用长连接，而且一旦摄像机和某个服务器节点建立连接，就会长期和这个服务器保持着连接。一个城市的摄像头成千上万，后台不但需要考虑并发，还要考虑负载均衡。传统的负载均衡算法如轮询，哈希，随机等算法并不适用于长连接的一些业务场景。这里长连接可比作一个持续进行的任务，那么长连接的负载均衡就是每个任务的资源调度，最终使每个节点上的资源，均匀的分布在这些任务上。</p>
-<a id="more"></a> 
-
-<h3 id="1-长连接的特点"><a href="#1-长连接的特点" class="headerlink" title="1.长连接的特点"></a>1.长连接的特点</h3><p>由于业务场景不同，长连接的特点也不一样。不同的业务场景会有各种各样的特点，需要做定制化需求的开发，这里例举的摄像机长连接特点：</p>
-<p>1.每个长连接任务的时间长，短则几天，长则几个月。并且长期占用服务器的资源。<br>2.每个长连接任务消耗的资源不一样。以摄像机为例，不同规格的摄像机像素不一样。有标清，高清，超清之分。对应的就是流量带宽的区别，有2M，4M，8M之分。因此每个长连接任务占用的资源大小不一样的。<br>3.长连接任务启动时，初始化较慢，例如需要做认证，或是请求一些接口来获取数据。这样会导致做负载均衡时，并不能实时获取到节点的负载情况，出现几秒钟的延时。</p>
-<p>在这些特点下如何做负载均衡呢？短连接的负载均衡算法轮询，哈希，随机，平均负载。如果这些算法能不能直接应用于长连接的业务场景，会出现哪些问题呢？我们先从最简单的特点开始，逐渐递进的去思考这个问题，从无到有的推导出一个针对这些特点的负载均衡算法。上面三个特点以下简称特点一，特点二，特点三。</p>
-<h4 id="1，满足特点一，不考虑特点二，三。"><a href="#1，满足特点一，不考虑特点二，三。" class="headerlink" title="1，满足特点一，不考虑特点二，三。"></a>1，满足特点一，不考虑特点二，三。</h4><p>这种情景下长连接任务只是时间长，但每个长连接任务消耗资源大小一样，启动时无延时。这种场景是最为简单也是最理想的场景，在这种场景下轮询，哈希，随机算法都适用。因为每个任务大小一样，当任务数量够多时就能保证任务是平均分配到节点上的，从而保证了每个节点的负载基本一致，这些算法都能使服务器节点达到较为均匀的负载状态，这种情况根短连接的情况差不多，只是任务时间长一些。如下图</p>
-<p><img src="/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj1.png" alt></p>
-<h4 id="2，满足特点一，二，不考虑特点三"><a href="#2，满足特点一，二，不考虑特点三" class="headerlink" title="2，满足特点一，二，不考虑特点三"></a>2，满足特点一，二，不考虑特点三</h4><p>这种场景下任务启动时没有延时。但由于每个任务大小不一样轮询，哈希，随机就也就不再适应了。因为这几种算法适用于请求数量很大，任务大小差别不大的情况。也就是样本数足够大，样本基本一致才能保证这些样本均匀的分布在节点上。但也仅仅只是保证了每个节点上的样本数量均匀分布，倘若每个样本的所占用的资源不一样。那么这种均匀分配实际并不会使服务器的节点能够均匀的负载，达不到负载均衡的效果。那么这样的场景下，只平均负载的算法能够适用与这种场景。平均负载算法是在每次派发任务时，会收到节点反馈过来的负载情况，然后根据每个节点的负载情况，选择负载最小的节点派发任务。下面以图来说明这两种情况，如下图</p>
-<p><img src="/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj2.png" alt></p>
-<p>从图上可知，有任务a,b,c分别对应三个摄像机。任务a是2M流量，任务b是4M流量，任务c是8M流量，假设每个节点配置都一样，满载时为100。很明显如果使用轮询节点c的负载肯定会大，这样实际上集群负载并不均衡。但如果使用平均负载，那么负载均衡器在派发任务时会根据节点的负载情况去分发任务，这样最终效果肯定是要比轮询好的</p>
-<h4 id="3，满足特点一，二，三"><a href="#3，满足特点一，二，三" class="headerlink" title="3，满足特点一，二，三"></a>3，满足特点一，二，三</h4><p>其实在前面两个特点下，我们忽略了一个重要问题。就是可信度问题，也就是特点三带来的问题。在分布式环境中，节点之间通信是不可靠。如果由于网络波动，或是业务场景导致负载均衡器在得到节点反馈过来的负载信息时，这个负载信息可能是存在几秒钟的延时。实际上得到的并不是当前的实时负载情况，而是几秒钟之前的负载情况。如下图：</p>
-<p><img src="/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/clj3.png" alt></p>
-<p>这样会存在一个极大的隐患。假设有1000个请求过来了。根据平均负载的算法得到节点a的负载最低。那么请求理应分发到节点a上，但是由于反馈过来的负载信息是存在延时的，于是在两三秒内得到的结果都是节点a负载最低，那么这1000个请求可能会全部被分发到节点a上。这种现象被称为扎堆效应。这种情况的结果就是节点a扛不住压力宕机。那么由此可见平均负载算法也不适用了。</p>
-<h3 id="2-平均负载算法的改进-一"><a href="#2-平均负载算法的改进-一" class="headerlink" title="2.平均负载算法的改进(一)"></a>2.平均负载算法的改进(一)</h3><p>从上面几种场景可以看出，平均负载算法还是适用性是非常强的，而在第三种场景下如果能得到一个可信度较高的节点当前负载情况，那么就可以继续沿用平均负载算法。那么该如何得到可信的节点负载呢，由前面的分析可知得到的节点负载之所以不可信是因为存在延时，那么我们可以记录节点前三秒，或者是前五秒的每秒节点负载，在<br>把这些节点负载取平均值作为节点的当前负载。公式如下<br>$$<br>m=(m4+m3+m2+m1+m0)/5<br>$$<br>m表示当前负载 ，m4,m3,m2,m1,m0分别表示4,3,2,1,0秒前的负载，对于存在延时的系统，这样做法就能在一定程度上得到较为可靠节点的负载情况。但仍然不够准确，在实际生产环境中仍然会出现不均衡的情况，究其原因是因为对前5秒的数据取平均，但实际上，这样计算是不合理的，难道5秒以前的数据和1秒以前的数据对当前结果的影响还是一样的吗？显然不是，应该认为越靠近当前时间的负载值可信度就越高，越远离当前时间的负载值可信度就越低。这样才会越接近于实际。所以上面的公式应该是这样的<br>$$<br>m= 0.36<em>m0+0.28</em>m1+0.20<em>m2+0.12</em>m3+0.04*m4<br>$$<br>其中m0离当前时间最近，认为m0的可信度最高，所以给了36%的权重，而m4离当前时间最远，可信度最低，所以给了4%的权重。当然这里的权重应根据实际情况或经验设置值，根据这个公式算出的当前节点的负载值更能反应出节点的真实负载情况</p>
-<h3 id="3-平均负载算法的改进-二"><a href="#3-平均负载算法的改进-二" class="headerlink" title="3.平均负载算法的改进(二)"></a>3.平均负载算法的改进(二)</h3><p>上面两个公式是在得到几秒内的负载值然后计算出加权平均值确能在一定程度上反应节点的负载情况，但是这个种方法需要多次记录节点的负载信息，还比较麻烦。那有没有更好的方法呢，答案是有的，其实只需记录上一秒的节点负载情况，然后再获取当前节点负载，在这段时间段内对节点内，节点负载对时间取积分即可。这个方法是根据自动控制原理中的PID算法得到的那么上面节点负载的计算公式可得如下<br>$$<br>m=m0+\frac{\int_0^t{(m0-m1)*t},{\rm d}t}{D}<br>$$<br>公式中m表示计算得到的负载值，m0表示当前获取到的节点负载，m1表示上一秒获取到的节点负载，参数D是可信度系数，表示上一秒的节点负载值对当前负载值的影响程度，越大表示影响越小，这个值可根据实际情况设置。这样既只需要维护上一秒的节点负载值，减小了成本，又能得到相对准确的当前节点负载值。</p>
-<h3 id="4-负载均衡健康状态"><a href="#4-负载均衡健康状态" class="headerlink" title="4.负载均衡健康状态"></a>4.负载均衡健康状态</h3><p>负载均衡的健康状态如何定义呢？如果任务均匀的分布在各个节点上，就称集群的负载均衡状态是健康的，否则就是亚健康或者说是不健康的。在前面，我们衡量集群各个节点的负载情况时，总是以节点已经负载的量去评定的，例如集群有3个节点，每个节点的满载量为100，当前每个节点放负载为40，那么就可以认为集群达到了比较均匀的负载均衡状态。但这是理想状态，实际生活中，集群的节点配置是不可能完全相同的，有些节点可能是后加入的那配置可能会高一些，有些节点是之前用了好几年的，为了节省成本继续利用起来配置自然会点一些，所以集群各个节点是完全不一样的。如下图所示a,b,c三个节点，a节点放满载量为60，b节点的满载量为140，c节点的满载量为100，这样如继续以节点已负载的量去衡量的话，假设当前每个节点放负载仍为40，就会得到如下的情况</p>
-<table>
-<thead>
-<tr>
-<th>节点</th>
-<th>节点a</th>
-<th>节点b</th>
-<th>节点c</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>负载状态</td>
-<td>40/60</td>
-<td>40/140</td>
-<td>40/100</td>
-</tr>
-</tbody></table>
-<p>这样明显可以看出节点b还有很大的富余，因此通过节点当前的负载量，去判断集群的负载均衡状态是不科学的，这里可以换一种思路，以每个节点的剩余量作为衡量标准，这样上面那个例子中，节点a的富余是20，节点b的富余是100，节点c的富余是60，这样得到的就是如下的情况</p>
-<table>
-<thead>
-<tr>
-<th>节点</th>
-<th>节点a</th>
-<th>节点b</th>
-<th>节点c</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>富余量</td>
-<td>20</td>
-<td>100</td>
-<td>60</td>
-</tr>
-</tbody></table>
-<p>在负载均衡服务器派发任务时，不再是以节点负载最小的节点作为派发对象，而是以节点富余最大的节点作为派发对象，这样就能使节点的负载尽可能的均衡。这里衍生出一个公式可计算集群负载均衡的状态，首先计算出集群各个节点的负载富余的平均值<br>$$<br>n=\frac{(n0+n1+n2)}3<br>$$<br>然后求方差<br>$$<br>y=(n0-n)^2+(n1-n)^2+(n2-n)^2<br>$$<br>这样计算得到的方差结果，如果结果越小则说明集群负载越均衡，状态越健康，越大则说明越不均衡，集群的负载均衡处于一个相对不健康的状态</p>
+                <p>买卖点判断<br>  1.先看量<br>  2.再看价<br>  3.看K线<br>  4.看均线</p>
+<p>如何判定高位： 理论上牛市不言顶，熊市不言底，一旦情绪和资金到位，上涨和下跌会超出我们的预期</p>
+<p>个人简单判断高位，低位</p>
+<ul>
+<li><strong>高位判断</strong>： 看最近半年到一年的涨幅，如果涨幅达到了两三倍以上，已经算是高位。但是对于一些热门炒作的股票，其后续可以翻五倍十倍。因此要综合判断，谨慎入场</li>
+<li><strong>低位判断</strong>： 看最近半年到一年的前高，如果跌幅达到了60%以上，已经算是低位。但是对于一些前期热门炒作的股票，跌幅可能会达到80%甚至90%。因此要综合判断，谨慎入场。</li>
+</ul>
+<p>大阳线大阴线的定义</p>
+<ul>
+<li><strong>大阳线</strong>： 当天涨幅达到3到5个点。如果超过5个点。说明股性活跃</li>
+<li><strong>大阴线</strong>： 当天跌幅达到3到5个点。如果超过5个点。说明空方强劲，看k线形态，大阴线很有杀伤力，一般应该减仓以规避风险</li>
+</ul>
+<blockquote>
+<p>放量： 放量代表分歧，意味着多空双方出现了分歧</p>
+<p>缩量： 缩量代表一致，意味着多空对当前股价看法一致</p>
+</blockquote>
+<p>对于量的定义</p>
+<ul>
+<li><p><strong>放量</strong>：指的是成交量与之前某一天或某一个阶段相比，呈现放大态势，比如昨天股票成交量为五千万，今天的成交量为六千万，这就是放量。当然，这种属于相对放量，就是需要有个参照时间点来进行对比。还有一种放量是持续放量，其含义就是成交量持续不断的放大，一天比一天大。一般来说，放量通常伴随着上涨，没有成交量配合的上涨，是无法持续下去的。</p>
+</li>
+<li><p><strong>缩量</strong>：和放量正好完全相反，指的是成交量萎缩，也就是减少。但是，缩量并不代表着股价就一定会下跌，经常我们也会看到缩量上涨。因此，我们需要了解造成缩量的原因，主要在两个方面：</p>
+<p>1、市场上大多数投资者并不看好这只股票，不会去买，自然成交量就会萎缩，这种缩量代表着股价会继续下跌；</p>
+<p>2、当一只股票的筹码集中度比较高，大部分筹码集中在主力手中，而股价处在上涨过程中，持股的散户也不愿意抛售，场外投资者想进场也无门可入，因为很少人卖，这样一来就会造成缩量上涨，哪怕成交量是萎缩的，但是这只股票是个香饽饽，大家都想要而不可得，主力拉升也更加容易。</p>
+</li>
+<li><p><strong>堆量</strong>：堆量其实就是成交量一天比一天增加一点点，就这样慢慢的像一个土堆一样堆起来。堆量产生的原理是这样的，主力在拉升股票的时候，会把成交量做的很好看，因此成交量呈现温和放大状态，这个时间可能有几天，也可能有几周，随着成交量的缓慢放大，股价也开始慢慢回升。堆量形态做的越好看，后期产生一波大行情的可能也就越大。但是，这种情况仅限于股价在底部位置出现堆量，而一旦在高位上出现堆量，则代表主力获利了结，我们也要抓紧时间出局了。</p>
+</li>
+<li><p><strong>天量</strong>：指成交量异常放大的一种形态，也就是成交量相比之前的状态放大的不是一点点，而是成倍甚至十几倍的增加，貌似看到的是交投活跃，股票人气很高，其实天量的状态非常危险，股市中有句谚语，天量见天价，意思就是天量出现的同时，代表着股价已经见顶，所以天量往往是出现在股价经历过一波上涨之后，是为最后的狂欢，这时候我们需要加倍小心，最好是获利了结。</p>
+</li>
+<li><p><strong>地量</strong>：与天量形态完全相反，地量指的是成交量极度的萎缩到非常少甚至可以忽略不计的地步，地量往往出现在股价经历了一波下跌之后的盘整区域，这时候市场人气涣散，观望分为浓厚，大家都不买，持股的想卖也卖不掉，因此股价萎靡不振。但是与地量对地价，也就是说地量出现之后，股价已经下跌到了非常低的底部，属于严重超跌，这时候也往往是主力资金建仓的最佳时机，因此当地量出现后，随着场外资金的不断进取，成交量开始回升，股价也开始逐步回升，因此，地量并不可怕，可怕的是我们不敢进场抄底。</p>
+</li>
+</ul>
+<p>下面是我对于放量的几种情况的理解，放量通常表现换手率很高，内外场的筹码得到充分交换</p>
+<p><strong>高位放量</strong> </p>
+<ol>
+<li>放量上涨： 说明多方占据上风，场内的空头筹码抛售，但场外有很多多头进场，承接筹码，导致原本内场的空头筹码交卖给了外场的多头，完成了筹码交换。供不应求，股价上涨（看后市表现，因为无法判断抛售筹码的是主力还是散户，有可能是主力出货）</li>
+<li>放量下跌： 说明空方占据上风，场内的空头筹码抛售，但场外虽然有很多多头进场，承接筹码，但抛压实在很多，导致就算成接盘很多，股价依旧下跌。供过于求，股价下跌 (高位放量下跌，果断离场)</li>
+</ol>
+<p><strong>低位放量</strong></p>
+<ol>
+<li><p>放量上涨： 说明多方占据上风，场内的空头筹码抛售，但场外有很多多头进场，承接筹码。而此时股价处于低位，说明场外看多的明星增加，导致供不应求 (可建底仓，必须是放量上涨的大阳线)</p>
+</li>
+<li><p>放量下跌： 如果历史低位放量下跌，一般来说表示股价接近历史最低或创新低，这意味着几乎所有人基本上都是亏钱的，此时放量下跌的原因主要有3种，</p>
+<ul>
+<li>一是大量资金放弃该股同时进行止损，</li>
+<li>二是一个主力接走另一主力不要的筹码，</li>
+<li>三是主力方面有意的打压洗盘。    </li>
+</ul>
+<p>但无论归类于哪一种，因历史低位放量下跌可以说是破位，在这种时候有很大的抄底风险，即使主力确实洗盘，其实需要经历很长的时间才会拉升。</p>
+</li>
+</ol>
+<p><strong>总结：只有低位放量上涨可以建仓，高位放量上涨保持观望，放量下跌应离场</strong></p>
+<p>下面是我对于缩量的几种情况的理解</p>
 
             </div>
             <hr/>
@@ -742,7 +726,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/">https://lushunjian.gitee.io/2018/07/28/chang-lian-jie-de-fu-zai-jun-heng/</a>
+                    <a href="https://lushunjian.gitee.io/my-security/index.html">https://lushunjian.gitee.io/my-security/index.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -779,15 +763,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                    <span class="chip bg-color">算法</span>
-                                </a>
-                            
-                                <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
-                                    <span class="chip bg-color">负载均衡</span>
-                                </a>
-                            
+                            <span class="chip bg-color">No tag</span>
                         </div>
                     
                 </div>
@@ -1239,53 +1215,43 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2018/08/04/vmware-zhong-an-zhuang-centos7/">
+                <a href="/my-security/index.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="VMware中安装CentOS 7">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="证券">
                         
-                        <span class="card-title">VMware中安装CentOS 7</span>
+                        <span class="card-title">证券</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux是一个诞生于网络、成长于网络且成熟于网络的奇特的免费的操作系统，用户可以通过网络或其他途径免费获得 并可以任意修改其源代码，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具
+                            买卖点判断  1.先看量  2.再看价  3.看K线  4.看均线
+如何判定高位： 理论上牛市不言顶，熊市不言底，一旦情绪和资金到位，上涨和下跌会超出我们的预期
+个人简单判断高位，低位
+
+高位判断： 看最近半年到一年的涨幅，如果涨幅达到了两
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2018-08-04
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-03
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%85%B6%E4%BB%96/" class="post-category">
-                                    其他
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            顺坚
                             
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AE%9E%E8%B7%B5/">
-                        <span class="chip bg-color">实践</span>
-                    </a>
-                    
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
@@ -1293,48 +1259,41 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
+                Current&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2018/07/15/da-shu-ju-sheng-tai-quan/">
+                <a href="/my-security/index.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/51.jpg" class="responsive-img" alt="大数据生态圈">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="证券">
                         
-                        <span class="card-title">大数据生态圈</span>
+                        <span class="card-title">证券</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            现今的社会是一个高速发展的社会，科技发达，信息流通，人们之间的交流越来越密切，生活也越来越方便，大数据就是这个高科技时代的产物。创办人马云来台演讲中就提到，未来的时代将不是IT时代，而是DT的时代，DT就是Data Technology数据
+                            买卖点判断  1.先看量  2.再看价  3.看K线  4.看均线
+如何判定高位： 理论上牛市不言顶，熊市不言底，一旦情绪和资金到位，上涨和下跌会超出我们的预期
+个人简单判断高位，低位
+
+高位判断： 看最近半年到一年的涨幅，如果涨幅达到了两
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-07-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-03
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
-                                    大数据
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            顺坚
                             
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
-                        <span class="chip bg-color">大数据</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
