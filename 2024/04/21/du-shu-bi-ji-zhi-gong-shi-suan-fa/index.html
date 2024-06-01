@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="区块链, 三秋">
-    <meta name="description" content="对区块链有了一些新的理解，在此记录一下。区块链是一个分布式的数据存储系统，网上说到区块链就会说比特币，确实现在比特币是区块链最成功的实践，但是区块链不仅仅只能用于虚拟货币，区块链中的区块存储的是交易信息，那么区块链是虚拟货币。但还可以存储其">
+    <meta name="keywords" content="读书笔记之共识算法, 三秋">
+    <meta name="description" content="《白话区块链》读书笔记，记录个人理解。区块链是一个去中心化的系统，因此没有一个权威节点做决策。需要全网所有的节点达成共识，才算决策的完成。首先说两个定理FLP与CAP
+FLP定理叫FLP是因为提出该定理的论文是由Fischer、Lynch和">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>区块链 | 三秋</title>
+    <title>读书笔记之共识算法 | 三秋</title>
     <link rel="icon" type="image/jpeg" href="/avent.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -498,12 +499,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/51.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">区块链</h1>
+                    <h1 class="description center-align post-title">读书笔记之共识算法</h1>
                 </div>
             </div>
         </div>
@@ -645,7 +646,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2024-04-05
+                    2024-04-21
                 </div>
                 
 
@@ -662,25 +663,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>对区块链有了一些新的理解，在此记录一下。区块链是一个分布式的数据存储系统，网上说到区块链就会说比特币，确实现在比特币是区块链最成功的实践，但是区块链不仅仅只能用于虚拟货币，区块链中的区块存储的是交易信息，那么区块链是虚拟货币。但还可以存储其他内容，例如业务数据，那么它就是一个基于区块链的去中心化数据库。</p>
-<p>基于比特币的实现来了解一下区块链有何特别之处，我们先从比特币产生的动机开始。在中本聪的白皮书中说比特币是一个点对点的电子现金系统。我们联想一下现实世界，现在也是无现金社会，通过支付宝微信来进行支付，这样的方式和比特币有何不同。最大的区别就是我们用支付宝的支付方式，最终都要通过支付宝这个中间人来达成交易的，张三和李四转账，资金并不是直接从张三的账户转到李四的账户，而是通过支付宝中转，当支付宝最终是通过银行。而比特币是真正的点对点转账。我们从最原始的交易开始，会好理解一点</p>
-<h3 id="以物易物"><a href="#以物易物" class="headerlink" title="以物易物"></a>以物易物</h3><p>在远古时代，也就是原始社会的时候。那时生产力低下，生活基本靠耕种和狩猎，由于没有大规模贸易。人们基本上过着以物易物的生活，也就是说村民之间并没有使用统一的货币，互相间的贸易基本上就是老张家拿一袋面粉换老李家一只羊，王大嫂拿一筐野果换刘大婶两尺布。村民们一直就这么纯朴的生活着。以物换物，是最原始的交易行为。对于生产力低下的社会阶段，这样做没什么问题。但当社会生产力提高后，将不再适用</p>
-<p><img src="/2024/04/05/qu-kuai-lian/1.png" alt></p>
-<h3 id="实物货币"><a href="#实物货币" class="headerlink" title="实物货币"></a>实物货币</h3><p>于有一天，村民觉得一直这样以物易物实在太不方便了，于是村子全员开会，讨论如何解决这个问题。有人提议，以便于分割且稀有的东西，例如黄金，作为一般等价物，把其它物品和黄金的对应关系编成一张表格，例如一克黄金对应一只羊，一克黄金对应一袋面粉等等，此时老张再也不用扛着一袋面粉气喘吁吁的去老李家换羊了，他只要从家里摸出一克金子，就可以去老李家牵回一只羊，而老李拿着这一克黄金可以从任何愿意出让面粉的人那里换回一袋面粉，当然也可以换取任何和一克黄金等值的物品。此时进入了实物货币时代。</p>
-<p><img src="/2024/04/05/qu-kuai-lian/2.png" alt></p>
-<h3 id="符号货币"><a href="#符号货币" class="headerlink" title="符号货币"></a>符号货币</h3><p>好景不长，过了一段时间，实物货币的弊端也出现了。因为比特村附近金矿并不多，开采和冶炼金子太费时费力了。而随着使用，金子总是不断会因为磨损、丢失或有人故意囤积而发生损耗。全村人又一次坐在了一起，开始商讨对策。此时有人说，其实大家也不必一定要真的用黄金啊，随便找张纸，写上“一克黄金”，只要全村人都认同这张纸就等于一克黄金，问题不就解决了。其他人纷纷表示认同，但同时也有了新的问题：真实的黄金是需要开采和冶炼的，金矿有限，开采和冶炼也需要成本，所以没有人可以短期凭空制造大量的黄金，可写字就不同了，只要我纸够笔够，随便像写多少写多少，那这就变成拼谁家里纸多了，搞不好到时一万张纸才能换一只羊（实际上这就发生了经济学上的通货膨胀）。</p>
-<p>大家一想也是啊。不过此时又有人提出了解决方案：这个纸不是谁写都有效，我们只认村里德高望重的老村长写得，大家都认识老村长的字。老村长写一些纸，同时按照各家黄金存量发给大家等量的纸，例如老张家有二百克黄金，老村长就发给老张二百张写着“一克黄金”的纸，同时将老张家的黄金拿走作为抵押。就这样，老村长将村里所有黄金收归到自己的家里，并按各家上交的黄金数量发给等值的写有字的纸。此时村民就可以拿着这些纸当黄金进行贸易了，而且大家都认得老村长的字，其他人伪造不出来。另外，如果谁的纸磨损太严重，也可拿到老村长那里兑换新的等值的纸，另外老村长承诺任何人如果想要换成真黄金，只要拿纸回来，老村长就会把等值的黄金还给那人。因为老村长写得纸的黄金量和真实放在家里的黄金量是一样的，所以只要严格按照销毁多少纸新写多少纸的原则，每一张有效的纸总能换回相应的真黄金。此时，进入了符号货币（纸币）时代。而老村长就承担了政府和银行的角色。</p>
-<p><img src="/2024/04/05/qu-kuai-lian/3.png" alt></p>
-<h3 id="中央系统虚拟货币"><a href="#中央系统虚拟货币" class="headerlink" title="中央系统虚拟货币"></a>中央系统虚拟货币</h3><p>又过了几年，老村长由于每天都要核对大量的旧纸币，写新的纸币，还要把各种账目仔细做好记录。一来二去，老村长操劳过度不幸驾鹤西去了。</p>
-<p>于是村里再次召开全体大会，讨论应该怎么办。此时老村长的儿子二狗子自告奋勇接过了父亲的笔，承担起货币发行的责任。这个年轻的村长二狗子很聪明，他做了几天，发现好像也不用真的写那么多纸。完全可以这样：村民把纸币都交上来，销毁，但是二狗子会记录下每户上交的纸币数量。以后如果要进行付钱，例如老张要拿一克金子向老李换一只羊，就一起给二狗子打个电话，说明要将老张名下的一克金子划归老李名下，二狗子拿出账本，看看老张名下是否有一克金子，如果有就在老张的名下减掉一克，在老李的名下加上一克，这样就完成了支付，此时老李在电话中听到二狗子确认转账完成，就可以放心让老张把羊牵走了。此时进入了中央系统虚拟货币时代。每个村民都不需要用实物支付，支付过程变成了二狗子那边维护的账本上数字的变更。</p>
-<p><img src="/2024/04/05/qu-kuai-lian/5.png" alt></p>
-<h3 id="分布式虚拟货币"><a href="#分布式虚拟货币" class="headerlink" title="分布式虚拟货币"></a>分布式虚拟货币</h3><p>这新上任的二狗子是聪明，不过这人有时候是聪明反被聪明误。有一天二狗子盯着这账本，心想这全村各户谁有多少钱就是我说的算，那我岂不是……。于是他头脑一热，私自从老张帐下划了十克金子到自己名下。本以为天衣无缝，但没想到老张也有记账的习惯，有一天他正要付钱却被二狗子告知账户没钱了。老张核对了一下自己的账本，明明还有十克啊，于是拿着账本去找二狗子理论，这一核对发现了那笔未经老张同意的转账。</p>
-<p>东窗事发！比特村炸开锅了。二狗子被弹劾是不可避免了，不过通过这件事，大家发现了账本集中在一个人手里的弊端：</p>
+                <p>《白话区块链》读书笔记，记录个人理解。区块链是一个去中心化的系统，因此没有一个权威节点做决策。需要全网所有的节点达成共识，才算决策的完成。首先说两个定理FLP与CAP</p>
+<h3 id="FLP定理"><a href="#FLP定理" class="headerlink" title="FLP定理"></a>FLP定理</h3><p>叫FLP是因为提出该定理的论文是由Fischer、Lynch和Patterson三位作者在1985年发表的，取了各自名字的首字母作为定理名称。看下定义：在网络可靠、存在节点失效（即使只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性算法。在这个原理的前提下，也告诉人们：不要浪费时间去为异步分布式系统设计在任意场景下都能实现共识的算法，在允许节点失效的情况下，纯粹异步系统无法确保一致性在有限时间内完成。</p>
+<p>这个其实也很好理解，比如三个人在不同房间回答问题，虽然三个人彼此之间是可以通过电话沟通的，但是经常会有人时不时地开小差，比如Alice和Bob都回答了某个问题，Lily收到了两者的回答结果，然后玩游戏去了，忘了回复，则三个人永远无法在有限时间内获得最终一致的答复。这个定理在理论上证明了此路不通，也就节省了后来者的研究时间。</p>
+<h3 id="CAP定理"><a href="#CAP定理" class="headerlink" title="CAP定理"></a>CAP定理</h3><p>这个定理相比学过计算机的应该都知道，即分布式系统中一致性、可用性和分区容错性，这三者不可兼得</p>
+<h3 id="拜占庭将军问题"><a href="#拜占庭将军问题" class="headerlink" title="拜占庭将军问题"></a>拜占庭将军问题</h3><p>简单来说，就是分布式系统中的节点存在恶意节点，即这个节点故意制造假信息。这种情况下分布式系统如何达成共识</p>
+<h3 id="共识算法的目的"><a href="#共识算法的目的" class="headerlink" title="共识算法的目的"></a>共识算法的目的</h3><p>在有错误的进程存在并且有可能出现网络分区的情况下，FLP定理堵死了我们在传统计算机算法体系下提出解决方案的可能性。计算机科学家就想，如果我们把FLP定理的设定放松一点，问题是否有解呢？由社会学和博弈论中得到启发，科学家尝试引入了以下机制。</p>
+<h4 id="激励机制（incentive）"><a href="#激励机制（incentive）" class="headerlink" title="激励机制（incentive）"></a>激励机制（incentive）</h4><p>在拜占庭将军问题中给忠诚的将军以奖励。当背叛的将军发现背叛行为没有任何收益的时候，他们还有背叛的动机吗？这里引进了博弈论的概念：我们不再把节点或者说将军分成公正/恶意（忠诚/背叛）两方，认为每一个节点的行为是由激励机制决定的。正如两千年前中国诸子百家热烈争论的话题：人之初，性本善焉，性本恶焉？我们认为，人之初，性无善无恶。性的善恶由后天的激励机制决定。如果激励机制设置得当，考虑到每个节点都有最大化自己利益的倾向，大部分的节点都会遵守规则，成为公正的节点。</p>
+<h4 id="随机性（randomness）"><a href="#随机性（randomness）" class="headerlink" title="随机性（randomness）"></a>随机性（randomness）</h4><p>在拜占庭将军问题中，决定下一步行动需要将军们协调一致，确定统一的下一步计划。在存在背叛将军的条件下，忠诚的将军的判断可能被误导。在传统的中心化系统中，由权威性大的将军做决定。在去中心化的系统中，研究者提出一种设想：是否能在所有的将军中，随机地指定一名将军作决定呢？这个有点异想天开的设想为解决拜占庭将军问题打开了一扇门。根据什么规则指定做决定的将军呢？对应到金融系统里，就是如何决定谁有记账权。</p>
 <ul>
-<li>这个体系完全依赖于账本持有人的个人信用，如果这个人不守规矩，随意篡改账本，那么整个货币系统就会崩溃</li>
-<li>如果这个人家里失火或者账本失窃，同样也会为整个体系带来毁灭性的打击</li>
+<li>根据每个节点（将军）的计算力（computing power）来决定。谁的计算力强，解开某个谜题，就可以获得记账权（在拜占庭将军问题里是指挥权）。这是比特币里用的PoW共识协议。</li>
+<li>根据每个节点（将军）具有的资源（stake）来决定。所用到的资源不能被垄断，谁投入的资源多，谁就可以获得记账权。这是PoS共识协议。</li>
 </ul>
-<p>正当人们不知所措时，村里一个叫中本聪的宅男科学家走上了台，告诉大家他已经设计了一套不依赖任何中央处理人的叫比特币的虚拟货币系统，可以解决上述问题。然后他缓缓讲述了自己的方案。下面我们就来看看中本聪同学是如何设计这套系统的。</p>
 
             </div>
             <hr/>
@@ -706,7 +700,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lushunjian.gitee.io/2024/04/05/qu-kuai-lian/">https://lushunjian.gitee.io/2024/04/05/qu-kuai-lian/</a>
+                    <a href="https://lushunjian.gitee.io/2024/04/21/du-shu-bi-ji-zhi-gong-shi-suan-fa/">https://lushunjian.gitee.io/2024/04/21/du-shu-bi-ji-zhi-gong-shi-suan-fa/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1199,9 +1193,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2024/04/21/du-shu-bi-ji-zhi-gong-shi-suan-fa/">
                     <div class="card-image">
@@ -1220,9 +1215,9 @@ FLP定理叫FLP是因为提出该定理的论文是由Fischer、Lynch和
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-04-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1235,6 +1230,7 @@ FLP定理叫FLP是因为提出该定理的论文是由Fischer、Lynch和
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1253,31 +1249,31 @@ FLP定理叫FLP是因为提出该定理的论文是由Fischer、Lynch和
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/03/24/a-book-he-b-book/">
+                <a href="/2024/04/05/qu-kuai-lian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/47.jpg" class="responsive-img" alt="A-BOOK和B-BOOK">
+                        <img src="/medias/featureimages/51.jpg" class="responsive-img" alt="区块链">
                         
-                        <span class="card-title">A-BOOK和B-BOOK</span>
+                        <span class="card-title">区块链</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            外汇经纪商处理订单的很多模式：MM、ECN、STP、DMA等等，而在国外的经纪商则通常会称为A-Book、B-Book。外汇经纪商是帮助客户完成外汇交易的服务商，是客户进行外汇交易的桥梁，就跟券商是帮用户做股票交易的一样。但是外汇与股票和期
+                            对区块链有了一些新的理解，在此记录一下。区块链是一个分布式的数据存储系统，网上说到区块链就会说比特币，确实现在比特币是区块链最成功的实践，但是区块链不仅仅只能用于虚拟货币，区块链中的区块存储的是交易信息，那么区块链是虚拟货币。但还可以存储其
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%85%B6%E4%BB%96/" class="post-category">
-                                    其他
+                            <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="post-category">
+                                    区块链
                                 </a>
                             
                             
@@ -1287,8 +1283,8 @@ FLP定理叫FLP是因为提出该定理的论文是由Fischer、Lynch和
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
-                        <span class="chip bg-color">随笔</span>
+                    <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">
+                        <span class="chip bg-color">区块链</span>
                     </a>
                     
                 </div>
