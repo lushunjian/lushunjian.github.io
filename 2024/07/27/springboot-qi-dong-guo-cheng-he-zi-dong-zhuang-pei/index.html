@@ -1,0 +1,1762 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="SpringBoot启动过程和自动装配, 三秋">
+    <meta name="description" content="SpringBoot看过很多次，但是一直理解不深，只停留在了解的阶段。直到最近公司项目做拆分，需要用到SpringBoot启动时的一些特性，于是把启动过程看了一遍。举个例子
+测试对Spring启动原理的理解
+Rpc框架和Spring的集成问">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SpringBoot启动过程和自动装配 | 三秋</title>
+    <link rel="icon" type="image/jpeg" href="/avent.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/avent.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">三秋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/navigate" class="waves-effect waves-light">
+      
+      <i class="fas fa-location-arrow" style="zoom: 0.6;"></i>
+      
+      <span>导航</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>相册</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>电影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>书籍</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/games">
+          
+          <i class="fas fa-puzzle-piece" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>游戏</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/my-games">
+          
+          <i class="fas fa-flag" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>撸毛</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/my-security">
+          
+          <i class="fas fa-thermometer" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>证券</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+	<a id="dark" onclick="switchDarkMode()">🌞</a>
+  </li>
+</ul>
+<link rel="stylesheet" href="/css/dark-mode.css">
+<script>
+	  var isNight = new Date().getHours() >= 19 || new Date().getHours() < 8; // 指定时间
+	  // 依次判断 系统暗黑模式 指定时间 缓存 dark
+	  if( window.matchMedia('(prefers-color-scheme: dark)').matches || isNight || localStorage.getItem('dark') === '1') {
+	 
+		if(!(isNight&&localStorage.getItem('noDark') === '1')) {
+		  document.body.classList.add('dark');
+		}
+	  }
+	  document.getElementById('dark').innerHTML = document.querySelector("body").classList.contains("dark")?"🌙":"🌞";
+	  //点击事件
+		function switchDarkMode() {
+			if ($('body').hasClass('dark')) {
+				$("#dark").html("🌞");
+				document.body.classList.remove('dark');
+				localStorage.setItem('noDark', '1');
+				localStorage.setItem('dark', '0');
+			} else {
+				$("#dark").html("🌙"); 
+				document.body.classList.add('dark');
+				localStorage.setItem('dark', '1');
+				localStorage.setItem('noDark', '0');
+			}
+		}
+</script>
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/avent.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">三秋</div>
+        <div class="logo-desc">
+            
+            小破站，记录学习和生活
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/navigate" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-location-arrow"></i>
+			
+			导航
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/galleries " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>相册</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/movies " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>电影</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/books " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>书籍</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/games " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-puzzle-piece" style="position: absolute;left:50px" ></i>
+			      
+		          <span>游戏</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/my-games " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-flag" style="position: absolute;left:50px" ></i>
+			      
+		          <span>撸毛</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/my-security " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-thermometer" style="position: absolute;left:50px" ></i>
+			      
+		          <span>证券</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/38.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">SpringBoot启动过程和自动装配</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/spring/">
+                                <span class="chip bg-color">spring</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/spring/" class="post-category">
+                                spring
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2024-07-27
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>SpringBoot看过很多次，但是一直理解不深，只停留在了解的阶段。直到最近公司项目做拆分，需要用到SpringBoot启动时的一些特性，于是把启动过程看了一遍。举个例子</p>
+<h2 id="测试对Spring启动原理的理解"><a href="#测试对Spring启动原理的理解" class="headerlink" title="测试对Spring启动原理的理解"></a>测试对Spring启动原理的理解</h2><ul>
+<li>Rpc框架和Spring的集成问题。Rpc框架何时注册暴露服务，在哪个Spring扩展点注册呢？init-method 中行不行？</li>
+<li>MQ 消费组和Spring的集成问题。MQ消费者何时开始消费，在哪个Spring扩展点”注册“自己？init-method 中行不行？</li>
+<li>SpringBoot 集成Tomcat问题。如果出现已开启Http流量，Spring还未启动完成，怎么办？Tomcat何时开启端口，对外服务？</li>
+</ul>
+<p>SpringBoot项目常见的流量入口无外乎 Rpc、Http、MQ 三种方式。一名合格的架构师必须精通服务的入口流量何时开启，如何正确开启？</p>
+<h2 id="SpringBoot是什么"><a href="#SpringBoot是什么" class="headerlink" title="SpringBoot是什么"></a>SpringBoot是什么</h2><p>我们日常开发对SpringBoot的使用，可谓非常熟练了。但是很多SpringBoot的很多东西对我们来说依然如同一个黑盒。例如SpringBoot的自动装配，有注解可以实现注入为什么还需要SPI。springboot是依赖于spring的，比起spring，除了拥有spring的全部功能以外，springboot无需繁琐的xml配置，这取决于它自身强大的自动装配功能；并且自身已嵌入Tomcat、Jetty等web容器，集成了springmvc，使得springboot可以直接运行，不需要额外的容器，提供了一些大型项目中常见的非功能性特性、指标、健康检测、外部配置等，</p>
+<p>其实spring大家都知道，boot是启动的意思。所以，spring boot其实就是一个启动spring项目的一个工具而已，总而言之，springboot 是一个服务于框架的框架；也可以说springboot是一个工具，这个工具简化了spring的配置；</p>
+<h2 id="SpringBoot的启动过程"><a href="#SpringBoot的启动过程" class="headerlink" title="SpringBoot的启动过程"></a>SpringBoot的启动过程</h2><p>一个spring应用的启动从run方法开始</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StartApplication</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>StartApplication<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>点进源来，SpringApplication类中有个静态run()方法，最终执行如下:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> ConfigurableApplicationContext <span class="token function">run</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> primarySources<span class="token punctuation">,</span> String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SpringApplication</span><span class="token punctuation">(</span>primarySources<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>显然到这里分为两步，下面分析一下这两步。其中第一步是一些准备工作，Spring的核心启动流程在第二步</p>
+<ol>
+<li>实例化new SpringApplication()。</li>
+<li>执行SpringApplication的run()方法。</li>
+</ol>
+<h3 id="1-SpringApplication构造函数"><a href="#1-SpringApplication构造函数" class="headerlink" title="1.SpringApplication构造函数"></a>1.SpringApplication构造函数</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token function">SpringApplication</span><span class="token punctuation">(</span>ResourceLoader resourceLoader<span class="token punctuation">,</span> Class<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> primarySources<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>sources <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>bannerMode <span class="token operator">=</span> Mode<span class="token punctuation">.</span>CONSOLE<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>logStartupInfo <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>addCommandLineProperties <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>addConversionService <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>headless <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>registerShutdownHook <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>additionalProfiles <span class="token operator">=</span> Collections<span class="token punctuation">.</span><span class="token function">emptySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isCustomEnvironment <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>lazyInitialization <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>applicationContextFactory <span class="token operator">=</span> ApplicationContextFactory<span class="token punctuation">.</span>DEFAULT<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>applicationStartup <span class="token operator">=</span> ApplicationStartup<span class="token punctuation">.</span>DEFAULT<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>resourceLoader <span class="token operator">=</span> resourceLoader<span class="token punctuation">;</span>
+        Assert<span class="token punctuation">.</span><span class="token function">notNull</span><span class="token punctuation">(</span>primarySources<span class="token punctuation">,</span> <span class="token string">"PrimarySources must not be null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>primarySources <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashSet</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>primarySources<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>webApplicationType <span class="token operator">=</span> WebApplicationType<span class="token punctuation">.</span><span class="token function">deduceFromClasspath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>bootstrapRegistryInitializers <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getBootstrapRegistryInitializersFromSpringFactories</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 加载初始器，配置应用程序启动前的初始化对象 </span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setInitializers</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getSpringFactoriesInstances</span><span class="token punctuation">(</span>ApplicationContextInitializer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 加载监听器</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setListeners</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getSpringFactoriesInstances</span><span class="token punctuation">(</span>ApplicationListener<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>mainApplicationClass <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">deduceMainApplicationClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>构造函数中重要的两个方法就是初始化和见监听器，初始化器以及监听器 调用的方法都是 getSpringFactoriesInstances<br>最终逻辑是从类路径META-INF/spring.factories中 加载 初始化器以及监听器 。</p>
+<ul>
+<li>初始化器(ApplicationContextInitializer): 初始化某些 IOC容器刷新之前的组件。</li>
+<li>监听器(ApplicationListener): 监听特定的事件 比如IOC容器刷新、容器关闭等。</li>
+</ul>
+<p>getSpringFactoriesInstances() 方法根据指定的Class类型从META-INF/spring.factories 中获取相应的自动配置类。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token operator">&lt;</span>T<span class="token operator">></span> Collection<span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token function">getSpringFactoriesInstances</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span>T<span class="token operator">></span> type<span class="token punctuation">,</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> parameterTypes<span class="token punctuation">,</span> Object<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ClassLoader classLoader <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 从 META-INF/spring.factories 中获取  (loadFactoryNames方法)</span>
+    Set<span class="token operator">&lt;</span>String<span class="token operator">></span> names <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashSet</span><span class="token punctuation">(</span>SpringFactoriesLoader<span class="token punctuation">.</span><span class="token function">loadFactoryNames</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> classLoader<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 根据名称实例化</span>
+    List<span class="token operator">&lt;</span>T<span class="token operator">></span> instances <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">createSpringFactoriesInstances</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> parameterTypes<span class="token punctuation">,</span> classLoader<span class="token punctuation">,</span> args<span class="token punctuation">,</span> names<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    AnnotationAwareOrderComparator<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>instances<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> instances<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>SpringApplication的构建都是为了run()方法启动做铺垫，最重要的部分就是设置应用类型、设置初始化器、设置监听器</p>
+<blockquote>
+<p>注意: 初始化器和这里的监听器都要放置在spring.factories文件中才能在这一步骤加载，否则不会生效。因为此时IOC容器还未创建，所以即使将其注入到IOC容器中也是不会生效的。</p>
+</blockquote>
+<h3 id="2-SpringApplication的run方法"><a href="#2-SpringApplication的run方法" class="headerlink" title="2.SpringApplication的run方法"></a>2.SpringApplication的run方法</h3><p>SpringApplication构建完成，一切都做好了铺垫，现在到了启动的过程了。下面是run方法的源码，我这里用的是spring-boot-starter-parent的 2.5.3 版本，不同版本源码差异可能会稍有差别</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> ConfigurableApplicationContext <span class="token function">run</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        StopWatch stopWatch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StopWatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        stopWatch<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        DefaultBootstrapContext bootstrapContext <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">createBootstrapContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ConfigurableApplicationContext context <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">configureHeadlessProperty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 获取监听器，就是在第一步SpringApplication构造函数中加载的监听器</span>
+        SpringApplicationRunListeners listeners <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getRunListeners</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 通知监听者Spring启动开始</span>
+        listeners<span class="token punctuation">.</span><span class="token function">starting</span><span class="token punctuation">(</span>bootstrapContext<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mainApplicationClass<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            ApplicationArguments applicationArguments <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultApplicationArguments</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 创建应用程序环境 配置文件在此处读取(application.properties application.yml)</span>
+            ConfigurableEnvironment environment <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">prepareEnvironment</span><span class="token punctuation">(</span>listeners<span class="token punctuation">,</span> bootstrapContext<span class="token punctuation">,</span> applicationArguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">configureIgnoreBeanInfo</span><span class="token punctuation">(</span>environment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 控制台打印 Banner</span>
+            Banner printedBanner <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">printBanner</span><span class="token punctuation">(</span>environment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 2.创建应用程序上下文...此处创建了beanfactory，创建IoC容器</span>
+            context <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">createApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            context<span class="token punctuation">.</span><span class="token function">setApplicationStartup</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>applicationStartup<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 准备ApplicationContext IOC容器基本信息</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">prepareContext</span><span class="token punctuation">(</span>bootstrapContext<span class="token punctuation">,</span> context<span class="token punctuation">,</span> environment<span class="token punctuation">,</span> listeners<span class="token punctuation">,</span> applicationArguments<span class="token punctuation">,</span> printedBanner<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 3.刷新上下文（spring启动核心,刷新IOC容器refresh,tomcat,bean组件的初始化都在这一步完成）</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">refreshContext</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 刷新IOC容器的后置处理,源码是空方法,如果有自定义需求可以重写，比如打印一些启动结束日志等。</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">afterRefresh</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> applicationArguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            stopWatch<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logStartupInfo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StartupInfoLogger</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mainApplicationClass<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logStarted</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getApplicationLog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> stopWatch<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 4.启动完成通知</span>
+            listeners<span class="token punctuation">.</span><span class="token function">started</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 执行自定义的run方法,源码是空方法,是一个扩展功能</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">callRunners</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> applicationArguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> var10<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">handleRunFailure</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> var10<span class="token punctuation">,</span> listeners<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span>var10<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            listeners<span class="token punctuation">.</span><span class="token function">running</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> context<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> var9<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">handleRunFailure</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> var9<span class="token punctuation">,</span> <span class="token punctuation">(</span>SpringApplicationRunListeners<span class="token punctuation">)</span>null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span>var9<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>可以看到源码中有很多空方法，是Spring给我们留的口子方便我们自定义扩展功能。总的流程大致如下</p>
+<p>1、StopWatch保存一些信息，应用名字，当前启动时间</p>
+<p>2、this.createBootstrapContext()，创建引导上下文</p>
+<p>　　2.1：获取到所有之前创建的bootstrapers，挨个执行initialize方法，来完成对引导启动器上下文环境设置。</p>
+<p>3、this.configureHeadlessProperty()，让当前应用进入headless模式（用于在缺失显示屏、鼠标、键盘时候的系统配置）</p>
+<p>4、this.getRunListeners(args)，获取所有RunListener运行时监听器（为了方便所有Listener进行事件感知，项目在启动）</p>
+<p>　　4.1 getSpringFactoriesInstances去Spring.factories找SpringApplicationRunListener　　</p>
+<p>　　4.2 遍历所有SpringApplicationRunListener，调用starting方法，监听所有项目运行的状态</p>
+<p>　　4.3 保存命令行参数；</p>
+<p>　　4.4  this.prepareEnvironment(…)，准备环境</p>
+<p>　　　4.4.1返回创建基础环境信息。StandardServletEnviroment</p>
+<p>　　　4.4.2配置环境信息对象（properties等）</p>
+<p>　　　　　4.4.2.1 读取所有配置元的配置属性</p>
+<p>　　　4.4.3绑定环境信息</p>
+<p>　　　4.4.4监听器调用environmentPrepared；通知所有监听器，当前环境准备完成。</p>
+<p>　 4.5 this.createApplicationContext()，创建IoC容器</p>
+<p>　　     4.5.1根据项目类型（Servlet）创建容器</p>
+<p>　　　 4.5.2当前会创建AnnotationConfigServletWebServerApplicationContext;</p>
+<p>　　4.6 this.prepareContext(…)准备ApplicationContext IOC容器基本信息 prepareContext方法）</p>
+<p>　　　4.6.1 保存环境信息</p>
+<p>　　    4.6.2 IOC容器的后置处理流程</p>
+<p>　　　4.6.3 应用初始化；applyInitializers</p>
+<p>　　　　4.6.3.1 遍历所有的ApplicationContxtInitializer，调用initialize，来对IOC容器进行初始化扩展</p>
+<p>　　   4.7.4 遍历所有的Listener调用ContextPrepared。EventPublishListener；通知所有的监听器ContextPrepared</p>
+<p>　　   4.7.5 所有监听器 调用contextLoaded，通知上下文IOC容器加载完成。</p>
+<p>​       4.7 this.refreshContext(context)，刷新IOC容器refresh（核心源码）</p>
+<p>　　　　4.7.1创建容器中的所有组件</p>
+<p>　　4.8 this.afterRefresh(…)，刷新容器后的工作</p>
+<p>　　　　4.8.1所有监听器调用started方法，当前项目启动了</p>
+<p>　　4.9 this.callRunners(…)，调用runner方法</p>
+<p>　　　　4.9.1获取容器中的ApplicationRunner</p>
+<p>　　　　4.9.2获取容器中CommandLineRunner</p>
+<p>　　　　4.9.3合并所有runner，并且按照@order进行排序</p>
+<p>　　　　4.9.4遍历所有的runner调用run方法。</p>
+<p>　　4.10 this.handleRunFailure(…)，如果有异常会调用Listener的failed方法</p>
+<p>　　4.11 listeners.running(context)，调用所有监听器running方法Listener.running方法</p>
+<p>　　4.12 this.handleRunFailure(…)，方法如果有异常，还是调用Listener的failed方法。</p>
+<p>下面着重看一下核心方法this.refreshContext(context)，中间件，tomcat，MQ，还有自己定义的Bean，依赖注入都是在这一步完成的。即使点开这个方法也只有几行。但里面做了很多事情</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">refreshContext</span><span class="token punctuation">(</span>ConfigurableApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>registerShutdownHook<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            shutdownHook<span class="token punctuation">.</span><span class="token function">registerApplicationContext</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">refresh</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>我们来看下这么几行代码，Spring是如何优雅的把容器Tomcat，中间件，自定义组件这么复杂的应用启起来的，这就是SpringBoot的精髓，自动装配</p>
+<h2 id="SpringBoot的自动装配"><a href="#SpringBoot的自动装配" class="headerlink" title="SpringBoot的自动装配"></a>SpringBoot的自动装配</h2><p>在讲之前先了解一下，手动装配的流程。在SpringMVC的时代，首先你需要引入Spring框架的相关依赖，包括核心容器（spring-context）、AOP（spring-aop）、数据访问（spring-jdbc、spring-orm）、事务管理（spring-tx）、Web（spring-web）等</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- Spring Core Container --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-context<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.3.10.RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- 请替换为最新版本 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Spring AOP --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-aop<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.3.10.RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- 其他Spring相关依赖... --></span>
+</code></pre>
+<p>然后需要手动创建Spring的配置文件（例如XML配置文件）来定义和配置Spring容器中的Bean、数据源、事务管理等。</p>
+<pre class=" language-xaml"><code class="language-xaml"><!-- applicationContext.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置数据源、事务管理、其他Bean... -->
+
+</beans></code></pre>
+<p>如果你的项目是一个Web应用，你需要手动配置Servlet、Filter、Listener等。</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- web.xml --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>web-app</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://xmlns.jcp.org/xml/ns/javaee<span class="token punctuation">"</span></span>
+         <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+         <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd<span class="token punctuation">"</span></span>
+         <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>3.1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+    <span class="token comment" spellcheck="true">&lt;!-- 配置Servlet、Filter、Listener等... --></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>web-app</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>最最麻烦的是，当项目比较复杂，要引入很多第三方组件时，XML中要配置的Bean也很多，而且有些Bean还有依赖关系，这就要求Bean配置的顺序不是随意的，而是有先后的。这对于项目维护是灾难。那SpringBoot是怎么解决这些问题的</p>
+<h3 id="组件扫描"><a href="#组件扫描" class="headerlink" title="组件扫描"></a>组件扫描</h3><p>SpringBoot中，不需要再配置XML文件来指定要注入那些Bean了，取而代之的是注解。那么在服务启动时，要把我们定义的组件扫描并加载到IOC容器中，那么就需要配置扫描路径。但是我们在启动SpringBoot项目时并没有配置扫描路径，它是怎么扫描到Bean然后注入到容器中的呢。</p>
+<p>在SpringBoot中有两种类型的类路径需要扫描，一是项目根路径下的类，二是第三方jar包路径下的类。如下图</p>
+<p><img src="/2024/07/27/springboot-qi-dong-guo-cheng-he-zi-dong-zhuang-pei/1.png" alt></p>
+<p>SpringBoot默认会扫描启动类下的包和子包中定义的Bean，例如被 @Controller，@Service，@Configuration注解的类，并加载到IOC容器中，在SpringBoot启动流程中，SpringApplication构造函数中，就获取了当前启动类的路径。</p>
+<p>但是第三方的jar包，SpringBoot是怎么扫描到的呢，比如我们依赖了 spring-boot-starter-data-redis ，由于这个是第三方的 jar包，SpringBoot显然是不可能提前知道 redis相关 Bean的类路径的，而且我们也没有配置任何xml文件或是其它配置来告诉SpringBoot第三方 redis的类路径。来看看SpringBoot是怎么做到的</p>
+<p>假设我们自己项目中开发了一个公共模块，这个模块是给其他业务系统使用的，比如编写了一个Robot用来监控应用是否健康。我们通常会有一些业务类。然后新建一个RobotAutoConfiguration类</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Import</span><span class="token punctuation">(</span><span class="token punctuation">{</span>RobotService<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> User<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> RobotController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RobotAutoConfiguration</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后我们在启动类中显示的引入这个配置类，就可以了</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@Import</span><span class="token punctuation">(</span>RobotAutoConfiguration<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StartApplication</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>StartApplication<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这样就达成了我们目的，使用者只需要一个@Import(RobotAutoConfiguration.class)就能正常使用我们的Starter了。但是我们看SpringBoot官方的第三方 starter时并不需要显示注入类，只需要pom中依赖 jar包，就可以实现自动注入</p>
+<h3 id="如何全自动注入？"><a href="#如何全自动注入？" class="headerlink" title="如何全自动注入？"></a>如何全自动注入？</h3><p>这就需要SPI登场了，META-INF/spring.factories这个文件几乎在所有的自动装配的starter中都有，它是实现自动装配注入的核心文件。在这个文件中指定了要扫描的类路径，SpringBoot会读取这个文件中配置的类路径，加载并注入到IOC中。说白了，就是与前面提到的以注解的方式注入Bean，SpringBoot还支持以文件配置的方式注入Bean。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lushunjian.gitee.io" rel="external nofollow noreferrer">顺坚</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lushunjian.gitee.io/2024/07/27/springboot-qi-dong-guo-cheng-he-zi-dong-zhuang-pei/">https://lushunjian.gitee.io/2024/07/27/springboot-qi-dong-guo-cheng-he-zi-dong-zhuang-pei/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="https://lushunjian.gitee.io" target="_blank">顺坚</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/spring/">
+                                    <span class="chip bg-color">spring</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+		
+			//  豆瓣插件a标签移除target属性
+		$("#hexo-douban-tab1").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$("#hexo-douban-tab2").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$("#hexo-douban-tab3").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-firstpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-previouspage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-nextpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+		$(".hexo-douban-lastpage").click(function (event) {
+                    event.preventDefault();   // 如果<a>定义了 target="_blank“ 需要这句来阻止打开新页面
+                });
+    });
+	
+
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'YG6BDT8GDLJm8rY8uQqxOI3z-gzGzoHsz',
+        appKey: '11lNW097980KXhPyhnB1LLj3',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '6',
+        lang: 'en',
+        placeholder: '如果你没有github账号，可以在这里评论哦'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2024/07/27/springboot-qi-dong-guo-cheng-he-zi-dong-zhuang-pei/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/38.jpg" class="responsive-img" alt="SpringBoot启动过程和自动装配">
+                        
+                        <span class="card-title">SpringBoot启动过程和自动装配</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            SpringBoot看过很多次，但是一直理解不深，只停留在了解的阶段。直到最近公司项目做拆分，需要用到SpringBoot启动时的一些特性，于是把启动过程看了一遍。举个例子
+测试对Spring启动原理的理解
+Rpc框架和Spring的集成问
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-07-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/spring/" class="post-category">
+                                    spring
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">spring</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/04/21/du-shu-bi-ji-zhi-gong-shi-suan-fa/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="读书笔记之共识算法">
+                        
+                        <span class="card-title">读书笔记之共识算法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            《白话区块链》读书笔记，记录个人理解。区块链是一个去中心化的系统，因此没有一个权威节点做决策。需要全网所有的节点达成共识，才算决策的完成。首先说两个定理FLP与CAP
+FLP定理叫FLP是因为提出该定理的论文是由Fischer、Lynch和
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="post-category">
+                                    区块链
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">
+                        <span class="chip bg-color">区块链</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+		
+		// 默认目录收起,不展开
+		if ($tocAside.hasClass(expandedClass)) {
+			$tocAside.removeClass(expandedClass).hide();
+			$mainContent.removeClass('l9');
+			fixPostCardWidth('artDetail', 'prenext-posts');
+        }
+		
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://lushunjian.gitee.io" target="_blank">顺坚</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+</html>

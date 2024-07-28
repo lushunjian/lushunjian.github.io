@@ -551,6 +551,54 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2021/05/09/synchronized-zhi-qing-liang-ji-suo/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Synchronized之轻量级锁">
+                            
+                            <span class="card-title">Synchronized之轻量级锁</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                在偏向锁出现竞争后，加锁失败的线程会把Mark Word中的锁状态改为轻量级锁，这样其他线程再来时就会走向轻量级锁的加锁流程。下面开始轻量级锁获取流程分析，代码在bytecodeInterpreter.cpp#1816。
+CASE(_mon
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-09
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/java/" class="post-category">
+                                    java
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/java/">
+                            <span class="chip bg-color">java</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2021/04/30/synchronized-zhi-pian-xiang-suo/">
                         <div class="card-image">
                             
@@ -1077,57 +1125,6 @@ Master Thread：主要负责将缓存池中的数据异步刷新到磁盘，
                         
                         <a href="/tags/golang/">
                             <span class="chip bg-color">golang</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2021/02/15/ben-di-wen-jian-guan-lian-dao-git-cang-ku/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="本地文件关联到git仓库">
-                            
-                            <span class="card-title">本地文件关联到git仓库</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                git已经成为日常开发必不可少的工具之一，在开发新项目时常会在本地搭建好项目再上传到远程git仓库，需要用到几个命令在这里记录一下
-本地关联远程
-首先在远程仓库中创建好git项目仓库
-
-控制台中进入本地文件夹，执行 git init 命令初
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-15
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/git/" class="post-category">
-                                    git
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/git/">
-                            <span class="chip bg-color">git</span>
                         </a>
                         
                     </div>
